@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
+url: http://shoyan.github.io
+title: Shohei Yamasaki
 subtitle: A blogging framework for hackers.
-author: Your Name
+author: Shohei Yamasaki
 simple_search: https://www.google.com/search
 description:
 
