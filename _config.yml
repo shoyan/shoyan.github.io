@@ -2,12 +2,12 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://shoyan.github.io
-title: Shohei Yamasaki
-subtitle: A blogging framework for hackers.
+url: https://shoyan.github.io
+title: Shoyan blog
+subtitle: プログラミングのこととか書いてます
 author: Shohei Yamasaki
 simple_search: https://www.google.com/search
-description:
+description: プログラミングのこととか書いてます。
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
