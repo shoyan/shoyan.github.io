@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "rspec-for-code-reading"
+title: Rspecのコードリーディング
 date: 2015-07-16 17:13:38 +0900
 comments: true
 categories: 
