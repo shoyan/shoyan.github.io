@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-[プログラマのための数学勉強会@福岡](http://maths4pg-fuk.connpass.com/event/18609/)が2015/9/4にLINE福岡で開催されました。  
+[プログラマのための数学勉強会@福岡](http://maths4pg-fuk.connpass.com/event/18609/)が2015/9/4にLINE Fukuokaで開催されました。  
 今回はスピーカーとして参加させていただきました。
 
 「暗号技術を支える素数」というタイトルで、暗号で使われている数式とその仕組みを説明しつつ、素因数分解の困難性が暗号の要だということを説明しました。
@@ -52,4 +52,4 @@ categories:
 ## Twiterまとめ
 [プログラマのための数学勉強会@福岡まとめ](http://togetter.com/li/870605)
 
-会場を提供してくださったLINE福岡のみなさん、忙しい中足を運んでくださった参加者、登壇者のみなさん、主催の[@tkengo](https://twitter.com/tkengo/)氏、ありがとうございました！
+会場を提供してくださったLINE Fukuokaのみなさん、忙しい中足を運んでくださった参加者、登壇者のみなさん、主催の[@tkengo](https://twitter.com/tkengo/)氏、ありがとうございました！
