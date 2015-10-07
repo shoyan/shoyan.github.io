@@ -6,7 +6,7 @@ comments: true
 categories: slack heroku ruby
 ---
 
-[@keitakawamoto](https://twitter.com/keita_kawamoto)が天気予報を見ずに出社して、途中で雨に降られて困っていたので天気予報通知をつくってみました。  
+[@keita_kawamoto](https://twitter.com/keita_kawamoto)が天気予報を見ずに出社して、途中で雨に降られて困っていたので天気予報通知をつくってみました。  
 Herokuでスケジューラーに登録してSlackに通知するようにしています。
 
 ![weather-nitify-slack](/images/weather-notify-slack.png)
