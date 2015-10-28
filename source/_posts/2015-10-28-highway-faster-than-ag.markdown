@@ -9,7 +9,7 @@ categories:
 基本的かつ古典的なユーティリティであるgrepですが，使いにくい面もあります。
 
 2013年のはじめころから，grepに取って代わるコマンドとして「The Silver Searcher」（以下「ag」）が注目されはじめました。  
-そして最近、highwayというagライクで高速なgrepツールがリリースされました。
+そして最近、[highway](https://github.com/tkengo/highway)というagライクで高速なgrepツールがリリースされました。
 
 ### The Silver Searcher（ag）とは？
 highwayの紹介の前にagとagが開発された背景について説明したいと思います。  
@@ -37,11 +37,18 @@ agは開発者が「A code searching tool similar to ack, with a focus on speed.
 
 
 ### The Silver Searcher（ag）の問題点
-紹介した通り、使い勝手がよく性能もよいagなのですが、問題点もあります。  
-それは、EUC-JPやShift_JISなどの日本語に使われるマルチバイト文字列が検索できません。  
-全てのコードがUTF-8であれば問題ありませんが、日本語圏で使われるファイルでは、なかなかそうもいきません。  
+紹介した通り、使い勝手がよく、性能もよいagなのですが、以下の問題点があります。  
 
-その点、highwayはEUC-JPやShift_JISをサポートしています。
+* EUC-JPやShift_JISなどの日本語に使われるマルチバイト文字列が検索できない
+* 検索結果の出力順が検索する度に異なる
+
+全てのコードがUTF-8であれば問題ありませんが、日本語圏で使われるファイルでは、なかなかそうもいきません。  
+検索結果の出力順が検索する度に異なるのも少し使いにくいと感じます。  
+
+その点、highwayはEUC-JPやShift_JISをサポートしており、検索結果の表示順の問題もありません。  
+
+### highwayのメリット
+agの問題点であげた点をhighwayはクリアしています。  
 また、速度もagよりも高速です。  
 
 ベンチマークについては以下の記事をご覧ください。  
@@ -66,7 +73,7 @@ baseurl=http://tkengo.github.io/highway/fedora
 enabled=0
 gpgcheck=0
 
-$ sudo yum install highway --enablerepo="repos.highway"""]
+$ sudo yum install highway --enablerepo="repos.highway"
 ```
 
 ### 使い方
@@ -97,5 +104,5 @@ endif
 ```
 
 ### おわりに
-grepツールは完全にhighwayに乗り換えましたが、速度面、機能面に関しては問題ありません。  
+grepツールは完全に[highway](https://github.com/tkengo/highway)に乗り換えましたが、速度面、機能面に関しては問題ありません。  
 まだgrepで頑張っている人はもちろん，agをすでに使っている人であっても，highwayの利用を検討する価値は充分にあると思います。
