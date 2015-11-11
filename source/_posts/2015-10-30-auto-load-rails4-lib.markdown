@@ -14,8 +14,9 @@ autoloadを利用するにはファイル名とクラス名がautoloadのルー�
 まず config/application.rb に autoload 用の設定を行います。
 
 config/application.rb
+
 ```ruby
-# to auto load lib/ directory
+#to auto load lib/directory
 config.autoload_paths += %W(#{config.root}/lib)
 ```
 
@@ -28,6 +29,7 @@ config.autoload_paths += %W(#{config.root}/lib)
 以下はファイル名とクラス名の例です。
 
 __lib/hoge_fuga.rb__
+
 ```ruby
 class HogeFuga
 end
