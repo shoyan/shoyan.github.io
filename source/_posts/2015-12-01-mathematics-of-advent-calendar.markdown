@@ -18,8 +18,8 @@ categories:
 
 内容については、以下の記事を参照ください。
 
-* [プログラマのための数学勉強会@福岡に登壇してきました](http://localhost:4000/blog/2015/09/08/mathematics-for-programmer/)
-* [プログラマのための数学勉強会@福岡#2に登壇してきました](http://localhost:4000/blog/2015/11/11/mathematics-for-programmer-second/)
+* [プログラマのための数学勉強会@福岡に登壇してきました](http://shoyan.github.io/blog/2015/09/08/mathematics-for-programmer/)
+* [プログラマのための数学勉強会@福岡#2に登壇してきました](http://shoyan.github.io/blog/2015/11/11/mathematics-for-programmer-second/)
 
 この数学勉強会で数学を勉強することになったのですが、様々な書籍を読んでいくうちに、「なんだ数学って面白いじゃないか！」と感じるようになりました。  
 いまとなっては、趣味で数学を学んでいます。  
