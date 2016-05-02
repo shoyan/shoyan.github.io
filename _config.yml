@@ -7,7 +7,7 @@ title: Shoyan blog
 subtitle:
 author: Shohei Yamasaki
 simple_search: https://www.google.com/search
-description: プログラミングのこととか書いてます。
+description: IT技術ブログです。Ruby、Rails、Sinatra、PHPやWebの技術について調べたことをまとめています。
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
