@@ -104,3 +104,7 @@ PHP7はPHP5との互換性が重視されているようなので、移行コス
 
 * [PHP7で変わること ——言語仕様とエンジンの改善ポイント](http://www.slideshare.net/hnw/phpcon-kansai20150530)
 * [PHP7.0.0 Released](https://secure.php.net/archive/2015.php#id2015-12-03-1)
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=ss_til&asins=4774144371" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=ss_til&asins=4802610440" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
