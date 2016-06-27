@@ -173,8 +173,9 @@ fi
 
 ## その他
 
-ファイルのエンコードがEUC-JPのソースコードに適用したところエラーとなりました。  
-リポジトリをフォークして対応しました。
+<del>ファイルのエンコードがEUC-JPのソースコードに適用したところエラーとなりました。  
+リポジトリをフォークして対応しました。</del>
+1.1.0より使えるようになりました！
 
 - https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b
 
@@ -198,13 +199,14 @@ git diff --name-only origin/master \
 
 ~~~
 
-PRもしているので直ることに期待です。
+<del>PRもしているので直ることに期待です。</del>
+Mergeいただきました。
 
-- https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11
+- [https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11}(https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11)
 
 サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。
 
-- https://github.com/shoyan/php-syntax-check
+- [https://github.com/shoyan/php-syntax-check](https://github.com/shoyan/php-syntax-check)
 
 ## 関連記事
 
