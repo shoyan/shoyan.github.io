@@ -33,8 +33,8 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-markdown: kramdown
-highlighter: pygments # default python pygments have been replaced by pygments.rb
+markdown: KramdownPygments
+#highlighter: pygments # default python pygments have been replaced by pygments.rb
 
 paginate: 5          # Posts per page on the blog index
 paginate_path: "posts/:num"  # Directory base for pagination URLs eg. /posts/2/
