@@ -13,49 +13,60 @@ Capistranoのインストールと設定、プラグインの紹介をします�
 
 bundle initコマンドでGemfileを作成します。
 
-```
+
+~~~
 $  bundle init
 Writing new Gemfile to /Users/shoyan/app/Gemfile
-```
+
+~~~
 
 以下のGemfileが作成されます。
 
-```
+
+~~~
 $ cat Gemfile
 # A sample Gemfile
 source "https://rubygems.org"
 
 # gem "rails"
-```
+
+~~~
 
 GemfileにCapistranoを定義します。
 
-```
+
+~~~
 group :development do
   gem "capistrano", "~> 3.4"
 end
-```
+
+~~~
 
 bundle installコマンドでインストールします。
 
-```
+
+~~~
 $ bundle install
-```
+
+~~~
 
 ## Capistranoの設定
 
 Capistranoがインストールできたので、設定をしていきます。  
 cap installコマンドで雛形を作成します。
 
-```
+
+~~~
 $ bundle exec cap install
-```
+
+~~~
 
 `config/deploy.rb`と`config/deploy/{production, staging}.rb` が作成されているので適宜編集します。
 
 config/deploy.rb
 
-```
+
+~~~
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
@@ -67,7 +78,8 @@ set :deploy_to, '/var/www/app'
 set :scm, :git
 set :format, :airbrussh
 set :keep_releases, 5
-```
+
+~~~
 
 - **application**:  アプリケーション名
 - **repo_url**: リポジトリのURI
@@ -82,17 +94,21 @@ set :keep_releases, 5
 事前に鍵認証でsshログインできるようにしておくととスムーズです。
 
 config/deploy/production.rb
-```
+
+~~~
 role :app, %w{shoyan@server001.example.jp shoyan@server002.example.jp}
-```
+
+~~~
 
 ## Capistranoでデプロイする
 
 以下のコマンドでデプロイします。
 
-```
+
+~~~
 $ bundle exec cap production deploy
-```
+
+~~~
 
 ## 便利なCapistranoプラグイン
 

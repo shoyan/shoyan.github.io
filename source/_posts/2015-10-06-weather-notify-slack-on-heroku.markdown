@@ -21,7 +21,8 @@ APIはjsonでレスポンスが返されます。
 以下、サンプルコードです。  
 
 slack-weather-notifier.rb
-```ruby
+
+~~~ruby
 require 'json'
 require 'open-uri'
 
@@ -33,7 +34,8 @@ link    = res['link']
 weather = res['forecasts'].first
 message = "[#{weather['date']}の#{title}](#{link})は「#{weather['telop']}」です。"
 puts message
-```
+
+~~~
 
 ターミナルで`ruby slack-weather-notifier.rb` と実行すると、今日の天気の情報が表示されます。
 
@@ -62,12 +64,15 @@ Customize NameやCustomize Iconを変更すると、通知するbotの名前や�
 通知は[slack-incoming-webhooks](https://github.com/shoyan/slack-incoming-webhooks)というgemを使うと簡単にできるので、今回はそれを使います。  
 
 ### slack-incoming-webhooks をインストール
-```
+
+~~~
 $ gem install slack-incoming-webhooks
-```
+
+~~~
 
 先ほどのスクリプトにslack通知の設定を追加します。  
-```ruby
+
+~~~ruby
 require 'json'
 require 'open-uri'
 require 'slack/incoming/webhooks'
@@ -81,7 +86,8 @@ weather = res['forecasts'].first
 
 slack = Slack::Incoming::Webhooks.new "webhook_url"
 slack.post "<#{link}|#{weather['date']}の#{title}>は「#{weather['telop']}」です。"
-```
+
+~~~
 
 ターミナルで`ruby slack-weather-notifier.rb` と実行してみましょう。  
 Slackに通知されれば成功です。  
@@ -113,28 +119,33 @@ Herokuにデプロイするには、Gitを使ってリモートリポジトリ�
 slack-weather-notifierディレクトリの直下にGemfileを作成します。  
 
 Gemfile
-```
+
+~~~
 source 'https://rubygems.org'
 
 gem 'slack-incoming-webhooks'
-```
+
+~~~
 
 ターミナルで `bundle install`と実行すると、gemがインストールされ、Gemfile.lockファイルが作成されます。
 
 もし、bundlerをインストールしていない場合は、 `gem install bundler` でインストールしてください。
 
 以下のような構成になります。
-```
+
+~~~
 slack-weather-notifier
 ├── Gemfile
 ├── Gemfile.lock
 └── slack-weather-notifier.rb
-```
+
+~~~
 
 Webhook Urlは外部に公開すべきではないので、環境変数に登録して、それを使うようにします。
 
 
-```ruby
+
+~~~ruby
 require 'json'
 require 'open-uri'
 require 'slack-incoming-webhooks'
@@ -148,24 +159,31 @@ weather = res['forecasts'].first
 
 slack = Slack::Incoming::Webhooks.new ENV['WEBHOOK_URL']
 slack.post "<#{link}|#{weather['date']}の#{title}>は「#{weather['telop']}」です。"
-```
+
+~~~
 
 
 Gitに登録しましょう。  
-```
+
+~~~
 $ git init
 $ git add .
 $ git commit -m "first commit"
-```
+
+~~~
 
 Herokuにpushします。
-```
+
+~~~
 $ git push heroku master
-```
+
+~~~
 WEBHOOK URLを登録します。
-```bash
+
+~~~bash
 heroku config:set WEBHOOK_URL=ここにwebhook_urlを入力
-```
+
+~~~
 
 ## スケジューラーを登録
 ### カード登録
@@ -180,9 +198,11 @@ https://dashboard.heroku.com/account/billing
 カード登録ができたらAdd-onsにスケジューラーを追加します。
 
 以下のコマンドでコンソールから登録できます。
-```
+
+~~~
 heroku addons:add scheduler:standard
-```
+
+~~~
 
 またはaddonページから登録してください。  
 https://addons.heroku.com/scheduler
@@ -191,9 +211,11 @@ https://addons.heroku.com/scheduler
 https://heroku-scheduler.herokuapp.com/dashboard
 
 コンソールからも開けます。
-```
+
+~~~
 $ heroku addons:open scheduler
-```
+
+~~~
 
 ### スケジューラーの設定
 Select an appで登録したアプリケーションを選び 'Add Standard for free' のボタンをクリックすると登録できます。  

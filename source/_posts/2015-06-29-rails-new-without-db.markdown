@@ -10,6 +10,8 @@ RailsはデフォルトではDBを利用する設定になっているので、�
 
 DBなしでRailsを使いたい場合は、以下のコマンドを実行します。
 
-```bash
+
+~~~bash
 $ rails new application_name -O
-```
+
+~~~

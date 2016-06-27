@@ -40,33 +40,41 @@ webhook urlの発行ができたら、Slackに通知をしてみましょう。
 
 ### インストール
 インストールは以下のコマンドでできます。
-```
+
+~~~
 gem install slack-incoming-webhooks
-```
+
+~~~
 
 ### Slackへ通知
 使い方はシンプルです。
 
-```ruby
+
+~~~ruby
 require 'slack/incoming/webhooks'
 
 slack = Slack::Incoming::Webhooks.new "WEBHOOK_URL"
 slack.post "Hello World"
-```
+
+~~~
 
 もし、通知先のチャンネルや通知するユーザーネームを変更したいときは指定できます。
-```ruby
+
+~~~ruby
 slack = Slack::Incoming::Webhooks.new "WEBHOOK_URL", channel: '#other-channel', username: 'monkey-bot'
 
 # Direct message
 slack = Slack::Incoming::Webhooks.new "WEBHOOK_URL", channel: '@shoyan'
-```
+
+~~~
 
 アクセサメソッドも用意されています。
-```ruby
+
+~~~ruby
 slack.channel = '#other-channel'
 slack.icon_emoji = ':ghost:'
-```
+
+~~~
 
 ## Attachmentsを使う
 さて、単純な通知ができたら次はもっとリッチなフォーマットで通知をしてみましょう。  
@@ -76,7 +84,8 @@ slack.icon_emoji = ':ghost:'
 
 ![slack-example](/images/slack-example.png =500x)
 
-```ruby
+
+~~~ruby
 attachments = [{
   title: "Ticket #1943: Can't reset my password",
   title_link: "https://groove.hq/path/to/ticket/1943",
@@ -84,14 +93,16 @@ attachments = [{
   color: "#7CD197"
 }]
 slack.post "New ticket from Andrea Lee", attachments: attachments
-```
+
+~~~
 
 
 ### Example2
 
 ![slack-example2](/images/slack-example2.png =500x)
 
-```ruby
+
+~~~ruby
 attachments = [{
   text: "<https://honeybadger.io/path/to/event/|ReferenceError> - UI is not defined",
   fields: [
@@ -109,13 +120,15 @@ attachments = [{
   color: "#F35A00"
 }]
 slack.post "", attachments: attachments
-```
+
+~~~
 
 ### Example3
 
 ![slack-example3](/images/slack-example3.png =500x)
 
-```ruby
+
+~~~ruby
 attachments = [{
   title: "Network traffic (kb/s)",
   title_link: "https://datadog.com/path/to/event",
@@ -124,7 +137,8 @@ attachments = [{
   color: "#764FA5"
 }]
 slack.post "", attachments: attachments
-```
+
+~~~
 
 いかがでしたでしょうか。  
 今回紹介できなかったオプションもあるので、詳細はSlackの[attachments](https://api.slack.com/docs/attachments)のドキュメントを参考にしてください。

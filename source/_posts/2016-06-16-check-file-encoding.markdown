@@ -13,21 +13,25 @@ http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html
 
 NKFモジュールとは、nkf(Network Kanji code conversion Filter, http://sourceforge.jp/projects/nkf/) をRubyから使うためのモジュールです。
 
-```ruby
+
+~~~ruby
 require 'nkf'
 
 content = File.read("path/to/file.txt")
 NKF.guess(content).to_s
 => "Shift_JIS"
-```
+
+~~~
 
 このような感じでrspecでテストするときにも使えます。
 
-```
+
+~~~
 require 'nkf'
 
 it 'file encoding is Shift_JIS' do
  content = File.read("filename.csv")
  expect(NKF.guess(content).to_s).to eq 'Shift_JIS'
 end
-```
+
+~~~

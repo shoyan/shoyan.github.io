@@ -21,23 +21,28 @@ https://nodejs.org/en/
 express-generatorはExpressのスケルトンアプリケーションを作成するコマンドです。  
 npmはNode.jsをインストールした際にインストールされていると思います。
 
-```
+
+~~~
 $ sudo npm install express-generator -g
-```
+
+~~~
 
 ## スケルトンアプリケーションを作成する
 
 expressコマンドでスケルトンアプリケーションを作成します。
 
-```
+
+~~~
 $ express myapp
 $ cd myapp
 $ npm install
-```
+
+~~~
 
 起動してみます。
 
-```
+
+~~~
 ⇒  DEBUG=myapp:* npm start
 
 > myapp@0.0.0 start /Users/PMAC025S/Development/sample/nodejs/myapp
@@ -47,7 +52,8 @@ $ npm install
 GET / 200 659.865 ms - 170
 GET /stylesheets/style.css 200 9.088 ms - 111
 GET /favicon.ico 404 70.846 ms - 1285
-```
+
+~~~
 
 `http://localhost:3000` にアクセスしてみます。
 Welcome to Express と表示されていれば正常に起動できています。
@@ -58,9 +64,11 @@ Welcome to Express と表示されていれば正常に起動できています�
 
 ルーティングの基本的な構造です。
 
-```
+
+~~~
 app.METHOD(PATH, HANDLER)
-```
+
+~~~
 
 **app**: expressのインスタンス  
 **METHOD**: HTTPメソッド(GET, POST, PUT, PATCH, DELETE等)  
@@ -70,26 +78,31 @@ app.METHOD(PATH, HANDLER)
 Hello World!を返すルーティングのサンプルです。  
 `/`にGETリクエストを送ると、Hello World!が返却されます。
 
-```javascript
+
+~~~javascript
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
-```
+
+~~~
 
 `/`にPOSTリクエストを送ると、`Got a POST request`が返却されます。
 
-```
+
+~~~
 app.post('/', function (req, res) {
   res.send('Got a POST request');
 });
-```
+
+~~~
 
 ## Expressの構造
 
 express-generator で作成されたファイルを確認していきます。  
 ファイル構成は以下です。
 
-```
+
+~~~
 ⇒  tree -L 2
 .
 ├── app.js
@@ -115,7 +128,8 @@ express-generator で作成されたファイルを確認していきます。
     ├── error.jade
     ├── index.jade
     └── layout.jade
-```
+
+~~~
 
 ### app.js
 

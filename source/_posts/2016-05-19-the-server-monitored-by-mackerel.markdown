@@ -19,25 +19,31 @@ description: "サーバーの監視にマカレルを導入してみました。
 [cookbook-mackerel-agent](https://github.com/mackerelio/cookbook-mackerel-agent)を使いました。
 
 metadata.rb
-```
+
+~~~
 depends 'mackerel-agent'
-```
+
+~~~
 
 recipes/default.rb
-```
+
+~~~
 include_recipe 'mackerel-agent'
 include_recipe 'mackerel-agent::plugins'
 yum_package 'mackerel-check-plugins'
-```
+
+~~~
 
 cookbook-mackerel-agentだけだとcheckプラグインが入らなかったので`yum_package`リソースを使ってインストールしています。  
 
 attributes/default.rb
-```
+
+~~~
 default['mackerel-agent']['package-action'] = 'upgrade'
 default['mackerel-agent']['conf']['apikey'] = ‘API KEYをかく'
 default['mackerel-agent']['conf']['plugins'] = true
-```
+
+~~~
 
 サーバーにレシピを適用するとマカレルの管理画面にサーバーがでてくるのでロールを設定します。  
 これでサーバーのメトリクスを見ることができます。
@@ -56,9 +62,11 @@ linuxマカレルプラグインを使えばswapやnetstat、Disk read time 等�
 
 attributes/default.rb に以下を定義します。
 
-```
+
+~~~
 default['mackerel-agent']['conf']['plugin.metrics.linux']['command'] = '/usr/local/bin/mackerel-plugin-linux'
-```
+
+~~~
 
 ### Unicornマカレルプラグインを使ってUnicornのメトリクスをだす
 
@@ -66,9 +74,11 @@ Unicornマカレルプラグインを使えばダッシュボードにUnicornの
 
 attributes/default.rb に以下を定義します。
 
-```
+
+~~~
 default['mackerel-agent']['conf']['plugin.metrics.unicorn']['command'] = "/usr/local/bin/mackerel-plugin-unicorn -pidfile=/var/www/app/shared/tmp/pids/unicorn.pid"
-```
+
+~~~
 
 ### httpの監視
 
@@ -77,9 +87,11 @@ httpのレスポンスをチェックして監視を行います。
 
 attributes/default.rb に以下を定義します。
 
-```
+
+~~~
 default['mackerel-agent']['conf']['plugin.checks.http']['command'] = "/usr/bin/check-http -u http://localhost"
-```
+
+~~~
 
 ### ログファイルの監視
 
@@ -87,9 +99,11 @@ nginxのログファイルを監視し、500系のエラーが頻発したとき
 
 attributes/default.rb に以下を定義します。
 
-```
+
+~~~
 /usr/bin/check-log --file /var/log/nginx/access.log --pattern 'HTTP/1\.[01]" [5][0-9][0-9] ' --warning-over 3 --critical-over 10 --return
-```
+
+~~~
 
 ## 監視ルールの設定
 

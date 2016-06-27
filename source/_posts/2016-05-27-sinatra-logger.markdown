@@ -13,36 +13,44 @@ Sinatraのloggerヘルパーを使ったところ、なぜか標準エラーの�
 
 まずは、Sinatraのloggerヘルパーのソースコードを確認してみる。
 
-```ruby
+
+~~~ruby
 def logger
   request.logger
 end
-```
+
+~~~
 
 https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L327
 
 request.loggerを返している。  
 レシーバであるrequestは rack::requestなので、rack::request#loggerは何を返しているかを確認する。
 
-```
+
+~~~
 def logger; get_header(RACK_LOGGER) end
-```
+
+~~~
 
 https://github.com/rack/rack/blob/master/lib/rack/request.rb#L136
 
 get_headerは@envから引数に与えられた値を返すだけのメソッド。
 
-```
+
+~~~
 def get_header(name)
   @env[name]
 end
-```
+
+~~~
 
 RACK_LOGGERは以下のように定義されている。
 
-```
+
+~~~
 RACK_LOGGER = 'rack.logger'.freeze
-```
+
+~~~
 
 https://github.com/rack/rack/blob/9073125f71afd615091f575d74ec468a0b1b79bf/lib/rack.rb#L64
 
@@ -57,7 +65,8 @@ rackには3つのロガーがある。
 
 このうち、LoggerとNullLoggerがRACK_LOGGERにセットしていた。
 
-```
+
+~~~
 # Rack::Logger
 require 'logger'
 
@@ -90,7 +99,8 @@ module Rack
       @app.call(env)
     end
     ...........
-```
+
+~~~
 
 通常、Rack::Loggerが使われる。  
 Rack::LoggerはRubyのloggerライブラリのラッパーで、log deviceにenv[RACK_ERRORS]をセットしている。  
@@ -98,7 +108,8 @@ env[RACK_ERRORS]が何かを調べたところ、基本的には$stderrがセッ
 
 (例)webrickの場合は、$stderrがセットされている。
 
-```
+
+~~~
 env.update(
   RACK_VERSION => Rack::VERSION,
   RACK_INPUT => rack_input,
@@ -111,7 +122,8 @@ env.update(
   RACK_HIJACK => lambda { raise NotImplementedError, "only partial hijack is supported."},
   RACK_HIJACK_IO => nil
 )
-```
+
+~~~
 
 https://github.com/rack/rack/blob/95172a60fe5c2a3850163fc75e0981fe440c064e/lib/rack/handler/webrick.rb#L68
 
@@ -121,7 +133,8 @@ https://github.com/rack/rack/blob/95172a60fe5c2a3850163fc75e0981fe440c064e/lib/r
 
 任意のファイルにログを出力したい場合は、自前でloggerを定義してやればよい。
 
-```
+
+~~~
 def logger
   return @logger unless @logger.nil?
   file = File.new("#{settings.root}/log/#{settings.environment}.log", 'a+')
@@ -130,7 +143,8 @@ def logger
 end
 
 logger.info "Hello"
-```
+
+~~~
 
 ## 参考リンク
 

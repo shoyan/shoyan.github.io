@@ -10,7 +10,8 @@ cookbook_fileでCookbookNotFoundというエラーがでた。
 
 エラーは以下。
 
-```
+
+~~~
   * cookbook_file[/etc/nginx/nginx.conf] action create
 
     ================================================================================
@@ -32,7 +33,8 @@ cookbook_fileでCookbookNotFoundというエラーがでた。
      29:   mode '0755'
      30: end
      31:
-```
+
+~~~
 
 原因はmetadata.rbの名前。  
 cookbooks/site という構成でcookbookを作成しているのだが、cookbooks/site/metadata.rbのnameが’cookbooks'となっていた。  

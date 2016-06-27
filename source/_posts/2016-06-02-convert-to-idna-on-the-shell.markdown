@@ -16,13 +16,16 @@ Shellで日本語ドメインをIDNフォーマットに変換する方法を紹
 
 homebrewでインストールします。
 
-```
+
+~~~
 $ brew install libidn
-```
+
+~~~
 
 インストールしたら、idnコマンドが使えるようになります。
 
-```
+
+~~~
 $ idn
 libidn 1.32
 Copyright 2002-2015 Simon Josefsson.
@@ -31,27 +34,33 @@ information about these matters, see <http://www.gnu.org/licenses/>.
 Type each input string on a line by itself, terminated by a newline character.
 
 idn: tld_check_4z: Missing input
-```
+
+~~~
 
 ## libidnでPunycodeに変換する
 
 以下のようにPunycodeに変換できます。
 
-```
+
+~~~
 $ idn しょーやん.xyz
 xn--68jwei3c27a.xyz
-```
+
+~~~
 
 unicodeに変換する場合は`-u`オプションを使います。
 
-```
+
+~~~
 $ idn -u xn--68jwei3c27a.xyz
 しょーやん.xyz
-```
+
+~~~
 
 ## digとidnを組み合わせて使う
 
-```
+
+~~~
 ⇒  dig `idn しょーやん.xyz` NS
 
 ; <<>> DiG 9.8.3-P1 <<>> xn--68jwei3c27a.xyz NS
@@ -71,4 +80,5 @@ xn--68jwei3c27a.xyz.  3578  IN  NS  dns02.muumuu-domain.com.
 ;; SERVER: 192.168.74.20#53(192.168.74.20)
 ;; WHEN: Fri Jun  3 09:25:40 2016
 ;; MSG SIZE  rcvd: 94)>>>>>>
-```
+
+~~~

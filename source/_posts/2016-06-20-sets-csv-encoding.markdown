@@ -10,18 +10,22 @@ description: "日本語の場合、CSVのファイルエンコードをShift JIS
 日本語の場合、CSVのファイルエンコードをShift JISにする要件がけっこうあると思います。  
 RubyのCSVライブラリは、`encoding`というオプションが用意されており、`encoding: ’sjis’` のようにファイルエンコーディングを指定できます。
 
-```ruby
+
+~~~ruby
 require 'csv'
 CSV.open("hoge.csv", "wb", encoding: 'sjis') do |csv|
   csv << ["ID", "担当者", "メールアドレス"]
 end
-```
+
+~~~
 
 nkfコマンドを使ってファイルエンコーディングを確認します。
 
-```
+
+~~~
 ⇒  nkf -g hoge.csv
 Shift_JIS
-```
+
+~~~
 
 Shift_JISで作成されていることが確認できました。

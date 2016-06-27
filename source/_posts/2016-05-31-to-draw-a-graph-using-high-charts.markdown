@@ -24,23 +24,28 @@ http://codepen.io/shoyan/details/jrOjWK/
 
 HighChartsを使うには、jQueryとhighCharts.jsが必要です。
 
-```
+
+~~~
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-```
+
+~~~
 
 index.htmlのbody部は以下を定義します。
 div要素にグラフが描画されます。
 
 index.html
 
-```
+
+~~~
 <div id="container" style="width:100%; height:400px;"></div>
-```
+
+~~~
 
 JavaScript tag `<script> </script>` に書くか、外部ファイルに定義してください。
 
-```
+
+~~~
 $(function () {
     $('#container').highcharts({
         chart: {
@@ -66,7 +71,8 @@ $(function () {
         }]
     });
 });
-```
+
+~~~
 
 あとは、ブラウザでアクセスすればグラフが描画されます。
 
@@ -74,9 +80,11 @@ $(function () {
 
 基本的な構文は以下です。
 
-```
+
+~~~
 $("グラフを描画するhtml要素").highcharts(option)
-```
+
+~~~
 
 ### HighChartsの基本的なパラメーター(option)
 

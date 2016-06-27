@@ -33,7 +33,8 @@ Treant.jsを利用するには、いくつか必要なモジュールがあり�
 
 ### BaseとなるHTMLのテンプレート
 
-```html
+
+~~~html
 <!doctype html>
 <html lang="ja">
 <head>
@@ -59,13 +60,15 @@ Treant.jsを利用するには、いくつか必要なモジュールがあり�
     <script src="http://fperucic.github.io/treant-js/Treant.js"></script>
 </body>
 </html>
-```
+
+~~~
 
 ### JS
 
 JavaScriptファイルです。設定をJSONで定義して、コンストラクタに渡しています。
 
-```js
+
+~~~js
 simple_chart_config = {
     # chartの設定をします
     chart: {
@@ -86,7 +89,8 @@ simple_chart_config = {
 };
 # コンストラクタ
 var my_chart = new Treant(simple_chart_config);
-```
+
+~~~
 
 基本的には、nodeStructureに必要なノードを定義して、CSSで見た目を調整するという感じです。  
 アニメーションにも対応していて、その場合はjQueryが必要だったりするようです。  

@@ -124,50 +124,61 @@ FTPはデータ転送用のポートと制御用のポートの2つを利用す�
 
 まずは、telnetで認証をやってみます(localhostにftpサーバーが起動しているという前提です)。  
 
-```
+
+~~~
 $ telnet localhost 21
 Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
 220 FTP server ready.
-```
+
+~~~
 
 まず、ユーザ名を入力します。
 
-```
+
+~~~
 USER ftp
 331 Password required for example.com
-```
+
+~~~
 
 次に、パスワードを入力します。
 
-```
+
+~~~
 PASS 123
 230 User example.com logged in.
-```
+
+~~~
 
 telnetでは他に何もできませんのでQUITします。
 
-```
+
+~~~
 QUIT
 221 Goodbye.
 Connection closed by foreign host.
-```
+
+~~~
 
 ### FTPでファイルの送受信を行う
 
 FTPでファイルの送受信を行うには、ftpコマンドを使います。  
 `-d` オプションはデバッグモードです。
 
-```
+
+~~~
 ftp -d localhost 21
-```
+
+~~~
 
 ユーザー名とパスワードを聞かれるので入力します。
 
 `ls`でファイルの一覧をみることができます。
 
-```
+
+~~~
 ftp> ls
 ---> EPSV
 229 Entering Extended Passive Mode (|||65086|)
@@ -178,11 +189,13 @@ drwx---r-x   6 shoyan shoyan      4096 Jun 17 11:31 .
 drwx---r-x   6 shoyan shoyan     4096 Jun 17 11:31 ..
 -rw-r--r--   1 shoyan shoyan     3096 Jun 17 11:30 index.html
 226 Transfer complete
-```
+
+~~~
 
 `get`コマンドでファイルをダウンロードできます。
 
-```
+
+~~~
 ftp> get index.html
 local: index.html remote: index.html
 ---> SIZE index.html
@@ -198,7 +211,8 @@ local: index.html remote: index.html
 ---> MDTM index.html
 213 20160617023028
 parsed date `20160617023028' as 1466130628, Fri, 17 Jun 2016 11:30:28 +0900
-```
+
+~~~
 
 参考リンク
 

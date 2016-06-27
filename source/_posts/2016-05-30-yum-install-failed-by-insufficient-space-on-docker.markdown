@@ -10,15 +10,18 @@ description: "Dockerのコンテナでyum installが失敗する。Insufficient 
 Dockerのコンテナでyum installが失敗する。  
 以下のようなエラーがでていた。  
 
-```
+
+~~~
 Insufficient space in download directory /var/cache/yum/x86_64/6/updates/packages
-```
+
+~~~
 
 容量が不足しているらしい。
 
 ディスク容量を確認したところ、100%になっていた。
 
-```
+
+~~~
 bash-4.2# df
 Filesystem     1K-blocks     Used Available Use% Mounted on
 none            19049892 18226752         0 100% /
@@ -26,7 +29,8 @@ tmpfs             509992        0    509992   0% /dev
 tmpfs             509992        0    509992   0% /sys/fs/cgroup
 /dev/sda1       19049892 18226752         0 100% /etc/hosts
 shm                65536        0     65536   0% /dev/shm
-```
+
+~~~
 
 不要なコンテナが溜まっていて、そのせいでディスク容量を圧迫していたようだ。
 

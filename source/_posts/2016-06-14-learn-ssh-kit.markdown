@@ -15,30 +15,36 @@ CapistranoやCapistranoプラグインではSSHKitが使われています。
 
 ## インストール
 
-```
+
+~~~
 gem install sshkit
-```
+
+~~~
 
 ## コマンドのサンプル
 
 実際に使ってみて理解していきます。
 使うには、sshkitをロードする必要があります。
 
-```ruby
+
+~~~ruby
 require 'sshkit'
 include SSHKit::DSL
-```
+
+~~~
 
 ### ホスト名を取得する
 
 まずはログインしてホスト名を取得してみましょう。
 
-```
+
+~~~
 on ['deploy@example.com’] do |host|
  puts capture(:hostname)
 end
 => example.com
-```
+
+~~~
 
 `on` メソッドに対象のサーバーとブロックを渡します。  
 対象のサーバーは複数設定することも可能です。  
@@ -49,25 +55,29 @@ end
 
 特定のユーザーでコマンドを実行する場合は、`as`メソッドで指定します。
 
-```
+
+~~~
 on ['example.com'] do |host|
   as 'deploy' do
   　puts capture(:whoami)
   end
 end
-```
+
+~~~
 
 ### 特定のディレクトリを指定する
 
 特定のディレクトリを指定する場合は、`within`メソッドを指定します。
 
-```
+
+~~~
 on ['deploy@example.com'] do |host|
   within '/var/log' do
     puts capture(:head, '-n5', 'messages')
   end
 end
-```
+
+~~~
 
 `/var/log` で `head -n5 messages` を実行します。
 
@@ -75,19 +85,22 @@ end
 
 `with`メソッドで環境変数を指定することができます。
 
-```
+
+~~~
 on hosts do |host|
   with rack_env: :test do
     puts capture("env")
   end
 end
-```
+
+~~~
 
 rack_envに`:test` を設定しています。
 
 ### ファイルをチェックして存在すればメッセージを表示、なければファイルを作成する
 
-```
+
+~~~
 on ['deploy@example.com'] do |host|
   f = '/tmp/file'
   if test("[ -f #{f} ]")
@@ -98,7 +111,8 @@ on ['deploy@example.com'] do |host|
 end
 INFO [790b6aaa] Running /usr/bin/env touch /tmp/file as deploy@example.com
 INFO [790b6aaa] Finished in 0.052 seconds with exit status 0 (successful).
-```
+
+~~~
 
 `test`メソッドでファイルをチェックし、`execute`メソッドで`touch`コマンドを実行しています。
 
@@ -106,27 +120,32 @@ INFO [790b6aaa] Finished in 0.052 seconds with exit status 0 (successful).
 
 ファイルをアップロードすることもできます。
 
-```
+
+~~~
 on ['deploy@example.com'] do |host|
   upload! 'README.md', '/tmp/README.md'
 end
-```
+
+~~~
 
 第1引数がローカルのファイルのパス、第2引数がサーバーに配置するファイルのパスです。
 
 また、`recursive`オプションをtrueに設定することでディレクトリをアップロードすることもできます。
 
-```
+
+~~~
 on hosts do |host|
   upload! '.', '/tmp/mypwd', recursive: true
 end
-```
+
+~~~
 
 ### ローカルで実行する
 
 ローカルで実行することもできます。
 
-```
+
+~~~
 run_locally do
   within '/tmp' do
     execute :whoami
@@ -140,14 +159,16 @@ on(:local) do
     execute :whoami
   end
 end
-```
+
+~~~
 
 ### Rakeタスクで利用する
 
 RakeタスクでSSHKitのDSLを使うこともできます。  
 この仕組みを利用してCapistranoのプラグインは作成されています。
 
-```
+
+~~~
 require 'sshkit'
 
 SSHKit.config.command_map[:rake] = "./bin/rake"
@@ -166,7 +187,8 @@ task :deploy do
     end
   end
 end
-```
+
+~~~
 
 サンプルがこちらにたくさんあるので、参考になると思います。
 
