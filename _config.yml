@@ -35,7 +35,7 @@ code_dir: downloads/code
 category_dir: blog/categories
 markdown: kramdown
 kramdown:
-  input: GFM
+  input: KramdownEasyLink
 #highlighter: pygments # default python pygments have been replaced by pygments.rb
 
 paginate: 5          # Posts per page on the blog index
