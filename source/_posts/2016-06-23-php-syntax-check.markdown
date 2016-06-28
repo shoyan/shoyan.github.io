@@ -202,7 +202,7 @@ git diff --name-only origin/master \
 <del>PRもしているので直ることに期待です。</del>
 Mergeいただきました。
 
-- [https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11}(https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11)
+- [https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11](https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11)
 
 サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。
 
