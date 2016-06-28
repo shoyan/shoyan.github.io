@@ -38,3 +38,16 @@ markdown: KramdownPygments
 find source/_posts -type f -name "*.markdown" | xargs sed -i '' -e 's/\`\`\`/\
 ~~~/g'
 ```
+
+また、URLに自動でリンクを付与してくれる機能がRdiscountにはあったのですが、kramdownでは明示的に指定する必要があります。  
+Rdiscountのように自動的にリンクを付与するプラグインを作成しました。
+
+* [kramdown_easy_link](https://github.com/shoyan/kramdown_easy_link)
+
+使い方は`kramdown_easy_link.rb`を`plugins/`ディレクトリに置いて、`_config.yml`を以下のように修正します。
+
+```ruby
+markdown: kramdown
+kramdown:
+  input: KramdownEasyLink
+```
