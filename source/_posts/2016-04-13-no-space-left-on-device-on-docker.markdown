@@ -9,12 +9,12 @@ categories: Docker
 Dockerのbuild時に以下のエラーが発生するようになった。
 
 
-~~~
+```
 $  docker build -t docker-and-chef .
 Sending build context to Docker daemon 131.6 kB
 Error response from daemon: mkdir /mnt/sda1/var/lib/docker/tmp/docker-builder670782655: no space left on device
 
-~~~
+```
 
 PCを再起動してみても直らず、どうしたものかとググっていたら以下の情報を見つけた。
 http://stackoverflow.com/questions/30604846/docker-error-no-space-left-on-device

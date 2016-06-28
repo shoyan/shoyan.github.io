@@ -128,10 +128,10 @@ phpcsはコーディングスタイルのチェックをするツールで、PHP
 実行コマンド
 
 
-~~~
+```
 phpcs --standard=PSR2 check_file or check_dir/
 
-~~~
+```
 
 2つめはphpcbfです。
 
@@ -141,10 +141,10 @@ PHP Code Beautifier and Fixerを略したツールです。
 実行コマンド
 
 
-~~~
+```
 phpcbf --standard=PSR2 check_file or check_dir/
 
-~~~
+```
 
 PHP Code Snifferのいいところは、チェックと修正のツールがわかれているところです。
 それにより、CIによるチェックとその修正が簡単に行えます。

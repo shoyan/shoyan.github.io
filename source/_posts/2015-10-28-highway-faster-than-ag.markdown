@@ -60,15 +60,15 @@ http://tkengo.github.io/blog/2015/10/19/release-highway/
 homebrewでインストールできます。
 
 
-~~~
+```
 $ brew tap tkengo/highway
 $ brew install highway
 
-~~~
+```
 
 #### For Fedora Core
 
-~~~
+```
 $ sudo vi /etc/yum.repos.d/highway.repo
 [repos.highway]
 name=highway
@@ -78,11 +78,11 @@ gpgcheck=0
 
 $ sudo yum install highway --enablerepo="repos.highway"
 
-~~~
+```
 
 ### 使い方
 
-~~~bash
+```bash
 # カレントディレクトリをhogeをいう文字列で再帰的に検索
 $ hw hoge
 
@@ -92,13 +92,13 @@ $ hw -A 10 hoge public_html
 # オプションは以下のコマンドで参照できます
 $ hw -h
 
-~~~
+```
 
 ### unite.vimと連携する
 unite.vimのgrepにhighwayを使うようにします。
 
 
-~~~
+```
 " grep検索
 nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
@@ -109,7 +109,7 @@ if executable('hw')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
-~~~
+```
 
 ### おわりに
 grepツールは完全に[highway](https://github.com/tkengo/highway)に乗り換えましたが、速度面、機能面に関しては問題ありません。  

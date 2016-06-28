@@ -17,7 +17,7 @@ description: "曜日の日付を計算するアルゴリズムをRubyで実装�
 ### Rubyで実装
 
 
-~~~ruby
+```ruby
 def last_monday(date = Date.today - 7)
   return date if date.monday?
   if date.wday < 1
@@ -28,12 +28,12 @@ def last_monday(date = Date.today - 7)
   last_monday(date)
 end
 
-~~~
+```
 
 ### 先週の金曜日を求める場合
 
 
-~~~ruby
+```ruby
 def last_friday(date = Date.today - 7)
   return date if date.friday?
   if date.wday < 5
@@ -44,7 +44,7 @@ def last_friday(date = Date.today - 7)
   last_friday(date)
 end
 
-~~~
+```
 
 ## 次の月曜日の日付を求めるアルゴリズム
 
@@ -55,13 +55,13 @@ end
 ### Rubyで実装
 
 
-~~~ruby
+```ruby
 def next_monday(date = Date.today + 1)
   return date if date.monday?
   next_monday(date + 1)
 end
 
-~~~
+```
 
 ## 前回の月曜日の日付を求めるアルゴリズム
 
@@ -72,18 +72,18 @@ end
 ### Rubyで実装
 
 
-~~~ruby
+```ruby
 def prev_monday(date = Date.today - 1)
   return date if date.monday?
   prev_monday(date - 1)
 end
 
-~~~
+```
 
 ### 実行結果
 
 
-~~~
+```
 puts Date.today.strftime("%Y-%m-%d (%a)")
 => 2016-06-09 (Thu)
 puts prev_monday.strftime("%Y-%m-%d (%a)")
@@ -95,4 +95,4 @@ puts last_monday.strftime("%Y-%m-%d (%a)")
 puts last_friday.strftime("%Y-%m-%d (%a)")
 => 2016-06-03 (Fri)
 
-~~~
+```

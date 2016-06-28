@@ -13,25 +13,25 @@ https://github.com/tablexi/capistrano3-unicorn
 `Gemfile`に以下を追記して`bundle install`します。
 
 
-~~~ruby
+```ruby
 group :development do
   gem 'capistrano3-unicorn'
 end
 
-~~~
+```
 
 `Capfile`に以下を追記します。
 
 
-~~~ruby
+```ruby
 require 'capistrano3/unicorn'
 
-~~~
+```
 
 `config/deploy.rb`に以下を追記します。
 
 
-~~~ruby
+```ruby
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
@@ -39,7 +39,7 @@ namespace :deploy do
   end
 end
 
-~~~
+```
 
 これで設定完了です。
 cap deployすればunicorn restartが実行されるようになります。
@@ -65,7 +65,7 @@ config/unicorn.rbをunicorn_config_pathとして設定しています。
 config/deploy.rb
 
 
-~~~ruby
+```ruby
 set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn.rb") }
 
-~~~
+```

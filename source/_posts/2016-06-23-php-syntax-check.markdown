@@ -33,7 +33,7 @@ description: "修正したファイルのみPHPの構文チェックを実行す
 check_syntax.sh
 
 
-~~~bash
+```bash
 #!/bin/bash
 
 echo "Start"
@@ -54,7 +54,7 @@ if [ -n "$CI_PULL_REQUEST" ]; then
         --reporter Saddler::Reporter::Github::PullRequestReviewComment
 fi
 
-~~~
+```
 
 ## 仕組み
 
@@ -69,18 +69,18 @@ fi
 以下のコマンドでmasterと差分のあるファイル名を取得します。
 
 
-~~~
+```
 git diff --name-only origin/master
 
-~~~
+```
 
 さらに grepで拡張子が .phpのファイルのみ対象にします。
 
 
-~~~
+```
 git diff --name-only origin/master | grep -e ‘.php$'
 
-~~~
+```
 
 ### 2. 構文チェック
 
@@ -88,20 +88,20 @@ git diff --name-only origin/master | grep -e ‘.php$'
 今回は[PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)を使いました。
 
 
-~~~
+```
 xargs vendor/bin/phpcs -n --standard=PSR2 --report=checkstyle
 
-~~~
+```
 
 `xargs`は前のコマンドを引数でとるために必要です。
 
 以下のコマンドでmasterとブランチの差分をチェックして、差分があるところのエラーを検知対象のエラーとしています。
 
 
-~~~
+```
 bundle exec checkstyle_filter-git diff origin/master
 
-~~~
+```
 
 エラーの差分の抽出に[checkstyle_filter-git](https://github.com/packsaddle/ruby-checkstyle_filter-git)というツールを使っています。
 これは、入力として渡したCheckStyle formatの文字列から、変更した内容の部分のエラーを抽出するツールです。
@@ -112,12 +112,12 @@ bundle exec checkstyle_filter-git diff origin/master
 saddlerを使って結果をGithubに通知します。
 
 
-~~~
+```
 bundle exec saddler report \
         --require saddler/reporter/github \
         --reporter Saddler::Reporter::Github::PullRequestReviewComment
 
-~~~
+```
 
 注意点としては、PRを作っていないと通知でエラーとなります。
 
@@ -125,12 +125,12 @@ bundle exec saddler report \
 `$CI_PULL_REQUEST` はCIrcleCIの変数で、Pull Requestが作られていればこの変数にURLが格納されています。
 
 
-~~~
+```
 if [ -n "$CI_PULL_REQUESTS" ]; then
 
 fi
 
-~~~
+```
 
 また、通知には`GITHUB_ACCESS_TOKEN`を発行して環境変数に登録しておく必要があります。
 
@@ -143,17 +143,17 @@ CircleCIの環境変数の設定については、以下を参照ください。
 また、通知ではなく単に結果を出力する場合は、[saddler/reporter/text](https://github.com/packsaddle/ruby-saddler-reporter-text)を指定します。
 
 
-~~~
+```
 bundle exec saddler report \
   --require saddler/reporter/text \
   --reporter Saddler::Reporter::Text
 
-~~~
+```
 
 以下は、出力があった場合はエラーにする例です。
 
 
-~~~
+```
 RESULT=`git diff --name-only origin/master \
     | grep -e '.php$' \
     | xargs vendor/bin/phpcs -n --standard=custom_ruleset.xml --report=checkstyle \
@@ -169,7 +169,7 @@ if [ -n "$RESULT" ]; then
     exit 1
 fi
 
-~~~
+```
 
 ## その他
 
@@ -183,21 +183,21 @@ fi
 
 Gemfile
 
-~~~
+```
 gem "checkstyle_filter-git", git: "https://github.com/shoyan/ruby-checkstyle_filter-git.git", branch: "implement-exec"
 
-~~~
+```
 
 iconvでgit diffの出力結果の文字コードを`EUC-JP`->`UTF-8`に変換して渡せるようにしました。
 
 
-~~~
+```
 git diff --name-only origin/master \
   | grep -e '.php$' \
   | xargs phpcs -n --standard=custom_ruleset.xml --report=checkstyle \
   | bundle exec checkstyle_filter-git exec "git diff origin/master | iconv -f EUCJP -t UTF8"
 
-~~~
+```
 
 <del>PRもしているので直ることに期待です。</del>
 Mergeいただきました。

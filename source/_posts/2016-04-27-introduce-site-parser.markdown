@@ -20,7 +20,7 @@ https://github.com/shoyan/site-parser
 site.csv にパースしたいURLを記入して `ruby site-parse.rb` とすればメタデータが表示されます。
 
 
-~~~ruby
+```ruby
 $ ruby site-parser.rb
 "http://www.yahoo.co.jp/"
 [
@@ -33,30 +33,30 @@ $ ruby site-parser.rb
     }
 ]
 
-~~~
+```
 
 また、サーバーを起動してAPIとして利用することもできます。
 
 ### サーバーを起動
 
 
-~~~
+```
 $ ruby server.rb
 == Sinatra (v1.4.7) has taken the stage on 4567 for development with backup from Thin
 Thin web server (v1.6.4 codename Gob Bluth)
 Maximum connections set to 1024
 Listening on 0.0.0.0:4567, CTRL+C to stop
 
-~~~
+```
 
 ### APIを実行
 
 
-~~~
+```
 $ curl http://localhost:4567 -X POST -d "url=http://www.yahoo.co.jp/"
 => {"url":"http://www.yahoo.co.jp/","title":"Yahoo! JAPAN","description":"日本最大級のポータルサイト。検索、オークション、ニュース、メール、コミュニティ、ショッピング、など80以上のサービスを展開。あなたの生活をより豊かにする「ライフ・エンジン」を目指していきます。","robots":"noodp","google-site-verification":"fsLMOiigp5fIpCDMEVodQnQC7jIY1K3UXW5QkQcBmVs"}
 
-~~~
+```
 
 ## その他
 
@@ -65,11 +65,11 @@ $ curl http://localhost:4567 -X POST -d "url=http://www.yahoo.co.jp/"
 文字化けして内容がみれない場合があったので、以下のワークアラウンドをいれました。
 
 
-~~~ruby
+```ruby
 html = URI.parse(url).read
 node = Nokogiri::HTML(html.toutf8, nil, 'utf-8')
 
-~~~
+```
 
 ## 参考資料
 

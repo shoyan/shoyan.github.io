@@ -10,11 +10,11 @@ description: "例外発生時にException Notificationで通知をしようと�
 例外発生時に[Exception Notification](https://github.com/smartinez87/exception_notification)で通知をしようと思い、導入してみたところ以下のエラーがでました。
 
 
-~~~
+```
 ERROR: Failed to generate exception summary:
 ActionView::Template::Error: undefined method `current' for Time:Class
 
-~~~
+```
 
 日付の取得に`Time.current`を使っており、`Time.current`はActive supportにより拡張されたメソッドなのでActive Supportを使っている環境でしか動作しません(要するにRailsじゃないと動かない。Sinatraは...)。
 
@@ -29,7 +29,7 @@ PRもでているので対応してほしいところです。
 サンプルコード
 
 
-~~~
+```
 require 'rubygems'
 require 'bundler/setup'
 require "sinatra/base"
@@ -56,4 +56,4 @@ class App < Sinatra::Application
   end
 end
 
-~~~
+```

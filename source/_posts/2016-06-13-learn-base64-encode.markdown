@@ -28,30 +28,30 @@ Base64とは英数字、記号を用いてマルチバイト文字やバイナ�
 rubyでのサンプルコード
 
 
-~~~ruby
+```ruby
 "ABCDEFG".unpack("B*").pop.scan(/.{1,4}/).join(" ")
 
-~~~
+```
 
 ### 2. 6ビットずつに分割
 
 "010000 010100 001001 000011 010001 000100 010101 000110 010001 11"
 
 
-~~~
+```
 "ABCDEFG".unpack("B*").pop.scan(/.{1,6}/).join(" ")
 
-~~~
+```
 
 ### 3. 2ビット余るので、4ビット分0を追加して6ビットにする
 
 "010000 010100 001001 000011 010001 000100 010101 000110 010001 110000"
 
 
-~~~
+```
 list = "ABCDEFG".unpack("B*").pop.scan(/.{1,6}/).join(" ").split.map { |s| sprintf("%-06s", s).gsub(" ", "0")}.join(" ")
 
-~~~
+```
 
 
 ### 4. 変換表により、4文字ずつ変換
@@ -59,7 +59,7 @@ list = "ABCDEFG".unpack("B*").pop.scan(/.{1,6}/).join(" ").split.map { |s| sprin
 "QUJD", "REVG", "Rw"
 
 
-~~~
+```
 # 変換表を作成する
 keys = (0..63).map {|m| sprintf("%06s", m.to_s(2)).gsub(" ", "0")}
 values = [('A'..'Z'), ('a'..'z'), ('0'..'9'), ['+', '/']].map { |a| a.to_a }.flatten
@@ -68,33 +68,33 @@ base64_table = Hash[[keys, values].transpose]
 base64_list = list.map {|a| base64_table[a]}.join.scan(/.{1,4}/)
 => ["QUJD", "REVG", "Rw"]
 
-~~~
+```
 
 ### 5. 2文字余るので、2文字分 = 記号を追加して4文字にする
 
 
-~~~
+```
 base64_list.map {|s| sprintf("%-4s", s).gsub(" ", "=")}
 
-~~~
+```
 
 ### 6. Base64文字列
 
 "QUJDREVGRw=="
 
 
-~~~
+```
 base64_str.scan(/.{1,4}/).map {|s| sprintf("%-4s", s).gsub(" ", "=")}.join
 => "QUJDREVGRw=="
 
-~~~
+```
 
 ## 簡易的なbase64_decodeメソッド
 
 今までのロジックをメソッドにまとめて簡易的なbase64_decodeメソッドを作成しました。
 
 
-~~~
+```
 class Base64
   def self.base64_encode(str)
     # 変換表を作成する
@@ -111,17 +111,17 @@ end
 p Base64.base64_encode("ABCDEFG")
 => "QUJDREVGRw=="
 
-~~~
+```
 
 RubyのBase64ライブラリでencodeした値と比べてみましょう。
 
 
-~~~
+```
 require 'base64'
 Base64.encode64("ABCDEFG")
 => "QUJDREVGRw==\n"
 
-~~~
+```
 
 Rubyのencode64は最後に改行が入るようですが、encodeされた値は同じですね！
 

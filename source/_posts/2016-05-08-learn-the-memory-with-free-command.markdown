@@ -11,26 +11,26 @@ description: "サーバーのメモリ情報はシステムの空きメモリと
 サーバーのメモリ情報はシステムの空きメモリと使用メモリの量を表示する`free`コマンドを使って確認することができます。
 
 
-~~~
+```
 [shoyan@server01 ~]$ free
              total       used       free     shared    buffers     cached
 Mem:       1922324    1716832     205492          0     197248    1055352
 -/+ buffers/cache:     464232    1458092
 Swap:      4194300          0    4194300
 
-~~~
+```
 
 -mオプションを使うとMB単位で表示させることができます。
 
 
-~~~
+```
 [shoyan@server01 ~]$ free -m
              total       used       free     shared    buffers     cached
 Mem:          1877       1676        200          0        192       1030
 -/+ buffers/cache:        453       1423
 Swap:         4095          0       4095
 
-~~~
+```
 
 ## まずどこを見るべきか
 

@@ -16,11 +16,11 @@ autoloadを利用するにはファイル名とクラス名がautoloadのルー�
 config/application.rb
 
 
-~~~ruby
+```ruby
 #to auto load lib/directory
 config.autoload_paths += %W(#{config.root}/lib)
 
-~~~
+```
 
 これで、lib ディレクトリ以下のファイルが、以降に説明するディレクトリ・ファイル構成と命名の規約に従うと、自動的に読み込まれるようになります。
 
@@ -33,18 +33,18 @@ config.autoload_paths += %W(#{config.root}/lib)
 __lib/hoge_fuga.rb__
 
 
-~~~ruby
+```ruby
 class HogeFuga
 end
 
-~~~
+```
 
 lib/hoge ディレクトリにファイルを置くこともできます。
 
 __lib/hoge/fuga.rb__
 
 
-~~~ruby
+```ruby
 module Hoge
   class Fuga
   end
@@ -55,13 +55,13 @@ end
 class Hoge::Fuga
 end
 
-~~~
+```
 
 以下の様な書き方もできます。
 
 __lib/hoge_moge/fuga.rb__
 
-~~~ruby
+```ruby
 module HogeMoge
   class Fuga
   end
@@ -72,4 +72,4 @@ end
 class HogeMoge::Fuga
 end
 
-~~~
+```

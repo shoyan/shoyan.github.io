@@ -13,9 +13,9 @@ Jekyllで数式を使いたい場合は、markdownにkramdownを使うのがお�
 
 次にMathjax.jsを読み込みます。
 
-~~~
+```
 <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-~~~
+```
 
 これで準備は整いました。
 
@@ -38,7 +38,7 @@ $$
 \end{align*}
 $$
 
-~~~
+```
 $$
 \begin{align*}
   & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
@@ -55,11 +55,11 @@ $$
     \end{array} \right)
 \end{align*}
 $$
-~~~
+```
 
 基本的な書式は以下のようになります。
 
-~~~
+```
 $$
 \begin{align*}
 
@@ -67,31 +67,31 @@ LaTexの数式
 
 \end{align*}
 $$
-~~~
+```
 
 また`$$`を使ってワンライナーで書くことも可能です。
 
 $$ 5 + 5 $$
 
-~~~
+```
 $$ 5 + 5 $$
-~~~
+```
 
 インラインにしたいときは`\$$`を使います。
 
 \$$ 5 + 5 $$
 
-~~~
+```
 \$$ 5 + 5 $$
-~~~
+```
 
 このように文字中に数式を埋め込むことができます。
 
 光は真空中を1秒間に約 $$ 3.0 × 10^8  $$メートル進む。 光速を $$ cc $$ で表す
 
-~~~
+```
 光は真空中を1秒間に約 $$ 3.0 × 10^8  $$メートル進む。 光速を $$ cc $$ で表す
-~~~
+```
 
 表記の確認には[MathJax checker](http://gyafun.jp/ln/MathJax.html) を使うと便利です。
 LaTeX 書式の数式をリアルタイムで確認することができます。

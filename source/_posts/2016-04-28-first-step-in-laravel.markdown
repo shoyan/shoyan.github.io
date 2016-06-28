@@ -21,7 +21,7 @@ Railsと似ているので、Railsでの開発経験があればわりとすん�
 まずはcomposerでlaravelコマンドをインストールします。
 
 
-~~~php
+```php
 ⇒  composer global require "laravel/installer"
 Changed current directory to /Users/PMAC025S/.composer
 
@@ -58,20 +58,20 @@ symfony/console suggests installing psr/log (For using the console logger)
 Writing lock file
 Generating autoload files
 
-~~~
+```
 
 `.bashrc` や `.zshrc` にパスを追加します。
 
 
-~~~
+```
 export PATH="$PATH:/Users/PMAC025S/.composer/vendor/bin"
 
-~~~
+```
 
 これでlaravelコマンドが実行できるようになります。
 
 
-~~~
+```
 ⇒  laravel
 Laravel Installer version 1.3.3
 
@@ -92,22 +92,22 @@ Available commands:
   list  Lists commands
   new   Create a new Laravel application.
 
-~~~
+```
 
 `laravel new application_name` でインストールします。  
 Railsっぽいですねー。
 
 
-~~~
+```
 ⇒  laravel new blog
 Crafting application...
 
-~~~
+```
 
 以下の構成で作成されていました。
 
 
-~~~
+```
 ⇒  tree -L 1 blog
 blog
 ├── app
@@ -128,7 +128,7 @@ blog
 ├── tests
 └── vendor
 
-~~~
+```
 
 ## 設定
 
@@ -141,11 +141,11 @@ blog
 Laravelに同梱されているartisanというツールを使って作成します。
 
 
-~~~
+```
 ⇒  php artisan make:migration create_tasks_table --create=tasks
 Created Migration: 2016_04_28_011840_create_tasks_table
 
-~~~
+```
 
 `database/migrations`ディレクトリに作成されます。
 2016_04_28_011840_の部分はartisanが作成するので、makeするタイミングによって変わります。
@@ -153,7 +153,7 @@ Created Migration: 2016_04_28_011840_create_tasks_table
 `2016_04_28_011840_create_tasks_table.php`を編集して、nameカラムを追加します。
 
 
-~~~
+```
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
@@ -186,13 +186,13 @@ class CreateTasksTable extends Migration
     }
 }
 
-~~~
+```
 
 `.env`ファイルのデータベースの設定を自分のローカルのPCのmysqlに変更します。  
 デフォルトでは、[Homestead](https://laravel.com/docs/5.2/homestead)というLaravel開発用の仮想環境の設定です(今回は使いません)。
 
 
-~~~
+```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -200,19 +200,19 @@ DB_DATABASE=homestead
 DB_USERNAME=root
 DB_PASSWORD=
 
-~~~
+```
 
 マイグレーションを実行します。
 
 
-~~~
+```
 ⇒  php artisan migrate
 Migration table created successfully.
 Migrated: 2014_10_12_000000_create_users_table
 Migrated: 2014_10_12_100000_create_password_resets_table
 Migrated: 2016_04_28_011840_create_tasks_table
 
-~~~
+```
 
 ### モデルを作成する
 
@@ -221,11 +221,11 @@ Laravelは[Eloquent](https://laravel.com/docs/5.2/eloquent)というORMがデフ
 artisanでモデルを作成します。
 
 
-~~~
+```
 ⇒  php artisan make:model Task
 Model created successfully.
 
-~~~
+```
 
 モデルは `app` ディレクトリ配下に作成されます。
 
@@ -235,7 +235,7 @@ Model created successfully.
 (ルーティングの設定はsinatraっぽい)
 
 
-~~~
+```
 <?php
 
 use App\Task;
@@ -262,7 +262,7 @@ Route::delete('/task/{task}', function (Task $task) {
     //
 });
 
-~~~
+```
 
 ### Viewの設定
 
@@ -270,15 +270,15 @@ Larvelはデフォルトで[Blade](https://laravel.com/docs/5.2/blade)という�
 viewのディレクトリは`resources/views`です。
 
 
-~~~
+```
 $ mkdir resources/views/layouts
 
-~~~
+```
 
 全体のレイアウトのテンプレートとして使う`app.blade.php`を作成します。
 
 
-~~~
+```
  <!-- resources/views/layouts/app.blade.php -->
 
 <!DOCTYPE html>
@@ -300,12 +300,12 @@ $ mkdir resources/views/layouts
     </body>
 </html>
 
-~~~
+```
 
 `tasks.blade.php`を作成します。
 
 
-~~~
+```
  <!-- resources/views/tasks.blade.php -->
 
 @extends('layouts.app')
@@ -344,7 +344,7 @@ $ mkdir resources/views/layouts
     <!-- TODO: Current Tasks -->
 @endsection
 
-~~~
+```
 
 ### サーバーを起動する
 
@@ -353,11 +353,11 @@ $ mkdir resources/views/layouts
 以下のコマンドでサーバーを起動します。
 
 
-~~~
+```
 ⇒  php artisan serve
 Laravel development server started on http://localhost:8000/
 
-~~~
+```
 
 `http://localhost:8000/` にブラウザでアクセスします。
 

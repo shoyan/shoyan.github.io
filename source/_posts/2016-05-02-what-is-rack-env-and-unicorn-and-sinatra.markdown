@@ -15,12 +15,12 @@ RACK_ENVには、`development`、`deployment`、`none`の3種類があります�
 以下がそれぞれのRACK_ENVで使われるmiddlewareです。
 
 
-~~~
+```
     #       - development: CommonLogger, ShowExceptions, and Lint
     #       - deployment: CommonLogger
     #       - none: なし
 
-~~~
+```
 https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157
 
 `development`と`deployment`に該当しない場合はmiddlewareは何も使われないようです。
@@ -31,16 +31,16 @@ https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/r
 capistrano3-unicornのソースコードを見てみると、`production`を指定した場合`deployment`を設定するようになっていました。
 
 
-~~~ruby
+```ruby
 set :unicorn_rack_env, -> { fetch(:rails_env) == "development" ? "development" : "deployment" }
 
-~~~
+```
 https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7
 
 unicornはちょっと挙動を変えていて、`development`と`deployment`のときは ShowExceptionsとLintは読み込まないようです。
 
 
-~~~
+```
       case ENV["RACK_ENV"]
       when "development"
       when "deployment"
@@ -50,7 +50,7 @@ unicornはちょっと挙動を変えていて、`development`と`deployment`の
         return inner_app
       end
 
-~~~
+```
 https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79
 
 ### Sinatraの環境変数
@@ -60,11 +60,11 @@ SinatraはRACK_ENVとenvironmentという環境変数が2つありややこし�
 異なる環境で実行したい場合、RACK_ENVを指定することができます(これが混乱のもと)。
 
 
-~~~text
+```text
 異なる環境を走らせるには、RACK_ENV環境変数を設定します。
 RACK_ENV=production ruby my_app.rb
 
-~~~
+```
 https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments
 
 `set :environment, :production` と定義して、`RACK_ENV=development ruby my_app.rb` を実行してみました。  
@@ -89,10 +89,10 @@ Sinatraで `set :environment` を設定しなかった場合はRACK_ENVの値が
 Sinatraではset :environment を明示的に指定しましょう。
 
 
-~~~ruby
+```ruby
 set :environment, ENV["RACK_ENV"] == "deployment"? :production : ENV["RACK_ENV"].to_sym
 
-~~~
+```
 
 ## 参考文献
 * https://blog.kksg.net/posts/unicorn-environment

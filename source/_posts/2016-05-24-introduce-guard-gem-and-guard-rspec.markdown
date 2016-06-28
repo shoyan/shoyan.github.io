@@ -18,23 +18,23 @@ Gemfileに定義してインストールします。
 Gemfile
 
 
-~~~ruby
+```ruby
 group :development do
   gem 'guard'
   gem 'guard-rspec', require: false
 end
 
-~~~
+```
 
 bundle installして、Guardfileを作成します。  
 GuardfileはGuardの設定を定義するファイルです。
 
 
-~~~
+```
 $ bundle install
 $ bundle exec guard init rspec
 
-~~~
+```
 
 guard init rspecを実行するとrspecの設定が書かれたGuardfileが作成されます。  
 Railsを想定した設定が書かれていますので、Railsの場合はそのままでOKです。
@@ -45,10 +45,10 @@ Railsを想定した設定が書かれていますので、Railsの場合はそ�
 別でウィンドウを開いてguardを実行します。  
 
 
-~~~
+```
 $ bundle exec guard
 
-~~~
+```
 
 ファイルを変更するとそのファイルのテストが実行され、テスト結果が表示されます。
 
@@ -57,7 +57,7 @@ $ bundle exec guard
 Guardの設定はGuardのDSLを用いて設定します。
 
 
-~~~
+```
 # rspecのグループを定義し、監視しているファイルに変更があった場合は"bundle exec rspec""を実行する。
 guard :rspec, cmd: "bundle exec rspec" do
   # Guard::RspecのDSLのインスタンスを作成
@@ -66,22 +66,22 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(rspec.spec_helper) { rspec.spec_dir }
 end
 
-~~~
+```
 
 watchで監視するファイルを設定します。  
 watchの引数は以下です。  
 
 
-~~~text
+```text
 watch(監視するファイル) { コマンドに渡される引数 }
 
-~~~
+```
 
 ここででてきた、`rspec.spec_helper` と `rspec.spec_dir` はどんな値を返すのでしょうか。
 pryで覗いてみましょう。
 
 
-~~~ruby
+```ruby
 $ pry
 > require 'guard/rspec/dsl'
 > dsl = Guard::RSpec::Dsl.new(self)
@@ -91,12 +91,12 @@ $ pry
 > rspec.spec_dir
 => "spec"
 
-~~~
+```
 
 ソースを少し見てみましょう。
 
 
-~~~
+```
 def rspec
   @rspec ||= OpenStruct.new(to_s: "spec").tap do |rspec|
     rspec.spec_dir = "spec"
@@ -107,7 +107,7 @@ def rspec
   end
 end
 
-~~~
+```
 
 https://github.com/guard/guard-rspec/blob/master/lib/guard/rspec/dsl.rb#L28
 
@@ -121,7 +121,7 @@ http://docs.ruby-lang.org/ja/2.1.0/class/OpenStruct.html
 実は、というか当たり前なのですがOpenStructなので値の上書きも簡単にできてしまいます。
 
 
-~~~
+```
 > rspec.spec_helper
 => "spec/spec_helper.rb"
 > rspec.spec_helper = 'hoge'
@@ -129,7 +129,7 @@ http://docs.ruby-lang.org/ja/2.1.0/class/OpenStruct.html
 > rspec.spec_helper
 => "hoge"
 
-~~~
+```
 
 ## Guardのカスタマイズ
 

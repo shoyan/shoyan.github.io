@@ -17,19 +17,19 @@ knife zeroはknifeプラグインで、リモートnode上でchef-clientを実�
 今回はGemfileに定義してインストールします。
 
 
-~~~
+```
 # Gemfile
 gem 'knife-zero'
 
-~~~
+```
 
 以下でインストールされます。
 
 
-~~~
+```
 $ bundle
 
-~~~
+```
 
 ## chefをリモートnodeにインストール
 
@@ -37,17 +37,17 @@ $ bundle
 以下のコマンドでインストールします。
 
 
-~~~
+```
 $ bundle exec knife zero bootstrap shoyan@server01.example.com --sudo
 
-~~~
+```
 
 実行すると `node/` 配下にファイルが作成さます。
 
 `chef_environment`と`run_list`を追加します。
 
 
-~~~
+```
 {
   "name": "server01.example.com",
   "chef_environment": "production",
@@ -76,18 +76,18 @@ $ bundle exec knife zero bootstrap shoyan@server01.example.com --sudo
   }
 }
 
-~~~
+```
 
 リモートnodeにログインして、chefのコマンドが実行されていることを確認してみます。
 
 
-~~~
+```
 $ ssh shoyan@server01.example.com
 
 [shoyan@server01 ~]$ chef-[Tabを押す]
 chef-apply   chef-client  chef-shell   chef-solo
 
-~~~
+```
 
 ## レシピをリモートnodeに適用する
 
@@ -95,8 +95,8 @@ Chefを実行する準備ができました。
 以下のコマンドでレシピをリモートnodeに適用します。
 
 
-~~~
+```
 $ bundle exec knife zero converge 'fqdn:server01.example.com' -x shoyan
 
-~~~
+```
 

@@ -11,7 +11,7 @@ categories: sinatra ruby
 Sinatraには任意の評価フローでbodyをセットできる、bodyヘルパーが用意されています。  
 
 
-~~~ruby
+```ruby
 get '/foo' do
   body "bar"
 end
@@ -20,12 +20,12 @@ after do
   puts body
 end
 
-~~~
+```
 
 Status Codeを設定するstatusヘルパー、headerを設定するheadersヘルパーも用意されています。
 
 
-~~~
+```
 get '/foo' do
   status 418
   headers \
@@ -34,7 +34,7 @@ get '/foo' do
   body "I'm a tea pot!"
 end
 
-~~~
+```
 
 引数の伴わないbody, status, headersは現在の値を確認するために使えます。
 
@@ -45,7 +45,7 @@ streamヘルパーを使うとおもしろいことができます。
 この仕組みを使ってストリーミングAPIを実装することもできます。  
 
 
-~~~
+```
 get '/' do
   stream do |out|
     out << "It's gonna be legen -\n"
@@ -56,12 +56,12 @@ get '/' do
   end
 end
 
-~~~
+```
 
 以下は、ストリーミングAPIのサンプルです。
 
 
-~~~
+```
 # app.rb
 # long polling
 
@@ -90,36 +90,36 @@ post '/message' do
   "message received"
 end
 
-~~~
+```
 
 ストリーミングはThinやRainbowsなどのイベント型サーバーでないと動かないので注意が必要です。  
 
 サーバーを起動させてみます。
 
 
-~~~
+```
 $ gem insatall thin
 $ ruby app.rb
 
-~~~
+```
 
 別のターミナルを開いて、以下を実行します。
 
 
-~~~
+```
 $ curl http://localhost:4567/subscribe
 
-~~~
+```
 
 何もレスポンスがありませんが、接続が維持された状態となります。
 
 別のタブを開いて以下の実行してみましょう。
 
 
-~~~
+```
 $ curl http://localhost:4567/message -X POST -d "message=hello"
 
-~~~
+```
 
 すると、subscribeのほうにhelloと表示されて接続が切れます。  
 これは、/messageのout.closeを実行しているからです。  

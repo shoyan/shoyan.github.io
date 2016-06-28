@@ -23,11 +23,11 @@ categories: sql
 現在の契約を取得するのは簡単ですね。
 
 
-~~~sql
+```sql
 # 現在契約を取得する
 SELECT * FROM contracts WHERE start_date >= 現在日付 AND end_date <= 現在日付
 
-~~~
+```
 
 現在契約を取得するのは簡単ですが、その次の契約を取得するとなるとそう単純にはいきません。
 
@@ -35,7 +35,7 @@ SELECT * FROM contracts WHERE start_date >= 現在日付 AND end_date <= 現在�
 相関サブクエリを使うことで次回契約を取得できます。
 
 
-~~~sql
+```sql
 # 次回契約を取得する
 SELECT * 
   FROM contracts As cont 
@@ -49,7 +49,7 @@ SELECT *
                        AND cont.account_id = c1.account_id
                      GROUP BY c1.account_id);
 
-~~~
+```
 
 ### 結果
 | id | account_id | start_date | end_date | 
@@ -75,7 +75,7 @@ c1.account_id = c2.account_id と cont.account_id = c1.account_id は行と行�
 手元で試したい方は以下のクエリでデータをつくれます。
 
 
-~~~sql
+```sql
 CREATE TABLE `contracts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(11) DEFAULT NULL,
@@ -93,5 +93,5 @@ VALUES
     (5, 2, 20150101, 20151231),
     (6, 2, 20160101, 20161231);
 
-~~~
+```
 

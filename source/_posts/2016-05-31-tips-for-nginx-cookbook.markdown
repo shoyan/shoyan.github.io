@@ -39,18 +39,18 @@ sourceからインストールする場合、checksumを設定する必要があ
 checksumは以下のようにして作成できる。
 
 
-~~~
+```
 shasum -a 256 nginx-x.x.x.tar.gz
 
-~~~
+```
 
 もしくは
 
 
-~~~
+```
 curl http://nginx.org/download/nginx-x.x.x.tar.gz | shasum -a 256
 
-~~~
+```
 
 checksumは `node['nginx']['source']['checksum’]` に指定する。
 

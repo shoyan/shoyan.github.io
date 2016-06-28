@@ -10,10 +10,10 @@ description: "wheneverでLoadError: cannot load such fileとinstance variable @_
 wheneverを導入するため`Capfile`に `require "whenever/capistrano"`と定義して `bundle exec cap -T` とすると以下のエラーがでた。
 
 
-~~~
+```
 LoadError: cannot load such file -- /Users/shoyan/app/vendor/bundle/ruby/2.2.0/gems/whenever-0.9.5/lib/whenever/tasks/whenever.rake
 
-~~~
+```
 
 実際に`vendor/bundle/ruby/2.2.0/gems/whenever-0.9.5/lib/whenever/tasks/whenever.rake` を確認してみると、たしかにそのファイルが存在しない。
 
@@ -26,11 +26,11 @@ wheneverのリポジトリを見てみると、シンボリックリンクがは
 ruby2.3.1で実行してみると `Gem::Package::PathError` が発生した。
 
 
-~~~
+```
 ERROR:  While executing gem ... (Gem::Package::PathError)
     installing into parent path /Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/capistrano/v3/tasks/whenever.rake of /Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/whenever-0.9.5 is not allowed
 
-~~~
+```
 
 このエラーはRuby2.3.2では直っていることが期待される。
 

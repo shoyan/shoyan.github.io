@@ -12,7 +12,7 @@ ActionMailerで添付ファイルを送るようにしたのですが、その�
 以下のようにテストしました。
 
 
-~~~ruby
+```ruby
 RSpec.describe AppMailer, type: :mailer do
 
   before(:all) do
@@ -37,7 +37,7 @@ RSpec.describe AppMailer, type: :mailer do
   end
 end
 
-~~~
+```
 
 まず、before(:all)でテストに使うzipファイルを作成します。  
 zipファイルは[archive-zip](https://github.com/javanthropus/archive-zip)を使って作成しています。  

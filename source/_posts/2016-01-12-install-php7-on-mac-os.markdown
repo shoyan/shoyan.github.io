@@ -15,45 +15,45 @@ OSはMac OSX(Yosemite)です。
 依存パッケージのinstallにはhomebrewを使うので、updateしておきます。
 
 
-~~~
+```
 brew update
 
-~~~
+```
 
 PHPのインストールには、phpenvを使います。
 phpenvを使うことで、複数のバージョンをインストールすることができます。
 
 ### phpenvのインストール
 
-~~~
+```
 $ git clone git@github.com:CHH/phpenv.git
 $ cd phpenv
 $ phpenv-install.sh
 
-~~~
+```
 
 以下を `$HOME/.bash_profile` or `$HOME/.bashrc`に追記します。
 (zshの場合は、`$HOME/.zsh_profile` or `$HOME/.zshrc`です。)
 
-~~~
+```
 eval "$(phpenv init -)"
 
-~~~
+```
 
 ### php-buildのインストール
 phpのbuildはphp-buildで行うため、php-buildのインストールを行います。
 
 
-~~~
+```
 $ git clone git://github.com/php-build/php-build.git $HOME/.phpenv/plugins/php-build
 
-~~~
+```
 
 ### 依存パッケージのインストール
 PHP7のインストールに必要なパッケージをインストールします。
 
 
-~~~
+```
 $ brew install bison
 $ brew install re2c
 $ brew install libjpeg
@@ -61,30 +61,30 @@ $ brew install libpng
 $ brew install libmcrypt
 $ brew install autoconf
 
-~~~
+```
 
 ### PHP7.0.2のインストール
 
 
-~~~
+```
 $ phpenv install 7.0.2
 
-~~~
+```
 
 PHP7がインストールできたら、globalコマンドでPHPのバージョンを設定します。
 
 
-~~~
+```
 $ phpenv global 7.0.2
 
-~~~
+```
 
 PHPのbuild時にエラーがでた場合はphp-buildのソースコードを修正して確認してみてください。
 https://github.com/php-build/php-build/blob/bfd562bd6c11a97f953d92b0aac699ad82a045e2/share/php-build/extension/extension.sh#L128
 
 .phpenv/plugins/php-build/share/php-build/extension/extension.sh
 
-~~~
+```
 {
     $PREFIX/bin/phpize > /dev/null
     "$(pwd)/configure" --with-php-config=$PREFIX/bin/php-config \
@@ -94,12 +94,12 @@ https://github.com/php-build/php-build/blob/bfd562bd6c11a97f953d92b0aac699ad82a0
     make install > /dev/null
 } >&4 2>&1
 
-~~~
+```
 
 以下のように修正します。
 
 
-~~~
+```
 {
     $PREFIX/bin/phpize
     "$(pwd)/configure" --with-php-config=$PREFIX/bin/php-config \
@@ -109,7 +109,7 @@ https://github.com/php-build/php-build/blob/bfd562bd6c11a97f953d92b0aac699ad82a0
     make install
 } >&4 2>&1
 
-~~~
+```
 
 ### PHP7について
 PHP7はPHP5との互換性が重視されているようなので、移行コストは低そうです。  

@@ -13,23 +13,23 @@ RubyといえばRuby on Railsが有名ですが、DBを使わないシンプル�
 sinatra_sampleというディレクトリを作成してそこにアプリを作成します。
 
 
-~~~
+```
 mkdir sinatra_sample
 cd sinatra_sample
 
-~~~
+```
 
 Gemfileを作成します。
 
 
-~~~
+```
 # Gemfile
 source 'https://rubygems.org'
 
 gem 'rake'
 gem 'sinatra'
 
-~~~
+```
 
 `bundle install` でインストールします。
 
@@ -38,7 +38,7 @@ gem 'sinatra'
 myapp.rbを作成します。
 
 
-~~~ruby
+```ruby
 # my_app.rb
 require 'sinatra'
 
@@ -46,15 +46,15 @@ get '/' do
   'Hello world!'
 end
 
-~~~
+```
 
 以下のコマンドで実行します。
 
 
-~~~
+```
 ruby myapp.rb
 
-~~~
+```
 
 ブラウザで以下にアクセスするとHello world!と表示されます。  
 http://localhost:4567
@@ -66,7 +66,7 @@ http://localhost:4567
 RspecでテストするためにRspecをインストールします。
 
 
-~~~
+```
 # Gemfile
 
 source 'https://rubygems.org'
@@ -79,7 +79,7 @@ group :test do
   gem 'rack-test'
 end
 
-~~~
+```
 
 `bundle install`でインストールします。
 
@@ -87,7 +87,7 @@ spec/spec_helper.rb を作成します。
 spec_helper.rbはrspecの設定を行うためのファイルです。
 
 
-~~~ruby
+```ruby
 # spec/spec_helper.rb
 require 'rack/test'
 require 'rspec'
@@ -103,13 +103,13 @@ end
 
 RSpec.configure { |c| c.include RSpecMixin }
 
-~~~
+```
 
 spec/myapp_spec.rbを作成します。  
 myapp_spec.rbはアプリケーションをテストするためのファイルです。
 
 
-~~~ruby
+```ruby
 # spec/app_spec.rb
 require File.expand_path '../spec_helper.rb', __FILE__
 
@@ -120,25 +120,25 @@ describe "My Sinatra Application" do
   end
 end
 
-~~~
+```
 
 テストを実行してみましょう。
 
 
-~~~
+```
 bundle exec rspec spec
 
-~~~
+```
 
 
-~~~
+```
 ⇒  bundle exec rspec spec
 .
 
 Finished in 0.03119 seconds (files took 0.20975 seconds to load)
 1 example, 0 failures
 
-~~~
+```
 
 テストが成功しました！
 
