@@ -3,7 +3,8 @@ layout: post
 title: プログラマのための数学勉強会@福岡に登壇してきました
 date: 2015-09-08 13:59:30 +0900
 comments: true
-categories: 
+categories: 数学
+description: "プログラマのための数学勉強会@福岡のレポートです。「暗号技術を支える素数」というタイトルで、暗号で使われている数式とその仕組みを説明しつつ、素因数分解の困難性が暗号の要だということを説明しました。"
 ---
 
 [プログラマのための数学勉強会@福岡](http://maths4pg-fuk.connpass.com/event/18609/)が2015/9/4にLINE Fukuokaで開催されました。  
