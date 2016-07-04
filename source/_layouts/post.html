@@ -12,6 +12,7 @@ single: true
       {% include post/date.html %}{% if updated %}{{ updated }} (last update){% else %}{{ time }}{% endif %}
       {% if site.history %}{% include post/history.html %}{% endif %}
       {% include post/categories.html %}
+      {% include post/adsense.html %}
     </p>
     {% unless page.sharing == false %}
       {% include post/sharing.html %}
