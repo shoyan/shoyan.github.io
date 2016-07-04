@@ -7,6 +7,9 @@
         <h1 class="entry-title"><a href="{{ page.external-url }}">{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %} &rarr;</a></h1>
       {% else %}
         <h1 class="entry-title">{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
+        {% unless page.sharing == false %}
+          {% include post/sharing.html %}
+        {% endunless %}
       {% endif %}
     {% endif %}
     {% unless page.meta == false %}
