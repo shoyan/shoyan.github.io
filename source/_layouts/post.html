@@ -5,6 +5,9 @@ single: true
 
 <div>
 <article class="hentry" role="article">
+  <div class="margin-height-10">
+    {% include adsense_top.html %}
+  </div>
   {% include article.html %}
   <footer>
     <p class="meta">
@@ -12,7 +15,9 @@ single: true
       {% include post/date.html %}{% if updated %}{{ updated }} (last update){% else %}{{ time }}{% endif %}
       {% if site.history %}{% include post/history.html %}{% endif %}
       {% include post/categories.html %}
-      {% include post/adsense.html %}
+      <div class="margin-height-10">
+        {% include adsense_bottom.html %}
+      </div>
     </p>
     {% unless page.sharing == false %}
       {% include post/sharing.html %}
