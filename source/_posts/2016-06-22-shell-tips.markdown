@@ -163,7 +163,13 @@ $  [ "hey" -eq "hey" ]; echo $?
 
 ```
 
+### findで抽出したファイルをreadコマンドで1行ずつ処理する
+
+```
+find application -type f -name "*.ini" | while read LINE; do wc -l ${LINE}; done;
+```
+
 ## 参考リンク
 
-http://doi-t.hatenablog.com/entry/2013/12/08/161929
-http://shellscript.sunone.me/if_and_test.html#数値の比較:ed775c34e441eb16a91481d087cc1a74
+* [シェル変数のデフォルト値を設定する、未初期化時にエラーメッセージを出力してスクリプトを強制終了する - 百日半狂乱](http://doi-t.hatenablog.com/entry/2013/12/08/161929)
+* [if 文と test コマンド - UNIX & Linux コマンド・シェルスクリプト リファレンス](http://shellscript.sunone.me/if_and_test.html#数値の比較:ed775c34e441eb16a91481d087cc1a74)
