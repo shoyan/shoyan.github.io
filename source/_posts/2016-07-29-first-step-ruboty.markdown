@@ -129,3 +129,5 @@ Type `exit` or `quit` to end the session.
 bot名のprefixがなくても反応していることが確認できます。
 
 次回はSlackと連携させる方法を紹介します。
+
+* [Botsインテグレーションを使って手軽にRubotyをSlackで動かす](/blog/2016/08/02/ruboty-and-slack/)
