@@ -34,7 +34,7 @@ NHKのラジオ英会話(アプリ版)を聞きながら15分歩く。
 ### 寝る前
 
 データベース3000基本英単語・熟語を30分。
-発音とリーディングをする。
+発音とリスニングをする。
 
 <iframe src="https://rcm-fe.amazon-adsystem.com/e/cm?t=syoyama-22&o=9&p=8&l=as1&asins=4342012952&ref=tf_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1=000000&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
 
