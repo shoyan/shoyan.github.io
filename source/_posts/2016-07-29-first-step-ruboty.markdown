@@ -3,7 +3,7 @@ layout: post
 title: "Rubotyのインストールとプラグインチュートリアル"
 date: 2016-07-29 13:55:33 +0900
 comments: true
-categories: ruby gem
+categories: ruby gem chatops
 description: "RubotyはhubotクローンでRubyで書けるbotです。Rubotyのインストールとプラグインの作成方法を紹介します。"
 ---
 
