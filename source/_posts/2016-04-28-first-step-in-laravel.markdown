@@ -1,22 +1,16 @@
 ---
 layout: post
-title: "Laravelのインストールと動かすまで"
+title: "LaravelをMacにインストールして起動する手順"
 date: 2016-04-28 13:36:36 +0900
 comments: true
 categories: php laravel
+description: "PHPで人気のフレームワーク、Laravelのチュートリアルです。このチュートリアルではMacでLaravelを起動する手順を紹介します。冗長な説明を除きLaravelを動かすために重要な部分のみ解説することでスピーディにLaravelを動作できるようにしています。"
 ---
 
-PHPで人気のフレームワーク、[Laravel](https://laravel.com/)を試してみました。
+PHPで人気のフレームワーク、[Laravel](https://laravel.com/)を手元のPCにインストールして起動するチュートリアルです。
+冗長な説明を除きLaravelを動かすために重要な部分のみ解説することでスピーディにLaravelを動作できるようにしています。
 
-## 試した感想
-
-Railsと似ているので、Railsでの開発経験があればわりとすんなりと入れそうな印象です。  
-個人的に app/配下にモデルを突っ込むと荒れそうな雰囲気を感じます(modelsにいれたい...)。  
-あと、viewを格納するresourcesがapp配下でなくて、トップディレクトリに位置してるのはなんでなんだろうなぁという印象。  
-今回は動かすところまでしかやっていないので、基本的なCRUDの実装まではしていません。
-
-## やったこと
-### インストール
+### Laravelのインストール
 
 まずはcomposerでlaravelコマンドをインストールします。
 
@@ -95,7 +89,6 @@ Available commands:
 ```
 
 `laravel new application_name` でインストールします。  
-Railsっぽいですねー。
 
 
 ```
@@ -104,7 +97,7 @@ Crafting application...
 
 ```
 
-以下の構成で作成されていました。
+以下の構成で作成されています。
 
 
 ```
@@ -133,7 +126,7 @@ blog
 ## 設定
 
 設定情報は`config`ディレクトリに保存します。
-今回は動かすだけなので設定は変更しません。
+今回は設定を変更しません。
 
 ## データベースを準備する
 ### データベースのマイグレーション
@@ -362,6 +355,10 @@ Laravel development server started on http://localhost:8000/
 `http://localhost:8000/` にブラウザでアクセスします。
 
 Taskという文字とフォームが表示されれば成功です！
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4844339451&linkId=3602fd744613779ea0da0a7b2834983c"></iframe>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4774173134&linkId=8a4652f77ca59ebb2ab2adf95f685aef"></iframe>
 
 ### 参考文献
 
