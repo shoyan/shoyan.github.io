@@ -67,6 +67,23 @@ NATの内側にいるクライアントPCには外部からの通信が届かな
 
 ポートフォワーディングは静的IPマスカレードとも呼ばれる。
 
+
+## おすすめの書籍
+
+ネットワークについては様々な書籍があるが私は以下の書籍をおすすめする。
+
+### ネットワークはなぜつながるのか
+
+ネットワークの概要についてわかりやすく解説してある。初学者にお勧め。
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4822283119&linkId=f0180a64f0c324f0f26456536a0feed3"></iframe>
+
+### マスタリングTCP/IP 入門編
+
+ネットワークの理論についてわかりやすく解説してある。知人のネットワークの専門家もこの書籍をおすすめしていた。
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4274068765&linkId=394f3cca6b2bd67ea0333de41b8980c5"></iframe>
+
 ## 参考文献
 
 * 1.2.4 NAT・NAPTとIPアドレス
