@@ -7,6 +7,8 @@ categories: 数学
 description: "とあることから、30歳にして数学を学び始めました。いまは毎日楽しく数学の書籍を読んだり方程式を解いたりしています。本記事では、僕と同じようにもう一度数学を学びたいなと思っている人向けに、数学の魅力を再発見する方法を紹介します。"
 ---
 
+![math-image](/images/math-1547018_640.jpg)
+
 この記事は[Math Advent Calendar 2015](http://www.adventar.org/calendars/852) 2日目の記事です。  
 前回の記事は515hikaruさんの[Math Advent Calendar 2015 一日目 - 515 ひかるのブログ 日常編](http://hikaru515.hatenablog.com/entry/2015/12/01/000000)です。  
 
