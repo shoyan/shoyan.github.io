@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Twitterカードをサイトに導入する手順"
+title: "Twitterカードをサイトに設定する手順"
 date: 2017-02-25 22:50:20 +0900
 comments: true
 categories: ブログ作成
