@@ -1,5 +1,9 @@
 <style>
-.recommend {
+.recommend-box {
+  margin: 10px 0;
+}
+.recommend-box img {
+  padding: 10px 0;
   float: left;
   border-right: 1px solid #999;
   max-width: 140px;
@@ -9,33 +13,46 @@
 .clearfix {
   overflow: auto;
 }
-.box {
-  border: 1px solid #999;
+.recommend-box li {
+  border-right: 1px solid #999;
+  border-left: 1px solid #999;
+  border-bottom: 1px solid #999;
   list-style-type: none;
 }
-.box h3{
+.recommend-box li:first-child {
+  border-top: 1px solid #999;
+}
+.recommend-box h3 {
   margin-top: 10px;
   margin-right: 10px;
   margin-left: 170px;
     min-width: 100px;
 }
 </style>
-<ul>
-  <li class="box clearfix">
-  <a href="/blog/2015/12/01/mathematics-of-advent-calendar/"><img class="recommend" src="/images/math-1547018_640.jpg"/></a>
-    <h3><a href="/blog/2015/12/01/mathematics-of-advent-calendar/">30歳から始める数学</a></h3>
-  </li>
-  <li class="box clearfix">
-    <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">
-      <img class="recommend" src="/images/logo.png"/>
+<ul class="recommend-box">
+  <li class="clearfix">
+    <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">
+      <img src="/images/math-1547018_640.jpg"/>
     </a>
-    <h3><a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">幸せな子育てとエンジニアライフ</a></h3>
+    <h3>
+      <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">30歳から始める数学</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">
+      <img src="/images/logo.png"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">幸せな子育てとエンジニアライフ</a>
+    </h3>
   </li>
   </li>
-  <li class="box clearfix">
+  <li class="clearfix">
     <a href="/blog/2016/03/17/php-coding-rule/">
-      <img class="recommend" src="/images/logo.png"/>
+      <img src="/images/logo.png"/>
     <a/>
-    <h3><a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a></h3>
+    <h3>
+      <a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a>
+    </h3>
   </li>
 </ul>
