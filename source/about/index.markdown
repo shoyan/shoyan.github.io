@@ -7,19 +7,15 @@ sharing: true
 footer: true
 ---
 
-![Shohei Yamasaki](https://pbs.twimg.com/profile_images/425421707248029696/iktSGdwY_400x400.png)
-
 Shohei Yamasaki. Software Engineer. Fukuoka, Japan.
 
 ### Links
 
-* [Home](http://yamasaki.blue)
 * [Github](https://github.com/shoyan)
-* [Twitter](https://twitter.com/shoyan__)
+* [Twitter](https://twitter.com/sinn_shoyan)
 * [Facebook](https://www.facebook.com/shohei.yamasaki0406)
 * [Instagram](https://instagram.com/shoheiyamasaki/)
 * [SlideShare](https://speakerdeck.com/shoyan)
-* [Blog](http://blog.yamasaki.blue)
 
 ### Other
 
