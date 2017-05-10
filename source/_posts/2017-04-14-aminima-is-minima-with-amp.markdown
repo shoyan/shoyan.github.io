@@ -134,4 +134,4 @@ $ jekyll server
 
 ブラウザで http://localhost:4000 にアクセスすればサイトが表示されます。
 
-動かない部分や不明な点はコメント欄や[Twiter](https://twitter.com/sinn_shoyan)などでお気軽にご連絡ください！
+動かない部分や不明な点はコメント欄や[Twitter](https://twitter.com/sinn_shoyan)などでお気軽にご連絡ください！
