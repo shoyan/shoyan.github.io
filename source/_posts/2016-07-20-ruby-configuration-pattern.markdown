@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "オブジェクトの設定情報を保持するパターンの紹介"
+title: "[Ruby]オブジェクトの設定情報を保持するパターンの紹介"
 date: 2016-07-20 18:42:04 +0900
 comments: true
 categories: ruby

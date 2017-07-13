@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CIでPHPのLINTを自動化する"
+title: "PHPの構文チェックを自動で行う方法"
 date: 2016-08-08 13:30:30 +0900
 comments: true
 categories: php

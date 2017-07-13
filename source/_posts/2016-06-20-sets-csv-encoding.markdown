@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CSVファイルのエンコードを指定する"
+title: "[Ruby]CSVファイルのエンコードをsjisに指定する"
 date: 2016-06-20 13:23:28 +0900
 comments: true
 categories: ruby

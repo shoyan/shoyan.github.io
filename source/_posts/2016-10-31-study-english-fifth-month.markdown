@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "英語の勉強をはじめて５ヶ月目の記録"
+title: "StudyPlusを使った英語の勉強をはじめて５ヶ月目の記録"
 date: 2016-10-31 17:17:19 +0900
 comments: true
 categories: 英語

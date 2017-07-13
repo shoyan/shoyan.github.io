@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kindle Unlimitedで図書館を手に入れよう"
+title: "Kindle Unlimitedの冊数は図書館並みだった"
 date: 2016-10-17 17:06:47 +0900
 comments: true
 categories: lifehack

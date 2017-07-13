@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "私が小説を読み始めた理由"
+title: "高任和夫の「起業前夜」を読了した"
 date: 2016-09-07 18:30:13 +0900
 comments: true
 categories: 

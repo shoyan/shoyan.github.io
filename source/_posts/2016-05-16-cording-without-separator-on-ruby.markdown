@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Rubyでセパレーターを意識せずにコーディングする方法"
+title: "Rubyでスラッシュを意識せずにコーディングする方法"
 date: 2016-05-16 13:25:01 +0900
 comments: true
 categories: ruby

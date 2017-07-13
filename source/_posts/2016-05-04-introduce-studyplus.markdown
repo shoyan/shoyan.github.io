@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "勉強が楽しく続くようになるStudyplus"
+title: "勉強が楽しく続くようになるアプリ Studyplusのいいところ"
 date: 2016-05-04 22:12:07 +0900
 comments: true
 categories: 英語
