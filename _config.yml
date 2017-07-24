@@ -7,7 +7,7 @@ title: SHOYAN BLOG
 subtitle: I am a pragmatic programmer.
 author: Shohei Yamasaki
 simple_search: https://www.google.com/search
-description: shoyan(Shohei Yamasaki)のブログです。Ruby、Rails、Sinatra、PHPやWebの技術について調べたことをまとめています。
+description: 当サイトSHOYAN BLOGは、Webアプリケーションエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
