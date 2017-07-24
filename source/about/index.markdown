@@ -1,13 +1,15 @@
 ---
 layout: page
-title: "about"
+title: "このサイトについて"
 date: 2014-01-25 10:25
 comments: true
 sharing: true
 footer: true
 ---
 
-Shohei Yamasaki. Software Engineer. Fukuoka, Japan.
+### SHOYAN BLOG とは？
+
+当サイトSHOYAN BLOGは、Webアプリケーションエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。
 
 ### Links
 
@@ -17,12 +19,12 @@ Shohei Yamasaki. Software Engineer. Fukuoka, Japan.
 * [Instagram](https://instagram.com/shoheiyamasaki/)
 * [SlideShare](https://speakerdeck.com/shoyan)
 
-### Other
+### Amazon.co.jpアソシエイトに関するプライバシーポリシー
 
-* [BalloonBros](http://balloonbros.cc/)
-* [糸島芸農](https://www.facebook.com/%E7%B3%B8%E5%B3%B6%E8%8A%B8%E8%BE%B2-143252965796552/timeline/)
-* [Ruby on Rails Link](http://www.rubyonrails.link/)
+当サイトSHOYAN BLOGは、amazon.co.jp を宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイト宣伝プログラムである、Amazonアソシエイト・プログラムの参加者です。
 
 ### Contact
 
-<mailto:yamasaki0406+contact@gmail.com>
+ご質問、ご相談等、お気軽にご連絡ください。次のメールアドレス、もしくはSNSまでお願いします。
+
+<mailto:yamasaki0406@gmail.com>
