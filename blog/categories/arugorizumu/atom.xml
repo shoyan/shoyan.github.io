@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: アルゴリズム | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/arugorizumu/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ハフマン符号化のアルゴリズムとエントロピーを学ぶ]]></title>
+    <link href="http://48n.jp/blog/2016/06/30/learn-huffman-coding-and-entropy/"/>
+    <updated>2016-06-30T10:23:38+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/30/learn-huffman-coding-and-entropy</id>
+    <content type="html"><![CDATA[<p>ハフマン符号とは1952年にデビッド・ハフマンという人が考え出したアルゴリズムです。  <br />
+文字列をはじめとするデータの可逆圧縮に使われます。  <br />
+よく使われる文字には短いビットを、あまり使われない文字には長いビットを割り当てることで全体としてサイズが削減されることを狙ったアルゴリズムです。</p>
+
+<h2 id="符号化の原理">符号化の原理</h2>
+
+<p>実際にアルゴリズムを確認していきます。</p>
+
+<p><code>DAEBCBACBBBC</code> という12文字のメッセージをハフマン符号化します。</p>
+
+<p>このメッセージでは、ABCDEという5種類の文字が使われているため、それぞれの文字を固有のビット長で表す場合は、3ビットが必要です。</p>
+
+<pre><code>A: 000
+B: 001
+C: 010
+D: 011
+E: 100
+</code></pre>
+
+<p>上記の対応表をもとに、文字列をビットに変換します。</p>
+
+<pre><code>DAEBCBACBBBC
+011 000 100 001 010 001 000 010 001 001 001 010
+</code></pre>
+
+<p>1文字3ビットで12文字あることから全体のビット数は36ビットとなります。</p>
+
+<p>ここで、よく出てくる文字には短いビットを、あまりでてこない文字には短いビットを与えます。  <br />
+対応表を以下のように作ります。</p>
+
+<pre><code>A: 110
+B: 0
+C: 10
+D: 1110
+E: 1111
+</code></pre>
+
+<p>メッセージ全体では以下のようになります。</p>
+
+<pre><code>DAEBCBACBBBC
+1110 110 1111 0 10 0 110 10 0 0 0 10
+</code></pre>
+
+<p>全体のビット数は25ビットとなり、固定長の方式と比べると70%ほどのデータ量に抑えられています。</p>
+
+<h3 id="対応表をつくる">対応表をつくる</h3>
+
+<p>以下の手順で文字とビット列の対応表をつくります。</p>
+
+<ul>
+  <li>データに出現する文字の出現回数を求める</li>
+  <li>それをもとにハフマン木とよばれる二分木(バイナリツリー)を構成する</li>
+</ul>
+
+<p>ハフマン木の構成の仕方は次のアルゴリズムとなります。</p>
+
+<ol>
+  <li>各記号に対応する葉を作成する。この葉には、記号の出現頻度をあらかじめ格納しておく。</li>
+  <li>出現頻度の最も少ない2つの葉をとりだす。取り出した2つの葉を格納する節をつくり、左右の枝に記号0と1を割り当てる。この節には2つの葉の出現頻度を足した値を格納し、新しい葉として追加する</li>
+  <li>葉が1つになるまで手順2を繰り返す。</li>
+</ol>
+
+<p><code>DAEBCBACBBBC</code> を題材に、ハフマン木を作ります。</p>
+
+<h3 id="1-各記号に対応する葉を作成する">1. 各記号に対応する葉を作成する</h3>
+
+<p>まずは、各記号に対応する葉を作成し、データの出現回数をあらかじめ格納しておきます。</p>
+
+<pre><code>{"B"=&gt;5, "C"=&gt;3, "A"=&gt;2, "D"=&gt;1, "E"=&gt;1}
+</code></pre>
+
+<h3 id="2出現頻度が少ない2つの葉をとりだす">2.出現頻度が少ない2つの葉をとりだす</h3>
+
+<p>DとEが1番小さいので、この2つを取り出します。  <br />
+そして、DとEの葉を足し合わせた節を1つ作ります。  <br />
+この手順を最終的に葉が1つになるまで繰り返します。</p>
+
+<h3 id="ハフマン木が作られる工程">ハフマン木が作られる工程</h3>
+
+<script async="" class="speakerdeck-embed" data-id="cf8ab792cb9742cdb5e492dc98c2931b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p><code>DAEBCBACBBBC</code> を作成した対応表で符号化します。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>文字</td>
+      <td>個数</td>
+      <td>符号</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>5</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>3</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>2</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>1</td>
+      <td>1110</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>1</td>
+      <td>1111</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="データ圧縮アルゴリズムについて">データ圧縮アルゴリズムについて</h2>
+
+<p>一般的にデータ圧縮アルゴリズムは「モデル化」と「符号化」の2つにわけて考えることができます。  <br />
+「モデル化」は入力された記号(データ)から各記号の出現確率を求めます。  <br />
+「符号化」は出現確率に基づいて符号語を割り当て、入力されたデータを各符号語に変換して出力します。  <br />
+モデル化についてはいろいろな方法がありますが、ハフマン符号のように記号の出現確率を求めそれに基づいて符号語を割り当てるモデルを「無記憶情報源モデル」といいます。  <br />
+「情報源」は記号を生成する基となるデータのことです。  <br />
+情報源が記号を生成するとき、以前に生成した記号との間に関連性がないことを「無記憶」といいます。  <br />
+記号aの次は記号bが生成されるといった関係性はなく、確率でのみ記号が作成されるということです。</p>
+
+<p>データ圧縮アルゴリズムを評価する場合、圧縮率のほかに「平均符号長」という尺度があります。  <br />
+これは、符号化された記号列のビット長を入力された記号数で割った値として定義されます。</p>
+
+<p>たとえば <code>DAEBCBACBBBC</code> をハフマン符号化すると<code>1110110111101001101000010</code>となります。  <br />
+符号化された記号列のビット長(1110110111101001101000010)を入力された記号数(DAEBCBACBBBC)で割ると平均符号長は 25 / 12 = 2.0833333 となります。</p>
+
+<p>無記憶情報源モデルの場合、各記号 <script type="math/tex">a_i</script> の出現確率 <script type="math/tex">p(a_i)</script> がわかると、次の式で平均符号長の下限値を求めることができます。</p>
+
+<script type="math/tex; mode=display">H=-\sum_{i=1}^n p(a_i) \log _2 p(a_i)</script>
+
+<p><script type="math/tex">H</script> を平均情報量、またはエントロピー(Entropy)と呼びます。</p>
+
+<p>情報源符号化定理によると、平均符号長はエントロピーより短くすることができません。</p>
+
+<h3 id="情報源符号化定理">情報源符号化定理</h3>
+<blockquote>
+  <p>意復号可能な平均符号長 L は、無記憶情報源のエントロピー H よりも小さくすることができない。すなわち不等式 H &lt;= L が成り立つ。また、平均符号長 L が H &lt;= L &lt; H + 1 を満足する瞬時に復号可能な符号が構成できる。</p>
+</blockquote>
+
+<p>先ほどの記号列のエントロピーを求めてみます。</p>
+
+<pre><code>記号列: DAEBCBACBBBC
+記号: 確率: -p(ai) / log2 p(ai)
+------------------------------------------
+D: 1 / 12: 0.29874687506009634
+A: 2 / 12: 0.430827083453526
+E: 1 / 12: 0.29874687506009634
+B: 5 / 12: 0.5262643357640807
+C: 3 / 12: 0.5
+------------------------------------------
+エントロピー = 2.054585169337799
+12 * 2.054585169337799 = 24.65502203205359 bit
+</code></pre>
+
+<p>したがって、この記号列では平均符号長を 2.05 ビット以下にすることはできません。  <br />
+いいかえると、この記号列を表すには少なくても 12 * 2.054585169337799 = 24.65502203205359 ビット以上が必要になる、ということです。</p>
+
+<h3 id="エントロピーの算出コード">エントロピーの算出コード</h3>
+
+<p>エントロピーを算出するコードをRubyで書きました。</p>
+
+<script src="https://gist.github.com/shoyan/cfa5528ccd9388eee25b2e120c4c452b.js"></script>
+
+<p>以下のように使います。</p>
+
+<pre><code>$ ./entropy file.txt
+2.054585169337799
+</code></pre>
+
+<p>文字列を渡す場合はパイプで繋ぎます。</p>
+
+<pre><code>$ echo "DAEBCBACBBBC" | ./entropy
+2.054585169337799
+</code></pre>
+
+<p>また、 <code>-v</code> オプションで詳細を表示できます。</p>
+
+<pre><code>$ ./entropy -v file.txt
+記号: 確率 : 値
+D: 1 / 12: 0.29874687506009634
+A: 2 / 12: 0.430827083453526
+E: 1 / 12: 0.29874687506009634
+B: 5 / 12: 0.5262643357640807
+C: 3 / 12: 0.5
+
+サイズ エントロピー 下限値
+12 2.054585169337799 3
+</code></pre>
+
+<p>ファイルサイズ * エントロピー で圧縮の下限値を計算することができます。  <br />
+上記の場合は3バイトよりも圧縮することはできないということです。</p>
+
+<p>ただし、この結果は無記憶情報源モデルの場合であり、モデル化によってエントロピーの値は異なることに注意してください。エントロピーをより小さくするモデルを作成することがでれきば、これよりも高い圧縮率を達成することができます。</p>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://www.geocities.jp/m_hiroi/light/pyalgo31.html">Algorithms with Python / シャノン・ファノ符号とハフマン符号</a></li>
+  <li><a href="http://fussy.web.fc2.com/algo/compress3_huffman.htm">圧縮アルゴリズム (3) ハフマン符号化 - 静的ハフマン圧縮</a></li>
+  <li><a href="http://www.infonet.co.jp/ueyama/ip/concept/entropy.html">平均情報量／エントロピー</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[base64エンコードのアルゴリズムをRubyで実装する]]></title>
+    <link href="http://48n.jp/blog/2016/06/13/learn-base64-encode/"/>
+    <updated>2016-06-13T14:08:03+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/13/learn-base64-encode</id>
+    <content type="html"><![CDATA[<p>Base64とは英数字、記号を用いてマルチバイト文字やバイナリデータ(画像など)を扱うためのエンコード方式です。  <br />
+具体的には<code>A–Z, a–z, 0–9</code> までの62文字と、記号2つ (<code>+</code>,<code>/</code>)、さらにパディング（余った部分を詰める）のための記号として <code>=</code> が用いられます。  <br />
+7ビットの文字コードしか扱うことができない電子メールにおいてよく利用されています。</p>
+
+<h2 id="変換アルゴリズム">変換アルゴリズム</h2>
+
+<p>変換アルゴリズムは以下となります。</p>
+
+<ol>
+  <li>元データを6ビットずつに分割する(6ビットに満たない部分は0を追加して6ビットにする)。</li>
+  <li>各6ビットの値を変換表を使って4文字ずつに変換する(4文字に満たない部分は<code>=</code>記号を使って4文字にする)。</li>
+</ol>
+
+<h2 id="変換例">変換例</h2>
+
+<h3 id="1-元データ">1. 元データ</h3>
+
+<p>文字列: “ABCDEFG”  <br />
+2進数に変換する: “0100 0001 0100 0010 0100 0011 0100 0100 0100 0101 0100 0110 0100 0111”</p>
+
+<p>rubyでのサンプルコード</p>
+
+<pre><code class="language-ruby">"ABCDEFG".unpack("B*").pop.scan(/.{1,4}/).join(" ")
+
+</code></pre>
+
+<h3 id="2-6ビットずつに分割">2. 6ビットずつに分割</h3>
+
+<p>“010000 010100 001001 000011 010001 000100 010101 000110 010001 11”</p>
+
+<pre><code>"ABCDEFG".unpack("B*").pop.scan(/.{1,6}/).join(" ")
+
+</code></pre>
+
+<h3 id="3-2ビット余るので4ビット分0を追加して6ビットにする">3. 2ビット余るので、4ビット分0を追加して6ビットにする</h3>
+
+<p>“010000 010100 001001 000011 010001 000100 010101 000110 010001 110000”</p>
+
+<pre><code>list = "ABCDEFG".unpack("B*").pop.scan(/.{1,6}/).join(" ").split.map { |s| sprintf("%-06s", s).gsub(" ", "0")}.join(" ")
+
+</code></pre>
+
+<h3 id="4-変換表により4文字ずつ変換">4. 変換表により、4文字ずつ変換</h3>
+
+<p>“QUJD”, “REVG”, “Rw”</p>
+
+<pre><code># 変換表を作成する
+keys = (0..63).map {|m| sprintf("%06s", m.to_s(2)).gsub(" ", "0")}
+values = [('A'..'Z'), ('a'..'z'), ('0'..'9'), ['+', '/']].map { |a| a.to_a }.flatten
+base64_table = Hash[[keys, values].transpose]
+
+base64_list = list.map {|a| base64_table[a]}.join.scan(/.{1,4}/)
+=&gt; ["QUJD", "REVG", "Rw"]
+
+</code></pre>
+
+<h3 id="5-2文字余るので2文字分--記号を追加して4文字にする">5. 2文字余るので、2文字分 = 記号を追加して4文字にする</h3>
+
+<pre><code>base64_list.map {|s| sprintf("%-4s", s).gsub(" ", "=")}
+
+</code></pre>
+
+<h3 id="6-base64文字列">6. Base64文字列</h3>
+
+<p>“QUJDREVGRw==”</p>
+
+<pre><code>base64_str.scan(/.{1,4}/).map {|s| sprintf("%-4s", s).gsub(" ", "=")}.join
+=&gt; "QUJDREVGRw=="
+
+</code></pre>
+
+<h2 id="簡易的なbase64_decodeメソッド">簡易的なbase64_decodeメソッド</h2>
+
+<p>今までのロジックをメソッドにまとめて簡易的なbase64_decodeメソッドを作成しました。</p>
+
+<pre><code>class Base64
+  def self.base64_encode(str)
+    # 変換表を作成する
+    keys = (0..63).map {|m| sprintf("%06s", m.to_s(2)).gsub(" ", "0")}
+    values = [('A'..'Z'), ('a'..'z'), ('0'..'9'), ['+', '/']].map { |a| a.to_a }.flatten
+    base64_table = Hash[[keys, values].transpose]
+
+    binary = str.unpack("B*").pop.scan(/.{1,6}/).join(" ").split.map { |s| sprintf("%-06s", s).gsub(" ", "0") }
+    base64_list = binary.map {|a| base64_table[a]}.join.scan(/.{1,4}/)
+    base64_list.map {|s| sprintf("%-4s", s).gsub(" ", "=")}.join
+  end
+end
+
+p Base64.base64_encode("ABCDEFG")
+=&gt; "QUJDREVGRw=="
+
+</code></pre>
+
+<p>RubyのBase64ライブラリでencodeした値と比べてみましょう。</p>
+
+<pre><code>require 'base64'
+Base64.encode64("ABCDEFG")
+=&gt; "QUJDREVGRw==\n"
+
+</code></pre>
+
+<p>Rubyのencode64は最後に改行が入るようですが、encodeされた値は同じですね！</p>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="https://ja.wikipedia.org/wiki/Base64Base64">Base64 - Wikipedia</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[先週月曜日の日付を取得するアルゴリズム]]></title>
+    <link href="http://48n.jp/blog/2016/06/09/calculate-the-date-of-the-last-week-monday/"/>
+    <updated>2016-06-09T14:04:17+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/09/calculate-the-date-of-the-last-week-monday</id>
+    <content type="html"><![CDATA[<h2 id="先週の月曜日を求めるアルゴリズム">先週の月曜日を求めるアルゴリズム</h2>
+
+<ul>
+  <li>先週(7日前)が月曜日である場合はその日付を返す</li>
+  <li>月曜日でない場合
+    <ul>
+      <li>月曜日より前であれば日付を1日たす</li>
+      <li>月曜日より後であれば日付を1日ひく</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="rubyで実装">Rubyで実装</h3>
+
+<pre><code class="language-ruby">def last_monday(date = Date.today - 7)
+  return date if date.monday?
+  if date.wday &lt; 1
+    date += 1
+  else
+    date -= 1
+  end
+  last_monday(date)
+end
+
+</code></pre>
+
+<h3 id="先週の金曜日を求める場合">先週の金曜日を求める場合</h3>
+
+<pre><code class="language-ruby">def last_friday(date = Date.today - 7)
+  return date if date.friday?
+  if date.wday &lt; 5
+    date += 1
+  else
+    date -= 1
+  end
+  last_friday(date)
+end
+
+</code></pre>
+
+<h2 id="次の月曜日の日付を求めるアルゴリズム">次の月曜日の日付を求めるアルゴリズム</h2>
+
+<ul>
+  <li>明日が月曜日かどうか
+    <ul>
+      <li>月曜日であればその日を返す</li>
+      <li>月曜日でなければ1日たす</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="rubyで実装-1">Rubyで実装</h3>
+
+<pre><code class="language-ruby">def next_monday(date = Date.today + 1)
+  return date if date.monday?
+  next_monday(date + 1)
+end
+
+</code></pre>
+
+<h2 id="前回の月曜日の日付を求めるアルゴリズム">前回の月曜日の日付を求めるアルゴリズム</h2>
+
+<ul>
+  <li>昨日が月曜日かどうか
+    <ul>
+      <li>月曜日であればその日を返す</li>
+      <li>月曜日でなければ1日ひく</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="rubyで実装-2">Rubyで実装</h3>
+
+<pre><code class="language-ruby">def prev_monday(date = Date.today - 1)
+  return date if date.monday?
+  prev_monday(date - 1)
+end
+
+</code></pre>
+
+<h3 id="実行結果">実行結果</h3>
+
+<pre><code>puts Date.today.strftime("%Y-%m-%d (%a)")
+=&gt; 2016-06-09 (Thu)
+puts prev_monday.strftime("%Y-%m-%d (%a)")
+=&gt; 2016-06-06 (Mon)
+puts next_monday.strftime("%Y-%m-%d (%a)")
+=&gt; 2016-06-13 (Mon)
+puts last_monday.strftime("%Y-%m-%d (%a)")
+=&gt; 2016-05-30 (Mon)
+puts last_friday.strftime("%Y-%m-%d (%a)")
+=&gt; 2016-06-03 (Fri)
+
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

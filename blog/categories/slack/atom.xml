@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Slack | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/slack/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[天気予報をSlackに通知する on Heroku]]></title>
+    <link href="http://48n.jp/blog/2015/10/06/weather-notify-slack-on-heroku/"/>
+    <updated>2015-10-06T16:12:17+09:00</updated>
+    <id>http://48n.jp/blog/2015/10/06/weather-notify-slack-on-heroku</id>
+    <content type="html"><![CDATA[<p><a href="https://twitter.com/keita_kawamoto">@keita_kawamoto</a>が天気予報を見ずに出社して、途中で雨に降られて困っていたので天気予報通知をつくってみました。  <br />
+Herokuでスケジューラーに登録してSlackに通知するようにしています。</p>
+
+<p><img src="/images/weather-notify-slack.png" alt="weather-nitify-slack" /></p>
+
+<p><a href="https://github.com/shoyan/slack-weather-notifier">ソースコード</a>は公開しているので参考にどうぞ。</p>
+
+<h2 id="天気情報を取得する">天気情報を取得する</h2>
+
+<p>天気情報の取得は<a href="http://weather.livedoor.com/weather_hacks/webservice">weather_hacks</a>のAPIを利用しました。  <br />
+APIはjsonでレスポンスが返されます。</p>
+
+<p>以下、サンプルコードです。</p>
+
+<p>slack-weather-notifier.rb</p>
+
+<pre><code class="language-ruby">require 'json'
+require 'open-uri'
+
+uri = 'http://weather.livedoor.com/forecast/webservice/json/v1?city=400010'
+
+res     = JSON.load(open(uri).read)
+title   = res['title']
+link    = res['link']
+weather = res['forecasts'].first
+message = "[#{weather['date']}の#{title}](#{link})は「#{weather['telop']}」です。"
+puts message
+
+</code></pre>
+
+<p>ターミナルで<code>ruby slack-weather-notifier.rb</code> と実行すると、今日の天気の情報が表示されます。</p>
+
+<h2 id="slackに通知する">Slackに通知する</h2>
+
+<p>天気情報の取得ができたので、次はSlackに通知します。  <br />
+Slackの通知にはIncoming WebHooksを使います。  <br />
+Incoming WebHooksを使うには、Webhook URLの発行が必要です。</p>
+
+<p>Slackの設定画面にアクセスします。  <br />
+<code>https://example.slack.com/services/new/incoming-webhook</code>  <br />
+<code>example.slack.com</code>は自分のSlack Teamのドメインをいれてください。</p>
+
+<p>通知先のチャンネルを選んで、Add Incoming Webhooks Integrationのボタンを押すと発行されます。</p>
+
+<p><img src="/images/slack-setting-example.png" alt="slack-setting-example.png" /></p>
+
+<p>設定画面でWebhook URLが確認できます。  <br />
+このURLにPOSTすると、Slackに通知できるようになります。</p>
+
+<p>Customize NameやCustomize Iconを変更すると、通知するbotの名前やアイコンが変更できます。</p>
+
+<p><img src="/images/slack-setting-example2.png" alt="slack-setting-example2.png" /></p>
+
+<p>では、通知をしてみましょう。  <br />
+通知は<a href="https://github.com/shoyan/slack-incoming-webhooks">slack-incoming-webhooks</a>というgemを使うと簡単にできるので、今回はそれを使います。</p>
+
+<h3 id="slack-incoming-webhooks-をインストール">slack-incoming-webhooks をインストール</h3>
+
+<pre><code>$ gem install slack-incoming-webhooks
+
+</code></pre>
+
+<p>先ほどのスクリプトにslack通知の設定を追加します。</p>
+
+<pre><code class="language-ruby">require 'json'
+require 'open-uri'
+require 'slack/incoming/webhooks'
+
+uri = 'http://weather.livedoor.com/forecast/webservice/json/v1?city=400010'
+
+res     = JSON.load(open(uri).read)
+title   = res['title']
+link    = res['link']
+weather = res['forecasts'].first
+
+slack = Slack::Incoming::Webhooks.new "webhook_url"
+slack.post "&lt;#{link}|#{weather['date']}の#{title}&gt;は「#{weather['telop']}」です。"
+
+</code></pre>
+
+<p>ターミナルで<code>ruby slack-weather-notifier.rb</code> と実行してみましょう。  <br />
+Slackに通知されれば成功です。</p>
+
+<h2 id="herokuでappを作成">HerokuでAppを作成</h2>
+<p>さて、天気情報とSlack通知ができるようになりました。  <br />
+これが定期的に実行できれば便利ですね。</p>
+
+<p>Herokuを使えば無料でスクリプトを定期実行できます。  <br />
+Herokuでアカウントを作成します。  <br />
+https://signup.heroku.com/</p>
+
+<p>アカウント登録をしたら、Toolbeltをインストールします。  <br />
+Toolbeltは、Herokuをコマンドラインから利用できるようになるツールです。  <br />
+https://toolbelt.heroku.com/</p>
+
+<p>次に認証を行います。  <br />
+ターミナルに<code>heroku login</code>とコマンドを入力します。  <br />
+メールアドレスとパスワードが聞かれるので、先ほどHerokuで登録したメールアドレスとパスワードを入力してください。</p>
+
+<h2 id="アプリを作成">アプリを作成</h2>
+<p>アプリケーションを登録しましょう。</p>
+
+<p>Herokuにデプロイするには、Gitを使ってリモートリポジトリへプッシュする必要があるので、Gitの登録を行います。</p>
+
+<p>ここでは、slack-weather-notifierというディレクトリを作成し、そこに先ほどのファイルを作成し、Gitで管理します。</p>
+
+<p>また、Herokuでslack-incoming-webhooks gemを使うためにGemfileでgemを管理します。  <br />
+slack-weather-notifierディレクトリの直下にGemfileを作成します。</p>
+
+<p>Gemfile</p>
+
+<pre><code>source 'https://rubygems.org'
+
+gem 'slack-incoming-webhooks'
+
+</code></pre>
+
+<p>ターミナルで <code>bundle install</code>と実行すると、gemがインストールされ、Gemfile.lockファイルが作成されます。</p>
+
+<p>もし、bundlerをインストールしていない場合は、 <code>gem install bundler</code> でインストールしてください。</p>
+
+<p>以下のような構成になります。</p>
+
+<pre><code>slack-weather-notifier
+├── Gemfile
+├── Gemfile.lock
+└── slack-weather-notifier.rb
+
+</code></pre>
+
+<p>Webhook Urlは外部に公開すべきではないので、環境変数に登録して、それを使うようにします。</p>
+
+<pre><code class="language-ruby">require 'json'
+require 'open-uri'
+require 'slack-incoming-webhooks'
+
+uri = 'http://weather.livedoor.com/forecast/webservice/json/v1?city=400010'
+
+res     = JSON.load(open(uri).read)
+title   = res['title']
+link    = res['link']
+weather = res['forecasts'].first
+
+slack = Slack::Incoming::Webhooks.new ENV['WEBHOOK_URL']
+slack.post "&lt;#{link}|#{weather['date']}の#{title}&gt;は「#{weather['telop']}」です。"
+
+</code></pre>
+
+<p>Gitに登録しましょう。</p>
+
+<pre><code>$ git init
+$ git add .
+$ git commit -m "first commit"
+
+</code></pre>
+
+<p>Herokuにpushします。</p>
+
+<pre><code>$ git push heroku master
+
+</code></pre>
+<p>WEBHOOK URLを登録します。</p>
+
+<pre><code class="language-bash">heroku config:set WEBHOOK_URL=ここにwebhook_urlを入力
+
+</code></pre>
+
+<h2 id="スケジューラーを登録">スケジューラーを登録</h2>
+<h3 id="カード登録">カード登録</h3>
+<p>スケジューラーを利用するにはカード登録が必要です。  <br />
+無料利用枠を超過した場合は料金が発生しますが、数秒で終わるスクリプトなので大丈夫です。</p>
+
+<p>以下でカードを登録できます。  <br />
+https://dashboard.heroku.com/account/billing</p>
+
+<h3 id="スケジューラーを登録-1">スケジューラーを登録</h3>
+<p>カード登録ができたらAdd-onsにスケジューラーを追加します。</p>
+
+<p>以下のコマンドでコンソールから登録できます。</p>
+
+<pre><code>heroku addons:add scheduler:standard
+
+</code></pre>
+
+<p>またはaddonページから登録してください。  <br />
+https://addons.heroku.com/scheduler</p>
+
+<h3 id="スケジュール管理画面を開く">スケジュール管理画面を開く</h3>
+<p><a href="https://heroku-scheduler.herokuapp.com/dashboard">https://heroku-scheduler.herokuapp.com/dashboard</a></p>
+<p>コンソールからも開けます。</p>
+
+<pre><code>$ heroku addons:open scheduler
+
+</code></pre>
+
+<h3 id="スケジューラーの設定">スケジューラーの設定</h3>
+<p>Select an appで登録したアプリケーションを選び ‘Add Standard for free’ のボタンをクリックすると登録できます。  <br />
+登録したら、ダッシュボードのアプリケーションのページのAdd-onsにHeroku Schedulerが表示されています。</p>
+
+<p>クリックすると、設定ページに飛ぶので、コマンドと時間を登録します。  <br />
+ちなみに時間はUTCなので気をつけてください。  <br />
+0:00で登録すると日本時間の9:00に通知されます。</p>
+
+<p><img src="/images/heroku-scheduler.png" alt="heroku-scheduler" /></p>
+
+<p><a href="https://github.com/shoyan/slack-weather-notifier">ソースコード</a>は公開しているので参考にどうぞ。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RubyでSlack通知をする]]></title>
+    <link href="http://48n.jp/blog/2015/09/28/introduce-slack-incoming-webhooks/"/>
+    <updated>2015-09-28T12:15:42+09:00</updated>
+    <id>http://48n.jp/blog/2015/09/28/introduce-slack-incoming-webhooks</id>
+    <content type="html"><![CDATA[<p><a href="https://slack.com/">Slack</a>は使っていますか？  <br />
+僕は会社やプライベートはもっぱらSlackを使っています。</p>
+
+<p>SlackにはAPIが備わっていて、APIを使えばSlack通知が簡単にできます。</p>
+
+<p>今回はRubyでSlackに通知する方法を紹介します。</p>
+
+<p>RubyでSlack通知をするには、以下の作業が必要です。</p>
+
+<ol>
+  <li>webhook urlの発行</li>
+  <li>webhook urlに対してpostする</li>
+</ol>
+
+<h2 id="1-webhook-urlの発行">1. webhook urlの発行</h2>
+<p>まずは、webhook urlを発行します。  <br />
+<code>https://yourteam.slack.com/services/new/incoming-webhook</code> のページで発行できます。  <br />
+Post先のチャンネルを選んで、<code>Add Incoming Webhooks Integration</code>のボタンを押すと発行されます。</p>
+
+<p><img src="/images/slack-setting-example.png" alt="slack-setting-example" /></p>
+
+<p>channelや通知するbotの名前を決めれるので、適当に決めます。</p>
+
+<p><img src="/images/slack-setting-example2.png" alt="slack-setting-example2" /></p>
+
+<p>これでSlack側の準備は完了です。</p>
+
+<h2 id="2-webhook-urlに対してpostする">2. webhook urlに対してpostする</h2>
+<p>webhook urlの発行ができたら、Slackに通知をしてみましょう。</p>
+
+<p>今回、Slack通知には<a href="https://github.com/shoyan/slack-incoming-webhooks" target="_blank">slack-incoming-webhooks</a>というgemを使います。</p>
+
+<h3 id="インストール">インストール</h3>
+<p>インストールは以下のコマンドでできます。</p>
+
+<pre><code>gem install slack-incoming-webhooks
+
+</code></pre>
+
+<h3 id="slackへ通知">Slackへ通知</h3>
+<p>使い方はシンプルです。</p>
+
+<pre><code class="language-ruby">require 'slack/incoming/webhooks'
+
+slack = Slack::Incoming::Webhooks.new "WEBHOOK_URL"
+slack.post "Hello World"
+
+</code></pre>
+
+<p>もし、通知先のチャンネルや通知するユーザーネームを変更したいときは指定できます。</p>
+
+<pre><code class="language-ruby">slack = Slack::Incoming::Webhooks.new "WEBHOOK_URL", channel: '#other-channel', username: 'monkey-bot'
+
+# Direct message
+slack = Slack::Incoming::Webhooks.new "WEBHOOK_URL", channel: '@shoyan'
+
+</code></pre>
+
+<p>アクセサメソッドも用意されています。</p>
+
+<pre><code class="language-ruby">slack.channel = '#other-channel'
+slack.icon_emoji = ':ghost:'
+
+</code></pre>
+
+<h2 id="attachmentsを使う">Attachmentsを使う</h2>
+<p>さて、単純な通知ができたら次はもっとリッチなフォーマットで通知をしてみましょう。  <br />
+それには<a href="https://api.slack.com/docs/attachments">attachments</a>を使います。</p>
+
+<h3 id="example1">Example1</h3>
+
+<p><img src="/images/slack-example.png =500x" alt="slack-example" /></p>
+
+<pre><code class="language-ruby">attachments = [{
+  title: "Ticket #1943: Can't reset my password",
+  title_link: "https://groove.hq/path/to/ticket/1943",
+  text: "Help! I tried to reset my password but nothing happened!",
+  color: "#7CD197"
+}]
+slack.post "New ticket from Andrea Lee", attachments: attachments
+
+</code></pre>
+
+<h3 id="example2">Example2</h3>
+
+<p><img src="/images/slack-example2.png =500x" alt="slack-example2" /></p>
+
+<pre><code class="language-ruby">attachments = [{
+  text: "&lt;https://honeybadger.io/path/to/event/|ReferenceError&gt; - UI is not defined",
+  fields: [
+    {
+      title: "Project",
+      value: "Awesome Project",
+      short: true
+    },
+    {
+      title: "Environment",
+      value: "production",
+      short: true
+    }
+  ],
+  color: "#F35A00"
+}]
+slack.post "", attachments: attachments
+
+</code></pre>
+
+<h3 id="example3">Example3</h3>
+
+<p><img src="/images/slack-example3.png =500x" alt="slack-example3" /></p>
+
+<pre><code class="language-ruby">attachments = [{
+  title: "Network traffic (kb/s)",
+  title_link: "https://datadog.com/path/to/event",
+  text: "How does this look? @slack-ops - Sent by Julie Dodd",
+  image_url: "https://api.slack.com/img/api/attachment_example_datadog.png",
+  color: "#764FA5"
+}]
+slack.post "", attachments: attachments
+
+</code></pre>
+
+<p>いかがでしたでしょうか。  <br />
+今回紹介できなかったオプションもあるので、詳細はSlackの<a href="https://api.slack.com/docs/attachments">attachments</a>のドキュメントを参考にしてください。</p>
+
+<p>では、よいSlack Lifeを！</p>
+]]></content>
+  </entry>
+  
+</feed>

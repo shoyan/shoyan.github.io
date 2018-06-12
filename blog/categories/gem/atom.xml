@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gem | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/gem/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RubyGems.orgに反映させるRakeタスクの紹介]]></title>
+    <link href="http://48n.jp/blog/2016/10/25/introduce-gem-push/"/>
+    <updated>2016-10-25T14:17:29+09:00</updated>
+    <id>http://48n.jp/blog/2016/10/25/introduce-gem-push</id>
+    <content type="html"><![CDATA[<p>Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。<br />
+Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。<br />
+毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。</p>
+
+<pre><code class="language-ruby">require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :default =&gt; :spec
+
+namespace "gem" do
+  desc 'Build a gem package'
+  task :build do
+    sh "gem build your_gem_name.gemspec"
+  end
+
+  desc 'Push a gem package'
+  task :push do
+    Rake::Task["gem:build"].execute
+    sh "gem push your_gem_name-#{YourGemName::VERSION}.gem"
+  end
+end
+</code></pre>
+
+<p>公開する時は以下のタスクを実行すればいい。</p>
+
+<pre><code>$ rake gem:push
+</code></pre>
+
+<p>以下は実際のソースだ。<br />
+参考にしてほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/git_find_committer/blob/master/Rakefile">https://github.com/shoyan/git_find_committer/blob/master/Rakefile</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 4.2.7.1 に更新した後に [DEPRECATION] Last_comment Is Deprecated. が発生した]]></title>
+    <link href="http://48n.jp/blog/2016/08/23/last-comment-is-deprecated/"/>
+    <updated>2016-08-23T13:37:27+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/23/last-comment-is-deprecated</id>
+    <content type="html"><![CDATA[<p>Railsを4.2.7.1にアップデートをしてrspecを実行すると、以下のエラーが発生するようになった。</p>
+
+<pre><code>$ bundle exec rspec spec
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+......................................................................................................
+
+Finished in 2.33 seconds (files took 8.78 seconds to load)
+102 examples, 0 failures
+</code></pre>
+
+<p>grepしてみたところ、rspecで使用していた。</p>
+
+<pre><code>$ hw last_comment vendor/bundle
+vendor/bundle/ruby/2.2.0/gems/rspec-core-3.2.2/lib/rspec/core/rake_task.rb
+84:        desc "Run RSpec code examples" unless ::Rake.application.last_comment
+</code></pre>
+
+<p>rspecをアップデートしたら出なくなった。</p>
+
+<pre><code>$ bundle update rspec-rails
+
+$ bundle exec rspec spec
+......................................................................................................
+
+Finished in 2.33 seconds (files took 8.85 seconds to load)
+102 examples, 0 failures
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Botsインテグレーションを使って手軽にRubotyをSlackで動かす]]></title>
+    <link href="http://48n.jp/blog/2016/08/02/ruboty-and-slack/"/>
+    <updated>2016-08-02T13:40:25+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/02/ruboty-and-slack</id>
+    <content type="html"><![CDATA[<p>前回は<a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a>でRubotyの導入方法を紹介しました。<br />
+今回はRubotyをSlackで動かす方法を紹介します。</p>
+
+<p>RubotyにはSlackアダプターが用意してありますが、新しくユーザーの作成が必要です。<br />
+ユーザーの作成が必要のない、Botsインテグレーションと<a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a>を使ってRubotyをSlackで動かす方法を紹介します。</p>
+
+<h2 id="ruboty-slack_rtmのインストール">ruboty-slack_rtmのインストール</h2>
+
+<p>Gemfileに以下を定義します。</p>
+
+<pre><code>gem "ruboty-slack_rtm"
+</code></pre>
+
+<p><code>bundle install</code> コマンドでインストールします。</p>
+
+<h2 id="slackのbotsインテグレーションを設定する">SlackのBotsインテグレーションを設定する</h2>
+
+<p>Slackの管理画面でBotsインテグレーションを登録します。</p>
+
+<p><img src="/images/bots-integration.png" alt="bots-integration" /></p>
+
+<p>登録するとTokenが発行されるので、そのTokenをSLACK_TOKENという名前で環境変数に設定します。<br />
+Rubotyは dotenv に対応しているので、<code>.env</code> ファイルを作成し、そこにTOKENを登録しておくと便利です。</p>
+
+<p>.env</p>
+
+<pre><code>SLACK_TOKEN=&lt;slack token&gt;
+</code></pre>
+
+<p>Ruboty を起動します。<code>.env</code> ファイルを読み込むように <code>—dotenv</code> オプションをつけて起動します。</p>
+
+<pre><code>bundle exec ruby --dotenv
+</code></pre>
+
+<p>起動すると SlackのRubotyがログインマークに変わります。</p>
+
+<p>あとは、チャンネルにinviteすればSlackでRubotyが使えます！<br />
+ちなみにrubotyではなく、Botsインテグレーションで登録したユーザー名に反応します。</p>
+
+<h3 id="関連記事">関連記事</h3>
+
+<ul>
+  <li><a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[5分でできるRubotyのインストールとプラグインチュートリアル]]></title>
+    <link href="http://48n.jp/blog/2016/07/29/first-step-ruboty/"/>
+    <updated>2016-07-29T13:55:33+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/29/first-step-ruboty</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/r7kamura/ruboty/">Ruboty</a>はhubotクローンでRubyで書けるbotです。<br />
+このチュートリアルではRubotyのインストールとプラグインの作成方法を紹介します。<br />
+冗長な説明をあえて除きRubotyを動かすために重要な部分のみ解説することでスピーディにRubotyを動作できるようにしています。</p>
+
+<h2 id="rubotyをローカルで動かす">Rubotyをローカルで動かす</h2>
+
+<p>以下のコマンドでinstallします。</p>
+
+<pre><code>$ gem install ruboty
+</code></pre>
+
+<p>以下のコマンドでひな形を作成します。<br />
+<code>ruboty/</code> ディレクトリとその配下にGemfileが作成されます。</p>
+
+<pre><code>$ ruboty --generate
+</code></pre>
+
+<p>Rubotyを起動してみます。</p>
+
+<pre><code>$ cd ruboty
+$ bundle install
+$ bundle exec ruboty
+</code></pre>
+
+<p>すると対話型のプロンプトが起動します。</p>
+
+<pre><code>$ bundle exec ruboty
+Type `exit` or `quit` to end the session.
+&gt;
+</code></pre>
+
+<p>ruboty pingコマンドを実行します。</p>
+
+<pre><code>&gt; ruboty ping
+pong
+</code></pre>
+
+<p>ruby helpコマンドで一覧が見れます。</p>
+
+<pre><code>&gt; ruboty help
+ruboty /help( me)?(?: (?&lt;filter&gt;.+))?\z/i - Show this help message
+ruboty /ping\z/i - Return PONG to PING
+ruboty /who am i\?/i - Answer who you are
+</code></pre>
+
+<h2 id="rubotyプラグインを作成する">Rubotyプラグインを作成する</h2>
+
+<p>Ruboty はhubotと同様にプラグインで拡張できます。</p>
+
+<p>Helloプラグインを作成してみましょう。<br />
+Helloプラグインはhelloと挨拶すると、helloと挨拶を返すだけのプラグインです。</p>
+
+<p>hello.rb</p>
+
+<pre><code class="language-ruby">module Ruboty
+  module Handlers
+    class Hello &lt; Base
+      on(/hello/i, name: “hello”, description: "こんにちは")
+
+      def hello(message)
+        message.reply("Hello!!")
+      end
+    end
+  end
+end
+</code></pre>
+
+<p><code>Ruby::handlers</code>の名前空間の下にプラグインの名前でクラスを作成し、<code>on</code> メソッドを定義します。<br />
+<code>on</code> メソッドの第1引数はコマンドです。正規表現で定義できます。<br />
+第2引数は呼び出すメソッド名、コマンドの説明等のオプションを指定します。</p>
+
+<p>実行してみましょう。<br />
+<code>-l</code> オプションで読み込むファイルを指定することができます。</p>
+
+<pre><code>⇒  bundle exec ruboty -l hello.rb
+Type `exit` or `quit` to end the session.
+&gt; ruboty hello
+Hello!!
+</code></pre>
+
+<p>また、bot名のprefixなしに実行することもできます。<br />
+allオプションを使って実装します。</p>
+
+<p>サンプルとして、ぬるぽプラグインを実装します。<br />
+これはぬるぽという言葉に反応するプラグインです。</p>
+
+<p>nullpo.rb</p>
+
+<pre><code class="language-ruby">module Ruboty
+  module Handlers
+    class NullPoHandler &lt; Base
+      on(/.*(ぬるぽ|ヌルポ).*/, name: 'nullpo', description:'ぬるぽに反応します', all: true)
+
+      def nullpo(message)
+        message.reply("ガッ!!!!")
+      end
+    end
+  end
+end
+</code></pre>
+
+<p>実行してみましょう。<br />
+<code>-l</code> オプションで読み込むファイルを指定することができます。</p>
+
+<pre><code>$ bundle exec ruboty -l nullpo.rb
+Type `exit` or `quit` to end the session.
+&gt; ほげ ぬるぽ ほげ
+ガッ!!!!
+</code></pre>
+
+<p>bot名のprefixがなくても反応していることが確認できます。</p>
+
+<p>次回はSlackと連携させる方法を紹介します。</p>
+
+<ul>
+  <li><a href="/blog/2016/08/02/ruboty-and-slack/">Botsインテグレーションを使って手軽にRubotyをSlackで動かす</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gitのコミッターを集計するGitFindCommitterをつくった]]></title>
+    <link href="http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer/"/>
+    <updated>2016-07-25T18:09:52+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer</id>
+    <content type="html"><![CDATA[<p>Gitのコミッターを集計する<a href="https://github.com/shoyan/git_find_committer">GitFindCommitter</a>をつくったので紹介します。</p>
+
+<h2 id="gitfindcommitterとは">GitFindCommitterとは</h2>
+
+<p>GitFindCommitterとは変更されたファイルを対象としてコミッターを探すツールです。<br />
+名前の通り、Gitのコミット履歴からコミッターを探します。<br />
+例えば、fixブランチでhoge.rbとfuga.rbを修正したとします。<br />
+GitFindCommitterはhoge.rbとfugue.rbを対象にコミッターを探します。</p>
+
+<h2 id="なぜつくったのか">なぜつくったのか</h2>
+
+<p>チーム内でコードレビューを行っているのですが、なかなかレビューしてもらえないということが時々あります。<br />
+コードレビューの際に詳しいコミッターをレコメンドすればスムーズにレビューしてもらえるのではと考えました。<br />
+レビュアーのレコメンド機能はまだ作成中なのですが、そのモジュールの1つとしてGemに機能を切り出しました。</p>
+
+<h2 id="使い方">使い方</h2>
+
+<p>以下のコマンドでインストールします。</p>
+
+<pre><code>$ gem install git_find_committer
+</code></pre>
+
+<p>searchメソッドにリポジトリとブランチを指定すると、関連するファイルのコミッターを探してきます。</p>
+
+<pre><code class="language-ruby">require 'git_find_committer'
+
+GitFindCommitter.search(repo: 'balloonbros/sutekki', branch: 'add-ui')
+=&gt; [{:name=&gt;"Shohei Yamasaki", :commit_count=&gt;51}, {:name=&gt;"keitakawamoto", :commit_count=&gt;21}]
+</code></pre>
+
+<p>GitHub Enterpriseにも対応しており、GitHub Enterpriseで利用する場合は、以下の設定が必要です。</p>
+
+<pre><code>GitFindCommitter.configure do |c|
+  c.url = "https://&lt;hostname&gt;"
+  c.access_token = "&lt;your 40 char token&gt;"
+end
+</code></pre>
+
+<h2 id="便利なtips">便利なTips</h2>
+
+<p>集計対象のコミッターをフィルターすることができます。</p>
+
+<pre><code>GitFindCommitter.configure do |c|
+  c.available_committer_names = %w(shoyan)
+end
+</code></pre>
+
+<p>名前のみ配列で取得します。</p>
+
+<pre><code>GitFindCommitter.search(repo: 'balloonbros/sutekki', branch: 'add-ui’).names(1)
+=&gt; ["Shohei Yamasaki"]
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

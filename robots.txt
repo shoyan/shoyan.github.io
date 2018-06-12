@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: http://48n.jp/sitemap.xml

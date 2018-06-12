@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Javascript | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Treant.jsでツリーダイアグラムを描画する]]></title>
+    <link href="http://48n.jp/blog/2016/06/21/introduce-treantjs/"/>
+    <updated>2016-06-21T13:26:40+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/21/introduce-treantjs</id>
+    <content type="html"><![CDATA[<p>Treant.jsとはツリーダイアグラムを描画するためのJavaScriptライブラリです。  <br />
+<a href="http://fperucic.github.io/treant-js/">Treant.js</a>でツリーダイアグラムを描画してみました。</p>
+
+<p><a href="http://codepen.io/shoyan/details/MeaqzN/">http://codepen.io/shoyan/details/MeaqzN/</a></p>
+<h2 id="簡単なサンプルを作ってみる">簡単なサンプルを作ってみる</h2>
+
+<p>まずは簡単なサンプルを作ってみましょう。</p>
+
+<p><a href="http://codepen.io/shoyan/pen/qNOMoN">http://codepen.io/shoyan/pen/qNOMoN</a></p>
+<p><a href="http://codepen.io/">codepen.io</a>を使うと簡単にサンプルが作成できるので便利です。</p>
+
+<p>Treant.jsを利用するには、いくつか必要なモジュールがあります。</p>
+
+<h4 id="js">JS</h4>
+
+<ul>
+  <li>
+    <p><a href="http://fperucic.github.io/treant-js/Treant.js">http://fperucic.github.io/treant-js/Treant.js</a></p>  </li>
+  <li>
+    <p><a href="http://fperucic.github.io/treant-js/vendor/raphael.js">http://fperucic.github.io/treant-js/vendor/raphael.js</a></p>  </li>
+</ul>
+
+<h4 id="css">CSS</h4>
+
+<ul>
+  <li>
+    <p><a href="http://fperucic.github.io/treant-js/Treant.css">http://fperucic.github.io/treant-js/Treant.css</a></p>  </li>
+</ul>
+
+<h3 id="baseとなるhtmlのテンプレート">BaseとなるHTMLのテンプレート</h3>
+
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"/&gt;
+    &lt;title&gt;&lt;/title&gt;
+
+    &lt;!-- stylesheets --&gt;
+    &lt;link rel="stylesheet" href="http://fperucic.github.io/treant-js/Treant.js" type="text/css"/&gt;
+     &lt;style&gt;
+         body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin:0; padding:0; }
+         body { background: #fff; }
+         /* optional Container STYLES */
+         .chart { height: 159px; width: 332px; margin: 5px; margin: 5px auto; border: 3px solid #DDD; border-radius: 3px; }
+         .node { color: #9CB5ED; border: 2px solid #C8C8C8; border-radius: 3px; }
+         .node p { font-size: 20px; line-height: 20px; height: 20px; font-weight: bold; padding: 3px; margin: 0; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="tree-simple" style="width:335px; height: 160px" &lt;/div&gt;
+
+    &lt;!-- javascript --&gt;
+    &lt;script src="http://fperucic.github.io/treant-js/vendor/raphael.js"&gt;&lt;/script&gt;
+    &lt;script src="http://fperucic.github.io/treant-js/Treant.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+
+<h3 id="js-1">JS</h3>
+
+<p>JavaScriptファイルです。設定をJSONで定義して、コンストラクタに渡しています。</p>
+
+<pre><code class="language-js">simple_chart_config = {
+    # chartの設定をします
+    chart: {
+        container: "#tree-simple"
+    },
+    # ノードを定義します
+    nodeStructure: {
+        text: { name: "Parent node" },
+        children: [
+            {
+                text: { name: "First child" }
+            },
+            {
+                text: { name: "Second child" }
+            }
+        ]
+    }
+};
+# コンストラクタ
+var my_chart = new Treant(simple_chart_config);
+
+</code></pre>
+
+<p>基本的には、nodeStructureに必要なノードを定義して、CSSで見た目を調整するという感じです。  <br />
+アニメーションにも対応していて、その場合はjQueryが必要だったりするようです。  <br />
+サンプルも色々あるので参考にしてみるとよいと思います。  <br />
+http://fperucic.github.io/treant-js/</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[グラフを描画するHighChartsで平均気温のグラフを描画する]]></title>
+    <link href="http://48n.jp/blog/2016/05/31/to-draw-a-graph-using-high-charts/"/>
+    <updated>2016-05-31T13:58:42+09:00</updated>
+    <id>http://48n.jp/blog/2016/05/31/to-draw-a-graph-using-high-charts</id>
+    <content type="html"><![CDATA[<p>グラフを描画する<a href="http://www.highcharts.com/">HighCharts</a>を紹介します。  <br />
+HighChartsはJavaScriptのグラフ描画ライブラリです。  <br />
+HighChartsを使えば簡単にグラフの描画ができます。</p>
+
+<h2 id="デモページ">デモページ</h2>
+
+<p>福岡市の平均気温をグラフで表示してみました。</p>
+
+<p><a href="http://codepen.io/shoyan/details/jrOjWK/">http://codepen.io/shoyan/details/jrOjWK/</a></p>
+<h2 id="サンプルを作ってみる">サンプルを作ってみる</h2>
+
+<p>簡単なサンプルを作ってみましょう。  <br />
+私がサンプルとして利用していた<a href="http://codepen.io/">CODEPEN</a>を利用すると簡単に作成できるのでオススメです。</p>
+
+<p>HighChartsを使うには、jQueryとhighCharts.jsが必要です。</p>
+
+<pre><code>&lt;script src="http://code.highcharts.com/highcharts.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.jquery.com/jquery-2.2.4.min.js"&gt;&lt;/script&gt;
+
+</code></pre>
+
+<p>index.htmlのbody部は以下を定義します。<br />
+div要素にグラフが描画されます。</p>
+
+<p>index.html</p>
+
+<pre><code>&lt;div id="container" style="width:100%; height:400px;"&gt;&lt;/div&gt;
+
+</code></pre>
+
+<p>JavaScript tag <code>&lt;script&gt; &lt;/script&gt;</code> に書くか、外部ファイルに定義してください。</p>
+
+<pre><code>$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+        }, {
+            name: 'John',
+            data: [5, 7, 3]
+        }]
+    });
+});
+
+</code></pre>
+
+<p>あとは、ブラウザでアクセスすればグラフが描画されます。</p>
+
+<h2 id="構文">構文</h2>
+
+<p>基本的な構文は以下です。</p>
+
+<pre><code>$("グラフを描画するhtml要素").highcharts(option)
+
+</code></pre>
+
+<h3 id="highchartsの基本的なパラメーターoption">HighChartsの基本的なパラメーター(option)</h3>
+
+<p>HighChartsの基本的なパラメーター(option)を紹介します。</p>
+
+<ul>
+  <li><strong>TITLE</strong>: チャートのタイトル</li>
+  <li><strong>SERIES</strong>: 描画するデータの値</li>
+  <li><strong>TOOLTIP</strong>: チャートにマウスオーバーしたときに表示されるツールチップの設定</li>
+  <li><strong>LEGEND</strong>: SERIESの説明</li>
+  <li><strong>AXES</strong>: 縦軸と横軸の説明を設定します。</li>
+</ul>
+
+<h3 id="グラフの種類について">グラフの種類について</h3>
+
+<p>typeにグラフの種類を設定できます。</p>
+
+<ul>
+  <li>棒グラフ: column</li>
+  <li>折れ線グラフ: line</li>
+  <li>円グラフ: pie</li>
+  <li>帯グラフ: bar</li>
+  <li>ヒストグラム: column</li>
+  <li>散布図: scatter</li>
+  <li>箱ひげ図: boxplot</li>
+  <li>三角グラフ: pyramid</li>
+</ul>
+
+<p>様々なグラフのデモページが用意されており、参考になります。</p>
+
+<p><a href="http://www.highcharts.com/demo">http://www.highcharts.com/demo</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Chatops | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/chatops/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Slackで定期的にRubotyに仕事をさせる]]></title>
+    <link href="http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty/"/>
+    <updated>2016-10-31T16:58:56+09:00</updated>
+    <id>http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty</id>
+    <content type="html"><![CDATA[<p>ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。<br />
+最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。<br />
+具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。</p>
+
+<p>うまくいかなかったのでSlackのリマインダー機能を使ってみることにした。<br />
+Slackのリマインダー機能を使うと <code>Reminder:</code> と言うプレフィックスが入るのでRubotyが反応せず、こちらもうまくいかなかった。</p>
+
+<p>最終的にはcronでスクリプトを定期実行させることにした。<br />
+Slackに通知するスクリプトを作って、それをcronで定期的に実行させる。<br />
+メッセージを拾ったRubotyがタスクを実行するといった感じだ。</p>
+
+<h3 id="サンプルコード">サンプルコード</h3>
+
+<pre><code class="language-ruby">require "faraday"
+
+username = 'your name'
+channel = 'your channel'
+slack_token = 'your slack token'
+icon_url = 'your icon url'
+
+body = {
+  username: username,
+  channel: channel,
+  icon_url: icon_url,
+  text: "ruboty ping"
+}
+
+Faraday.new('https://slack.com') do |c|
+  c.request :url_encoded
+  c.adapter Faraday.default_adapter
+end.post("/api/chat.postMessage?token=#{slack_token}", body)
+</code></pre>
+
+<p>これでRubotyに定期的に仕事をさせることができるようになった。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Botsインテグレーションを使って手軽にRubotyをSlackで動かす]]></title>
+    <link href="http://48n.jp/blog/2016/08/02/ruboty-and-slack/"/>
+    <updated>2016-08-02T13:40:25+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/02/ruboty-and-slack</id>
+    <content type="html"><![CDATA[<p>前回は<a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a>でRubotyの導入方法を紹介しました。<br />
+今回はRubotyをSlackで動かす方法を紹介します。</p>
+
+<p>RubotyにはSlackアダプターが用意してありますが、新しくユーザーの作成が必要です。<br />
+ユーザーの作成が必要のない、Botsインテグレーションと<a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a>を使ってRubotyをSlackで動かす方法を紹介します。</p>
+
+<h2 id="ruboty-slack_rtmのインストール">ruboty-slack_rtmのインストール</h2>
+
+<p>Gemfileに以下を定義します。</p>
+
+<pre><code>gem "ruboty-slack_rtm"
+</code></pre>
+
+<p><code>bundle install</code> コマンドでインストールします。</p>
+
+<h2 id="slackのbotsインテグレーションを設定する">SlackのBotsインテグレーションを設定する</h2>
+
+<p>Slackの管理画面でBotsインテグレーションを登録します。</p>
+
+<p><img src="/images/bots-integration.png" alt="bots-integration" /></p>
+
+<p>登録するとTokenが発行されるので、そのTokenをSLACK_TOKENという名前で環境変数に設定します。<br />
+Rubotyは dotenv に対応しているので、<code>.env</code> ファイルを作成し、そこにTOKENを登録しておくと便利です。</p>
+
+<p>.env</p>
+
+<pre><code>SLACK_TOKEN=&lt;slack token&gt;
+</code></pre>
+
+<p>Ruboty を起動します。<code>.env</code> ファイルを読み込むように <code>—dotenv</code> オプションをつけて起動します。</p>
+
+<pre><code>bundle exec ruby --dotenv
+</code></pre>
+
+<p>起動すると SlackのRubotyがログインマークに変わります。</p>
+
+<p>あとは、チャンネルにinviteすればSlackでRubotyが使えます！<br />
+ちなみにrubotyではなく、Botsインテグレーションで登録したユーザー名に反応します。</p>
+
+<h3 id="関連記事">関連記事</h3>
+
+<ul>
+  <li><a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[5分でできるRubotyのインストールとプラグインチュートリアル]]></title>
+    <link href="http://48n.jp/blog/2016/07/29/first-step-ruboty/"/>
+    <updated>2016-07-29T13:55:33+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/29/first-step-ruboty</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/r7kamura/ruboty/">Ruboty</a>はhubotクローンでRubyで書けるbotです。<br />
+このチュートリアルではRubotyのインストールとプラグインの作成方法を紹介します。<br />
+冗長な説明をあえて除きRubotyを動かすために重要な部分のみ解説することでスピーディにRubotyを動作できるようにしています。</p>
+
+<h2 id="rubotyをローカルで動かす">Rubotyをローカルで動かす</h2>
+
+<p>以下のコマンドでinstallします。</p>
+
+<pre><code>$ gem install ruboty
+</code></pre>
+
+<p>以下のコマンドでひな形を作成します。<br />
+<code>ruboty/</code> ディレクトリとその配下にGemfileが作成されます。</p>
+
+<pre><code>$ ruboty --generate
+</code></pre>
+
+<p>Rubotyを起動してみます。</p>
+
+<pre><code>$ cd ruboty
+$ bundle install
+$ bundle exec ruboty
+</code></pre>
+
+<p>すると対話型のプロンプトが起動します。</p>
+
+<pre><code>$ bundle exec ruboty
+Type `exit` or `quit` to end the session.
+&gt;
+</code></pre>
+
+<p>ruboty pingコマンドを実行します。</p>
+
+<pre><code>&gt; ruboty ping
+pong
+</code></pre>
+
+<p>ruby helpコマンドで一覧が見れます。</p>
+
+<pre><code>&gt; ruboty help
+ruboty /help( me)?(?: (?&lt;filter&gt;.+))?\z/i - Show this help message
+ruboty /ping\z/i - Return PONG to PING
+ruboty /who am i\?/i - Answer who you are
+</code></pre>
+
+<h2 id="rubotyプラグインを作成する">Rubotyプラグインを作成する</h2>
+
+<p>Ruboty はhubotと同様にプラグインで拡張できます。</p>
+
+<p>Helloプラグインを作成してみましょう。<br />
+Helloプラグインはhelloと挨拶すると、helloと挨拶を返すだけのプラグインです。</p>
+
+<p>hello.rb</p>
+
+<pre><code class="language-ruby">module Ruboty
+  module Handlers
+    class Hello &lt; Base
+      on(/hello/i, name: “hello”, description: "こんにちは")
+
+      def hello(message)
+        message.reply("Hello!!")
+      end
+    end
+  end
+end
+</code></pre>
+
+<p><code>Ruby::handlers</code>の名前空間の下にプラグインの名前でクラスを作成し、<code>on</code> メソッドを定義します。<br />
+<code>on</code> メソッドの第1引数はコマンドです。正規表現で定義できます。<br />
+第2引数は呼び出すメソッド名、コマンドの説明等のオプションを指定します。</p>
+
+<p>実行してみましょう。<br />
+<code>-l</code> オプションで読み込むファイルを指定することができます。</p>
+
+<pre><code>⇒  bundle exec ruboty -l hello.rb
+Type `exit` or `quit` to end the session.
+&gt; ruboty hello
+Hello!!
+</code></pre>
+
+<p>また、bot名のprefixなしに実行することもできます。<br />
+allオプションを使って実装します。</p>
+
+<p>サンプルとして、ぬるぽプラグインを実装します。<br />
+これはぬるぽという言葉に反応するプラグインです。</p>
+
+<p>nullpo.rb</p>
+
+<pre><code class="language-ruby">module Ruboty
+  module Handlers
+    class NullPoHandler &lt; Base
+      on(/.*(ぬるぽ|ヌルポ).*/, name: 'nullpo', description:'ぬるぽに反応します', all: true)
+
+      def nullpo(message)
+        message.reply("ガッ!!!!")
+      end
+    end
+  end
+end
+</code></pre>
+
+<p>実行してみましょう。<br />
+<code>-l</code> オプションで読み込むファイルを指定することができます。</p>
+
+<pre><code>$ bundle exec ruboty -l nullpo.rb
+Type `exit` or `quit` to end the session.
+&gt; ほげ ぬるぽ ほげ
+ガッ!!!!
+</code></pre>
+
+<p>bot名のprefixがなくても反応していることが確認できます。</p>
+
+<p>次回はSlackと連携させる方法を紹介します。</p>
+
+<ul>
+  <li><a href="/blog/2016/08/02/ruboty-and-slack/">Botsインテグレーションを使って手軽にRubotyをSlackで動かす</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,1595 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SHOYAN BLOG</title>
+  <meta name="author" content="Shohei Yamasaki">
+
+  
+  <meta name="description" content="Rubyはロード機構として、以下を備えています。 require load autoload require_relative require requireは以下の特徴を備えています。 ロードパスからファイルを探してくる 拡張ライブラリもロードできる 拡張子 .rb / .so を省略できる &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="SHOYAN BLOG" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<style type="text/css">
+  img { border: none !important; }
+</style>
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQX8LKG');</script>
+<!-- End Google Tag Manager -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@sinn_shoyan" />
+
+
+  <meta name="twitter:title" content="SHOYAN BLOG" />
+
+
+
+  <meta name="twitter:description" content="当サイトSHOYAN BLOGは、Webアプリケーションエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。" />
+
+
+
+  <meta name="twitter:image" content="http://48n.jp/images/logo.png" />
+
+
+
+<body   class="collapse-sidebar sidebar-footer" >
+
+  <header role="banner"><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQX8LKG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="margin-height-10 center">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 上部広告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5334899437265020"
+     data-ad-slot="7035719791"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+</div>
+
+<hgroup>
+  <h1><a href="/">SHOYAN BLOG</a></h1>
+  
+    <h2>I am a pragmatic programmer.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscribe" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 13.310204,73.332654 C 5.967347,73.332654 0,79.322448 0,86.621428 c 0,7.338776 5.967347,13.262246 13.310204,13.262246 7.370408,0 13.328572,-5.92245 13.328572,-13.262246 0,-7.29898 -5.958164,-13.288774 -13.328572,-13.288774 z M 0.01530612,33.978572 V 53.143878 C 12.493878,53.143878 24.229592,58.02347 33.068368,66.865306 41.894898,75.685714 46.767346,87.47449 46.767346,100 h 19.25 C 66.017346,63.592858 36.4,33.979592 0.01530612,33.978572 l 0,0 z M 0.03877552,0 V 19.17449 C 44.54796,19.17551 80.77551,55.437756 80.77551,100 H 100 C 100,44.87653 55.15102,0 0.03877552,0 z"></path></svg></a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+<ul class="subscribe">
+  <li><a href="https://github.com/shoyan" rel="subscribe-github" title="@shoyan on GitHub" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 50,0 C 22.385714,0 0,22.385714 0,50 0,77.614286 22.385714,100 50,100 77.614286,100 100,77.614286 100,50 100,22.385714 77.614286,0 50,0 z m 29.692858,79.692858 c -3.859184,3.859182 -8.351022,6.887754 -13.35,9.00306 -1.27041,0.536736 -2.560204,1.009184 -3.867348,1.415306 v -7.493878 c 0,-3.938774 -1.35102,-6.835714 -4.053062,-8.690816 1.692858,-0.163264 3.24694,-0.390816 4.663266,-0.683672 1.416326,-0.292858 2.913266,-0.716328 4.491838,-1.27041 1.57857,-0.55408 2.994896,-1.213264 4.247958,-1.97755 1.253062,-0.765306 2.458164,-1.758164 3.613266,-2.978572 1.155102,-1.220408 2.12449,-2.604082 2.905102,-4.15 0.780612,-1.545918 1.4,-3.40204 1.855102,-5.566326 0.455102,-2.164286 0.683674,-4.54898 0.683674,-7.153062 0,-5.045918 -1.643878,-9.341836 -4.931634,-12.890816 C 77.44796,33.35 77.285714,29.10204 75.463266,24.512244 l -1.22143,-0.145918 c -0.845918,-0.09796 -2.368366,0.260204 -4.565306,1.07449 -2.196938,0.814286 -4.663264,2.14796 -7.396938,4.004082 -3.87449,-1.07449 -7.893878,-1.611224 -12.061224,-1.611224 -4.19898,0 -8.203062,0.536734 -12.012246,1.611224 -1.72449,-1.17245 -3.361224,-2.139796 -4.907142,-2.905102 C 31.753062,25.77449 30.516326,25.254082 29.587756,24.97653 28.660204,24.7 27.79796,24.528572 27,24.463266 c -0.79796,-0.0653 -1.310204,-0.08062 -1.537756,-0.04898 -0.22755,0.03164 -0.390816,0.0653 -0.487754,0.09796 -1.82347,4.62245 -1.985714,8.87143 -0.487756,12.743878 -3.287754,3.54796 -4.931632,7.844898 -4.931632,12.890816 0,2.604082 0.227552,4.988776 0.683674,7.153062 0.456122,2.164286 1.07449,4.020408 1.855102,5.566326 0.780612,1.545918 1.75,2.929592 2.905102,4.15 1.155102,1.220408 2.360204,2.213266 3.613264,2.978572 1.253062,0.766326 2.669388,1.42449 4.24796,1.97755 1.578572,0.554082 3.07551,0.976532 4.491836,1.27041 1.416328,0.292856 2.970408,0.521428 4.663266,0.683672 -2.669388,1.82347 -4.004082,4.720408 -4.004082,8.690816 v 7.639796 C 36.536734,89.818368 35.083674,89.3 33.656122,88.695918 c -4.99898,-2.115306 -9.490816,-5.143878 -13.35,-9.00306 -3.859184,-3.859184 -6.887754,-8.351022 -9.00306,-13.35 C 9.1163263,61.171428 8.0071428,55.67347 8.0071428,50 c 0,-5.67347 1.1091835,-11.171428 3.2969392,-16.342858 2.115306,-4.998978 5.143878,-9.490816 9.00306,-13.35 3.859184,-3.859182 8.351022,-6.887754 13.35,-9.00306 C 38.828572,9.1163266 44.32653,8.0071428 50,8.0071428 c 5.67347,0 11.171428,1.1091838 16.342858,3.2969392 5,2.115306 9.490816,5.143878 13.35,9.00306 3.859182,3.859184 6.887754,8.351022 9.00306,13.35 2.186736,5.17245 3.295918,10.67041 3.295918,16.342858 0,5.672448 -1.109182,11.171428 -3.296938,16.342858 -2.115306,4.998978 -5.143878,9.490816 -9.00204,13.35 l 0,0 z"></path></svg></a></li>
+</ul>
+  
+  
+  
+<ul class="subscribe">
+  <li><a href="https://twitter.com/sinn_shoyan" rel="subscribe-twitter" title="@sinn_shoyan on Twitter" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 512 512"><path class="social" d="M0.001,334.932c33.327,30.816,118.891,59.981,188.517-8.271c-12.52,1.955-22.972-0.416-30.913-8.269
+  c-7.531-7.465-7.945-15.182-3.914-22.202c3.275-5.725,10.184-9.741,16.977-13.934c-12.323,2.285-22.829,1.095-32.218-3.706
+  c-12.604-6.444-24.863-13.228-28.3-27.207c7.71-8.112,16.28-15.359,34.831-12.627c-17.45-5.83-33.087-13.429-44.41-24.815
+  c-11.028-11.091-12.163-18.302-13.932-26.996c9.632-3.567,19.688-5.421,30.478-4.353c-24.397-12.476-34.757-29.63-40.487-48.325
+  c-1.731-5.652-2.044-11.03-1.31-16.545c98.826,37.305,145.11,64.109,170.662,89.251c11.496-30.589,38.3-99.868,78.371-123.646
+  c0.191,3.77-1.309,7.837-4.357,12.189c11.863-6.609,21.125-17.188,37.445-16.98c-1.879,7.723-7.279,13.904-17.85,17.854
+  c10.662-4.084,21.463-7.545,32.65-9.578c10.375-1.881,10.229,6.304,4.355,10.444c-11.916,8.412-24.578,9.456-37.006,13.498
+  c38.105,0.949,69.266,18.994,93.604,58.343c8.088,13.074,13.52,26.149,14.807,40.487c16.254,4.563,32.426,5.494,48.76,2.61
+  c4.475-0.796,8.645-1.63,12.627-3.482c-6.354,9.529-13.686,17.356-23.947,20.899c-9.811,3.387-19.637,6.688-30.473,6.968
+  c17.641,6.675,37.082,7.045,57.033,5.659c-24.402,23.486-43.08,22.922-61.824,22.642c-8.221,34.703-25.025,69.315-60.52,101.005
+  c-46.559,41.569-96.678,61.397-148.457,65.742c-48.552,4.07-95.488,3.512-146.726-20.464
+  C56.486,393.349,24.648,368.884,0.001,334.932L0.001,334.932z"/></svg></a></li>
+</ul>
+  
+  
+  
+  
+  
+  
+    
+      <form action="https://www.google.com/search" method="get">
+        <fieldset role="search">
+          <input type="hidden" name="sitesearch" value="48n.jp" />
+    
+          <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+        </fieldset>
+      </form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Top</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories/ruby/">Ruby</a></li>
+  <li><a href="/blog/categories/php/">PHP</a></li>
+  <li><a href="/about/">このサイトについて</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/19/ruby-load/">Rubyのロード機構について</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-19T14:07:16+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:07 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rubyはロード機構として、以下を備えています。</p>
+
+<ul>
+  <li>require</li>
+  <li>load</li>
+  <li>autoload</li>
+  <li>require_relative</li>
+</ul>
+
+<h2 id="require">require</h2>
+
+<p>requireは以下の特徴を備えています。</p>
+
+<ul>
+  <li>ロードパスからファイルを探してくる</li>
+  <li>拡張ライブラリもロードできる</li>
+  <li>拡張子 .rb / .so を省略できる</li>
+  <li>同じファイルは2度以上ロードしない</li>
+</ul>
+
+<p>Rubyのロードパスは <code>$:</code>に入っています。<br />
+私の環境では以下のように表示されました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[1] pry(main)&gt; puts $:
+</span><span class="line">/Users/shoyan/.rbenv/rbenv.d/exec/gem-rehash
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/did_you_mean-1.0.0/lib
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/coderay-1.1.1/lib
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/slop-3.6.0/lib
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/method_source-0.8.2/lib
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/pry-0.10.3/lib
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/site_ruby/2.3.0
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/site_ruby/2.3.0/x86_64-darwin14
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/site_ruby
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/2.3.0
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/2.3.0/x86_64-darwin14
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/2.3.0
+</span><span class="line">/Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/2.3.0/x86_64-darwin14</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="load">load</h2>
+
+<p>loadもrequireと同じくロードパスからファイルを探してロードします。<br />
+しかし、requireのように拡張ライブラリはロードできません。<br />
+また、ロードできるファイルもRubyプログラムだけです。<br />
+requireのように2回以上の読み込みを制御する機構もなく、callされた回数分ファイルは読み込まれます。</p>
+
+<h2 id="autoload">autoload</h2>
+
+<p>autoloadはrequireと似ていますが、すぐには読み込まれず、必要になった段階でrequrieされます。以下、サンプルコードです。</p>
+
+<p>autoload.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">autoload</span> <span class="ss">:Outer</span><span class="p">,</span> <span class="s1">&#39;./outer&#39;</span>
+</span><span class="line"><span class="nb">puts</span> <span class="no">Outer</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>outer.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Outer</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">puts</span> <span class="s1">&#39;Outer loaded!&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実行すると、Outerがloadされているのが確認できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">⇒</span>  <span class="n">ruby</span> <span class="nb">autoload</span><span class="o">.</span><span class="n">rb</span>
+</span><span class="line"><span class="no">Outer</span> <span class="n">loaded!</span>
+</span><span class="line"><span class="c1">#&lt;Outer:0x007fcc14040e60&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>autoloadはネストされたクラスやモジュールもloadすることができます。</p>
+
+<p>autoload.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">autoload</span> <span class="ss">:Outer</span><span class="p">,</span> <span class="s1">&#39;./outer&#39;</span>
+</span><span class="line"><span class="nb">puts</span> <span class="no">Outer</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line"><span class="nb">puts</span> <span class="no">Outer</span><span class="o">::</span><span class="no">Inner</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>outer.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Outer</span>
+</span><span class="line">  <span class="nb">autoload</span> <span class="ss">:Inner</span><span class="p">,</span> <span class="s1">&#39;./inner&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">puts</span> <span class="s1">&#39;Outer loaded!&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>inner.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Outer</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Inner</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">puts</span> <span class="s2">&quot;Outer::Inner loaded!&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実行すると、Outer::Innerがloadされているのが確認できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">⇒</span>  <span class="n">ruby</span> <span class="nb">autoload</span><span class="o">.</span><span class="n">rb</span>
+</span><span class="line"><span class="no">Outer</span> <span class="n">loaded!</span>
+</span><span class="line"><span class="c1">#&lt;Outer:0x007f9fd4054df0&gt;</span>
+</span><span class="line"><span class="no">Outer</span><span class="o">::</span><span class="no">Inner</span> <span class="n">loaded!</span>
+</span><span class="line"><span class="c1">#&lt;Outer::Inner:0x007f9fd404f990&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="require_relative">require_relative</h2>
+
+<p>あまり見かけることがありませんが、<code>require_relative</code> というメソッドがRuby1.9.2から追加されています。<br />
+例えば<code>require</code>で同じ階層のファイルをロードする場合は、<code>require './filename'</code> のように明示的に<code>./</code>を指定する必要があります。<br />
+<code>require_relative</code>を使えば、<code>require_relative 'filename'</code> のように定義することができます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/15/learn-iptables/">Iptablesことはじめ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-15T14:05:31+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:05 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iptablesの概念と設定方法を調べました。</p>
+
+<h2 id="iptablesとは">iptablesとは</h2>
+
+<p>iptablesとはパケットをフィルタリングするためのツールです。<br />
+また、NATとしても使えます。</p>
+
+<h2 id="iptablesの用語">iptablesの用語</h2>
+
+<p>iptablesを理解するにあたって必要な用語をまとめました。</p>
+
+<h3 id="targets">TARGETS</h3>
+
+<p>iptablesのルールを設定する際に、targetを指定します。<br />
+targetはユーザー定義のものと特別なtargetである、ACCEPT, DROP, QUEUE or RETURNがあります。<br />
+パケットに対してどんな操作をするかを定義します。</p>
+
+<p>代表的なtargetです。</p>
+
+<p>ACCEPT<br />
+パケットを通す<br />
+DROP<br />
+パケットを破棄する<br />
+QUEUE<br />
+パケットをキューにためる<br />
+RETURN<br />
+チェインを辿るのをストップして、評価を行う<br />
+REJECT<br />
+パケットを破棄し、エラーパケットを返す<br />
+DNAT<br />
+送信先IPアドレスを変更する<br />
+SNAT<br />
+送信元IPアドレスを変更する<br />
+MASQUERADE<br />
+複数の送信元IPアドレスを変更（マスカレード）する<br />
+LOG<br />
+ログを出力する</p>
+
+<h3 id="chain">Chain</h3>
+
+<p>iptablesを設定する際にchainを指定します。<br />
+chainにはビルトインchainとユーザー定義chainがあります。<br />
+chainはパケットに対する実行条件を定義します。</p>
+
+<p>ビルトインchainは以下です。</p>
+
+<p>INPUT<br />
+FORWARD<br />
+OUTPUT<br />
+PREROUTING<br />
+POSTROUTING</p>
+
+<h3 id="tables">TABLES</h3>
+
+<p>一般的にはフィルタリングとして使われることが多いiptablesですが、他にも様々な機能があります。<br />
+iptablesにはそれをtableという概念で扱っており、5つのtableがあります。</p>
+
+<p><em>filter</em><br />
+パケットのフィルタリングを設定するためのテーブルです。<br />
+デフォルトのテーブルです。tableオプションを明示的に指定しない場合は、filterが指定されたことになります。<br />
+INPUT、FORWARD、OUTPUTのChainを含みます。</p>
+
+<p><em>nat</em><br />
+IPアドレスの変換を設定するためのテーブルです。<br />
+PREROUTING、POSTROUTING のChainを含みます。</p>
+
+<p><em>mangle</em><br />
+パケットの書き換えを設定するためのテーブルです。</p>
+
+<p><em>raw</em><br />
+接続の追跡の除外の設定をするためのテーブルです。</p>
+
+<p><em>security</em><br />
+アクセスコントロールの設定をするためのテーブルです。</p>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>iptablesのコマンドにオプションを指定できます。<br />
+オプションはいくつかのグループに区別されます。</p>
+
+<h3 id="commands">COMMANDS</h3>
+
+<p>iptablesに実行してほしいコマンドを指定します。<br />
+以下のようなコマンドがあります。</p>
+
+<p>-A, –append<br />
+選択したチェインにルールを追加します。</p>
+
+<p>-C, –check<br />
+指定したチェインにルールが存在するかをチェックします。</p>
+
+<p>-D, –delete<br />
+チェインからルールを消します。</p>
+
+<p>詳細はiptablesのmanをご覧ください。</p>
+
+<h3 id="parameters">PARAMETERS</h3>
+
+<p>ルールを作成する際に指定するパラメーターです。</p>
+
+<p>-p, –protocol<br />
+ルールの対象となるプロトコルを指定します。</p>
+
+<p>-j, –jump<br />
+ルールの対象となるtargetを指定します。</p>
+
+<p>-s, –source<br />
+ルールの対象となるアドレスを指定します。<br />
+例えば、IPアドレス、ホスト名、ネットワーク名などを指定します。</p>
+
+<p>詳細はiptablesのmanをご覧ください。</p>
+
+<h3 id="other-options">OTHER OPTIONS</h3>
+
+<p>追加オプションです。</p>
+
+<p>-v, –verbose<br />
+詳細表示のオプションです。</p>
+
+<p>詳細はiptablesのmanを参照ください。</p>
+
+<h2 id="iptablesの基本的な構文">iptablesの基本的な構文</h2>
+
+<p>基本的には以下のように指定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">iptables [-t table] command chain options target</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>例えば、ローカルホストからのping(icmp)を許可する場合は以下となります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">iptables -A INPUT -p icmp -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="iptablesの基本的な読み方">iptablesの基本的な読み方</h2>
+
+<p>現在のiptablesの設定を表示するには、iptables -L コマンドを使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Example: Input Chain Rule Table Listing
+</span><span class="line">Chain INPUT (policy DROP)
+</span><span class="line">target     prot opt source               destination
+</span><span class="line">ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+</span><span class="line">ACCEPT     all  --  anywhere             anywhere
+</span><span class="line">DROP       all  --  anywhere             anywhere             ctstate INVALID
+</span><span class="line">UDP        udp  --  anywhere             anywhere             ctstate NEW
+</span><span class="line">TCP        tcp  --  anywhere             anywhere             tcp flags:FIN,SYN,RST,ACK/SYN ctstate NEW
+</span><span class="line">ICMP       icmp --  anywhere             anywhere             ctstate NEW
+</span><span class="line">REJECT     udp  --  anywhere             anywhere             reject-with icmp-port-unreachable
+</span><span class="line">REJECT     tcp  --  anywhere             anywhere             reject-with tcp-reset
+</span><span class="line">REJECT     all  --  anywhere             anywhere             reject-with icmp-proto-unreachable</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>1行目がChainの名前で、次にデフォルトポリシーが表示されています(DROP)。<br />
+2行目がカラム名です。</p>
+
+<p><em>target</em>: target名<br />
+<em>prot</em>: プロトコル名。例えば、tcp, udp, icmp, or all<br />
+<em>opt</em>: めったに使われません。<br />
+<em>source</em>: 接続元のIPアドレス or サブネット or anywhere<br />
+<em>destination</em>: 接続先のIPアドレス or サブネット or anywhere</p>
+
+<h2 id="iptablesコマンドの使い方">iptablesコマンドの使い方</h2>
+
+<p>いくつかの例を紹介します。</p>
+
+<h3 id="特定のサーバーからのhttp通信を許可する">特定のサーバーからのhttp通信を許可する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># iptables -A INPUT -p tcp -s 192.168.1.1 --dport 80 -j ACCEPT
+</span><span class="line"># 設定を保存
+</span><span class="line"># service iptables save</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ルールを消す">ルールを消す</h3>
+
+<p>iptables -D ルール で消すことができます。<br />
+<code>iptables -S</code> でルール一覧がでるので、そのルールを指定すれば簡単です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># iptables -S
+</span><span class="line">-A INPUT -s 157.7.105.69/32 -p tcp -m tcp --dport 80 -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のコマンドで消します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">iptables -D INPUT -s 157.7.105.69/32 -p tcp -m tcp --dport 80 -j ACCEPT</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="参考文献">参考文献</h2>
+
+<ul>
+  <li><a href="http://linux.die.net/man/8/iptables">Man page of IPTABLES</a></li>
+  <li><a href="https://linuxjm.osdn.jp/html/iptables/man8/iptables.8.html">日本語訳</a></li>
+  <li><a href="http://qiita.com/kmikmy/items/d279b1b993661ba7dbe4">iptablesの読み方覚え書き</a></li>
+  <li><a href="http://murayama.hatenablog.com/entry/20100206/1265444193">iptablesの設定 入門編</a></li>
+  <li><a href="https://help.sakura.ad.jp/app/answers/detail/a_id/2423/~/iptables%E3%81%AE%E8%A8%AD%E5%AE%9A%E6%96%B9%E6%B3%95">iptablesの設定方法</a></li>
+  <li><a href="https://www.digitalocean.com/community/tutorials/how-to-list-and-delete-iptables-firewall-rules">How To List and Delete Iptables Firewall Rules</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/14/useful-ruby-tips/">知っていると便利なRubyの小技集</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-14T13:43:40+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:43 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3 id="a-zの文字列を作成する">a-zの文字列を作成する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">join</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="特定のkeyのみ抽出する">特定のkeyのみ抽出する</h3>
+
+<p>特定のkeyのみ抽出するにはvalues_atメソッドを使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">h</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;cat&quot;</span> <span class="o">=</span> <span class="s2">&quot;feline&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span> <span class="o">=</span> <span class="s2">&quot;canine&quot;</span><span class="p">,</span> <span class="s2">&quot;cow&quot;</span> <span class="o">=</span> <span class="s2">&quot;bovine&quot;</span> <span class="p">}</span>
+</span><span class="line"><span class="n">h</span><span class="o">.</span><span class="n">values_at</span><span class="p">(</span><span class="s2">&quot;cow&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">)</span>  <span class="c1">#=&gt; [&quot;bovine&quot;, &quot;feline&quot;]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="keyとvalueの配列からhashを作成する">keyとvalueの配列からhashを作成する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">keys</span>   <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;suzuki&quot;</span><span class="p">,</span> <span class="s2">&quot;itou&quot;</span><span class="p">,</span> <span class="s2">&quot;yamada&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">values</span> <span class="o">=</span> <span class="o">[</span><span class="mi">87</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">69</span><span class="o">]</span>
+</span><span class="line"><span class="n">ary</span> <span class="o">=</span> <span class="o">[</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="o">].</span><span class="n">transpose</span>
+</span><span class="line"><span class="n">h</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[*</span><span class="n">ary</span><span class="o">.</span><span class="n">flatten</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="特定の範囲の要素を取得する">特定の範囲の要素を取得する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">2</span><span class="o">]</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="配列からnilを取り除く">配列からnilを取り除く</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kp">nil</span><span class="o">].</span><span class="n">compact</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="配列から特定の条件に一致する要素を取り除く">配列から特定の条件に一致する要素を取り除く</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="o">].</span><span class="n">delete_if</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">}</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="10進数を基数変換する">10進数を基数変換する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="mi">255</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;11111111&quot;</span>
+</span><span class="line"><span class="mi">255</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;377&quot;</span>
+</span><span class="line"><span class="mi">255</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;ff&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>逆の操作を行う場合は<code>to_i</code>メソッドを使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="s2">&quot;11111111&quot;</span><span class="o">.</span><span class="n">to_i</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="mi">255</span>
+</span><span class="line"><span class="s2">&quot;377&quot;</span><span class="o">.</span><span class="n">to_i</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="mi">255</span>
+</span><span class="line"><span class="s2">&quot;ff&quot;</span><span class="o">.</span><span class="n">to_i</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="mi">255</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ハッシュのvalueでソートする">ハッシュのvalueでソートする</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">scores</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;Carol&#39;</span> <span class="o">=&gt;</span> <span class="mi">90</span><span class="p">,</span> <span class="s1">&#39;Alice&#39;</span> <span class="o">=&gt;</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;David&#39;</span> <span class="o">=&gt;</span> <span class="mi">40</span> <span class="p">}</span>
+</span><span class="line"><span class="n">scores</span><span class="o">.</span><span class="n">sort</span> <span class="p">{</span><span class="o">|</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">v1</span><span class="p">),</span> <span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span><span class="o">|</span> <span class="n">v2</span> <span class="o">&lt;=&gt;</span> <span class="n">v1</span> <span class="p">}</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="o">[[</span><span class="s2">&quot;Carol&quot;</span><span class="p">,</span> <span class="mi">90</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;David&quot;</span><span class="p">,</span> <span class="mi">40</span><span class="o">]]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="同じ値を数える">同じ値を数える</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="o">].</span><span class="n">each_with_object</span><span class="p">(</span><span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span><span class="o">|</span><span class="n">r</span><span class="p">,</span> <span class="n">arr</span><span class="o">|</span> <span class="n">arr</span><span class="o">[</span><span class="n">r</span><span class="o">]+=</span><span class="mi">1</span> <span class="p">}</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/12/sample-of-formula/">LATEXチートシート - 数式記号の読み方・表し方</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-12T14:45:29+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:45 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>LATEXを使った数式記号の読み方・表し方をまとめました。<br />
+<a href="http://izumi-math.jp/sanae/report/suusiki/suusiki.htm">数式記号の読み方・表し方</a>の数式を実際にLATEXで表示しています。</p>
+
+<h2 id="1-数と式">1. 数と式</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">a \times b</script></td>
+      <td>aかけるb</td>
+      <td>a \times b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \div b</script></td>
+      <td>a割るb</td>
+      <td>a \div b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \pm b</script></td>
+      <td>aプラスマイナスb</td>
+      <td>a \pm b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \times b</script></td>
+      <td>aかけるb</td>
+      <td>a \times b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \div b</script></td>
+      <td>a割るb</td>
+      <td>a \div b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \pm b</script></td>
+      <td>aプラスマイナスb</td>
+      <td>a \pm b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \mp b</script></td>
+      <td>aマイナスプラスb</td>
+      <td>a \mp b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \cdot b</script></td>
+      <td>aかけるb</td>
+      <td>a \cdot b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">% <![CDATA[
+a < b %]]></script></td>
+      <td>a小なりb<br />aはbより小さい</td>
+      <td>a &lt; b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a > b</script></td>
+      <td>a大なりb<br />aはbより大きい</td>
+      <td>a &gt; b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \leqq b</script></td>
+      <td>a小なりイコールb<br />aはb以下</td>
+      <td>a \leqq b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \geqq b</script></td>
+      <td>a大なりイコールb<br />aはb以上</td>
+      <td>a \geqq b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \neq b</script></td>
+      <td>aはbと等しくない<br />aノットイコールb</td>
+      <td>a \neq b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \fallingdotseq b</script></td>
+      <td>aニアリーイコールb<br />aはbにほぼ等しい</td>
+      <td>a \fallingdotseq b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a^n</script></td>
+      <td>aのn乗</td>
+      <td>a^n</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">( a^m ) ^n</script></td>
+      <td>aのm乗のn乗</td>
+      <td>( a^m ) ^n</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\sqrt{a}</script></td>
+      <td>ルートa<br />平方根a</td>
+      <td>\sqrt{a}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\sqrt[n]{a}</script></td>
+      <td>n乗根a</td>
+      <td>\sqrt[n]{a}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{b}{a}</script></td>
+      <td>a分のb<br />b割るa</td>
+      <td>\frac{b}{a}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\mid a \mid</script></td>
+      <td>絶対値a<br />aの絶対値</td>
+      <td>\mid a \mid</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">[x]</script></td>
+      <td>xを越えない最大の整数<br />ガウスx</td>
+      <td>[x]</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a,b,c,\cdots</script></td>
+      <td>a,b,c,…</td>
+      <td>a,b,c,\cdots</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="2-関数写像">2. 関数・写像</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">y=f(x)</script></td>
+      <td>yイコールf,x<br />yイコールf,かっこ,x,（かっこ）</td>
+      <td>y=f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f ^{-1} (x)</script></td>
+      <td>f,インバースx<br />f,xの逆関数</td>
+      <td>f ^{-1} (x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\sin x</script></td>
+      <td>サインx</td>
+      <td>\sin x</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\cos x</script></td>
+      <td>コサインx</td>
+      <td>\cos x</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\tan x</script></td>
+      <td>タンジェントx</td>
+      <td>\tan x</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\sin ^2 x</script></td>
+      <td>サイン2乗x</td>
+      <td>\sin ^2 x</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\log _a x</script></td>
+      <td>ログa,b<br />aを底数とするbの対数</td>
+      <td>\log _a x</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\log x</script></td>
+      <td>ログ,x</td>
+      <td>\log x</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f \circ g</script></td>
+      <td>fマルg<br />fとgの合成写像</td>
+      <td>f \circ g</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f ^{-1}</script></td>
+      <td>fインバース<br />fの逆写像</td>
+      <td>f ^{-1}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">X \stackrel{f}{\to} Y</script></td>
+      <td>XからYへの写像f<br />X矢印,Y,f</td>
+      <td>X \stackrel{f}{\to} Y</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \stackrel{f}{\to} b</script></td>
+      <td>aをbに移す写像f<br />a矢印,b,f</td>
+      <td>a \stackrel{f}{\to} b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f: x \to y</script></td>
+      <td>xからyへの写像f<br />f,x矢印,y</td>
+      <td>f: x \to y</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f(x,y)</script></td>
+      <td>f,x,y<br />f,かっこ,x,y,（かっこ）</td>
+      <td>f(x,y)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-ベクトル行列">3. ベクトル・行列</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">\vec{a}</script></td>
+      <td>ベクトルa<br />aベクトル</td>
+      <td>\vec{a}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\overrightarrow{AB}</script></td>
+      <td>ベクトルAB<br />ABベクトル</td>
+      <td>\overrightarrow{AB}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\mid \vec{a} \mid</script></td>
+      <td>ベクトルaの大きさ<br />ベクトルaの絶対値</td>
+      <td>\mid \vec{a} \mid</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\vec{0}</script></td>
+      <td>零ベクトル<br />ゼロベクトル</td>
+      <td>\vec{0}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\vec{a} \neq \vec{b}</script></td>
+      <td>ベクトルaはベクトルbではない</td>
+      <td>\vec{a} \neq \vec{b}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\vec{a} \parallel \vec{b}</script></td>
+      <td>ベクトルa,bは平行<br />ベクトルa平行ベクトルb</td>
+      <td>\vec{a} \parallel \vec{b}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\vec{a} \perp \vec{b}</script></td>
+      <td>ベクトルa,bは垂直<br />ベクトルa垂直ベクトルb</td>
+      <td>\vec{a} \perp \vec{b}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\vec{a}=(a_1,a_2)</script></td>
+      <td>ベクトルaイコールa1,a2<br />ベクトルaイコール,かっこa1,a2</td>
+      <td>\vec{a}=(a_1,a_2)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\vec{a} \cdot \vec{b}</script></td>
+      <td>ベクトルa,bの内積</td>
+      <td>\vec{a} \cdot \vec{b}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">( a \quad b )</script></td>
+      <td>行ベクトルa,b<br />かっこ,a,b,</td>
+      <td>( a \quad b )</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\begin{pmatrix} a \\ b \end{pmatrix}</script></td>
+      <td>列ベクトルa,b<br />かっこ,a,b,</td>
+      <td>\begin{pmatrix} a \ b \end{pmatrix}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">m \times n</script></td>
+      <td>m,n行列<br />mかけるn行列</td>
+      <td>m \times n</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">% <![CDATA[
+\begin{pmatrix} a & b \\ c & d \end{pmatrix} %]]></script></td>
+      <td>行列a,b,c,d<br />かっこ,a,b,c,d</td>
+      <td>\begin{pmatrix} a &amp; b \ c &amp; d \end{pmatrix}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A^2</script></td>
+      <td>Aの2乗</td>
+      <td>A^2</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A^{-1}</script></td>
+      <td>Aの逆行列<br />Aインバース</td>
+      <td>A^{-1}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \vec{x}</script></td>
+      <td>Aベクトルx</td>
+      <td>A \vec{x}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">O</script></td>
+      <td>零行列</td>
+      <td>O</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="4-微分積分">4. 微分・積分</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">\{ a_n \}</script></td>
+      <td>数列an</td>
+      <td>{ a_n }</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\sum _{k=1} ^{n} {k(k+1)}</script></td>
+      <td>シグマ,ak,k=1からnまで<br />シグマ,k=1からnまで,ak</td>
+      <td>\sum _{k=1} ^{n} {k(k+1)}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">n \to \infty</script></td>
+      <td>n矢印無限大<br />n無限大</td>
+      <td>n \to \infty</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\lim {n \to \infty} a_n=\alpha</script></td>
+      <td>nが限りなく大きくなるときのanの極限値はα<br /> リミット,n→∞,an,イコールα</td>
+      <td>\lim {n \to \infty} a_n=\alpha</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">x \to a</script></td>
+      <td>x矢印a<br />xが限りなくaに近づく</td>
+      <td>x \to a</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\lim {x \to a} f(x)=b</script></td>
+      <td>xが限りなくaに近づくとき,f(x)の極限値はbである<br />リミット,xがaに近づくときのf(x),イコール,b<br />リミット,x矢印a,f(x),イコールb</td>
+      <td>\lim {x \to a} f(x)=b</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\lim {x \to a+0} f(x)</script></td>
+      <td>xがaに近づくときのf(x)の右極限値<br />リミット,xが大きい方からaに近づくときのf(x)<br />リミット,x矢印a+0,f(x)</td>
+      <td>\lim {x \to a+0} f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\lim {x \to a-0} f(x)</script></td>
+      <td>xがaに近づくときのf(x)の左極限値<br />リミット,xが小さい方からaに近づくときのf(x)<br />リミット,x矢印a-0,f(x)</td>
+      <td>\lim {x \to a-0} f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\Delta x \to 0</script></td>
+      <td>デルタx矢印0<br />デルタxが限りなく0に近づく</td>
+      <td>\Delta x \to 0</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f'(x)</script></td>
+      <td>f,ダッシュ,x</td>
+      <td>f’(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">y'</script></td>
+      <td>y,ダッシュ</td>
+      <td>y’</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{dy}{dx}</script></td>
+      <td>dy,dx</td>
+      <td>\frac{dy}{dx}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{d}{dx} f(x)</script></td>
+      <td>d,dx,f(x)</td>
+      <td>\frac{d}{dx} f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{d}{dx} f(x)</script></td>
+      <td>d,dx,f(x)</td>
+      <td>\frac{d}{dx} f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">( a,b )</script></td>
+      <td>開区間a,b</td>
+      <td>( a,b )</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">[ a,b ]</script></td>
+      <td>閉区間a,b</td>
+      <td>[ a,b ]</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f"(x)</script></td>
+      <td>f,トゥーダッシュ,x</td>
+      <td>f”(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">y"</script></td>
+      <td>y,トゥーダッシュ</td>
+      <td>y”</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{d^2y}{dx^2}</script></td>
+      <td>d,トゥー,y,d,x,トゥー yの第2次導関数</td>
+      <td>\frac{d^2y}{dx^2}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{d^y}{dx^2} f(x)</script></td>
+      <td>f(x) d,トゥー,d,x,トゥー,f(x)<br />f(x)の第2次導関数</td>
+      <td>\frac{d^y}{dx^2} f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">y^{(n)}</script></td>
+      <td>yの第n次導関数</td>
+      <td>y^{(n)}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">f^{(n)(x)}</script></td>
+      <td>f(x)の第n次導関数</td>
+      <td>f^{(n)(x)}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{d^ny}{dx^n}</script></td>
+      <td>d,n,d,x,n,f(x)<br />yの第n次導関数</td>
+      <td>\frac{d^ny}{dx^n}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\frac{d^n}{dx^n} f(x)</script></td>
+      <td>d,n,d,x,n,f(x)<br />f(x)の第n次導関数</td>
+      <td>\frac{d^n}{dx^n} f(x)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\int _a ^b f(x) dx</script></td>
+      <td>インテグラル,aからbまで,f(x),dx</td>
+      <td>\int _a ^b f(x) dx</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">[ F(x) ] ^b _a</script></td>
+      <td>F(x),a,b</td>
+      <td>[ F(x) ] ^b _a</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="5-集合理論">5. 集合・理論</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">A \subset B</script></td>
+      <td>AはBの真部分集合である</td>
+      <td>A \subset B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \supset B</script></td>
+      <td>AはBを真部分集合に持つ</td>
+      <td>A \supset B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \subseteqq B</script></td>
+      <td>A含まれるB<br />AはBの部分集合である<br />AはBに含まれる</td>
+      <td>A \subseteqq B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \supseteqq B</script></td>
+      <td>A含むB<br />AはBを含む<br />BはAを部分集合に持つ</td>
+      <td>A \supseteqq B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \in A</script></td>
+      <td>aはAの要素である<br />aはAに属する<br />a属するA</td>
+      <td>a \in A</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">a \notin A</script></td>
+      <td>aはAの要素でない<br />aはAに属さない<br />a属さないA</td>
+      <td>a \notin A</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \ni a</script></td>
+      <td>aを要素とする<br />Aの要素</td>
+      <td>A \ni a</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\{ 1,2,3,4 \}</script></td>
+      <td>集合1,2,3,4<br />1,2,3,4を要素とする集合</td>
+      <td>{ 1,2,3,4 }</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">% <![CDATA[
+\{ x \mid x<6 \} %]]></script></td>
+      <td>x（の集合）ただしx&lt;6<br />x&lt;6を満たす集合</td>
+      <td>{ x \mid x&lt;6 }</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \cap B</script></td>
+      <td>AキャップB<br />A 交わり<br />AとBの交わり（共通部分）<br />AインターセクションB</td>
+      <td>A \cap B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A \cup B</script></td>
+      <td>A カップ B<br />A結びB<br />AとBの結び<br />AユニオンB</td>
+      <td>A \cup B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">A=B</script></td>
+      <td>AイコールB<br />AはBに等しい</td>
+      <td>A=B</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\bar{A}</script></td>
+      <td>Aバー<br />Aの補集合</td>
+      <td>\bar{A}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\phi</script></td>
+      <td>空集合<br />ファイ</td>
+      <td>\phi</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">P \Rightarrow Q</script></td>
+      <td>PならばQ</td>
+      <td>P \Rightarrow Q</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">P \Leftrightarrow Q</script></td>
+      <td>PとQは同値</td>
+      <td>P \Leftrightarrow Q</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\bar{P}</script></td>
+      <td>Pでない<br />Pの否定<br />Pバー</td>
+      <td>\bar{P}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="6-確率統計">6. 確率・統計</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">_n P _r</script></td>
+      <td>n,P,r<br />Pのn,r<br />パーミュテーション,n,r</td>
+      <td>_n P _r</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">_n C _r</script></td>
+      <td>n,C,r<br />Cのn,r<br />コンビネーション,n,r</td>
+      <td>_n C _r</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">n!</script></td>
+      <td>nの階乗<br />nファクトリアル</td>
+      <td>n!</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">n(A)</script></td>
+      <td>n,A<br />n,かっこ,A,（かっこ）</td>
+      <td>n(A)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">P(A)</script></td>
+      <td>P,A<br />事象Aの確率</td>
+      <td>P(A)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">P _A (B)</script></td>
+      <td>P,A,B<br />PのA,B<br />P,A,かっこ,B,（かっこ）</td>
+      <td>P _A (B)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\bar{x}</script></td>
+      <td>xバー<br />xの平均</td>
+      <td>\bar{x}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">E(X)</script></td>
+      <td>E,X<br />Xの平均</td>
+      <td>E(X)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">V(X)</script></td>
+      <td>V,X<br />Xの分散</td>
+      <td>V(X)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\sigma (X)</script></td>
+      <td>シグマ,X<br />Xの標準偏差</td>
+      <td>\sigma (X)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">P(X=A)</script></td>
+      <td>P,かっこ,X=a,（かっこ）<br />X=aとなる確率</td>
+      <td>P(X=A)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">B(n,p)</script></td>
+      <td>B,n,p</td>
+      <td>B(n,p)</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">N(m,\sigma ^2)</script></td>
+      <td>N,m,σ2</td>
+      <td>N(m,\sigma ^2)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="7-幾何">7. 幾何</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">x \circ</script></td>
+      <td>x度</td>
+      <td>x \circ</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\angle A</script></td>
+      <td>角A</td>
+      <td>\angle A</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\triangle {ABC}</script></td>
+      <td>三角形ABC</td>
+      <td>\triangle {ABC}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">l \parallel m</script></td>
+      <td>l平行m<br />lとmは平行</td>
+      <td>l \parallel m</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">l \nparallel m</script></td>
+      <td>lとmは平行でない</td>
+      <td>l \nparallel m</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\triangle {ABC} \equiv \triangle {DEF}</script></td>
+      <td>△ABCと△DEF合同<br /> △ABC合同△DEF</td>
+      <td>\triangle {ABC} \equiv \triangle {DEF}</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\overline{AB}</script></td>
+      <td>ABの長さ<br /> ABのバー</td>
+      <td>\overline{AB}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="8-ギリシャ文字">8. ギリシャ文字</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>読み方</th>
+      <th>LATEX表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><script type="math/tex">\alpha</script></td>
+      <td>アルファ</td>
+      <td>\alpha</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\beta</script></td>
+      <td>ベータ</td>
+      <td>\beta</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\gamma</script></td>
+      <td>ガンマ</td>
+      <td>\gamma</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\theta</script></td>
+      <td>シータ</td>
+      <td>\theta</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\pi</script></td>
+      <td>パイ</td>
+      <td>\pi</td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">\Delta</script></td>
+      <td>デルタ</td>
+      <td>\Delta</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://izumi-math.jp/sanae/report/suusiki/suusiki.htm">数式記号の読み方・表し方</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/08/tips-for-tmpwatch/">Tmpwatchでさくっと不要なファイルを消す</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-08T13:49:27+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:49 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>古いファイルを消したいときにtmpwatchを使うと簡単に消すことができます。</p>
+
+<p>例えば、<code>/var/www/app/tmp</code> 配下の48時間以上前のファイルやディレクトリを消したい場合は以下で消せます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tmpwatch -m 48  /var/www/app/tmp</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>tmpwatchは再帰的にファイルを削除するので、サブディレクトリがあればその配下のファイルも削除されます。<br />
+シンボリックの場合はリンクが削除されるだけでリンク先のファイルは削除されないとのことです。</p>
+
+<h3 id="参考リンク">参考リンク</h3>
+
+<ul>
+  <li><a href="http://spring-mt.tumblr.com/post/18484633412/tmpwatch%E3%81%8C%E4%BE%BF%E5%88%A9">tmpwatchが便利！</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/14">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/12">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><style>
+.footer-menu-item {
+  display: -webkit-flex;
+  display: flex;
+}
+.footer-menu-item li {
+  list-style: none;
+  border-left: 1px solid #ccc;
+  padding: 0 1em;
+}
+.footer-menu-item a {
+  text-decoration: none;
+}
+</style>
+<ul class="footer-menu-item">
+  <li><a href="/about">About</a></li>
+  <li><a href="/atom.xml">RSS</a></li>
+  <li><a href="https://twitter.com/sinn_shoyan" target="_blank">Twitter</a></li>
+  <li><a href="https://github.com/shoyan" target="_blank">Github</a></li>
+</ul>
+
+<ul class="footer-menu-item">
+  <li><a href="http://balloonbros.cc/" target="_blank">BalloonBros</a></li>
+</ul>
+
+<p>
+Copyright &copy; 2018 - SHOYAN BLOG
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

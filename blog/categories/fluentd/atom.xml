@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Fluentd | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/fluentd/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fluentd、ElasticsearchとKibanaでログ検索とグラフ表示を可能にする]]></title>
+    <link href="http://48n.jp/blog/2016/07/05/introduce-to-fluentd-elasticsearch-kibana/"/>
+    <updated>2016-07-05T17:21:32+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/05/introduce-to-fluentd-elasticsearch-kibana</id>
+    <content type="html"><![CDATA[<p><a href="/blog/2016/07/04/fluentd-tutorial/">前回の記事</a>で<a href="http://www.fluentd.org/">Fluentd</a>を使ってログをログ収集サーバに転送する方法を紹介しました。<br />
+今回は転送されたログを<a href="https://www.elastic.co/jp/products/elasticsearch">Elasticsearch</a>に登録し、<a href="https://www.elastic.co/jp/products/kibana">Kibana</a>でログ検索とグラフ表示する方法を紹介します。</p>
+
+<p>ログ収集サーバー(前回の記事でいうVagrant)の変更を行っていきます。</p>
+
+<h2 id="fluentdのelasticsearchプラグインをインストール">FluentdのElasticsearchプラグインをインストール</h2>
+
+<p>まずは、FluetndのElasticsearchプラグインをインストールしておきます。</p>
+
+<pre><code>$ sudo /usr/sbin/td-agent-gem install fluent-plugin-elasticsearch
+</code></pre>
+
+<h2 id="javaのインストール">Javaのインストール</h2>
+
+<p>Elasticsearchを動かすにはJavaが必要なのでJavaをインストールします。</p>
+
+<pre><code>$ sudo yum install java-1.7.0-openjdk
+$ sudo yum install java-1.7.0-openjdk-devel
+$ java -version
+java version "1.7.0_101"
+</code></pre>
+
+<h2 id="elasticsearchのインストールと起動">Elasticsearchのインストールと起動</h2>
+
+<p>今回はアーカイブをダウンロードしてきてインストールします。<br />
+インストールといっても特に設定は不要でアーカイブを展開して<code>bin/elasticsearch</code>を実行するだけです。</p>
+
+<pre><code>$ curl -O https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.3.3/elasticsearch-2.3.3.tar.gz
+$ cd elastic search-2.3.3
+$ ./bin/elasticsearch
+</code></pre>
+
+<h2 id="kibanaのインストールと起動">kibanaのインストールと起動</h2>
+
+<p>Kibanaも同じようにアーカイブをダウンロードして起動します。</p>
+
+<pre><code>$ curl -O https://download.elastic.co/kibana/kibana/kibana-4.5.1-linux-x64.tar.gz
+$ cd kibana-4.5.1-linux-x64
+$ ./bin/kibana
+</code></pre>
+
+<p><code>http://192.168.33.10:5601</code> にブラウザでアクセスするとKibanaの管理画面が表示されます。<br />
+Indexの設定が必要ですが、ここでは何もせず次に進みます。</p>
+
+<h2 id="syslogのログをelasticsearchに格納する">syslogのログをElasticsearchに格納する</h2>
+
+<p>syslogのログをElasticsearchに格納し、Kibanaで参照します。</p>
+
+<p><code>/etc/td-agent/td-agent.conf</code>に以下を追記します。</p>
+
+<pre><code>&lt;source&gt;
+  @type syslog # syslogプラグイン
+  port 42185   # portは42185を指定
+  tag syslog   # syslogというtagをつける
+&lt;/source&gt;
+
+&lt;match syslog.**&gt;
+  @type elasticsearch # elasticsearchプラグインを使う
+  logstash_format true # ログのフォーマット
+  flush_interval 10s # 10秒ごとに登録する
+&lt;/match&gt;
+</code></pre>
+
+<p>fluendをリスタートします。</p>
+
+<pre><code>$ sudo service td-agent restart
+</code></pre>
+
+<p>次にsyslogの設定をします。</p>
+
+<p><code>/etc/rsyslog.conf</code> に以下を追記します。<br />
+syslogが出力するログをFlutedがlistenするポート、42185に転送するための設定です。</p>
+
+<pre><code>*.* @127.0.0.1:42185
+</code></pre>
+
+<p>設定を反映させるため、syslogをリスタートします。</p>
+
+<pre><code>$ sudo /etc/init.d/rsyslog restart
+</code></pre>
+
+<p>先ほど確認した <code>http://192.168.33.10:5601</code> に戻ります。<br />
+syslogの出力がElasticsearchに登録されると、Indexを登録できるようになります。<br />
+Indexは<code>logstash-2016.07.05</code> のような名前で作成されます。<br />
+セレクトボックスからIndexを選択し、Createボタンを押下後にKibanaでログの表示、検索が行えます。</p>
+
+<p>手動でElasticsearchにログを送りたい場合は以下のコマンドで登録できます。</p>
+
+<pre><code>$ logger -t test foobar
+</code></pre>
+
+<p>もしくは、Fluentdのhttpポートにリクエストします。</p>
+
+<pre><code>$ curl -X POST -d 'json={"json":"Hello"}' http://localhost:8888/syslog.test
+</code></pre>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://docs.fluentd.org/articles/free-alternative-to-splunk-by-fluentd">Free Alternative to Splunk Using Fluentd</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fluentdを使ってローカル環境にログ収集サーバを構築する]]></title>
+    <link href="http://48n.jp/blog/2016/07/04/fluentd-tutorial/"/>
+    <updated>2016-07-04T13:50:35+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/04/fluentd-tutorial</id>
+    <content type="html"><![CDATA[<p>アプリケーションサーバとログ収集サーバにFluentdをインストールし、アプリケーションサーバからログ収集サーバにログをフォワードする方法を紹介します。<br />
+ここでは、アプリケーションサーバをMacOS X、ログ収集サーバをVagrantとします。</p>
+
+<h2 id="fluentdをホストマシンmacにインストール">Fluentdをホストマシン(Mac)にインストール</h2>
+
+<p>.dmgをダウンロードしてインストールしてください。</p>
+
+<ul>
+  <li><a href="https://td-agent-package-browser.herokuapp.com/2/macosx">ダウンロード</a></li>
+</ul>
+
+<p>以下でFluentdを起動します。</p>
+
+<pre><code>$ sudo launchctl load /Library/LaunchDaemons/td-agent.plist
+</code></pre>
+
+<p>Fluentdのログは <code>/var/log/td-agent/td-agent.log</code> に出力されます。</p>
+
+<pre><code>$ less /var/log/td-agent/td-agent.log
+</code></pre>
+
+<p>停止は以下です。</p>
+
+<pre><code>$ sudo launchctl unload /Library/LaunchDaemons/td-agent.plist
+</code></pre>
+
+<p>設定ファイルは <code>/etc/td-agent/td-agent.conf</code> です。<br />
+設定を反映させるには、以下のコマンドで行います。</p>
+
+<pre><code>$ sudo launchctl stop td-agent
+$ sudo launchctl start td-agent
+</code></pre>
+
+<p>以下でFluentdにリクエストします。</p>
+
+<pre><code>$ curl -X POST -d 'json={"json":"message"}' http://localhost:8888/debug.test
+</code></pre>
+
+<p><code>/var/log/td-agent/td-agent.log</code> にログが出力されているはずです。</p>
+
+<pre><code>$ tail -n 1 /var/log/td-agent/td-agent.log
+2016-07-01 16:51:47 -0700 debug.test: {"json":"message"}
+</code></pre>
+
+<h2 id="ログ収集サーバにfluentdをインストール">ログ収集サーバにFluentdをインストール</h2>
+
+<p>次にログ収集サーバにFluentdをインストールします。<br />
+OSはCentos6.5を使いました。<br />
+vagrantの使い方は割愛します。<br />
+networkはprivate_networkとし、192.168.33.10でアクセスできることとします。</p>
+
+<p>以下でログ収集サーバにログインします。</p>
+
+<pre><code>$ vagrant ssh
+
+# iptablesは無効にしておきます
+$ sudo service iptables stop
+
+# 以下のコマンドでFluentdインストールします。
+$ curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh
+
+# Fluentdを起動します
+$ sudo /etc/init.d/td-agent start
+</code></pre>
+
+<p>ログ収集サーバでも同じように確認してみます。</p>
+
+<pre><code>$ curl -X POST -d 'json={"json":"message"}' http://localhost:8888/debug.test
+$ tail -n 1 /var/log/td-agent/td-agent.log
+2016-07-01 16:51:47 -0700 debug.test: {"json":"message"}
+</code></pre>
+
+<h2 id="アプリケーションサーバからログ収集サーバのfluentdにリクエストを送る">アプリケーションサーバからログ収集サーバのFluentdにリクエストを送る</h2>
+
+<p>アプリケーションサーバからログ収集サーバのFluentdにリクエストを送れるかを確認します。</p>
+
+<pre><code>$ curl -X POST -d 'json={"json":"message"}' http://192.168.33.10:8888/debug.test
+</code></pre>
+
+<p>ログ収集サーバでログを確認します。<br />
+Fluentdは出力をバッファするのでフォワードされるまでにタイムログがある場合があります。</p>
+
+<pre><code>$ tail -n 1 /var/log/td-agent/td-agent.log
+</code></pre>
+
+<p>疎通を確認できたら、アプリケーションサーバからログ収集サーバのFluentdにログをforwardしてみましょう。</p>
+
+<p>アプリケーションサーバの<code>/etc/td-agent/td-agent.conf</code> を以下のように編集します。</p>
+
+<pre><code>&lt;source&gt;
+  type http
+  port 8888
+&lt;/source&gt;
+
+&lt;source&gt;
+  @type forward
+  port 24224
+&lt;/source&gt;
+
+# tagがvagrantの場合はvagrantのFluentdにフォワードする
+&lt;match tag vagrant.**&gt;
+  type forward
+  &lt;server&gt;
+    host 192.168.33.10
+    port 24224
+  &lt;/server&gt;
+&lt;/match&gt;
+
+&lt;match debug.**&gt;
+  type stdout
+&lt;/match&gt;
+</code></pre>
+
+<p>ログ収集サーバの<code>/etc/td-agent/td-agent.conf</code>に以下の設定を追加します。<br />
+tagがvagrantで送られてきたものをログに出力します。</p>
+
+<pre><code>&lt;match vagrant.**&gt;
+  type stdout
+&lt;/match&gt;
+</code></pre>
+
+<p>以下のコマンドでログ収集サーバのFluentdにデータがフォワードされます。</p>
+
+<pre><code>$ curl -X POST -d 'json={"json":"Fluentd!!!"}' http://localhost:8888/vagrant.test
+</code></pre>
+
+<p>以上で基本的なフォワードの設定ができました。</p>
+
+<h2 id="ファイルを監視してログ収集サーバにフォワードする">ファイルを監視してログ収集サーバにフォワードする</h2>
+
+<p>次はファイルを監視してファイルにデータが追加されたらその内容をログ収集サーバにフォワードするようにします。<br />
+<code>in_tail</code>プラグインを使います。<br />
+<code>in_tail</code>プラグインを使うにはtypeにtailを使います。</p>
+
+<p>アプリケーションサーバの<code>/etc/td-agent/td-agent.conf</code>に以下を追記します。</p>
+
+<pre><code>&lt;source&gt;
+  type tail # in_tailプラグインを指定
+  path /tmp/access_log # 監視するファイルの指定
+  tag vagrant.access_log # ログにつけるタグを指定
+  pos_file /tmp/access_log.pos # ファイル内のどの行までを読んだかを記録しておくファイルを指定
+  format none # フォーマットはnoneを指定
+&lt;/source&gt;
+</code></pre>
+
+<p>設定を反映させるには、以下のコマンドで行います。</p>
+
+<pre><code>$ sudo launchctl stop td-agent
+$ sudo launchctl start td-agent
+</code></pre>
+
+<p><code>/tmp/access_log</code> に追記してみましょう。</p>
+
+<pre><code>$ echo "hello" &gt;&gt; /tmp/access_log
+</code></pre>
+
+<p>すると、ログ収集サーバのFluentdに内容がフォワードされます。</p>
+
+<p>参考リンク</p>
+
+<ul>
+  <li><a href="http://knowledge.sakura.ad.jp/tech/1336/">柔軟なログ収集を可能にする「Fluentd」入門</a></li>
+  <li><a href="http://docs.fluentd.org/articles/install-by-dmg">Installing Fluentd using .dmg Installer (MacOS X)</a></li>
+  <li><a href="http://docs.Fluentd.org/articles/config-file">Configuration File</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

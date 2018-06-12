@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sinatra | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/sinatra/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sinatraのロギング機構について調べてみた]]></title>
+    <link href="http://48n.jp/blog/2016/05/27/sinatra-logger/"/>
+    <updated>2016-05-27T13:48:34+09:00</updated>
+    <id>http://48n.jp/blog/2016/05/27/sinatra-logger</id>
+    <content type="html"><![CDATA[<p>Sinatraのloggerヘルパーを使ったところ、なぜか標準エラーの出力先にログが吐かれており、標準出力の出力先にはログが吐かれない。  <br />
+標準出力先にログを吐くものだと思っていたのだが、自分が想定していた挙動と違うので調べてみた。</p>
+
+<p>まずは、Sinatraのloggerヘルパーのソースコードを確認してみる。</p>
+
+<pre><code class="language-ruby">def logger
+  request.logger
+end
+
+</code></pre>
+
+<p><a href="https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L327">https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L327</a></p>
+<p>request.loggerを返している。  <br />
+レシーバであるrequestは rack::requestなので、rack::request#loggerは何を返しているかを確認する。</p>
+
+<pre><code>def logger; get_header(RACK_LOGGER) end
+
+</code></pre>
+
+<p><a href="https://github.com/rack/rack/blob/master/lib/rack/request.rb#L136">https://github.com/rack/rack/blob/master/lib/rack/request.rb#L136</a></p>
+<p>get_headerは@envから引数に与えられた値を返すだけのメソッド。</p>
+
+<pre><code>def get_header(name)
+  @env[name]
+end
+
+</code></pre>
+
+<p>RACK_LOGGERは以下のように定義されている。</p>
+
+<pre><code>RACK_LOGGER = 'rack.logger'.freeze
+
+</code></pre>
+
+<p><a href="https://github.com/rack/rack/blob/9073125f71afd615091f575d74ec468a0b1b79bf/lib/rack.rb#L64">https://github.com/rack/rack/blob/9073125f71afd615091f575d74ec468a0b1b79bf/lib/rack.rb#L64</a></p>
+<p>ここまでで、loggerヘルパーは<code>env['rack.logger’]</code>を取得していることがわかった。</p>
+
+<p>では、rack.loggerには何が設定されているのかという疑問が湧いてくる。  <br />
+rackには3つのロガーがある。</p>
+
+<ul>
+  <li>CommonLogger</li>
+  <li>Logger</li>
+  <li>NullLogger</li>
+</ul>
+
+<p>このうち、LoggerとNullLoggerがRACK_LOGGERにセットしていた。</p>
+
+<pre><code># Rack::Logger
+require 'logger'
+
+module Rack
+  # Sets up rack.logger to write to rack.errors stream
+  class Logger
+    def initialize(app, level = ::Logger::INFO)
+      @app, @level = app, level
+    end
+
+    def call(env)
+      logger = ::Logger.new(env[RACK_ERRORS])
+      logger.level = @level
+
+      env[RACK_LOGGER] = logger
+      @app.call(env)
+    end
+  end
+end
+
+# Rack::NullLogger
+module Rack
+  class NullLogger
+    def initialize(app)
+      @app = app
+    end
+
+    def call(env)
+      env[RACK_LOGGER] = self
+      @app.call(env)
+    end
+    ...........
+
+</code></pre>
+
+<p>通常、Rack::Loggerが使われる。  <br />
+Rack::LoggerはRubyのloggerライブラリのラッパーで、log deviceにenv[RACK_ERRORS]をセットしている。  <br />
+env[RACK_ERRORS]が何かを調べたところ、基本的には$stderrがセットされるようだ。</p>
+
+<p>(例)webrickの場合は、$stderrがセットされている。</p>
+
+<pre><code>env.update(
+  RACK_VERSION =&gt; Rack::VERSION,
+  RACK_INPUT =&gt; rack_input,
+  RACK_ERRORS =&gt; $stderr,
+  RACK_MULTITHREAD =&gt; true,
+  RACK_MULTIPROCESS =&gt; false,
+  RACK_RUNONCE =&gt; false,
+  RACK_URL_SCHEME =&gt; ["yes", "on", "1"].include?(env[HTTPS]) ? "https" : "http",
+  RACK_IS_HIJACK =&gt; true,
+  RACK_HIJACK =&gt; lambda { raise NotImplementedError, "only partial hijack is supported."},
+  RACK_HIJACK_IO =&gt; nil
+)
+
+</code></pre>
+
+<p><a href="https://github.com/rack/rack/blob/95172a60fe5c2a3850163fc75e0981fe440c064e/lib/rack/handler/webrick.rb#L68">https://github.com/rack/rack/blob/95172a60fe5c2a3850163fc75e0981fe440c064e/lib/rack/handler/webrick.rb#L68</a></p>
+<p>ということで、結果的にSinatraのloggerは標準エラーに出力されることになる。</p>
+
+<h2 id="アプリケーションログを任意のファイルに出力するには">アプリケーションログを任意のファイルに出力するには</h2>
+
+<p>任意のファイルにログを出力したい場合は、自前でloggerを定義してやればよい。</p>
+
+<pre><code>def logger
+  return @logger unless @logger.nil?
+  file = File.new("#{settings.root}/log/#{settings.environment}.log", 'a+')
+  file.sync = true
+  @logger = ::Logger.new(file)
+end
+
+logger.info "Hello"
+
+</code></pre>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://koseki.hatenablog.com/entry/20120309/SinatraAppLog">Sinatra でアプリケーションログをファイルに書く方法。</a></li>
+  <li><a href="http://recipes.sinatrarb.com/p/middleware/rack_commonlogger">Sinatra Recipes - Middleware - Rack Commonlogger</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Exception Notificationでundefined Method `current' for Time:Classエラーがでた]]></title>
+    <link href="http://48n.jp/blog/2016/05/13/exception-notification-and-sinatra/"/>
+    <updated>2016-05-13T13:28:11+09:00</updated>
+    <id>http://48n.jp/blog/2016/05/13/exception-notification-and-sinatra</id>
+    <content type="html"><![CDATA[<p>例外発生時に<a href="https://github.com/smartinez87/exception_notification">Exception Notification</a>で通知をしようと思い、導入してみたところ以下のエラーがでました。</p>
+
+<pre><code>ERROR: Failed to generate exception summary:
+ActionView::Template::Error: undefined method `current' for Time:Class
+
+</code></pre>
+
+<p>日付の取得に<code>Time.current</code>を使っており、<code>Time.current</code>はActive supportにより拡張されたメソッドなのでActive Supportを使っている環境でしか動作しません(要するにRailsじゃないと動かない。Sinatraは…)。</p>
+
+<p>PRもでているので対応してほしいところです。</p>
+
+<ul>
+  <li><a href="https://github.com/smartinez87/exception_notification/pull/332">Fix timestamp error</a></li>
+</ul>
+
+<h2 id="対応方法">対応方法</h2>
+
+<p><code>require 'active_support/core_ext/time’</code> をすることで<code>Time.current</code>を使えるようにしました。</p>
+
+<p>サンプルコード</p>
+
+<pre><code>require 'rubygems'
+require 'bundler/setup'
+require "sinatra/base"
+require 'exception_notification'
+# Time.currentを使えるようにする
+require 'active_support/core_ext/time'
+
+class App &lt; Sinatra::Application
+  use ExceptionNotification::Rack,
+    :email =&gt; {
+      :email_prefix =&gt; "[Exception] ",
+      :sender_address =&gt; %{"notifier" &lt;notifier@example.com&gt;},
+      :exception_recipients =&gt; %w{shoyan@example.com}
+    }
+
+  get '/' do
+    begin
+      // 何かの処理
+    rescue Exception =&gt; e
+      status 500
+      ExceptionNotifier.notify_exception(e, env: env)
+      e.message
+    end
+  end
+end
+
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sinatraのエラーハンドリング]]></title>
+    <link href="http://48n.jp/blog/2016/05/12/error-handling-sinatra/"/>
+    <updated>2016-05-12T13:29:14+09:00</updated>
+    <id>http://48n.jp/blog/2016/05/12/error-handling-sinatra</id>
+    <content type="html"><![CDATA[<p>Sinatraには not_foundハンドラとerrorハンドラの2つのハンドラが用意されています。  <br />
+not_foundハンドラは404エラーを補足するためのエラーハンドラです。  <br />
+errorハンドラは様々なエラーを補足するためのエラーハンドラです。</p>
+
+<h2 id="not-foundハンドラ">Not Foundハンドラ</h2>
+
+<p>not_foundハンドラは404エラーを補足するためのエラーハンドラです。  <br />
+<code>Sinatra::NotFound</code>が発生したとき、またはステータスコードが404のときは not_foundハンドラが実行されます。</p>
+
+<pre><code class="language-ruby">not_found do
+  'This is nowhere to be found.'
+end
+
+</code></pre>
+
+<h2 id="errorハンドラ">Errorハンドラ</h2>
+
+<p>errorハンドラは様々なエラーを補足するためのエラーハンドラです。  <br />
+例外オブジェクトにはRack変数の sinatra.error でアクセスできます。</p>
+
+<pre><code>error do
+  'Sorry there was a nasty error - ' + env['sinatra.error'].message
+end
+
+</code></pre>
+
+<p>以下の設定をすると、environmentがDevelopmentのときにブラウザにスタックトレースを表示することができます。</p>
+
+<pre><code>set :show_exceptions, :after_handler
+
+</code></pre>
+
+<p>エラー固有の制御もできます。<br />
+MyCustomeErrorのエラーハンドリングをしたいときは以下のように定義します。</p>
+
+<pre><code>error MyCustomError do
+  'So what happened was...' + env['sinatra.error'].message
+end
+
+</code></pre>
+
+<p>raiseでエラーを発生させるようにしてみます。</p>
+
+<pre><code>get '/' do
+  raise MyCustomError, 'something bad'
+end
+
+# 以下のようにレスポンスが返ります。
+
+So what happened was... something bad
+
+</code></pre>
+
+<p>ステータスコードを指定してエラーハンドリングを行う方法もあります。</p>
+
+<pre><code>error 403 do
+  'Access forbidden'
+end
+
+</code></pre>
+
+<p>レンジの指定も可能です。</p>
+
+<pre><code>error 400..510 do
+  'Boom'
+end
+
+</code></pre>
+
+<h3 id="errorハンドラにerrorコードを指定しなかった場合は何を補足するのか">errorハンドラにerrorコードを指定しなかった場合は何を補足するのか</h3>
+<p>errorハンドラにerrorコードを指定しなかった場合は、Exceptionを補足します。</p>
+
+<pre><code>      def error(*codes, &amp;block)
+        args  = compile! "ERROR", /.*/, block
+        codes = codes.map { |c| Array(c) }.flatten
+        codes &lt;&lt; Exception if codes.empty? #errorコードの指定がない場合
+        codes &lt;&lt; Sinatra::NotFound if codes.include?(404)
+        codes.each { |c| (@errors[c] ||= []) &lt;&lt; args }
+      end
+
+</code></pre>
+
+<p><a href="https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L1287">https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L1287</a></p>
+<p>その他の例外は補足しません。  <br />
+例えばExceptionのサブクラスであるStandardErrorは拾ってくれません。  <br />
+ですので、明示的にerrorコードを指定しておいたほうがよいです。</p>
+
+<pre><code>error 500 do
+  'Sorry there was a nasty error - ' + env['sinatra.error'].message
+end
+
+</code></pre>
+
+<h2 id="参考文献">参考文献</h2>
+
+<ul>
+  <li>
+    <p><a href="http://www.sinatrarb.com/intro.html#Error%20Handling">http://www.sinatrarb.com/intro.html#Error%20Handling</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RACK_ENVとUnicorn、SinatraでのRACK_ENVの扱いと注意点]]></title>
+    <link href="http://48n.jp/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra/"/>
+    <updated>2016-05-02T14:14:29+09:00</updated>
+    <id>http://48n.jp/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra</id>
+    <content type="html"><![CDATA[<p>RACK_ENVについて調べた内容とUnicorn、SinatraでのRACK_ENVの扱い方や注意点をまとめました。  <br />
+RACK_ENVとはRACKの環境変数です。  <br />
+何を設定するかによって使用するmiddlewareが変わります。  <br />
+RACK_ENVには、<code>development</code>、<code>deployment</code>、<code>none</code>の3種類があります。</p>
+
+<p>以下がそれぞれのRACK_ENVで使われるmiddlewareです。</p>
+
+<pre><code>    #       - development: CommonLogger, ShowExceptions, and Lint
+    #       - deployment: CommonLogger
+    #       - none: なし
+
+</code></pre>
+<p><a href="https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157">https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157</a></p>
+<p><code>development</code>と<code>deployment</code>に該当しない場合はmiddlewareは何も使われないようです。</p>
+
+<p><a href="https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L228">https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L228</a></p>
+<p>ここを間違えて<code>production</code>と設定する例を時々見るのですが、<code>production</code>は存在しないので、<code>none</code>と同じ挙動となります。<br />
+capistrano3-unicornのソースコードを見てみると、<code>production</code>を指定した場合<code>deployment</code>を設定するようになっていました。</p>
+
+<pre><code class="language-ruby">set :unicorn_rack_env, -&gt; { fetch(:rails_env) == "development" ? "development" : "deployment" }
+
+</code></pre>
+<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7">https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7</a></p>
+<p>unicornはちょっと挙動を変えていて、<code>development</code>と<code>deployment</code>のときは ShowExceptionsとLintは読み込まないようです。</p>
+
+<pre><code>      case ENV["RACK_ENV"]
+      when "development"
+      when "deployment"
+        middleware.delete(:ShowExceptions)
+        middleware.delete(:Lint)
+      else
+        return inner_app
+      end
+
+</code></pre>
+<p><a href="https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79">https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79</a></p>
+<h3 id="sinatraの環境変数">Sinatraの環境変数</h3>
+
+<p>SinatraはRACK_ENVとenvironmentという環境変数が2つありややこしいです。  <br />
+基本的には、environmentを定義して使います。  <br />
+異なる環境で実行したい場合、RACK_ENVを指定することができます(これが混乱のもと)。</p>
+
+<pre><code class="language-text">異なる環境を走らせるには、RACK_ENV環境変数を設定します。
+RACK_ENV=production ruby my_app.rb
+
+</code></pre>
+<p><a href="https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments">https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments</a></p>
+<p><code>set :environment, :production</code> と定義して、<code>RACK_ENV=development ruby my_app.rb</code> を実行してみました。  <br />
+このときの <code>settings.production?</code>の戻り値は何になるでしょうか。  <br />
+trueとなり、productionと判定されます。  <br />
+set :environmentで指定されたもので判定されるようです。</p>
+
+<p>まとめると以下のような挙動になります。</p>
+
+<ul>
+  <li>set :environment が指定されているときは指定された値が使われる</li>
+  <li>set :environment が指定されていないときは RACK_ENVが使われる</li>
+  <li>set :environment も RACK_ENVも指定されていないときは developmentになる</li>
+</ul>
+
+<p>ここで1つ気になることがでてきました。  <br />
+capistrano3-unicornを使った場合は、RACK_ENVはdeploymentが指定されます。  <br />
+Sinatraで <code>set :environment</code> を設定しなかった場合はRACK_ENVの値が優先されます。  <br />
+ということは、本番環境でも<code>settings.production?</code>がfalseとなってしまいます。  <br />
+これは意図しない挙動ですね。  <br />
+また、テンプレートのキャッシュについても効かなくなってしまいます。</p>
+
+<h3 id="まとめ">まとめ</h3>
+<p>Sinatraではset :environment を明示的に指定しましょう。</p>
+
+<pre><code class="language-ruby">set :environment, ENV["RACK_ENV"] == "deployment"? :production : ENV["RACK_ENV"].to_sym
+
+</code></pre>
+
+<h2 id="参考文献">参考文献</h2>
+<ul>
+  <li>
+    <p><a href="https://blog.kksg.net/posts/unicorn-environment">https://blog.kksg.net/posts/unicorn-environment</a></p>  </li>
+  <li>
+    <p><a href="http://unicorn.bogomips.org/unicorn_1.html#TOC">http://unicorn.bogomips.org/unicorn_1.html#TOC</a></p>  </li>
+  <li>
+    <p><a href="https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments">https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sinatraのレスポンスの設定とストリーミングヘルパー]]></title>
+    <link href="http://48n.jp/blog/2016/04/26/sets-body-and-status-code-and-header-with-sinatra/"/>
+    <updated>2016-04-26T13:52:30+09:00</updated>
+    <id>http://48n.jp/blog/2016/04/26/sets-body-and-status-code-and-header-with-sinatra</id>
+    <content type="html"><![CDATA[<p>通常はルーティングブロックの戻り値にセットした文字列がbodyにセットされます。  <br />
+任意の評価フローでbodyをセットしたい場合はどうすればいいでしょうか。  <br />
+Sinatraには任意の評価フローでbodyをセットできる、bodyヘルパーが用意されています。</p>
+
+<pre><code class="language-ruby">get '/foo' do
+  body "bar"
+end
+
+after do
+  puts body
+end
+
+</code></pre>
+
+<p>Status Codeを設定するstatusヘルパー、headerを設定するheadersヘルパーも用意されています。</p>
+
+<pre><code>get '/foo' do
+  status 418
+  headers \
+    "Allow"   =&gt; "BREW, POST, GET, PROPFIND, WHEN",
+    "Refresh" =&gt; "Refresh: 20; http://www.ietf.org/rfc/rfc2324.txt"
+  body "I'm a tea pot!"
+end
+
+</code></pre>
+
+<p>引数の伴わないbody, status, headersは現在の値を確認するために使えます。</p>
+
+<h3 id="streamingヘルパー">Streamingヘルパー</h3>
+
+<p>streamヘルパーを使うとおもしろいことができます。  <br />
+レスポンスボディの部分を生成している段階でデータを送信することができます。  <br />
+この仕組みを使ってストリーミングAPIを実装することもできます。</p>
+
+<pre><code>get '/' do
+  stream do |out|
+    out &lt;&lt; "It's gonna be legen -\n"
+    sleep 0.5
+    out &lt;&lt; " (wait for it) \n"
+    sleep 1
+    out &lt;&lt; "- dary!\n"
+  end
+end
+
+</code></pre>
+
+<p>以下は、ストリーミングAPIのサンプルです。</p>
+
+<pre><code># app.rb
+# long polling
+
+set :server, :thin
+connections = []
+
+get '/subscribe' do
+  # register a client's interest in server events
+  stream(:keep_open) do |out|
+    connections &lt;&lt; out
+    # purge dead connections
+    connections.reject!(&amp;:closed?)
+  end
+end
+
+post '/message' do
+  connections.each do |out|
+    # notify client that a new message has arrived
+    out &lt;&lt; params['message'] &lt;&lt; "\n"
+
+    # indicate client to connect again
+    out.close
+  end
+
+  # acknowledge
+  "message received"
+end
+
+</code></pre>
+
+<p>ストリーミングはThinやRainbowsなどのイベント型サーバーでないと動かないので注意が必要です。</p>
+
+<p>サーバーを起動させてみます。</p>
+
+<pre><code>$ gem insatall thin
+$ ruby app.rb
+
+</code></pre>
+
+<p>別のターミナルを開いて、以下を実行します。</p>
+
+<pre><code>$ curl http://localhost:4567/subscribe
+
+</code></pre>
+
+<p>何もレスポンスがありませんが、接続が維持された状態となります。</p>
+
+<p>別のタブを開いて以下の実行してみましょう。</p>
+
+<pre><code>$ curl http://localhost:4567/message -X POST -d "message=hello"
+
+</code></pre>
+
+<p>すると、subscribeのほうにhelloと表示されて接続が切れます。  <br />
+これは、/messageのout.closeを実行しているからです。  <br />
+試しに、out.closeをコメントアウトしてサーバーを起動すると接続維持されたままになります。</p>
+]]></content>
+  </entry>
+  
+</feed>

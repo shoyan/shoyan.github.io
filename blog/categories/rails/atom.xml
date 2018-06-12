@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rubyのモジュールはあと勝ち]]></title>
+    <link href="http://48n.jp/blog/2017/05/10/ruby-module-after-win/"/>
+    <updated>2017-05-10T16:52:23+09:00</updated>
+    <id>http://48n.jp/blog/2017/05/10/ruby-module-after-win</id>
+    <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
+
+<p>今回はRubyのモジュールについての話しです。<br />
+結論ファーストです。Rubyのモジュールはあと勝ちということを知りました。</p>
+
+<p>もう少し正確に言うと、異なるモジュールに同じ名前のメソッドが定義してあった場合、後にinclude されたメソッドで上書きされます。<br />
+この知見はActiveRecordのソースコードを読んでいて知りました。</p>
+
+<p>ActiveRecord::Validationsモジュールのソースコードを読んでいて、ActiveRecord::Validationsモジュールにsaveメソッドがあるのが気になりました。<br />
+というのも、saveメソッドはActiveRecord::Persistentモジュールにも定義してあるからです。</p>
+
+<p>ActiveRecord::ValidationsモジュールのAPIのドキュメントによると、以下のように書いてあります。</p>
+
+<blockquote>
+  <p>The regular ActiveRecord::Base#save method is replaced with this when the validations module is mixed in, which it is by default.</p>
+</blockquote>
+
+<p>訳: 通常、ActiveRecord::Base#メソッドはバリデーションモジュールが混在している場合にはこれと置き換えられます。これはデフォルトです。</p>
+
+<p>ここでActiveRecordの仕組みについて少し説明しておくと、ActiveRecord::Baseというクラスがあり、そのクラスで各モジュールをincludeしています。</p>
+
+<p>2017年5月現在では、以下のようにincludeされています。</p>
+
+<pre><code class="language-ruby">module ActiveRecord
+  class Base
+    include 様々なモジュール
+    include Persistence
+    include 様々なモジュール
+    include Validations
+    include 様々なモジュール
+  end
+end
+</code></pre>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb</a></p>  </li>
+</ul>
+
+<p>ActiveRecord::Persistenceの後にActiveRecord::Validationsモジュールがincludeされています。<br />
+どうやら後にincludeされたモジュールのメソッドで上書きされているようです。</p>
+
+<p>ここでサンプルコードを使って確かめてみました。</p>
+
+<pre><code class="language-ruby">module Hoge
+  def name
+    'hoge'
+  end
+end
+
+module Moge
+  def name
+    'moge'
+  end
+end
+
+class Man
+  include Hoge
+  include Moge
+end
+
+man = Man.new
+p man.name
+</code></pre>
+
+<p>実行してみると、<code>moge</code> が出力されました。<br />
+予想通り、後から読み込まれたモジュールのメソッドで上書きされていました。</p>
+
+<p>メソッド名が重複するということは普通にありそうなので、この挙動については知っておいたほうがいいかもしれませんね。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails5のignored_columnsで予約語のエラーを回避する]]></title>
+    <link href="http://48n.jp/blog/2017/03/06/ignored-columns-rails5/"/>
+    <updated>2017-03-06T18:28:48+09:00</updated>
+    <id>http://48n.jp/blog/2017/03/06/ignored-columns-rails5</id>
+    <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
+
+<p>Railsには様々な予約語がありますが、歴史の長いシステムを扱っているとDBのカラムがその予約語に該当する場合があります。<br />
+例えば <code>class</code>というカラム名があった場合、そのカラムの影響で以下のエラーが発生します。</p>
+
+<pre><code class="language-ruby">pry(main)&gt; User.all.first
+NoMethodError: undefined method `fetch_value' for nil:NilClass
+</code></pre>
+
+<p>これを回避する方法の1つがDBのカラム名の変更です。<br />
+しかし、DBのカラム名の変更は様々な影響が考えられるため簡単に変更できない場合があります。</p>
+
+<p>その場合はアプリケーション側で回避します。</p>
+
+<h2 id="rails5のignored_columnsで予約語のエラーを回避する">Rails5のignored_columnsで予約語のエラーを回避する</h2>
+
+<p>Rails5で追加された <a href="http://api.rubyonrails.org/classes/ActiveRecord/ModelSchema.html#method-c-ignored_columns-3D">ignored_columns</a> を使えばこのカラム自体が無視されるようになり、エラーを回避できます。</p>
+
+<pre><code>class User &lt; ApplicationRecord
+  self.ignored_columns = %w(class)
+end
+</code></pre>
+
+<p>Rails4であれば以下で同様のことができるようです。</p>
+
+<pre><code>class User &lt; ActiveRecord::Base
+
+  def self.columns
+    super.reject {|column| column.name == 'class'}
+  end
+
+end
+</code></pre>
+
+<h2 id="ignored_columnsで防げないパターン">ignored_columnsで防げないパターン</h2>
+
+<p>ただし、<code>ignored_columns</code> でも完全に防げない場合があります。</p>
+
+<p><code>to_json</code> メソッドでエラーが発生します。</p>
+
+<pre><code>pry(main)&gt; User.all.to_json
+SystemStackError: stack level too deep
+</code></pre>
+
+<p>この場合は、<code>except</code> オプションで回避できます。</p>
+
+<pre><code>User.all.to_json(except: [:class])
+</code></pre>
+
+<p>今回の場合は、classカラム自体が不要だったので <code>ignore_columns</code> で対応しました。<br />
+classを使いたい場合は、どのように回避すればいいんでしょうか。。。</p>
+
+<p>どなたか知っている人がいれば情報をいただきたいです。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails5からbelongs_toアソシエーションの挙動が変わった]]></title>
+    <link href="http://48n.jp/blog/2017/01/13/belongs-to-should-default-to-required-true-rails5/"/>
+    <updated>2017-01-13T15:44:48+09:00</updated>
+    <id>http://48n.jp/blog/2017/01/13/belongs-to-should-default-to-required-true-rails5</id>
+    <content type="html"><![CDATA[<p>Rails5から <code>belogs_to</code> アソシエーションの挙動が変わった。</p>
+
+<p>親モデルに属している子モデルは親モデルの外部キーが存在しないとバリデーションエラーになるのがデフォルトの挙動となっている。<br />
+参照先レコードのidをnullで登録しようとした場合は以下のようなバリデーションエラーが出る。</p>
+
+<pre><code>ActiveRecord::RecordInvalid: Validation failed: Post  must exist
+</code></pre>
+
+<p>DHHの一声で <code>belogs_to</code> の挙動が変わる様が垣間見れるイシュー。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/rails/rails/issues/18233">https://github.com/rails/rails/issues/18233</a></p>  </li>
+</ul>
+
+<p>DHHの言い分としては「普通 belongs_to って、参照先テーブルのIDは必ずもってるだろ。ならデフォルト required: true でよくね？」という話。</p>
+
+<p>この挙動をRails4と同じにしたい場合は <code>optional: true</code> を使う(<code>required: false</code> は廃止予定なので使わないほうがいい)。</p>
+
+<pre><code class="language-ruby">
+class Post &lt; ApplicationRecord
+  belongs_to :article , optional: true
+end
+
+</code></pre>
+
+<p><code>belongs_to</code> のオプションの詳細については以下のドキュメントで参照できる。</p>
+
+<ul>
+  <li>
+    <p><a href="http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-belongs_to">http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-belongs_to</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Railsで日付をいい感じ(スラッシュ区切り)に表示する]]></title>
+    <link href="http://48n.jp/blog/2016/11/10/change-date-format-with-i18n/"/>
+    <updated>2016-11-10T18:28:31+09:00</updated>
+    <id>http://48n.jp/blog/2016/11/10/change-date-format-with-i18n</id>
+    <content type="html"><![CDATA[<p>日付は日本だと <code>/</code>(スラッシュ)区切りが一般的なのでそのように表示したい。<br />
+しかし、RailsでDateオブジェクトやDateTimeオブジェクトを表示すると以下のような感じになってしまう。</p>
+
+<pre><code class="language-ruby">pry(main)&gt; Date.today.to_s
+=&gt; "2016-11-10"
+
+pry(main)&gt; DateTime.now.to_s
+=&gt; "2016-11-10T17:47:01+09:00"
+</code></pre>
+
+<p><code>strftime</code>メソッドで書式を指定すれば良いのだが、面倒だしイケてないように感じる。</p>
+
+<p>Rails国際化APIの<code>I18n</code>にまさにというメソッドがあったので紹介する。<br />
+その名も<code>localize</code>メソッドだ。<br />
+<code>localize</code>メソッドはDateオブジェクトやDateTimeオブジェクトを現地のフォーマットに変換する。</p>
+
+<pre><code class="language-ruby">pry(main)&gt; I18n.localize(Date.today)
+=&gt; "2016/11/10"
+
+pry(main)&gt; I18n.localize(DateTime.now)
+=&gt; "2016/11/10 18:05:04"
+</code></pre>
+
+<p>ちなみにlocalizeの省略形で <code>l</code> というエイリアスが用意されている。</p>
+
+<pre><code>pry(main)&gt; I18n.l(Date.today)
+=&gt; "2016/11/10"
+
+pry(main)&gt; I18n.l(DateTime.now)
+=&gt; "2016/11/10 18:07:24"
+</code></pre>
+
+<ul>
+  <li><a href="http://railsguides.jp/i18n.html#%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%AFi18n-api">Rails国際化(I18n) API Rails ガイド</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 4.2.7.1 に更新した後に [DEPRECATION] Last_comment Is Deprecated. が発生した]]></title>
+    <link href="http://48n.jp/blog/2016/08/23/last-comment-is-deprecated/"/>
+    <updated>2016-08-23T13:37:27+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/23/last-comment-is-deprecated</id>
+    <content type="html"><![CDATA[<p>Railsを4.2.7.1にアップデートをしてrspecを実行すると、以下のエラーが発生するようになった。</p>
+
+<pre><code>$ bundle exec rspec spec
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+......................................................................................................
+
+Finished in 2.33 seconds (files took 8.78 seconds to load)
+102 examples, 0 failures
+</code></pre>
+
+<p>grepしてみたところ、rspecで使用していた。</p>
+
+<pre><code>$ hw last_comment vendor/bundle
+vendor/bundle/ruby/2.2.0/gems/rspec-core-3.2.2/lib/rspec/core/rake_task.rb
+84:        desc "Run RSpec code examples" unless ::Rake.application.last_comment
+</code></pre>
+
+<p>rspecをアップデートしたら出なくなった。</p>
+
+<pre><code>$ bundle update rspec-rails
+
+$ bundle exec rspec spec
+......................................................................................................
+
+Finished in 2.33 seconds (files took 8.85 seconds to load)
+102 examples, 0 failures
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

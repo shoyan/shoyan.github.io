@@ -1,0 +1,1073 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SHOYAN BLOG</title>
+  <meta name="author" content="Shohei Yamasaki">
+
+  
+  <meta name="description" content="Jekyllで数式を使いたい場合は、markdownにkramdownを使うのがおすすめです。 というのも、redcarpet はワンライナーの書式しか使えません。 rdiscount は自分が試したところ、動作しませんでした。 次にMathjax.jsを読み込みます。 1
+&lt;script &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="SHOYAN BLOG" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<style type="text/css">
+  img { border: none !important; }
+</style>
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQX8LKG');</script>
+<!-- End Google Tag Manager -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@sinn_shoyan" />
+
+
+  <meta name="twitter:title" content="SHOYAN BLOG" />
+
+
+
+  <meta name="twitter:description" content="当サイトSHOYAN BLOGは、Webアプリケーションエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。" />
+
+
+
+  <meta name="twitter:image" content="http://48n.jp/images/logo.png" />
+
+
+
+<body   class="collapse-sidebar sidebar-footer" >
+
+  <header role="banner"><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQX8LKG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="margin-height-10 center">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 上部広告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5334899437265020"
+     data-ad-slot="7035719791"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+</div>
+
+<hgroup>
+  <h1><a href="/">SHOYAN BLOG</a></h1>
+  
+    <h2>I am a pragmatic programmer.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscribe" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 13.310204,73.332654 C 5.967347,73.332654 0,79.322448 0,86.621428 c 0,7.338776 5.967347,13.262246 13.310204,13.262246 7.370408,0 13.328572,-5.92245 13.328572,-13.262246 0,-7.29898 -5.958164,-13.288774 -13.328572,-13.288774 z M 0.01530612,33.978572 V 53.143878 C 12.493878,53.143878 24.229592,58.02347 33.068368,66.865306 41.894898,75.685714 46.767346,87.47449 46.767346,100 h 19.25 C 66.017346,63.592858 36.4,33.979592 0.01530612,33.978572 l 0,0 z M 0.03877552,0 V 19.17449 C 44.54796,19.17551 80.77551,55.437756 80.77551,100 H 100 C 100,44.87653 55.15102,0 0.03877552,0 z"></path></svg></a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+<ul class="subscribe">
+  <li><a href="https://github.com/shoyan" rel="subscribe-github" title="@shoyan on GitHub" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 50,0 C 22.385714,0 0,22.385714 0,50 0,77.614286 22.385714,100 50,100 77.614286,100 100,77.614286 100,50 100,22.385714 77.614286,0 50,0 z m 29.692858,79.692858 c -3.859184,3.859182 -8.351022,6.887754 -13.35,9.00306 -1.27041,0.536736 -2.560204,1.009184 -3.867348,1.415306 v -7.493878 c 0,-3.938774 -1.35102,-6.835714 -4.053062,-8.690816 1.692858,-0.163264 3.24694,-0.390816 4.663266,-0.683672 1.416326,-0.292858 2.913266,-0.716328 4.491838,-1.27041 1.57857,-0.55408 2.994896,-1.213264 4.247958,-1.97755 1.253062,-0.765306 2.458164,-1.758164 3.613266,-2.978572 1.155102,-1.220408 2.12449,-2.604082 2.905102,-4.15 0.780612,-1.545918 1.4,-3.40204 1.855102,-5.566326 0.455102,-2.164286 0.683674,-4.54898 0.683674,-7.153062 0,-5.045918 -1.643878,-9.341836 -4.931634,-12.890816 C 77.44796,33.35 77.285714,29.10204 75.463266,24.512244 l -1.22143,-0.145918 c -0.845918,-0.09796 -2.368366,0.260204 -4.565306,1.07449 -2.196938,0.814286 -4.663264,2.14796 -7.396938,4.004082 -3.87449,-1.07449 -7.893878,-1.611224 -12.061224,-1.611224 -4.19898,0 -8.203062,0.536734 -12.012246,1.611224 -1.72449,-1.17245 -3.361224,-2.139796 -4.907142,-2.905102 C 31.753062,25.77449 30.516326,25.254082 29.587756,24.97653 28.660204,24.7 27.79796,24.528572 27,24.463266 c -0.79796,-0.0653 -1.310204,-0.08062 -1.537756,-0.04898 -0.22755,0.03164 -0.390816,0.0653 -0.487754,0.09796 -1.82347,4.62245 -1.985714,8.87143 -0.487756,12.743878 -3.287754,3.54796 -4.931632,7.844898 -4.931632,12.890816 0,2.604082 0.227552,4.988776 0.683674,7.153062 0.456122,2.164286 1.07449,4.020408 1.855102,5.566326 0.780612,1.545918 1.75,2.929592 2.905102,4.15 1.155102,1.220408 2.360204,2.213266 3.613264,2.978572 1.253062,0.766326 2.669388,1.42449 4.24796,1.97755 1.578572,0.554082 3.07551,0.976532 4.491836,1.27041 1.416328,0.292856 2.970408,0.521428 4.663266,0.683672 -2.669388,1.82347 -4.004082,4.720408 -4.004082,8.690816 v 7.639796 C 36.536734,89.818368 35.083674,89.3 33.656122,88.695918 c -4.99898,-2.115306 -9.490816,-5.143878 -13.35,-9.00306 -3.859184,-3.859184 -6.887754,-8.351022 -9.00306,-13.35 C 9.1163263,61.171428 8.0071428,55.67347 8.0071428,50 c 0,-5.67347 1.1091835,-11.171428 3.2969392,-16.342858 2.115306,-4.998978 5.143878,-9.490816 9.00306,-13.35 3.859184,-3.859182 8.351022,-6.887754 13.35,-9.00306 C 38.828572,9.1163266 44.32653,8.0071428 50,8.0071428 c 5.67347,0 11.171428,1.1091838 16.342858,3.2969392 5,2.115306 9.490816,5.143878 13.35,9.00306 3.859182,3.859184 6.887754,8.351022 9.00306,13.35 2.186736,5.17245 3.295918,10.67041 3.295918,16.342858 0,5.672448 -1.109182,11.171428 -3.296938,16.342858 -2.115306,4.998978 -5.143878,9.490816 -9.00204,13.35 l 0,0 z"></path></svg></a></li>
+</ul>
+  
+  
+  
+<ul class="subscribe">
+  <li><a href="https://twitter.com/sinn_shoyan" rel="subscribe-twitter" title="@sinn_shoyan on Twitter" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 512 512"><path class="social" d="M0.001,334.932c33.327,30.816,118.891,59.981,188.517-8.271c-12.52,1.955-22.972-0.416-30.913-8.269
+  c-7.531-7.465-7.945-15.182-3.914-22.202c3.275-5.725,10.184-9.741,16.977-13.934c-12.323,2.285-22.829,1.095-32.218-3.706
+  c-12.604-6.444-24.863-13.228-28.3-27.207c7.71-8.112,16.28-15.359,34.831-12.627c-17.45-5.83-33.087-13.429-44.41-24.815
+  c-11.028-11.091-12.163-18.302-13.932-26.996c9.632-3.567,19.688-5.421,30.478-4.353c-24.397-12.476-34.757-29.63-40.487-48.325
+  c-1.731-5.652-2.044-11.03-1.31-16.545c98.826,37.305,145.11,64.109,170.662,89.251c11.496-30.589,38.3-99.868,78.371-123.646
+  c0.191,3.77-1.309,7.837-4.357,12.189c11.863-6.609,21.125-17.188,37.445-16.98c-1.879,7.723-7.279,13.904-17.85,17.854
+  c10.662-4.084,21.463-7.545,32.65-9.578c10.375-1.881,10.229,6.304,4.355,10.444c-11.916,8.412-24.578,9.456-37.006,13.498
+  c38.105,0.949,69.266,18.994,93.604,58.343c8.088,13.074,13.52,26.149,14.807,40.487c16.254,4.563,32.426,5.494,48.76,2.61
+  c4.475-0.796,8.645-1.63,12.627-3.482c-6.354,9.529-13.686,17.356-23.947,20.899c-9.811,3.387-19.637,6.688-30.473,6.968
+  c17.641,6.675,37.082,7.045,57.033,5.659c-24.402,23.486-43.08,22.922-61.824,22.642c-8.221,34.703-25.025,69.315-60.52,101.005
+  c-46.559,41.569-96.678,61.397-148.457,65.742c-48.552,4.07-95.488,3.512-146.726-20.464
+  C56.486,393.349,24.648,368.884,0.001,334.932L0.001,334.932z"/></svg></a></li>
+</ul>
+  
+  
+  
+  
+  
+  
+    
+      <form action="https://www.google.com/search" method="get">
+        <fieldset role="search">
+          <input type="hidden" name="sitesearch" value="48n.jp" />
+    
+          <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+        </fieldset>
+      </form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Top</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories/ruby/">Ruby</a></li>
+  <li><a href="/blog/categories/php/">PHP</a></li>
+  <li><a href="/about/">このサイトについて</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/27/use-math-syntax-on-jekyll/">Jekyllで数式を表示する方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-27T12:25:08+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:25 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jekyllで数式を使いたい場合は、markdownにkramdownを使うのがおすすめです。  <br />
+というのも、<code>redcarpet</code> はワンライナーの書式しか使えません。  <br />
+<code>rdiscount</code> は自分が試したところ、動作しませんでした。</p>
+
+<p>次にMathjax.jsを読み込みます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで準備は整いました。</p>
+
+<p>Kramdown のドキュメントに書かれているサンプルを表示します。</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+      \vdots & \ddots & \vdots \\
+      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+    \end{array} \right)
+  \left( \begin{array}{c}
+      y_1 \\
+      \vdots \\
+      y_n
+    \end{array} \right)
+\end{align*} %]]></script>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$$
+</span><span class="line">\begin{align*}
+</span><span class="line">  &amp; \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+</span><span class="line">  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+</span><span class="line">  &amp; (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+</span><span class="line">      \phi(e_1, e_1) &amp; \cdots &amp; \phi(e_1, e_n) \\
+</span><span class="line">      \vdots &amp; \ddots &amp; \vdots \\
+</span><span class="line">      \phi(e_n, e_1) &amp; \cdots &amp; \phi(e_n, e_n)
+</span><span class="line">    \end{array} \right)
+</span><span class="line">  \left( \begin{array}{c}
+</span><span class="line">      y_1 \\
+</span><span class="line">      \vdots \\
+</span><span class="line">      y_n
+</span><span class="line">    \end{array} \right)
+</span><span class="line">\end{align*}
+</span><span class="line">$$</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>基本的な書式は以下のようになります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$$
+</span><span class="line">\begin{align*}
+</span><span class="line">
+</span><span class="line">LaTexの数式
+</span><span class="line">
+</span><span class="line">\end{align*}
+</span><span class="line">$$</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>また<code>$$</code>を使ってワンライナーで書くことも可能です。</p>
+
+<script type="math/tex; mode=display">5 + 5</script>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$$ 5 + 5 $$</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>インラインにしたいときは<code>\$$</code>を使います。</p>
+
+<p><script type="math/tex">5 + 5</script></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">\$$ 5 + 5 $$</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>このように文字中に数式を埋め込むことができます。</p>
+
+<p>光は真空中を1秒間に約 <script type="math/tex">3.0 × 10^8</script>メートル進む。 光速を <script type="math/tex">cc</script> で表す</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">光は真空中を1秒間に約 $$ 3.0 × 10^8  $$メートル進む。 光速を $$ cc $$ で表す</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>表記の確認には<a href="http://gyafun.jp/ln/MathJax.html">MathJax checker</a> を使うと便利です。<br />
+LaTeX 書式の数式をリアルタイムで確認することができます。</p>
+
+<p>LaTexの書式に関しては以下を参考にしてください。</p>
+
+<p><a href="http://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm">http://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm</a></p>
+
+<p>参考リンク</p>
+
+<ul>
+  <li><a href="http://kramdown.gettalong.org/syntax.html#math-blocks">Syntax kramdown</a></li>
+  <li><a href="http://jekyllrb.com/docs/extras/">Extras - Jekyll • Simple, blog-aware, static sites</a></li>
+  <li><a href="http://sekika.github.io/2015/10/10/equation-on-jekyll/">Jekyll 上での数式の表示</a></li>
+  <li><a href="http://www.ic.daito.ac.jp/~mizutani/html/mathexpress.html">Webの数式表現</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組みを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-23T17:14:34+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:14 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>修正した部分だけPHPの構文チェックをする仕組みを作ってみました。  <br />
+構文に問題があればGithubのPull Requestにコメントされます。</p>
+
+<p><img src="/images/2016-06-23_php-syntax-check.png" alt="2016-06-23_php-syntax-check" /></p>
+
+<p>この方法のよいところは既存のソースを変えることなくPHPの構文チェックの仕組みを導入できることです。  <br />
+規約に沿っていないコードが大量にあり、かつテストコードがないような環境(レガシー環境)にも導入することができます。</p>
+
+<p>使用したツールは以下です。</p>
+
+<ul>
+  <li><a href="https://github.com/packsaddle">packsaddle</a></li>
+  <li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a></li>
+  <li><a href="https://circleci.com/">CircleCI</a></li>
+  <li><a href="https://github.com/">Github</a></li>
+</ul>
+
+<p>また、packsaddleのツールはRuby製ですので、Rubyが動作する環境が必要です。</p>
+
+<p>サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/php-syntax-check">https://github.com/shoyan/php-syntax-check</a></p>  </li>
+</ul>
+
+<p>以下のスクリプトをCircleCIで実行しています。</p>
+
+<p>check_syntax.sh</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">#!/bin/bash</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;Start&quot;</span>
+</span><span class="line"><span class="nv">LIST</span><span class="o">=</span><span class="sb">`</span>git diff --name-only origin/master <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span><span class="sb">`</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$LIST&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;PHP file not changed.&quot;</span>
+</span><span class="line">    <span class="nb">exit </span>0
+</span><span class="line"><span class="k">fi</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$CI_PULL_REQUEST&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">    git diff --name-only origin/master <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> xargs vendor/bin/phpcs -n --standard<span class="o">=</span>PSR2 --report<span class="o">=</span>checkstyle <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">        --require saddler/reporter/github <span class="se">\</span>
+</span><span class="line">        --reporter Saddler::Reporter::Github::PullRequestReviewComment
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="仕組み">仕組み</h2>
+
+<p>以下の3つのセクションに分類されます。</p>
+
+<ul>
+  <li>対象のファイルを抽出</li>
+  <li>構文チェック</li>
+  <li>結果をレポート</li>
+</ul>
+
+<h3 id="1-対象のファイルを抽出">1. 対象のファイルを抽出</h3>
+
+<p>以下のコマンドでmasterと差分のあるファイル名を取得します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>さらに grepで拡張子が .phpのファイルのみ対象にします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master <span class="p">|</span> grep -e ‘.php<span class="nv">$&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="2-構文チェック">2. 構文チェック</h3>
+
+<p>構文チェックツールは好きなものを使えます(CheckStyleフォーマットで出力できるものに限りますが)。  <br />
+今回は<a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a>を使いました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">xargs vendor/bin/phpcs -n --standard<span class="o">=</span>PSR2 --report<span class="o">=</span>checkstyle
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>xargs</code>は前のコマンドを引数でとるために必要です。</p>
+
+<p>以下のコマンドでmasterとブランチの差分をチェックして、差分があるところのエラーを検知対象のエラーとしています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>エラーの差分の抽出に<a href="https://github.com/packsaddle/ruby-checkstyle_filter-git">checkstyle_filter-git</a>というツールを使っています。<br />
+これは、入力として渡したCheckStyle formatの文字列から、変更した内容の部分のエラーを抽出するツールです。<br />
+例えばファイルの10行目〜15行目を変更した場合、その行で発生したエラーのみを抽出します。</p>
+
+<h3 id="3-結果をレポート">3. 結果をレポート</h3>
+
+<p>saddlerを使って結果をGithubに通知します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">        --require saddler/reporter/github <span class="se">\</span>
+</span><span class="line">        --reporter Saddler::Reporter::Github::PullRequestReviewComment
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注意点としては、PRを作っていないと通知でエラーとなります。</p>
+
+<p>ですので、Pull Requestがあるかどうかをチェックするif文をいれています。<br />
+<code>$CI_PULL_REQUEST</code> はCIrcleCIの変数で、Pull Requestが作られていればこの変数にURLが格納されています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$CI_PULL_REQUESTS&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>また、通知には<code>GITHUB_ACCESS_TOKEN</code>を発行して環境変数に登録しておく必要があります。</p>
+
+<ul>
+  <li>
+    <p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">https://help.github.com/articles/creating-an-access-token-for-command-line-use/</a></p>  </li>
+</ul>
+
+<p>CircleCIの環境変数の設定については、以下を参照ください。</p>
+
+<ul>
+  <li>
+    <p><a href="https://circleci.com/docs/environment-variables/#custom">https://circleci.com/docs/environment-variables/#custom</a></p>  </li>
+</ul>
+
+<p>また、通知ではなく単に結果を出力する場合は、<a href="https://github.com/packsaddle/ruby-saddler-reporter-text">saddler/reporter/text</a>を指定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">  --require saddler/reporter/text <span class="se">\</span>
+</span><span class="line">  --reporter Saddler::Reporter::Text
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下は、出力があった場合はエラーにする例です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">RESULT</span><span class="o">=</span><span class="sb">`</span>git diff --name-only origin/master <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> xargs vendor/bin/phpcs -n --standard<span class="o">=</span>custom_ruleset.xml --report<span class="o">=</span>checkstyle <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">      --require saddler/reporter/text <span class="se">\</span>
+</span><span class="line">      --reporter Saddler::Reporter::Text<span class="sb">`</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$RESULT&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;An error has been detected,this following:&quot;</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;$RESULT&quot;</span>
+</span><span class="line">    <span class="nb">exit </span>1
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="その他">その他</h2>
+
+<p><del>ファイルのエンコードがEUC-JPのソースコードに適用したところエラーとなりました。  
+リポジトリをフォークして対応しました。</del><br />
+1.1.0より使えるようになりました！</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b">https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b</a></p>  </li>
+</ul>
+
+<p>以下のように設定します。</p>
+
+<p>Gemfile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">gem <span class="s2">&quot;checkstyle_filter-git&quot;</span>, git: <span class="s2">&quot;https://github.com/shoyan/ruby-checkstyle_filter-git.git&quot;</span>, branch: <span class="s2">&quot;implement-exec&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>iconvでgit diffの出力結果の文字コードを<code>EUC-JP</code>-&gt;<code>UTF-8</code>に変換して渡せるようにしました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master <span class="se">\</span>
+</span><span class="line">  <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
+</span><span class="line">  <span class="p">|</span> xargs phpcs -n --standard<span class="o">=</span>custom_ruleset.xml --report<span class="o">=</span>checkstyle <span class="se">\</span>
+</span><span class="line">  <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git <span class="nb">exec</span> <span class="s2">&quot;git diff origin/master | iconv -f EUCJP -t UTF8&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><del>PRもしているので直ることに期待です。</del><br />
+Mergeいただきました。</p>
+
+<ul>
+  <li><a href="https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11">https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11</a></li>
+</ul>
+
+<p>サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。</p>
+
+<ul>
+  <li><a href="https://github.com/shoyan/php-syntax-check">https://github.com/shoyan/php-syntax-check</a></li>
+</ul>
+
+<h2 id="関連記事">関連記事</h2>
+
+<ul>
+  <li><a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a></li>
+</ul>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://packsaddle.org/articles/saddler-overview/">変更したファイルにrubocopやjscsを実行して pull requestに自動でコメントする</a></li>
+  <li><a href="http://qiita.com/noboru_i/items/23827b655ac854ba04b2">規約に沿ってないPHPコードを駆逐する</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/22/shell-tips/">ShellのTipsてきなやつ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-22T18:16:41+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>6:16 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ShellスクリプトのTipsです。</p>
+
+<h2 id="シェル変数の初期化をする">シェル変数の初期化をする</h2>
+
+<p>変数に値が設定されていない場合は、指定された値を返します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">: ${VAR:=初期化する値}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="パラメーターを取得する">パラメーターを取得する</h2>
+
+<p><code>$@</code> にパラメーターが格納されています。</p>
+
+<p>例えば以下の記述をした for.sh ファイルを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">for role in "$@"; do
+</span><span class="line">  echo $role
+</span><span class="line">done
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のように出力されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ ./for.sh hoge moge
+</span><span class="line">=&gt; hoge
+</span><span class="line">moge
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="評価結果を変数に格納する">評価結果を変数に格納する</h2>
+
+<p><code>"$()"</code> で囲めば、評価結果を変数に格納することができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ name="$(hostname)"
+</span><span class="line">$ echo $name
+</span><span class="line">=&gt; shoyan-pc
+</span><span class="line">
+</span><span class="line"># 以下も同じです。
+</span><span class="line">
+</span><span class="line">$ name=`hostname`
+</span><span class="line">$ echo $name
+</span><span class="line">=&gt; shoyan-pc
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="if-と-test-コマンドの合わせ技">if と test コマンドの合わせ技</h2>
+
+<p>ifとtestコマンドを使う場合はtestコマンドを省略した<code>[]</code>がよく使われます。</p>
+
+<p>[ 文字列1 = 文字列2 ]  <br />
+[ 数値1 オプション 数値2 ]  <br />
+[ オプション 評価対象 ]</p>
+
+<p>[ の直後と ] の直前には必ず半角スペースが必要です (無いと正常に動作しません)。</p>
+
+<p>ちなみに比較は <code>==</code> でなくて <code>=</code>です。</p>
+
+<p>シェルの比較は文字列の比較と数値の比較があり、それぞれに対応するオペレーターがあります。  <br />
+そのせいで複雑になっている印象があります。</p>
+
+<h3 id="数値の比較">数値の比較</h3>
+
+<h4 id="数値1と数値2が等しいかどうか">数値1と数値2が等しいかどうか</h4>
+
+<p><code>-eq</code>、もしくは <code>=</code>を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ 1 -eq 1 ]; echo $?
+</span><span class="line">0
+</span><span class="line">$  [ 1 = 1 ]; echo $?
+</span><span class="line">0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="数値1と数値2が等しくないかどうか">数値1と数値2が等しくないかどうか</h4>
+
+<p><code>-ne</code> を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ 1 -ne 2 ]; echo $?
+</span><span class="line">0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>!=</code> でも動作しますが、慣習的にあまり使わないようです。</p>
+
+<h3 id="文字列の比較">文字列の比較</h3>
+<h4 id="文字列1と文字列2が等しいかどうか">文字列1と文字列2が等しいかどうか</h4>
+
+<p>同じ場合にtrueを返す<code>=</code>と その否定である <code>!=</code> を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ "hey" = "hey" ]; echo $?
+</span><span class="line">0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちなみに数値の比較に使う <code>-eq</code> で比較したところエラーとなりました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ "hey" -eq "hey" ]; echo $?
+</span><span class="line">[: integer expression expected: hey
+</span><span class="line">2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="文字列1と文字列2が等しくないかどうか">文字列1と文字列2が等しくないかどうか</h4>
+
+<p>文字列比較のNOT条件<br />
+<code>!=</code>を使用します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ "$hoge" != "fuga" ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>数値比較のNOT条件</p>
+
+<p>数値の比較の場合は <code>-ne</code> オプションを使うのが慣習のようです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ 1 -ne 2 ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="変数が空かどうか">変数が空かどうか</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ -z "$hoge" ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>空でないかを判定する場合は <code>-n</code> を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ -n "$hoge" ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="findで抽出したファイルをreadコマンドで1行ずつ処理する">findで抽出したファイルをreadコマンドで1行ずつ処理する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">find application -type f -name "*.ini" | while read LINE; do wc -l ${LINE}; done;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="実行ファイルのあるパスを取得する">実行ファイルのあるパスを取得する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo "$(cd $(dirname $0);pwd)"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>1つ上のディレクトリは以下のように取得する</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo "$(cd $(dirname $0);cd ..;pwd)"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://doi-t.hatenablog.com/entry/2013/12/08/161929">シェル変数のデフォルト値を設定する、未初期化時にエラーメッセージを出力してスクリプトを強制終了する - 百日半狂乱</a></li>
+  <li><a href="http://shellscript.sunone.me/if_and_test.html#数値の比較:ed775c34e441eb16a91481d087cc1a74">if 文と test コマンド - UNIX &amp; Linux コマンド・シェルスクリプト リファレンス</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/21/introduce-treantjs/">Treant.jsでツリーダイアグラムを描画する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-21T13:26:40+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>1:26 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Treant.jsとはツリーダイアグラムを描画するためのJavaScriptライブラリです。  <br />
+<a href="http://fperucic.github.io/treant-js/">Treant.js</a>でツリーダイアグラムを描画してみました。</p>
+
+<p><a href="http://codepen.io/shoyan/details/MeaqzN/">http://codepen.io/shoyan/details/MeaqzN/</a></p>
+<h2 id="簡単なサンプルを作ってみる">簡単なサンプルを作ってみる</h2>
+
+<p>まずは簡単なサンプルを作ってみましょう。</p>
+
+<p><a href="http://codepen.io/shoyan/pen/qNOMoN">http://codepen.io/shoyan/pen/qNOMoN</a></p>
+<p><a href="http://codepen.io/">codepen.io</a>を使うと簡単にサンプルが作成できるので便利です。</p>
+
+<p>Treant.jsを利用するには、いくつか必要なモジュールがあります。</p>
+
+<h4 id="js">JS</h4>
+
+<ul>
+  <li>
+    <p><a href="http://fperucic.github.io/treant-js/Treant.js">http://fperucic.github.io/treant-js/Treant.js</a></p>  </li>
+  <li>
+    <p><a href="http://fperucic.github.io/treant-js/vendor/raphael.js">http://fperucic.github.io/treant-js/vendor/raphael.js</a></p>  </li>
+</ul>
+
+<h4 id="css">CSS</h4>
+
+<ul>
+  <li>
+    <p><a href="http://fperucic.github.io/treant-js/Treant.css">http://fperucic.github.io/treant-js/Treant.css</a></p>  </li>
+</ul>
+
+<h3 id="baseとなるhtmlのテンプレート">BaseとなるHTMLのテンプレート</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="cp">&lt;!doctype html&gt;</span>
+</span><span class="line"><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;ja&quot;</span><span class="nt">&gt;</span>
+</span><span class="line"><span class="nt">&lt;head&gt;</span>
+</span><span class="line">    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">/&gt;</span>
+</span><span class="line">    <span class="nt">&lt;title&gt;&lt;/title&gt;</span>
+</span><span class="line">
+</span><span class="line">    <span class="c">&lt;!-- stylesheets --&gt;</span>
+</span><span class="line">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;http://fperucic.github.io/treant-js/Treant.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">/&gt;</span>
+</span><span class="line">     <span class="nt">&lt;style&gt;</span>
+</span><span class="line">         <span class="nt">body</span><span class="o">,</span><span class="nt">div</span><span class="o">,</span><span class="nt">dl</span><span class="o">,</span><span class="nt">dt</span><span class="o">,</span><span class="nt">dd</span><span class="o">,</span><span class="nt">ul</span><span class="o">,</span><span class="nt">ol</span><span class="o">,</span><span class="nt">li</span><span class="o">,</span><span class="nt">h1</span><span class="o">,</span><span class="nt">h2</span><span class="o">,</span><span class="nt">h3</span><span class="o">,</span><span class="nt">h4</span><span class="o">,</span><span class="nt">h5</span><span class="o">,</span><span class="nt">h6</span><span class="o">,</span><span class="nt">pre</span><span class="o">,</span><span class="nt">form</span><span class="o">,</span><span class="nt">fieldset</span><span class="o">,</span><span class="nt">input</span><span class="o">,</span><span class="nt">textarea</span><span class="o">,</span><span class="nt">p</span><span class="o">,</span><span class="nt">blockquote</span><span class="o">,</span><span class="nt">th</span><span class="o">,</span><span class="nt">td</span> <span class="p">{</span> <span class="k">margin</span><span class="o">:</span><span class="m">0</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span><span class="m">0</span><span class="p">;</span> <span class="p">}</span>
+</span><span class="line">         <span class="nt">body</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="m">#fff</span><span class="p">;</span> <span class="p">}</span>
+</span><span class="line">         <span class="c">/* optional Container STYLES */</span>
+</span><span class="line">         <span class="nc">.chart</span> <span class="p">{</span> <span class="k">height</span><span class="o">:</span> <span class="m">159px</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">332px</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">5px</span> <span class="k">auto</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="m">3px</span> <span class="k">solid</span> <span class="m">#DDD</span><span class="p">;</span> <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span> <span class="p">}</span>
+</span><span class="line">         <span class="nc">.node</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="m">#9CB5ED</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="m">2px</span> <span class="k">solid</span> <span class="m">#C8C8C8</span><span class="p">;</span> <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span> <span class="p">}</span>
+</span><span class="line">         <span class="nc">.node</span> <span class="nt">p</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">line-height</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">height</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">font-weight</span><span class="o">:</span> <span class="k">bold</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span> <span class="p">}</span>
+</span><span class="line">    <span class="nt">&lt;/style&gt;</span>
+</span><span class="line"><span class="nt">&lt;/head&gt;</span>
+</span><span class="line"><span class="nt">&lt;body&gt;</span>
+</span><span class="line">    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;tree-simple&quot;</span> <span class="na">style=</span><span class="s">&quot;width:335px; height: 160px&quot;</span> <span class="err">&lt;/</span><span class="na">div</span><span class="nt">&gt;</span>
+</span><span class="line">
+</span><span class="line">    <span class="c">&lt;!-- javascript --&gt;</span>
+</span><span class="line">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://fperucic.github.io/treant-js/vendor/raphael.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class="line">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://fperucic.github.io/treant-js/Treant.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class="line"><span class="nt">&lt;/body&gt;</span>
+</span><span class="line"><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="js-1">JS</h3>
+
+<p>JavaScriptファイルです。設定をJSONで定義して、コンストラクタに渡しています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="nx">simple_chart_config</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">    <span class="err">#</span> <span class="nx">chart</span><span class="err">の設定をします</span>
+</span><span class="line">    <span class="nx">chart</span><span class="o">:</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">container</span><span class="o">:</span> <span class="s2">&quot;#tree-simple&quot;</span>
+</span><span class="line">    <span class="p">},</span>
+</span><span class="line">    <span class="err">#</span> <span class="err">ノードを定義します</span>
+</span><span class="line">    <span class="nx">nodeStructure</span><span class="o">:</span> <span class="p">{</span>
+</span><span class="line">        <span class="nx">text</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Parent node&quot;</span> <span class="p">},</span>
+</span><span class="line">        <span class="nx">children</span><span class="o">:</span> <span class="p">[</span>
+</span><span class="line">            <span class="p">{</span>
+</span><span class="line">                <span class="nx">text</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;First child&quot;</span> <span class="p">}</span>
+</span><span class="line">            <span class="p">},</span>
+</span><span class="line">            <span class="p">{</span>
+</span><span class="line">                <span class="nx">text</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Second child&quot;</span> <span class="p">}</span>
+</span><span class="line">            <span class="p">}</span>
+</span><span class="line">        <span class="p">]</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">};</span>
+</span><span class="line"><span class="err">#</span> <span class="err">コンストラクタ</span>
+</span><span class="line"><span class="kd">var</span> <span class="nx">my_chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Treant</span><span class="p">(</span><span class="nx">simple_chart_config</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>基本的には、nodeStructureに必要なノードを定義して、CSSで見た目を調整するという感じです。  <br />
+アニメーションにも対応していて、その場合はjQueryが必要だったりするようです。  <br />
+サンプルも色々あるので参考にしてみるとよいと思います。  <br />
+http://fperucic.github.io/treant-js/</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/20/sets-csv-encoding/">[Ruby]CSVファイルのエンコードをsjisに指定する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T13:23:28+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:23 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>日本語の場合、CSVのファイルエンコードをShift JISにする要件がけっこうあると思います。  <br />
+RubyのCSVライブラリは、<code>encoding</code>というオプションが用意されており、<code>encoding: ’sjis’</code> のようにファイルエンコーディングを指定できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class="line"><span class="no">CSV</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;hoge.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">,</span> <span class="ss">encoding</span><span class="p">:</span> <span class="s1">&#39;sjis&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+</span><span class="line">  <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="o">[</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;担当者&quot;</span><span class="p">,</span> <span class="s2">&quot;メールアドレス&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nkfコマンドを使ってファイルエンコーディングを確認します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">⇒</span>  <span class="n">nkf</span> <span class="o">-</span><span class="n">g</span> <span class="n">hoge</span><span class="o">.</span><span class="n">csv</span>
+</span><span class="line"><span class="no">Shift_JIS</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Shift_JISで作成されていることが確認できました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/16">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/14">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><style>
+.footer-menu-item {
+  display: -webkit-flex;
+  display: flex;
+}
+.footer-menu-item li {
+  list-style: none;
+  border-left: 1px solid #ccc;
+  padding: 0 1em;
+}
+.footer-menu-item a {
+  text-decoration: none;
+}
+</style>
+<ul class="footer-menu-item">
+  <li><a href="/about">About</a></li>
+  <li><a href="/atom.xml">RSS</a></li>
+  <li><a href="https://twitter.com/sinn_shoyan" target="_blank">Twitter</a></li>
+  <li><a href="https://github.com/shoyan" target="_blank">Github</a></li>
+</ul>
+
+<ul class="footer-menu-item">
+  <li><a href="http://balloonbros.cc/" target="_blank">BalloonBros</a></li>
+</ul>
+
+<p>
+Copyright &copy; 2018 - SHOYAN BLOG
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

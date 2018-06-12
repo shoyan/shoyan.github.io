@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SHOYAN BLOG</title>
+  <title>Nginxで構築するキャッシュプロキシサーバ - SHOYAN BLOG</title>
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="スプラトゥーン2が楽しすぎます。社会人になってからゲームはあまりしなくなってゲームは卒業かと思っていましたが、やばいゲームと出会ってしまいました。時間を見つけてはスプラトゥーン2をやっています。ハマりすぎて妻には愛想をつかされていますが、まあそれでもいいのです。 &hellip;">
+  <meta name="description" content="Nginxを使えば簡単にプロキシサーバを構築することができます。手元で動かせるサンプルコードをGithubで公開しています。git cloneしてご利用ください。PCにDockerがインストールされていれば簡単に動作環境を構築することができます。 https://github.com/shoyan &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@sinn_shoyan" />
 
 
-  <meta name="twitter:title" content="SHOYAN BLOG" />
+  <meta name="twitter:title" content="Nginxで構築するキャッシュプロキシサーバ" />
 
 
 
@@ -144,228 +144,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2018/06/12/awesome-splatoon2/">スプラトゥーン2が楽しすぎる</a></h1>
-    
-    
-      <p class="meta">
+      
+        <h1 class="entry-title">Nginxで構築するキャッシュプロキシサーバ</h1>
         
-
-
-
-
-<time class='entry-date' datetime='2018-06-12T18:28:53+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:28 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>スプラトゥーン2が楽しすぎます。社会人になってからゲームはあまりしなくなってゲームは卒業かと思っていましたが、やばいゲームと出会ってしまいました。時間を見つけてはスプラトゥーン2をやっています。ハマりすぎて妻には愛想をつかされていますが、まあそれでもいいのです。</p>
-
-<p>スプラトゥーン2はオンラインサバゲーのようなゲームです。味方と敵の2チームにわかれて自分のチームのインクを多く塗ったほうが勝ちです。幼稚園児でもできるシンプルなゲームです。そんなシンプルなゲームですが、プロゲーマーも多くいて、プロチームもあります。6月11日より世界大会が開催されて、第3回スプラトゥーン甲子園で優勝したGGBoyZが日本代表として出場します。</p>
-
-<p>幼稚園児からプロゲーマーまで楽しめるゲームってなかなかないのではないでしょうか。クリエイターの人には脱帽ですね。素晴らしいゲームです。</p>
-
-<p>ちなみに私のウデマエはS〜Aあたりをウロウロしています。あと100時間くらいやればS+はいけるんじゃないでしょうか。武器はプラコラやラピブラエリート、デュアルスイーパーカスタムなど中長距離武器をよく使ってます。</p>
-
-<p>しばらくはやり続けるでしょうから、今後もスプラトゥーン2について書いていきたいと思います。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B072J2J26T&amp;linkId=b397d3e0d93479554f7ad256a1279272"></iframe>
-
+          <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/03/13/cache-proxy-server-build-with-nginx/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/03/13/cache-proxy-server-build-with-nginx/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
+  
+  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+        
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/14/unnecessary-document/">まだ設計書書いてるんですか？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-05-14T17:28:36+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:28 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>私は自社開発のシステムを開発しているエンジニアなのですが、そのような現場でも設計書（詳細設計書や機能設計書のこと）が必要だという意見を耳にします。私は自社開発のシステムの場合、設計書は必要ないと思います。設計書を書く時間があったら1行でもコードを書いてほしいです。</p>
-
-<p>そもそも、なぜ設計書が必要になったかというと、分析と実装を行う人が違ったからです。いわゆる、元請けが設計書を作って、実装は下請けに丸投げするやつですね。分析と実装を同じ人が行う場合は設計書は不要です。</p>
-
-<p>生産性の観点からも考察してみます。</p>
-
-<p>一般的に設計書にお金を払う人はいません。例えば、ホームページを業者に依頼したとして、設計書しか出てこなかったら金返せとなりますよね？<br />
-人は動作するアプリケーションにのみお金を払います。基本的に資本主義の世界ではお金を払う人がいるものが価値のあるものです。この一般的な常識から次のような式が定義できます。</p>
-
-<p>動作するアプリケーション &gt; 設計書</p>
-
-<p>以上から、動作するアプリケーションを実装することに時間を使った方が生産性が高いと言えます。</p>
-
-<p>設計書は分析する人と実装する人が違う場合のみに必要です。また、仮に必要だとしても設計書自体に価値はないため、最低限の時間で作るべきものです。</p>
-
-<p>時間は有限です。であれば、価値のあることに時間を使いましょう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/20/usage-pmd/">PMDでJavaのコードのバグをチェックする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-03-20T18:41:09+09:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:41 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなる<a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD</a>を紹介します。PMDを使えばバグの原因となりそうなコードを検知することができるため、不具合を未然に防ぐことが可能です。</p>
-
-<h2 id="pmdとは">PMDとは</h2>
-
-<p>PMDは次の4つの問題があるコードを検知することができるツールです。</p>
-
-<ul>
-  <li>Possible bugs - バグの要因となるコード</li>
-  <li>Dead code - 使われていないコード</li>
-  <li>Suboptimal code - 効率の悪いコード</li>
-  <li>Overcomplicated expressions - 複雑な構文</li>
-</ul>
-
-<p>PMD自体はJavaで実装されていますが、Java以外の言語にも対応しています。今回はJavaのコードを対象に使い方を紹介します。</p>
-
-<h2 id="pmdのインストール方法">PMDのインストール方法</h2>
-
-<h3 id="homebrewでインストールする">Homebrewでインストールする</h3>
-
-<p>Macであれば、次のコマンドでインストールできます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">brew install pmd</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="バイナリをダウンロードする">バイナリをダウンロードする</h3>
-
-<p>バイナリをダウンロードしてインストールすることができます。次のページからダウンロードしてください。</p>
-
-<ul>
-  <li><a href="https://github.com/pmd/pmd/releases" target="_blank">the github releases page</a></li>
-</ul>
-
-<h2 id="pmdでコードをチェックする">PMDでコードをチェックする</h2>
-
-<h3 id="サンプルコードの準備">サンプルコードの準備</h3>
-
-<p>PMDでコードをチェックしてみます。今回はサンプルコードを作って検証します。サンプルコードはGithubにアップロードしているのでクローンしてご利用ください。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git clone git@github.com:shoyan/pmd-samples.git
-</span><span class="line">cd pad-samples</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="pmdの実行">PMDの実行</h3>
-
-<p>Pmdを実行します。<code>-d</code>がソースコードのパス、<code>-R</code>がルールが設定してあるファイルのパス、<code>-l</code>に言語を指定します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">pmd pmd -d src/main/java -R rules.xml -l java
-</span><span class="line">3月 20, 2018 6:03:49 午後 net.sourceforge.pmd.cache.NoopAnalysisCache &lt;init&gt;
-</span><span class="line">警告: This analysis could be faster, please consider using Incremental Analysis: https://pmd.github.io/pmd-6.1.0/pmd_userdocs_getting_started.html#incremental-analysis
-</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:2:        Avoid unused private fields such as 'FOO'.
-</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:4:        Avoid unused local variables such as 'i'.
-</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:6:        Avoid unused private methods such as 'foo()'.</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>3つの問題が検知されています。UnusedCode.javaの2行目を見てみると、使われていないメンバ変数があります。他のエラーも同様に使われていないローカル変数とプライベートメソッドを検知しています。</p>
-
-<h3 id="ルールについて">ルールについて</h3>
-
-<p>ルールの一覧については次のリンクよりご覧ください。</p>
-<ul>
-  <li><a href="https://pmd.github.io/pmd-6.1.0/pmd_rules_java.html" target="_blank">Java Rules</a></li>
-</ul>
-
-<p>0の状態からルールを構築するのは大変です。そのため、PMDのリポジトリには様々なルールのサンプルが定義されています。基本的なルールが網羅されているbasic.xmlを利用するとよいでしょう。他にも様々なルールがあるので参考にしてください。</p>
-<ul>
-  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java" target="_blank">rulesets java</a></li>
-</ul>
-
-<h3 id="カテゴリ">カテゴリ</h3>
-
-<p>PMDのルールはカテゴリに分類されています。例えば、ベストプラクティスであれば、ベストプラクティスに沿ったルールが定義されています。カテゴリの詳細については次のリンクでご覧ください。</p>
-
-<ul>
-  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/category/java" target="_blank">category</a></li>
-</ul>
-
-<h2 id="トラブルシューティング">トラブルシューティング</h2>
-
-<p>PMD6.1.0はPMD7への過渡期バージョンのようで、Deprecatedの警告が山のように出ます。<br />
-設定ファイルでしか警告を消す術がないので設定ファイルを修正します。</p>
-
-<p>次のようにdeprecatedをfalseにするか、プロパティ自体を削除してください。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" deprecated=“false" /&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD Introduction</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/13/cache-proxy-server-build-with-nginx/">Nginxで構築するキャッシュプロキシサーバ</a></h1>
     
     
       <p class="meta">
@@ -382,7 +181,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
 
 
-  <div class="entry-content"><p>Nginxを使えば簡単にプロキシサーバを構築することができます。手元で動かせるサンプルコードをGithubで公開しています。git cloneしてご利用ください。PCにDockerがインストールされていれば簡単に動作環境を構築することができます。</p>
+<div class="entry-content"><p>Nginxを使えば簡単にプロキシサーバを構築することができます。手元で動かせるサンプルコードをGithubで公開しています。git cloneしてご利用ください。PCにDockerがインストールされていれば簡単に動作環境を構築することができます。</p>
 
 <p><a href="https://github.com/shoyan/nginx-proxy-cache" target="_blank">https://github.com/shoyan/nginx-proxy-cache</a></p>
 
@@ -565,66 +364,171 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ docker-compose stop</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
+  
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    Shohei Yamasaki
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-03-13T15:27:18+09:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:27 pm</span></time>
+      
+      
+
+
+      <div class="margin-height-10">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 下部広告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5334899437265020"
+     data-ad-slot="8372852198"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+      </div>
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2018/03/08/why-do-people-avoid-unprecedented-things/">なぜ人は前例がないことを避けるのか</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-03-08T15:20:13+09:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:20 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今までの経験がないことをやろうとすると反発の声が上がることあります。その主な理由の1つは「前例がないから」です。</p>
-
-<p>なぜ人は前例がないことを避けるのかについて考えてみます。</p>
-
-<p>前例がないということは不確実だということです。過去に答えはなく、未来にしか答えはありません。<br />
-未来のことはいくら考えてもわかりません。不確実な未来を確実なものにする方法は1つだけです。その方法とは実際にやってみることです。実際にやってみて、その結果からしか学ぶ術はありません。</p>
-
-<p>人は不確実な状態を避けたがります。それは動物に備わっている生き残るための本能からです。人は不確実な状態に直面すると不安を感じます。不安の状態でいるのは居心地が悪いため、なんとかしてこの状態を避けようとします。</p>
-
-<p>以上のように不確実な状態に直面すると人は本能的に不安を感じます。この不安を解消するための方法は2つあります。1つ目は不確実な物事に近づかないことです。不確実な物事に近づかなければ不安を感じることはありません。</p>
-
-<p>2つ目は不確実な状態を確実な状態にすることです。確実な状態になれば不安は消えます。不確実な状態を確実な状態にするには、実際にやってみるしかありません。このプロセスなしに不確実な物事を確実な物事にすることはできないのです。</p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/03/13/cache-proxy-server-build-with-nginx/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/03/13/cache-proxy-server-build-with-nginx/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
+  
+  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 </div>
-  
-  
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/03/08/why-do-people-avoid-unprecedented-things/" title="Previous Post: なぜ人は前例がないことを避けるのか">&laquo; なぜ人は前例がないことを避けるのか</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2018/03/20/usage-pmd/" title="Next Post: PMDでJavaのコードのバグをチェックする">PMDでJavaのコードのバグをチェックする &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>よく読まれている記事</h1>
+  <style>
+.recommend-box {
+  margin: 10px 0;
+}
+.recommend-box img {
+  padding: 10px 0;
+  float: left;
+  max-width: 140px;
+  min-height: 75px;
+  padding: 10px;
+  border-right: 1px solid #999;
+}
+.clearfix {
+  overflow: auto;
+}
+.recommend-box li {
+  border-right: 1px solid #999;
+  border-left: 1px solid #999;
+  border-bottom: 1px solid #999;
+  list-style-type: none;
+}
+.recommend-box li:first-child {
+  border-top: 1px solid #999;
+}
+.recommend-box h3 {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 170px;
+    min-width: 100px;
+}
+</style>
+<ul class="recommend-box">
+  <li class="clearfix">
+    <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">
+      <img src="/images/math-1547018_640.jpg"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">30歳から始める数学</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">
+      <img src="/images/logo.png"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">幸せな子育てとエンジニアライフ</a>
+    </h3>
+  </li>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2016/03/17/php-coding-rule/">
+      <img src="/images/logo.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2016/06/23/php-syntax-check/">
+      <img src="/images/2016-06-23_php-syntax-check.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組み</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/10/28/highway-faster-than-ag/">
+      <img src="/images/logo.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2015/10/28/highway-faster-than-ag/">超高速grep「The Silver Searcher(ag)」からhighwayに乗り換えた</a>
+    </h3>
+  </li>
+</ul>
+
+</section>
+
+<section>
+  <div class="margin-height-10 center">
+    【人材募集情報】<BR>
+<A HREF="https://px.a8.net/svt/ejp?a8mat=2TIYB0+33C2WI+0K+15P77M" target="_blank" rel="nofollow">「A8.net」を開発運用するアフィリエイトソリューションプロバイダーの<BR>株式会社ファンコミュニケーションズが業務拡大につき技術者を募集中。</A>
+<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2TIYB0+33C2WI+0K+15P77M" alt="">
 
 
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
   </div>
+</section>
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div> <script> /** * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS. * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */ /* var disqus_config = function () { this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable }; */ 
+(function() { // DON'T EDIT BELOW THIS LINE 
+ var d = document, s = d.createElement('script'); s.src = '//shoyanblog.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
+  </section>
+
+
+</div>
 
     </div>
   </div>

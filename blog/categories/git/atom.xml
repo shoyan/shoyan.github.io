@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Git | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GitHubのリポジトリを監視するGitMonitor]]></title>
+    <link href="http://48n.jp/blog/2016/07/27/introduce-to-git-monitor/"/>
+    <updated>2016-07-27T13:37:18+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/27/introduce-to-git-monitor</id>
+    <content type="html"><![CDATA[<p>GitHubのリポジトリを監視する<a href="https://gitmonitor.com/">GitMonitor</a>というサービスを紹介します。<br />
+このサービスはGithubのリポジトリを監視して、そのリポジトリに行った操作をダッシュボードで確認することができます。<br />
+また、Flowdock、Slack、Emailに通知することも可能のようです。</p>
+
+<p>以下は、masterに直接pushしたときのログです。</p>
+
+<p><img src="/images/git_monitor.png" alt="git-monitor-image" /></p>
+
+<p>GitMonitorは様々なルールが設定でき、そのルールに該当したものがダッシュボードに表示されます。<br />
+例えば、LGTMがないPull Requestがマージされたときや、リストに定義していない人がマージしたときに通知することもできるようです。</p>
+
+<p>操作の制限ができるわけではなく、ルールに該当したときにダッシュボードに通知されるだけのようです。</p>
+
+<p>30日間は無料で使えて、それ以降は有料プランとなります。<br />
+有料プランは3つあって、Small($10 / mon)、Medium($20 / mon)、Large($35 / mon) が選べます。<br />
+監視するリポジトリの数がプランによって違います。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gitのコミッターを集計するGitFindCommitterをつくった]]></title>
+    <link href="http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer/"/>
+    <updated>2016-07-25T18:09:52+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer</id>
+    <content type="html"><![CDATA[<p>Gitのコミッターを集計する<a href="https://github.com/shoyan/git_find_committer">GitFindCommitter</a>をつくったので紹介します。</p>
+
+<h2 id="gitfindcommitterとは">GitFindCommitterとは</h2>
+
+<p>GitFindCommitterとは変更されたファイルを対象としてコミッターを探すツールです。<br />
+名前の通り、Gitのコミット履歴からコミッターを探します。<br />
+例えば、fixブランチでhoge.rbとfuga.rbを修正したとします。<br />
+GitFindCommitterはhoge.rbとfugue.rbを対象にコミッターを探します。</p>
+
+<h2 id="なぜつくったのか">なぜつくったのか</h2>
+
+<p>チーム内でコードレビューを行っているのですが、なかなかレビューしてもらえないということが時々あります。<br />
+コードレビューの際に詳しいコミッターをレコメンドすればスムーズにレビューしてもらえるのではと考えました。<br />
+レビュアーのレコメンド機能はまだ作成中なのですが、そのモジュールの1つとしてGemに機能を切り出しました。</p>
+
+<h2 id="使い方">使い方</h2>
+
+<p>以下のコマンドでインストールします。</p>
+
+<pre><code>$ gem install git_find_committer
+</code></pre>
+
+<p>searchメソッドにリポジトリとブランチを指定すると、関連するファイルのコミッターを探してきます。</p>
+
+<pre><code class="language-ruby">require 'git_find_committer'
+
+GitFindCommitter.search(repo: 'balloonbros/sutekki', branch: 'add-ui')
+=&gt; [{:name=&gt;"Shohei Yamasaki", :commit_count=&gt;51}, {:name=&gt;"keitakawamoto", :commit_count=&gt;21}]
+</code></pre>
+
+<p>GitHub Enterpriseにも対応しており、GitHub Enterpriseで利用する場合は、以下の設定が必要です。</p>
+
+<pre><code>GitFindCommitter.configure do |c|
+  c.url = "https://&lt;hostname&gt;"
+  c.access_token = "&lt;your 40 char token&gt;"
+end
+</code></pre>
+
+<h2 id="便利なtips">便利なTips</h2>
+
+<p>集計対象のコミッターをフィルターすることができます。</p>
+
+<pre><code>GitFindCommitter.configure do |c|
+  c.available_committer_names = %w(shoyan)
+end
+</code></pre>
+
+<p>名前のみ配列で取得します。</p>
+
+<pre><code>GitFindCommitter.search(repo: 'balloonbros/sutekki', branch: 'add-ui’).names(1)
+=&gt; ["Shohei Yamasaki"]
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

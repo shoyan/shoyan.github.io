@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Iptablesことはじめ]]></title>
+    <link href="http://48n.jp/blog/2016/07/15/learn-iptables/"/>
+    <updated>2016-07-15T14:05:31+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/15/learn-iptables</id>
+    <content type="html"><![CDATA[<p>iptablesの概念と設定方法を調べました。</p>
+
+<h2 id="iptablesとは">iptablesとは</h2>
+
+<p>iptablesとはパケットをフィルタリングするためのツールです。<br />
+また、NATとしても使えます。</p>
+
+<h2 id="iptablesの用語">iptablesの用語</h2>
+
+<p>iptablesを理解するにあたって必要な用語をまとめました。</p>
+
+<h3 id="targets">TARGETS</h3>
+
+<p>iptablesのルールを設定する際に、targetを指定します。<br />
+targetはユーザー定義のものと特別なtargetである、ACCEPT, DROP, QUEUE or RETURNがあります。<br />
+パケットに対してどんな操作をするかを定義します。</p>
+
+<p>代表的なtargetです。</p>
+
+<p>ACCEPT<br />
+パケットを通す<br />
+DROP<br />
+パケットを破棄する<br />
+QUEUE<br />
+パケットをキューにためる<br />
+RETURN<br />
+チェインを辿るのをストップして、評価を行う<br />
+REJECT<br />
+パケットを破棄し、エラーパケットを返す<br />
+DNAT<br />
+送信先IPアドレスを変更する<br />
+SNAT<br />
+送信元IPアドレスを変更する<br />
+MASQUERADE<br />
+複数の送信元IPアドレスを変更（マスカレード）する<br />
+LOG<br />
+ログを出力する</p>
+
+<h3 id="chain">Chain</h3>
+
+<p>iptablesを設定する際にchainを指定します。<br />
+chainにはビルトインchainとユーザー定義chainがあります。<br />
+chainはパケットに対する実行条件を定義します。</p>
+
+<p>ビルトインchainは以下です。</p>
+
+<p>INPUT<br />
+FORWARD<br />
+OUTPUT<br />
+PREROUTING<br />
+POSTROUTING</p>
+
+<h3 id="tables">TABLES</h3>
+
+<p>一般的にはフィルタリングとして使われることが多いiptablesですが、他にも様々な機能があります。<br />
+iptablesにはそれをtableという概念で扱っており、5つのtableがあります。</p>
+
+<p><em>filter</em><br />
+パケットのフィルタリングを設定するためのテーブルです。<br />
+デフォルトのテーブルです。tableオプションを明示的に指定しない場合は、filterが指定されたことになります。<br />
+INPUT、FORWARD、OUTPUTのChainを含みます。</p>
+
+<p><em>nat</em><br />
+IPアドレスの変換を設定するためのテーブルです。<br />
+PREROUTING、POSTROUTING のChainを含みます。</p>
+
+<p><em>mangle</em><br />
+パケットの書き換えを設定するためのテーブルです。</p>
+
+<p><em>raw</em><br />
+接続の追跡の除外の設定をするためのテーブルです。</p>
+
+<p><em>security</em><br />
+アクセスコントロールの設定をするためのテーブルです。</p>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>iptablesのコマンドにオプションを指定できます。<br />
+オプションはいくつかのグループに区別されます。</p>
+
+<h3 id="commands">COMMANDS</h3>
+
+<p>iptablesに実行してほしいコマンドを指定します。<br />
+以下のようなコマンドがあります。</p>
+
+<p>-A, –append<br />
+選択したチェインにルールを追加します。</p>
+
+<p>-C, –check<br />
+指定したチェインにルールが存在するかをチェックします。</p>
+
+<p>-D, –delete<br />
+チェインからルールを消します。</p>
+
+<p>詳細はiptablesのmanをご覧ください。</p>
+
+<h3 id="parameters">PARAMETERS</h3>
+
+<p>ルールを作成する際に指定するパラメーターです。</p>
+
+<p>-p, –protocol<br />
+ルールの対象となるプロトコルを指定します。</p>
+
+<p>-j, –jump<br />
+ルールの対象となるtargetを指定します。</p>
+
+<p>-s, –source<br />
+ルールの対象となるアドレスを指定します。<br />
+例えば、IPアドレス、ホスト名、ネットワーク名などを指定します。</p>
+
+<p>詳細はiptablesのmanをご覧ください。</p>
+
+<h3 id="other-options">OTHER OPTIONS</h3>
+
+<p>追加オプションです。</p>
+
+<p>-v, –verbose<br />
+詳細表示のオプションです。</p>
+
+<p>詳細はiptablesのmanを参照ください。</p>
+
+<h2 id="iptablesの基本的な構文">iptablesの基本的な構文</h2>
+
+<p>基本的には以下のように指定します。</p>
+
+<pre><code>iptables [-t table] command chain options target
+</code></pre>
+
+<p>例えば、ローカルホストからのping(icmp)を許可する場合は以下となります。</p>
+
+<pre><code>iptables -A INPUT -p icmp -j ACCEPT
+</code></pre>
+
+<h2 id="iptablesの基本的な読み方">iptablesの基本的な読み方</h2>
+
+<p>現在のiptablesの設定を表示するには、iptables -L コマンドを使います。</p>
+
+<pre><code>Example: Input Chain Rule Table Listing
+Chain INPUT (policy DROP)
+target     prot opt source               destination
+ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+ACCEPT     all  --  anywhere             anywhere
+DROP       all  --  anywhere             anywhere             ctstate INVALID
+UDP        udp  --  anywhere             anywhere             ctstate NEW
+TCP        tcp  --  anywhere             anywhere             tcp flags:FIN,SYN,RST,ACK/SYN ctstate NEW
+ICMP       icmp --  anywhere             anywhere             ctstate NEW
+REJECT     udp  --  anywhere             anywhere             reject-with icmp-port-unreachable
+REJECT     tcp  --  anywhere             anywhere             reject-with tcp-reset
+REJECT     all  --  anywhere             anywhere             reject-with icmp-proto-unreachable
+</code></pre>
+
+<p>1行目がChainの名前で、次にデフォルトポリシーが表示されています(DROP)。<br />
+2行目がカラム名です。</p>
+
+<p><em>target</em>: target名<br />
+<em>prot</em>: プロトコル名。例えば、tcp, udp, icmp, or all<br />
+<em>opt</em>: めったに使われません。<br />
+<em>source</em>: 接続元のIPアドレス or サブネット or anywhere<br />
+<em>destination</em>: 接続先のIPアドレス or サブネット or anywhere</p>
+
+<h2 id="iptablesコマンドの使い方">iptablesコマンドの使い方</h2>
+
+<p>いくつかの例を紹介します。</p>
+
+<h3 id="特定のサーバーからのhttp通信を許可する">特定のサーバーからのhttp通信を許可する</h3>
+
+<pre><code># iptables -A INPUT -p tcp -s 192.168.1.1 --dport 80 -j ACCEPT
+# 設定を保存
+# service iptables save
+</code></pre>
+
+<h3 id="ルールを消す">ルールを消す</h3>
+
+<p>iptables -D ルール で消すことができます。<br />
+<code>iptables -S</code> でルール一覧がでるので、そのルールを指定すれば簡単です。</p>
+
+<pre><code># iptables -S
+-A INPUT -s 157.7.105.69/32 -p tcp -m tcp --dport 80 -j ACCEPT
+</code></pre>
+
+<p>以下のコマンドで消します。</p>
+
+<pre><code>iptables -D INPUT -s 157.7.105.69/32 -p tcp -m tcp --dport 80 -j ACCEPT
+</code></pre>
+
+<h2 id="参考文献">参考文献</h2>
+
+<ul>
+  <li><a href="http://linux.die.net/man/8/iptables">Man page of IPTABLES</a></li>
+  <li><a href="https://linuxjm.osdn.jp/html/iptables/man8/iptables.8.html">日本語訳</a></li>
+  <li><a href="http://qiita.com/kmikmy/items/d279b1b993661ba7dbe4">iptablesの読み方覚え書き</a></li>
+  <li><a href="http://murayama.hatenablog.com/entry/20100206/1265444193">iptablesの設定 入門編</a></li>
+  <li><a href="https://help.sakura.ad.jp/app/answers/detail/a_id/2423/~/iptables%E3%81%AE%E8%A8%AD%E5%AE%9A%E6%96%B9%E6%B3%95">iptablesの設定方法</a></li>
+  <li><a href="https://www.digitalocean.com/community/tutorials/how-to-list-and-delete-iptables-firewall-rules">How To List and Delete Iptables Firewall Rules</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tmpwatchでさくっと不要なファイルを消す]]></title>
+    <link href="http://48n.jp/blog/2016/07/08/tips-for-tmpwatch/"/>
+    <updated>2016-07-08T13:49:27+09:00</updated>
+    <id>http://48n.jp/blog/2016/07/08/tips-for-tmpwatch</id>
+    <content type="html"><![CDATA[<p>古いファイルを消したいときにtmpwatchを使うと簡単に消すことができます。</p>
+
+<p>例えば、<code>/var/www/app/tmp</code> 配下の48時間以上前のファイルやディレクトリを消したい場合は以下で消せます。</p>
+
+<pre><code>tmpwatch -m 48  /var/www/app/tmp
+</code></pre>
+
+<p>tmpwatchは再帰的にファイルを削除するので、サブディレクトリがあればその配下のファイルも削除されます。<br />
+シンボリックの場合はリンクが削除されるだけでリンク先のファイルは削除されないとのことです。</p>
+
+<h3 id="参考リンク">参考リンク</h3>
+
+<ul>
+  <li><a href="http://spring-mt.tumblr.com/post/18484633412/tmpwatch%E3%81%8C%E4%BE%BF%E5%88%A9">tmpwatchが便利！</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sedやawkを使ってテキストから必要な列のみ取得する]]></title>
+    <link href="http://48n.jp/blog/2016/06/29/extract-string-with-sed-and-awk/"/>
+    <updated>2016-06-29T17:01:36+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/29/extract-string-with-sed-and-awk</id>
+    <content type="html"><![CDATA[<p>以下のような文字列(ファイルに保存されているとする)からsedやawkを使ってlabelだけとるshell芸を紹介します。</p>
+
+<pre><code>+-------------------------+-------+
+| label                   | state |
++-------------------------+-------+
+| A                       |     0 |
+| B                       |     0 |
+| C                       |     0 |
+| D                       |     0 |
+| E                       |     0 |
+| F                       |     0 |
+| G                       |     0 |
+| H                       |     2 |
+| I                       |     0 |
+| J                       |     0 |
+| K                       |     0 |
++-------------------------+----———+
+</code></pre>
+
+<h3 id="label列のみ取得">label列のみ取得</h3>
+
+<pre><code>⇒  sed -n '4,14p' table.txt | awk '{print $2}'
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+</code></pre>
+
+<h3 id="スペース区切りに加工する">スペース区切りに加工する</h3>
+
+<pre><code>⇒  sed -n '4,14p' table.txt | awk '{print $2 " "}' | tr -d '\n'
+A B C D E F G H I J K
+</code></pre>
+
+<p><code>sed -n '4,14p’</code> で指定した行数のみ取得しています  <br />
+次に<code>awk '{print $2}’</code> でlabel列のみ抽出しています。  <br />
+改行を消すのは <code>tr -d '\n’</code> が便利です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ShellのTipsてきなやつ]]></title>
+    <link href="http://48n.jp/blog/2016/06/22/shell-tips/"/>
+    <updated>2016-06-22T18:16:41+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/22/shell-tips</id>
+    <content type="html"><![CDATA[<p>ShellスクリプトのTipsです。</p>
+
+<h2 id="シェル変数の初期化をする">シェル変数の初期化をする</h2>
+
+<p>変数に値が設定されていない場合は、指定された値を返します。</p>
+
+<pre><code>: ${VAR:=初期化する値}
+
+</code></pre>
+
+<h2 id="パラメーターを取得する">パラメーターを取得する</h2>
+
+<p><code>$@</code> にパラメーターが格納されています。</p>
+
+<p>例えば以下の記述をした for.sh ファイルを作成します。</p>
+
+<pre><code>for role in "$@"; do
+  echo $role
+done
+
+</code></pre>
+
+<p>以下のように出力されます。</p>
+
+<pre><code>$ ./for.sh hoge moge
+=&gt; hoge
+moge
+
+</code></pre>
+
+<h2 id="評価結果を変数に格納する">評価結果を変数に格納する</h2>
+
+<p><code>"$()"</code> で囲めば、評価結果を変数に格納することができます。</p>
+
+<pre><code>$ name="$(hostname)"
+$ echo $name
+=&gt; shoyan-pc
+
+# 以下も同じです。
+
+$ name=`hostname`
+$ echo $name
+=&gt; shoyan-pc
+
+</code></pre>
+
+<h2 id="if-と-test-コマンドの合わせ技">if と test コマンドの合わせ技</h2>
+
+<p>ifとtestコマンドを使う場合はtestコマンドを省略した<code>[]</code>がよく使われます。</p>
+
+<p>[ 文字列1 = 文字列2 ]  <br />
+[ 数値1 オプション 数値2 ]  <br />
+[ オプション 評価対象 ]</p>
+
+<p>[ の直後と ] の直前には必ず半角スペースが必要です (無いと正常に動作しません)。</p>
+
+<p>ちなみに比較は <code>==</code> でなくて <code>=</code>です。</p>
+
+<p>シェルの比較は文字列の比較と数値の比較があり、それぞれに対応するオペレーターがあります。  <br />
+そのせいで複雑になっている印象があります。</p>
+
+<h3 id="数値の比較">数値の比較</h3>
+
+<h4 id="数値1と数値2が等しいかどうか">数値1と数値2が等しいかどうか</h4>
+
+<p><code>-eq</code>、もしくは <code>=</code>を使います。</p>
+
+<pre><code>$  [ 1 -eq 1 ]; echo $?
+0
+$  [ 1 = 1 ]; echo $?
+0
+
+</code></pre>
+
+<h4 id="数値1と数値2が等しくないかどうか">数値1と数値2が等しくないかどうか</h4>
+
+<p><code>-ne</code> を使います。</p>
+
+<pre><code>$  [ 1 -ne 2 ]; echo $?
+0
+
+</code></pre>
+
+<p><code>!=</code> でも動作しますが、慣習的にあまり使わないようです。</p>
+
+<h3 id="文字列の比較">文字列の比較</h3>
+<h4 id="文字列1と文字列2が等しいかどうか">文字列1と文字列2が等しいかどうか</h4>
+
+<p>同じ場合にtrueを返す<code>=</code>と その否定である <code>!=</code> を使います。</p>
+
+<pre><code>$  [ "hey" = "hey" ]; echo $?
+0
+
+</code></pre>
+
+<p>ちなみに数値の比較に使う <code>-eq</code> で比較したところエラーとなりました。</p>
+
+<pre><code>$  [ "hey" -eq "hey" ]; echo $?
+[: integer expression expected: hey
+2
+
+</code></pre>
+
+<h4 id="文字列1と文字列2が等しくないかどうか">文字列1と文字列2が等しくないかどうか</h4>
+
+<p>文字列比較のNOT条件<br />
+<code>!=</code>を使用します。</p>
+
+<pre><code>[ "$hoge" != "fuga" ]
+
+</code></pre>
+
+<p>数値比較のNOT条件</p>
+
+<p>数値の比較の場合は <code>-ne</code> オプションを使うのが慣習のようです。</p>
+
+<pre><code>[ 1 -ne 2 ]
+
+</code></pre>
+
+<h3 id="変数が空かどうか">変数が空かどうか</h3>
+
+<pre><code>[ -z "$hoge" ]
+
+</code></pre>
+
+<p>空でないかを判定する場合は <code>-n</code> を使います。</p>
+
+<pre><code>[ -n "$hoge" ]
+
+</code></pre>
+
+<h3 id="findで抽出したファイルをreadコマンドで1行ずつ処理する">findで抽出したファイルをreadコマンドで1行ずつ処理する</h3>
+
+<pre><code>find application -type f -name "*.ini" | while read LINE; do wc -l ${LINE}; done;
+</code></pre>
+
+<h3 id="実行ファイルのあるパスを取得する">実行ファイルのあるパスを取得する</h3>
+
+<pre><code>echo "$(cd $(dirname $0);pwd)"
+</code></pre>
+
+<p>1つ上のディレクトリは以下のように取得する</p>
+
+<pre><code>echo "$(cd $(dirname $0);cd ..;pwd)"
+</code></pre>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://doi-t.hatenablog.com/entry/2013/12/08/161929">シェル変数のデフォルト値を設定する、未初期化時にエラーメッセージを出力してスクリプトを強制終了する - 百日半狂乱</a></li>
+  <li><a href="http://shellscript.sunone.me/if_and_test.html#数値の比較:ed775c34e441eb16a91481d087cc1a74">if 文と test コマンド - UNIX &amp; Linux コマンド・シェルスクリプト リファレンス</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[FTPについて調べてみた]]></title>
+    <link href="http://48n.jp/blog/2016/06/17/learn-ftp/"/>
+    <updated>2016-06-17T15:21:34+09:00</updated>
+    <id>http://48n.jp/blog/2016/06/17/learn-ftp</id>
+    <content type="html"><![CDATA[<p>FTPはすでにご存知のかたも多いと思います。  <br />
+自分はFTPについて、「ファイル転送に使われるプロトコルであり、セキュリティが脆弱である」というくらいしか理解していなかったので詳細を把握するために調べました。</p>
+
+<h2 id="ftpとは">FTPとは</h2>
+
+<p>FTPとはインターネットの初期の頃から存在するプロトコルで、今でもインターネットでよく使われています。  <br />
+用途としては、以下に使われます。</p>
+
+<ul>
+  <li>ウェブページの各種ファイル(HTMLや画像)をクライアントのPCからサーバーへアップロードする</li>
+  <li>ソフトウェアの配布サイトやFTPファイルサーバーからクライアントPCへダウンロードする</li>
+</ul>
+
+<p>FTPを利用するにはユーザー名とパスワードが必要です。  <br />
+ソフトを配布するための目的で使う匿名でアクセスできるAnonymous(匿名)FTPサーバーもあります。  <br />
+しかし、形式上ユーザー名とパスワードは必要なので、ユーザー名にanonymousやftpを使います。パスワードは何でもよいですが、慣習としてメールアドレスを入力するようです。</p>
+
+<h2 id="プロトコルの概要">プロトコルの概要</h2>
+
+<p>FTPのプロトコルは<a href="https://tools.ietf.org/html/rfc959">RFC959</a>に定義してあります。  <br />
+RFC959が書かれたのが1985年なのでおよそ30年前に作られたプロトコルです。</p>
+
+<p>FTPは大きくわけると、コネクションの確立とデータ転送にわけることができます。  <br />
+そして、使うポートも2つが用意してあります。</p>
+
+<ul>
+  <li>20: データ転送ポート</li>
+  <li>21: コントロールポート</li>
+</ul>
+
+<p>20番がデータを転送するときに使うポートで、21番は認証などの接続に使うためのポートです。</p>
+
+<h3 id="コネクションの確立">コネクションの確立</h3>
+
+<p>FTPは <code>アクティブモード</code> か <code>パッシブモード</code> のいずれかで動作し、サーバーとの接続をする際にどちらかを選択します。</p>
+
+<h3 id="アクティブモードの場合">アクティブモードの場合</h3>
+
+<p>アクティブモードの場合、クライアントはデータ転送用のポートを用意しPORTコマンドを使って待ち受けポートをサーバーに伝えます。  <br />
+サーバーはPORTコマンドを受け取ると、そのポートに対して接続を行います。  <br />
+しかし、Firewallがある環境の場合、サーバーからの接続が拒否されうまくいかない場合があります。  <br />
+その際はパッシブモードを使います。</p>
+
+<h3 id="パッシブモード">パッシブモード</h3>
+
+<p>パッシブモードでは、まず最初にクライアントがPASVというコマンドを使いサーバーに送信します。  <br />
+そのコマンドを受け取ったサーバーは自身のIPアドレスとポート番号をクライアントに送信します。  <br />
+クライアントは受け取ったIPアドレスとポート番号へコネクションを確立しにいきます。</p>
+
+<p>アクティブモードはサーバーより接続を行う、パッシブモードはクライアントより接続を行うという違いがあります。  <br />
+ちなみに、FTPはよく使われるプロトコルのため、PORTコマンドがFirewallを通過する際にPORTコマンドに書かれたPORTは通過できるようにしてくれるFirewallもあるとのことです。</p>
+
+<h2 id="データ転送">データ転送</h2>
+
+<p>接続ができたら、次はデータ転送を行います。  <br />
+FTPにはデータタイプという考え方があって、現在は2つのモードが使われています。</p>
+
+<h3 id="アスキーモード">アスキーモード</h3>
+
+<p>アスキーモードは、必要であればデータを変換します。  <br />
+例えば異なるOS間でファイルを送ると改行コードが違ったりする場合があると思いますが、アスキーモードはファイルを受け取るホストに適した改行コードにファイルを変換します。</p>
+
+<h3 id="imageモードバイナリモード">Imageモード(バイナリモード)</h3>
+
+<p>Imageモードは一般的にバイナリモードと呼ばれます。  <br />
+バイト単位でデータを転送します。  <br />
+アスキーモードのようにデータの変換は行われません。</p>
+
+<p>データの転送モードには、以下の3つのモードがあります。</p>
+
+<ul>
+  <li>ストリームモード</li>
+  <li>ブロックモード</li>
+  <li>圧縮モード</li>
+</ul>
+
+<h3 id="ストリームモード">ストリームモード</h3>
+
+<p>データをそのまま転送するモードです。</p>
+
+<h3 id="ブロックモード">ブロックモード</h3>
+
+<p>データをブロックに分割して転送するモードです。</p>
+
+<h3 id="圧縮モード">圧縮モード</h3>
+
+<p>ランレングスエンコーディングを使ってデータを圧縮して転送するモードです。</p>
+
+<h2 id="セキュリティ上の問題">セキュリティ上の問題</h2>
+
+<p>FTPはセキュアなプロトコルとして設計されていません。  <br />
+ユーザー名やパスワードを暗号化せずに送信する問題のほかにも数多くのセキュリティ脆弱性があげられています。</p>
+
+<ul>
+  <li>総当たり攻撃</li>
+  <li>en:FTP bounce attack</li>
+  <li>パケットキャプチャ (sniffing)</li>
+  <li>Port stealing</li>
+  <li>en:Spoofing attack</li>
+  <li>ユーザ名保護</li>
+</ul>
+
+<p>また、通信内容を暗号化できないので通信経路上でパケットキャプチャすることで盗聴することができてしまいます。  <br />
+セキュアにする一般的な方法として、SSL/TLSセッション上で通信を行うようにします。  <br />
+これをFTPSと言います。  <br />
+また、SSHを介してファイル転送を行うSFTP、SCPを使います。</p>
+
+<p>ちなみにFTPSとSFTPの違いは以下のようになります。</p>
+
+<ul>
+  <li>FTPS : FTPの通信をSSL/TLSで暗号化 → FTPの拡張</li>
+  <li>SFTP : SSHの通信を使って、FTPを行う → SSHで動作するアプリケーション</li>
+</ul>
+
+<p>理解を深めるためにtelnetを使って実際にFTPサーバーと通信してみます。</p>
+
+<h2 id="実際にftpを試してみる">実際にFTPを試してみる</h2>
+
+<p>実際にFTPを試してみる場合、FTPサーバーが必要です。  <br />
+<a href="https://lolipop.jp">ロリポップ！レンタルサーバー</a>を使えば無料でFTPサーバーが利用できます。</p>
+
+<p>ちなみにtelnetでファイルの送受信はできません。  <br />
+というのも、telnetでは1つのポートを使った通信しかサポートしていないからです。  <br />
+FTPはデータ転送用のポートと制御用のポートの2つを利用するため、telnetでは認証しか行えません。</p>
+
+<p>まずは、telnetで認証をやってみます(localhostにftpサーバーが起動しているという前提です)。</p>
+
+<pre><code>$ telnet localhost 21
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+220 FTP server ready.
+
+</code></pre>
+
+<p>まず、ユーザ名を入力します。</p>
+
+<pre><code>USER ftp
+331 Password required for example.com
+
+</code></pre>
+
+<p>次に、パスワードを入力します。</p>
+
+<pre><code>PASS 123
+230 User example.com logged in.
+
+</code></pre>
+
+<p>telnetでは他に何もできませんのでQUITします。</p>
+
+<pre><code>QUIT
+221 Goodbye.
+Connection closed by foreign host.
+
+</code></pre>
+
+<h3 id="ftpでファイルの送受信を行う">FTPでファイルの送受信を行う</h3>
+
+<p>FTPでファイルの送受信を行うには、ftpコマンドを使います。  <br />
+<code>-d</code> オプションはデバッグモードです。</p>
+
+<pre><code>ftp -d localhost 21
+
+</code></pre>
+
+<p>ユーザー名とパスワードを聞かれるので入力します。</p>
+
+<p><code>ls</code>でファイルの一覧をみることができます。</p>
+
+<pre><code>ftp&gt; ls
+---&gt; EPSV
+229 Entering Extended Passive Mode (|||65086|)
+229 Entering Extended Passive Mode (|||65086|)
+---&gt; LIST
+150 Opening ASCII mode data connection for file list
+drwx---r-x   6 shoyan shoyan      4096 Jun 17 11:31 .
+drwx---r-x   6 shoyan shoyan     4096 Jun 17 11:31 ..
+-rw-r--r--   1 shoyan shoyan     3096 Jun 17 11:30 index.html
+226 Transfer complete
+
+</code></pre>
+
+<p><code>get</code>コマンドでファイルをダウンロードできます。</p>
+
+<pre><code>ftp&gt; get index.html
+local: index.html remote: index.html
+---&gt; SIZE index.html
+213 3096
+---&gt; EPSV
+229 Entering Extended Passive Mode (|||65011|)
+229 Entering Extended Passive Mode (|||65011|)
+---&gt; RETR index.html
+150 Opening BINARY mode data connection for index.html (3096 bytes)
+100% |************************************************************************************************************************************************************************************************|  3096        4.61 MiB/s    00:00 ETA
+226 Transfer complete
+3096 bytes received in 00:00 (163.72 KiB/s)
+---&gt; MDTM index.html
+213 20160617023028
+parsed date `20160617023028' as 1466130628, Fri, 17 Jun 2016 11:30:28 +0900
+
+</code></pre>
+
+<p>参考リンク</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/File_Transfer_Protocol">File Transfer Protocol</a></li>
+  <li><a href="https://ja.wikipedia.org/wiki/File_Transfer_Protocol">File Transfer Protocol(日本語)</a></li>
+  <li><a href="http://www5e.biglobe.ne.jp/%257eaji/3min/56.html">3 Minutes Networking No.56</a></li>
+  <li><a href="http://ash.jp/net/ftp_command.htm">telnetでファイル転送？(FTP)</a></li>
+  <li><a href="http://ash.jp/net/telnet_ftp.htm">FTPコマンドでファイル転送</a></li>
+  <li><a href="http://qiita.com/kasei-san/items/bf766e6c2ececa4c3905">FTPS、SFTPの違いって?</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

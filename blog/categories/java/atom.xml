@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PMDでJavaのコードのバグをチェックする]]></title>
+    <link href="http://48n.jp/blog/2018/03/20/usage-pmd/"/>
+    <updated>2018-03-20T18:41:09+09:00</updated>
+    <id>http://48n.jp/blog/2018/03/20/usage-pmd</id>
+    <content type="html"><![CDATA[<p>Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなる<a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD</a>を紹介します。PMDを使えばバグの原因となりそうなコードを検知することができるため、不具合を未然に防ぐことが可能です。</p>
+
+<h2 id="pmdとは">PMDとは</h2>
+
+<p>PMDは次の4つの問題があるコードを検知することができるツールです。</p>
+
+<ul>
+  <li>Possible bugs - バグの要因となるコード</li>
+  <li>Dead code - 使われていないコード</li>
+  <li>Suboptimal code - 効率の悪いコード</li>
+  <li>Overcomplicated expressions - 複雑な構文</li>
+</ul>
+
+<p>PMD自体はJavaで実装されていますが、Java以外の言語にも対応しています。今回はJavaのコードを対象に使い方を紹介します。</p>
+
+<h2 id="pmdのインストール方法">PMDのインストール方法</h2>
+
+<h3 id="homebrewでインストールする">Homebrewでインストールする</h3>
+
+<p>Macであれば、次のコマンドでインストールできます。</p>
+
+<pre><code>brew install pmd
+</code></pre>
+
+<h3 id="バイナリをダウンロードする">バイナリをダウンロードする</h3>
+
+<p>バイナリをダウンロードしてインストールすることができます。次のページからダウンロードしてください。</p>
+
+<ul>
+  <li><a href="https://github.com/pmd/pmd/releases" target="_blank">the github releases page</a></li>
+</ul>
+
+<h2 id="pmdでコードをチェックする">PMDでコードをチェックする</h2>
+
+<h3 id="サンプルコードの準備">サンプルコードの準備</h3>
+
+<p>PMDでコードをチェックしてみます。今回はサンプルコードを作って検証します。サンプルコードはGithubにアップロードしているのでクローンしてご利用ください。</p>
+
+<pre><code>git clone git@github.com:shoyan/pmd-samples.git
+cd pad-samples
+</code></pre>
+
+<h3 id="pmdの実行">PMDの実行</h3>
+
+<p>Pmdを実行します。<code>-d</code>がソースコードのパス、<code>-R</code>がルールが設定してあるファイルのパス、<code>-l</code>に言語を指定します。</p>
+
+<pre><code>pmd pmd -d src/main/java -R rules.xml -l java
+3月 20, 2018 6:03:49 午後 net.sourceforge.pmd.cache.NoopAnalysisCache &lt;init&gt;
+警告: This analysis could be faster, please consider using Incremental Analysis: https://pmd.github.io/pmd-6.1.0/pmd_userdocs_getting_started.html#incremental-analysis
+/pmd-samples/src/main/java/UnusedCode.java:2:        Avoid unused private fields such as 'FOO'.
+/pmd-samples/src/main/java/UnusedCode.java:4:        Avoid unused local variables such as 'i'.
+/pmd-samples/src/main/java/UnusedCode.java:6:        Avoid unused private methods such as 'foo()'.
+</code></pre>
+
+<p>3つの問題が検知されています。UnusedCode.javaの2行目を見てみると、使われていないメンバ変数があります。他のエラーも同様に使われていないローカル変数とプライベートメソッドを検知しています。</p>
+
+<h3 id="ルールについて">ルールについて</h3>
+
+<p>ルールの一覧については次のリンクよりご覧ください。</p>
+<ul>
+  <li><a href="https://pmd.github.io/pmd-6.1.0/pmd_rules_java.html" target="_blank">Java Rules</a></li>
+</ul>
+
+<p>0の状態からルールを構築するのは大変です。そのため、PMDのリポジトリには様々なルールのサンプルが定義されています。基本的なルールが網羅されているbasic.xmlを利用するとよいでしょう。他にも様々なルールがあるので参考にしてください。</p>
+<ul>
+  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java" target="_blank">rulesets java</a></li>
+</ul>
+
+<h3 id="カテゴリ">カテゴリ</h3>
+
+<p>PMDのルールはカテゴリに分類されています。例えば、ベストプラクティスであれば、ベストプラクティスに沿ったルールが定義されています。カテゴリの詳細については次のリンクでご覧ください。</p>
+
+<ul>
+  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/category/java" target="_blank">category</a></li>
+</ul>
+
+<h2 id="トラブルシューティング">トラブルシューティング</h2>
+
+<p>PMD6.1.0はPMD7への過渡期バージョンのようで、Deprecatedの警告が山のように出ます。<br />
+設定ファイルでしか警告を消す術がないので設定ファイルを修正します。</p>
+
+<p>次のようにdeprecatedをfalseにするか、プロパティ自体を削除してください。</p>
+
+<pre><code>&lt;rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" deprecated=“false" /&gt;
+</code></pre>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD Introduction</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gradleのjavaプラグインとは]]></title>
+    <link href="http://48n.jp/blog/2018/01/21/gradle-java-plugin/"/>
+    <updated>2018-01-21T00:52:36+09:00</updated>
+    <id>http://48n.jp/blog/2018/01/21/gradle-java-plugin</id>
+    <content type="html"><![CDATA[<p>build.gradleでよく見かける<code>apply plugin: ‘java'</code>という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、javaプラグインを追加するとjavaに関連するタスクが使えるようになります。</p>
+
+<p>何もプラグインを追加していないgradleタスクは以下の通りです。</p>
+
+<pre><code class="language-bash">$ gradle tasks
+
+&gt; Task :tasks
+
+------------------------------------------------------------
+All tasks runnable from root project
+------------------------------------------------------------
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'gs-gradle'.
+components - Displays the components produced by root project 'gs-gradle'. [incubating]
+dependencies - Displays all dependencies declared in root project 'gs-gradle'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'gs-gradle'.
+dependentComponents - Displays the dependent components of components in root project 'gs-gradle'. [incubating]
+help - Displays a help message.
+model - Displays the configuration model of root project 'gs-gradle'. [incubating]
+projects - Displays the sub-projects of root project 'gs-gradle'.
+properties - Displays the properties of root project 'gs-gradle'.
+tasks - Displays the tasks runnable from root project 'gs-gradle'.
+
+To see all tasks and more detail, run gradle tasks --all
+
+To see more detail about a task, run gradle help --task &lt;task&gt;
+
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+</code></pre>
+
+<p>Javaプラグインを定義したあとのタスクは以下の通りです。</p>
+
+<pre><code class="language-bash">$ gradle tasks
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+&gt; Task :tasks
+
+------------------------------------------------------------
+All tasks runnable from root project
+------------------------------------------------------------ 
+Build tasks
+-----------
+assemble - Assembles the outputs of this project.
+build - Assembles and tests this project.
+buildDependents - Assembles and tests this project and all projects that depend on it.
+buildNeeded - Assembles and tests this project and all projects it depends on.
+classes - Assembles main classes.
+clean - Deletes the build directory.
+jar - Assembles a jar archive containing the main classes.
+testClasses - Assembles test classes.
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Documentation tasks
+-------------------
+javadoc - Generates Javadoc API documentation for the main source code.
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'gs-gradle'.
+components - Displays the components produced by root project 'gs-gradle'. [incubating]
+dependencies - Displays all dependencies declared in root project 'gs-gradle'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'gs-gradle'.
+dependentComponents - Displays the dependent components of components in root project 'gs-gradle'. [incubating] help - Displays a help message.
+model - Displays the configuration model of root project 'gs-gradle'. [incubating]
+projects - Displays the sub-projects of root project 'gs-gradle'.
+properties - Displays the properties of root project 'gs-gradle'.
+tasks - Displays the tasks runnable from root project 'gs-gradle'.
+
+Verification tasks
+------------------
+check - Runs all checks.
+test - Runs the unit tests.
+
+Rules
+-----
+Pattern: clean&lt;TaskName&gt;: Cleans the output files of a task.
+Pattern: build&lt;ConfigurationName&gt;: Assembles the artifacts of a configuration.
+Pattern: upload&lt;ConfigurationName&gt;: Assembles and uploads the artifacts belonging to a configuration.
+
+To see all tasks and more detail, run gradle tasks --all
+
+To see more detail about a task, run gradle help --task &lt;task&gt;
+
+
+BUILD SUCCESSFUL in 5s
+1 actionable task: 1 executed
+</code></pre>
+
+<p>Build tasks、Documentation tasks、Verification tasksが追加されています。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IntelliJでSpringBootのアプリケーションを作成する]]></title>
+    <link href="http://48n.jp/blog/2018/01/19/create-spring-boot-project/"/>
+    <updated>2018-01-19T11:48:27+09:00</updated>
+    <id>http://48n.jp/blog/2018/01/19/create-spring-boot-project</id>
+    <content type="html"><![CDATA[<p>SpringBootのアプリケーションを作成する方法はいくつかありますが、今回はIntelliJで作成する方法を紹介します。</p>
+
+<p>IntellJを起動してメニューバーから <code>File</code> &gt; <code>New</code> &gt; <code>Project...</code>を選択します。</p>
+
+<p>左メニューよりSpring Initializrを選択してNextを押します。</p>
+
+<p><img src="/images/create-spring-boot-project1.png" alt="weather-nitify-slack" /></p>
+
+<p>Project MetaDataはアプリケーションごとに書き換えますが、今回はデモなのでデフォルトのままです。<br />
+Gradleを使うのでTypeをGradle Project を選択してNextを押します。</p>
+
+<p><img src="/images/create-spring-boot-project2.png" alt="weather-nitify-slack" /></p>
+
+<p>Dependenciesでは使いたいライブラリを選択できます。<br />
+今回は特に選択せず、Nextを押します。</p>
+
+<p><img src="/images/create-spring-boot-project3.png" alt="weather-nitify-slack" /></p>
+
+<p>Project nameはdemoで作成します。<br />
+Project locationでファイルを作成する場所を指定します。</p>
+
+<p><img src="/images/create-spring-boot-project4.png" alt="weather-nitify-slack" /></p>
+
+<p>Finishを押すとSpring Bootのアプリケーションが作成されます。<br />
+作成したファイルをGitHubにアップロードしています。</p>
+
+<p><a href="https://github.com/shoyan/spring-boot-demo">https://github.com/shoyan/spring-boot-demo</a></p>
+]]></content>
+  </entry>
+  
+</feed>

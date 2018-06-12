@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Docker | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/docker/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Macを引っ越ししたらDockerデーモンが起動しなくなった]]></title>
+    <link href="http://48n.jp/blog/2016/10/05/fix-unable-to-connect-to-docker-daemon/"/>
+    <updated>2016-10-05T14:27:46+09:00</updated>
+    <id>http://48n.jp/blog/2016/10/05/fix-unable-to-connect-to-docker-daemon</id>
+    <content type="html"><![CDATA[<p>Macを引っ越ししたらDockerデーモンが起動しなくなった。<br />
+Dockerを起動しようとすると <code>Cannot connect to the Docker daemon. Is the docker daemon running on this host?</code> というメッセージがでて起動しない。<br />
+docker-machineコマンドで確認してみると以下のエラーが出ていた。</p>
+
+<pre><code>$ docker-machine ls
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+default   -        virtualbox   Running   tcp://192.168.99.100:2376           Unknown   Unable to query docker version: Cannot connect to the docker engine endpoint
+</code></pre>
+
+<p>1度docker-machineコマンドで既存のDockerを削除して作成するとうまくいった。</p>
+
+<pre><code>$ docker-machine rm -f default
+$ docker-machine create -d virtualbox default
+</code></pre>
+
+<p>今度はDockerのバージョンがv1.12.1と表示されている。</p>
+
+<pre><code>⇒  docker-machine ls
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+default   -        virtualbox   Running   tcp://192.168.99.100:2376           v1.12.1
+</code></pre>
+
+<p>ちなみに既存のDockerを削除すると今までのimageは消えてしまう。</p>
+
+<p>Docker for Macがでてそっちに移行した方がよさげな機運を感じるので、そろそろDocker ToolboxからDocker for Macに移行する時期なのかな。</p>
+
+<ul>
+  <li>
+    <p><a href="https://docs.docker.com/docker-for-mac/docker-toolbox/">https://docs.docker.com/docker-for-mac/docker-toolbox/</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[docker-composeを使ってPHPコンテナとMySQLコンテナを連携させる]]></title>
+    <link href="http://48n.jp/blog/2016/09/27/links-container-with-docker-compose/"/>
+    <updated>2016-09-27T14:04:11+09:00</updated>
+    <id>http://48n.jp/blog/2016/09/27/links-container-with-docker-compose</id>
+    <content type="html"><![CDATA[<p>以前、<a href="/blog/2016/09/16/links-container-for-docker/">Dockerコンテナを連携させる方法</a>を書いたが、コンテナ間の連携が必要な際はdocker-composeを使うと便利だ。<br />
+今回は前回と同じようにPHPとMySQLのコンテナを連携させるが、その連携にdocker-composeを使った方法を紹介する。</p>
+
+<p>まずは、適当なディレクトリをつくる。<br />
+今回は <code>docker-compose-sample</code>とする。</p>
+
+<p><code>docker-compose-sample/</code> 配下にDockerfileを作成する。</p>
+
+<pre><code>FROM shoyan/www-ci
+ADD . /app
+WORKDIR /app
+ENV MYSQL_HOST mysql
+ENV MYSQL_PASSWORD ''
+</code></pre>
+
+<p>次に <code>docker-compose.yml</code>を作成する。</p>
+
+<pre><code>version: '2'
+services:
+  web:
+    build: .
+    links:
+      - mysql:mysql
+  mysql:
+    image: mysql:5.5
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    expose:
+      - "3306"
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+</code></pre>
+
+<p>servicesにwebとmysqlという名前でコンテナを定義している。</p>
+
+<h3 id="webコンテナ">webコンテナ</h3>
+<p>webコンテナはDockerfileをbuildして、mysqlコンテナと連携させる定義をしている。<br />
+これによりwebコンテナからはmysqlという名前でmysqlコンテナにアクセスできるようになる。</p>
+
+<h3 id="mysqlコンテナについて">mysqlコンテナについて</h3>
+<p>MySQLは公式のイメージを使っている。<br />
+他のコンテナからアクセスできるようにexposeで3306ポートを指定している。</p>
+
+<p>公式のMySQLイメージから作成したコンテナは<code>/docker-entrypoint-initdb.d/</code> 配下にあるシェルスクリプトやsqlファイルを起動時に実行するようになっている。<br />
+今回はデータベースとテーブルを作成するためにこの機構を利用する。<br />
+volumesを利用してファイルを配置している。</p>
+
+<p>以下の<code>docker-compose-sample/docker-entrypoint-initdb.d/setup.sql</code> を作成しておく。</p>
+
+<pre><code class="language-sql">CREATE DATABASE IF NOT EXISTS app_test;
+
+DROP TABLE IF EXISTS `app_test`.`user`;
+CREATE TABLE `app_test`.`user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(8) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `email` varchar(64) DEFAULT NULL,
+  `postal_code` char(7) DEFAULT '',
+  `character_text` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</code></pre>
+
+<h3 id="確認用スクリプト">確認用スクリプト</h3>
+
+<p>DBにアクセスできているかを確認するためのスクリプト <code>connect.php</code> を用意しておく。</p>
+
+<pre><code class="language-php">&lt;?php
+$dsn = sprintf('mysql:host=%s:3306;dbname=%s',  $_ENV['MYSQL_HOST'], 'app_test');
+$user = 'root';
+$password = $_ENV['MYSQL_PASSWORD'];
+$dbh = new PDO($dsn, $user, $password);
+$sql = "SELECT version();";
+foreach ($dbh-&gt;query($sql, PDO::FETCH_ASSOC) as $row) {
+    print_r($row);
+}
+$sql = "show tables;";
+foreach ($dbh-&gt;query($sql, PDO::FETCH_ASSOC) as $row) {
+    print_r($row);
+}
+</code></pre>
+
+<h3 id="docker-composeでコンテナを起動する">docker-composeでコンテナを起動する</h3>
+
+<p>準備ができたのでdocker-composeコマンドでコンテナを起動する。<br />
+以下のようにネットワークとコンテナが作成される。<br />
+<code>-d</code> オプションはバックグラウンドでコンテナを起動するために指定している。</p>
+
+<pre><code class="language-text">$ docker-compose up -d
+Creating network "dockercomposesample_default" with the default driver
+Creating dockercomposesample_mysql_1
+Creating dockercomposesample_web_1
+</code></pre>
+
+<p>コンテナにログインしてみる。</p>
+
+<pre><code>$ docker run --rm -it -v `pwd`:/app --net=dockercomposesample_default dockercomposesample_web bash
+</code></pre>
+
+<p>確認用スクリプトで疎通を確認する。<br />
+バージョンとtableが表示されたら成功だ。</p>
+
+<pre><code>root@6237502e4401:/app# php connect.php
+Array
+(
+    [version()] =&gt; 5.5.51
+)
+Array
+(
+    [Tables_in_app_test] =&gt; user
+)
+</code></pre>
+
+<p>コンテナを削除するには <code>docker-compose down</code> コマンドを使う。</p>
+
+<pre><code>⇒  docker-compose down
+Stopping dockercomposesample_mysql_1 ... done
+Removing dockercomposesample_web_1 ... done
+Removing dockercomposesample_mysql_1 ... done
+Removing network dockercomposesample_default
+</code></pre>
+
+<p>サンプルコードをgithubで公開しているので参考にしてほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/docker-compose-with-link-sample">https://github.com/shoyan/docker-compose-with-link-sample</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dockerのコンテナ間を繋ぐLinksを使ってPHPとMySQLコンテナを連携させる]]></title>
+    <link href="http://48n.jp/blog/2016/09/16/links-container-for-docker/"/>
+    <updated>2016-09-16T17:37:10+09:00</updated>
+    <id>http://48n.jp/blog/2016/09/16/links-container-for-docker</id>
+    <content type="html"><![CDATA[<p>DockerはLinksというコンテナ間のネットワークを繋ぐ仕組みを持つ。<br />
+例えば、アプリケーションコンテナとデータベースコンテナを連携して使いたいときに有用だ。<br />
+今回はMySQLとPHPのコンテナを連携させる方法を紹介する。</p>
+
+<h2 id="mysqlコンテナの作成">MySQLコンテナの作成</h2>
+
+<p>まずは、mysqlコンテナを作成する。<br />
+バックグラウンドで起動させるための <code>--detach</code>オプションと3306ポートを解放するための <code>expose</code>オプションを指定している。</p>
+
+<pre><code>$ docker run --detach --expose=3306 --name=test-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql
+</code></pre>
+
+<p>以下のようにコンテナが起動していることを確認できるはずだ。</p>
+
+<pre><code>⇒  docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+b18a5159fe7c        mysql               "docker-entrypoint.sh"   1 minutes ago      Up 1 minutes       3306/tcp            test-mysql
+</code></pre>
+
+<h2 id="phpコンテナの作成">PHPコンテナの作成</h2>
+
+<p>次にPHPコンテナを作成する。<br />
+以下のDockerfileと確認用のconnect.phpを用意しておく。</p>
+
+<p>Dockerfile</p>
+
+<pre><code>FROM php:7.1
+RUN apt-get update
+RUN docker-php-ext-install pdo_mysql mbstring
+ADD . /app
+</code></pre>
+
+<p>connect.php</p>
+
+<pre><code class="language-php">&lt;?php
+
+$dsn = 'mysql:host=' . $_ENV['MYSQL_PORT_3306_TCP_ADDR'];
+$user = 'root';
+$password = $_ENV['MYSQL_ENV_MYSQL_ROOT_PASSWORD'];
+
+$dbh = new PDO($dsn, $user, $password);
+
+$sql = "SELECT version();";
+
+foreach ($dbh-&gt;query($sql, PDO::FETCH_ASSOC) as $row) {
+    print_r($row);
+}
+</code></pre>
+
+<p>ビルドする。</p>
+
+<pre><code class="language-text">$ docker build -t mysql-php .
+</code></pre>
+
+<p>以下のように <code>--link 連携したいコンテナ名:エイリアス名</code> でPHPコンテナを起動すると、起動したコンテナの環境変数に連携したいコンテナに関する情報が登録される。</p>
+
+<pre><code>$ docker run -it --link test-mysql:mysql mysql-php bash
+# root@9ec43f759596:/#
+# env
+MYSQL_PORT_3306_TCP_PORT=3306
+MYSQL_PORT_3306_TCP=tcp://172.17.0.3:3306
+MYSQL_ENV_MYSQL_VERSION=5.7.15-1debian8
+MYSQL_NAME=/big_shirley/mysql
+MYSQL_PORT_3306_TCP_PROTO=tcp
+MYSQL_PORT_3306_TCP_ADDR=172.17.0.3
+MYSQL_ENV_MYSQL_MAJOR=5.7
+MYSQL_PORT=tcp://172.17.0.3:3306
+</code></pre>
+
+<p>最後にPHPのコンテナでconnect.phpを実行して接続できることを確認してみる。<br />
+version名が表示されれば成功だ。</p>
+
+<pre><code># php /app/connect.php
+=&gt;
+Array
+(
+    [version()] =&gt; 5.7.15
+)
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dockerでlocaleを設定する]]></title>
+    <link href="http://48n.jp/blog/2016/08/24/sets-locale-on-docker/"/>
+    <updated>2016-08-24T17:32:51+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/24/sets-locale-on-docker</id>
+    <content type="html"><![CDATA[<p>Dockerでlocaleを設定したいときがある。<br />
+例えばマルチバイトを扱うときだ。<br />
+localeを設定していないイメージで処理を行うと <code>ArgumentError: invalid byte sequence in US-ASCII</code> のようなエラーが発生することがある。<br />
+Dockerでlocaleを設定する場合は、以下のようにDockerfileに定義する。</p>
+
+<pre><code>RUN locale-gen ja_JP.UTF-8
+ENV LANG ja_JP.UTF-8
+ENV LANGUAGE ja_JP:en
+ENV LC_ALL ja_JP.UTF-8
+</code></pre>
+
+<p>タイムゾーンも変えたい場合は以下も追記しておく。</p>
+
+<pre><code>RUN ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+</code></pre>
+
+<p>コンテナに入ってlocaleを表示すると以下のようになった。</p>
+
+<pre><code>root@e893a5fa3eea:/# locale
+LANG=ja_JP.UTF-8
+LANGUAGE=ja_JP:en
+LC_CTYPE="ja_JP.UTF-8"
+LC_NUMERIC="ja_JP.UTF-8"
+LC_TIME="ja_JP.UTF-8"
+LC_COLLATE="ja_JP.UTF-8"
+LC_MONETARY="ja_JP.UTF-8"
+LC_MESSAGES="ja_JP.UTF-8"
+LC_PAPER="ja_JP.UTF-8"
+LC_NAME="ja_JP.UTF-8"
+LC_ADDRESS="ja_JP.UTF-8"
+LC_TELEPHONE="ja_JP.UTF-8"
+LC_MEASUREMENT="ja_JP.UTF-8"
+LC_IDENTIFICATION="ja_JP.UTF-8"
+LC_ALL=ja_JP.UTF-8
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHubにpushしたらDockerイメージを自動ビルドする]]></title>
+    <link href="http://48n.jp/blog/2016/08/03/docker-auto-build-tutorial/"/>
+    <updated>2016-08-03T13:42:38+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/03/docker-auto-build-tutorial</id>
+    <content type="html"><![CDATA[<p>Docker HubとGitHubを使ってDockerイメージの自動ビルドを行う方法を紹介します。</p>
+
+<h2 id="自動ビルドのメリット">自動ビルドのメリット</h2>
+
+<p>自動ビルドのメリットは以下です。</p>
+
+<ul>
+  <li>常に最新のイメージがDocker Hubに用意される</li>
+  <li>Dockerfileが公開され使う人が安心できる</li>
+  <li>READMEも常に最新のものがDocker Hubに公開される</li>
+</ul>
+
+<p>Docker Hubを利用するには事前にアカウントの作成が必要です。<br />
+Docker Hubのアカウントの作成は以下を参考にしてください。</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/engine/getstarted/step_five/">Create a Docker Hub account &amp; repository</a></li>
+</ul>
+
+<h2 id="docker-hubで自動ビルドの設定をする">Docker Hubで自動ビルドの設定をする</h2>
+
+<p>すでにDockerfileがGitHubで管理されていることを前提に話しを進めます。</p>
+
+<p>Docker Hubにログインしたら「Profile &gt; Settings &gt; Linked Accounts &amp; Services.」を選択します。</p>
+
+<p>GitHubを使うのでGitHubのパネルを選択し、認証をしてください。<br />
+認証が成功すると、以下のような画面になります。</p>
+
+<p><img src="/images/docker-auto-build-01.png" alt="docker-auto-build-01" /></p>
+
+<p>認証が済んだら、Docker Hubにリポジトリを作成します。</p>
+
+<p>「 Create &gt; Create Automated Build」を選択します。<br />
+<img src="/images/docker-auto-build-02.png" alt="docker-auto-build-02" /></p>
+
+<p>すると以下の画面が表示されます。</p>
+
+<p><img src="/images/docker-auto-build-03.png" alt="docker-auto-build-03" /></p>
+
+<p>GitHubを選択すると 「Users/Organizations」とリポジトリを選択できる画面になるので、自動ビルドを行うリポジトリを選択します。</p>
+
+<p>Createボタンを押すと登録され、Docker Hubに表示されるようになります。</p>
+
+<p><img src="/images/docker-auto-build-04.png" alt="docker-auto-build-04" /></p>
+
+<p><img src="/images/docker-auto-build-05.png" alt="docker-auto-build-05" /></p>
+
+<p>リポジトリの「Build Settings」でビルドの設定ができます。</p>
+
+<p>Triggerボタンを押すとビルドが始まります。</p>
+
+<p><img src="/images/docker-auto-build-06.png" alt="docker-auto-build-06" /></p>
+
+<p>ビルドの状態は「Build Details」で確認できます。</p>
+
+<p><img src="/images/docker-auto-build-07.png" alt="docker-auto-build-07" /></p>
+
+<p>Queuedはビルド待ちのステータス。<br />
+Buildingはビルド中のステータスです。</p>
+
+<p>GitHubにpushすればBuild Settingsで設定したブランチが自動的にビルドされます。</p>
+
+<p>以上、簡単ですがDockerの自動ビルドの設定方法の紹介でした。<br />
+英語版ですが、詳しい方法が書いてあるのでこちらも参考にしてください。</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/docker-hub/builds/">Automated Builds on Docker Hub</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

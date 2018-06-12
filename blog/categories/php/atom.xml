@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Php | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[2017年のPHPについて数値をまとめてみました]]></title>
+    <link href="http://48n.jp/blog/2017/12/12/php2017/"/>
+    <updated>2017-12-12T17:22:48+09:00</updated>
+    <id>http://48n.jp/blog/2017/12/12/php2017</id>
+    <content type="html"><![CDATA[<p>この記事は<a href="https://qiita.com/advent-calendar/2017/php">PHP Advent Calendar 2017</a> 14日目の記事です。</p>
+
+<p>こんにちは、SHOYANです。2017年ももうすぐ終わりということで、2017年のPHPをふりかえってみるのはいかがでしょうか。この記事ではPHPに関係する情報を集め、数値としてまとめました。</p>
+
+<h2 id="2017年にphpについて書かれた記事ってどれくらい">2017年にPHPについて書かれた記事ってどれくらい？</h2>
+
+<p>まずは、PHPについて書かれた記事からいってみましょう。<br />
+インターネット上の全ての記事を探してくるのは膨大な時間がかかるので、<a href="https://qiita.com/search?utf8=%E2%9C%93&amp;sort=&amp;q=tag%3APHP+created%3A%3E2017-01-01">Qiitaで書かれた記事</a>を対象としました。</p>
+
+<p>2017年は<span style="font-weight:bolder">2,528</span>件の記事が書かれました。</p>
+
+<p>最もいいねのついた記事は<a href="https://qiita.com/higty">@higty</a>さんの書いた<a href="https://qiita.com/higty/items/f1f981719b1a59b9e020">世界で通用するエンジニアになるための高度な技術記事（英語）</a>でした。PHPのタグがついていますが、この記事はあまりPHPっぽくないですね？ストックの多い記事でピュアなPHPの記事は少ないという印象でした。</p>
+
+<h2 id="2017年にphpで書かれたコードってどれくらい">2017年にPHPで書かれたコードってどれくらい？</h2>
+
+<p>2017年に世界でどれくらいの量のPHPのコードが書かれたか興味がありませんか？<br />
+コードの量というのを定量的に表すのは難しいので、ここでは<a href="https://github.com/search?utf8=%E2%9C%93&amp;q=created%3A%3E%3D2017-01-01+language%3APHP&amp;type=Repositories">GitHubで2017年に作成されたリポジトリの数</a>を紹介します。</p>
+
+<p>2017年にGitHub作成されたリポジトリの数は<span style="font-weight:bolder">458,187</span>でした。さすが、ユーザーの多いPHPといった数字です。</p>
+
+<p>その中で最もスターを集めたのは<a href="https://github.com/jupeter/clean-code-php">jupeter/clean-code-php</a> でした。</p>
+
+<h2 id="phperって世界に何人くらいいるの">PHPerって世界に何人くらいいるの？</h2>
+
+<p>世界中にどれくらいのPHPerがいるでしょうか？<br />
+<a href="https://github.com/search?utf8=%E2%9C%93&amp;q=language%3APHP&amp;type=Users">GitHubからPHPerの数</a>を調べてみました。</p>
+
+<p>GitHubのPHPerの数は<span style="font-weight:bolder">569,735</span>人です。</p>
+
+<h2 id="phpのアップデートってどれくらい行われた">PHPのアップデートってどれくらい行われた？</h2>
+
+<p>PHPの公式サイトの<a href="http://php.net/archive/2017.php">リリース情報</a>によると、2017年に合計で<span style="font-weight:bolder">39</span>回のアップデートが行われています。活発に開発が行われていることが伺えますね。</p>
+
+<h2 id="phpの求人の数ってどれくらいあるの">PHPの求人の数ってどれくらいあるの？</h2>
+
+<p>PHPの求人の数ってどれくらいあるのでしょうか？<br />
+<a href="https://tenshoku.mynavi.jp/engineer/list/o16/kwPHP/">マイナビ転職</a>によると求職数は<span style="font-weight:bolder">1,155</span>件でした。</p>
+
+<h2 id="2017年に出版されたphpの書籍は何冊">2017年に出版されたPHPの書籍は何冊？</h2>
+
+<p>2017年に日本で発売されたPHPの書籍は何冊か知っていますか？<br />
+<a href="http://amzn.to/2AbjybB">14冊の書籍</a>が発売されています。</p>
+
+<h2 id="phpってそんなにひどい言語ではないと思う理由">PHPってそんなにひどい言語ではないと思う理由</h2>
+
+<p>ここまで読んでくださってありがとうございます。最後は私のPHPに対するポエムです。</p>
+
+<p>実は最近はあまりPHPを書く機会がありません。それでも、PHPに対する思い入れは他の言語と比べても強いと思います。それは、私のエンジニア歴の中でPHPとの付き合いが１番長いからです。私がはじめて習得した言語はPHPです。</p>
+
+<p>初めてプログラミングに触れる人にとってPHPはとっつきやすい言語だと思います。なぜなら、PHPは多くの人が使っているため、情報がたくさんあるからです。そのため、情報が調べやすく習得の敷居が低いのです。</p>
+
+<p>環境構築のコストが低いのもメリットです。ほとんどのホスティングサービスがPHPに対応しているため、自分が作ったサイトをインターネットに公開するのも容易です。</p>
+
+<p>色々ディスられることも多いPHPですが、初心者に親しみやすい言語という点に関しては他の言語より優れているのではと思います。多くの人にプログラミングを広めた功績は誰も否定できないでしょう。そんなPHPを私はこれからも応援していきたいと思います。</p>
+
+<p><em>補足</em><br />
+<em>数値は2017年12月13日のものです。</em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHPUnitの後処理でテーブルをTRUNCATEする]]></title>
+    <link href="http://48n.jp/blog/2016/11/08/after-truncate-in-the-phpunit/"/>
+    <updated>2016-11-08T17:48:30+09:00</updated>
+    <id>http://48n.jp/blog/2016/11/08/after-truncate-in-the-phpunit</id>
+    <content type="html"><![CDATA[<p>PHPUnitでテスト用のレコードを作成するのだが、テストで作成したレコードが残ってしまい再度テストを行うと失敗するという現象に遭遇した。</p>
+
+<p>以下のように<code>AppTestCase</code> を作成してカスタマイズしている。<br />
+<code>setup()</code> メソッドで <code>datasets</code> ディレクトリにymlファイルがあればその内容でデータを作成している。</p>
+
+<pre><code class="language-php">class AppTestCase extends PHPUnit_Extensions_Database_TestCase
+{
+    static private $_pdo = null;
+    private $_conn       = null;
+    private $_dataSet;
+    private $_obj;
+
+    protected function setUp()
+    {
+        $fixturePath = 'datasets/' . get_class($this) . '/' . $this-&gt;getName() . '.yml';
+        if (file_exists($fixturePath)) {
+            $this-&gt;_dataSet = new PHPUnit_Extensions_Database_DataSet_YamlDataSet($fixturePath);
+        } else {
+            $this-&gt;_dataSet = new PHPUnit_Extensions_Database_DataSet_DefaultDataSet();
+        }
+        parent::setUp();
+    }
+
+    public function getConnection()
+    {
+        if ($this-&gt;_conn === null) {
+            if (self::$_pdo == null) {
+                self::$_pdo = new PDO(DB_DSN, DB_USER, DB_PASSWD);
+            }
+            $this-&gt;_conn = $this-&gt;createDefaultDBConnection(self::$_pdo, DB_DBNAME);
+        }
+        return $this-&gt;_conn;
+    }
+
+    public function getDataSet()
+    {
+        return $this-&gt;_dataSet;
+    }
+}
+</code></pre>
+
+<p>PHPUnitのドキュメントにはTRUNCATEが実行されると書いてあるが、TRUNCATEはテストデータが作成される前に行われるので最後に作成されたレコードは残ってしまう。</p>
+
+<ul>
+  <li>
+    <p><a href="https://phpunit.de/manual/current/ja/database.html">https://phpunit.de/manual/current/ja/database.html</a></p>  </li>
+</ul>
+
+<p>MySQLサーバのクエリログは以下。<br />
+ドキュメント通りデータが作成される前にTRUNCATEが実行されている。</p>
+
+<pre><code>2016-11-08T07:47:26.906619Z        26 Connect   root@192.168.75.91 on app_test using TCP/IP
+2016-11-08T07:47:26.907174Z        26 Query     SET NAMES 'ujis'
+2016-11-08T07:47:27.136497Z        27 Connect   root@192.168.75.91 on app_test using TCP/IP
+2016-11-08T07:47:27.248506Z        28 Connect   root@192.168.75.91 on  using TCP/IP
+2016-11-08T07:47:27.249034Z        28 Init DB   app_test
+2016-11-08T07:47:27.256189Z        28 Init DB   app_test
+2016-11-08T07:47:27.256837Z        28 Query     select * from users
+2016-11-08T07:47:27.258065Z        28 Init DB   app_test
+2016-11-08T07:47:27.258473Z        28 Init DB   app_test
+2016-11-08T07:47:27.331138Z        27 Query     SET FOREIGN_KEY_CHECKS = 0
+2016-11-08T07:47:27.331548Z        27 Query     TRUNCATE `users`
+2016-11-08T07:47:27.349437Z        27 Query     SET FOREIGN_KEY_CHECKS = 1
+2016-11-08T07:47:27.349922Z        27 Query     SHOW COLUMNS FROM `users`
+2016-11-08T07:47:27.350848Z        27 Query     SHOW INDEX FROM `users`
+2016-11-08T07:47:27.351590Z        27 Query     INSERT INTO `users`
+                (`account_id`, `domain`, `created_at`)
+                VALUES
+                ('1', ‘example.com', '2016-11-02 18:40:10')
+2016-11-08T07:47:27.354645Z        28 Init DB   app_test
+2016-11-08T07:47:27.355089Z        28 Init DB   app_test
+2016-11-08T07:47:27.355386Z        28 Query     select * from users
+2016-11-08T07:47:27.360299Z        26 Quit
+2016-11-08T07:47:27.391481Z        27 Quit
+2016-11-08T07:47:27.431965Z        28 Quit
+</code></pre>
+
+<p>テストを実行した後にTRUNCATEするには <code>getTearDownOperation</code> メソッドを追加する。</p>
+
+<pre><code>class AppTestCase extends PHPUnit_Extensions_Database_TestCase
+{
+    static private $_pdo = null;
+    private $_conn       = null;
+    private $_dataSet;
+    private $_obj;
+
+    protected function setUp()
+    {
+        $fixturePath = 'datasets/' . get_class($this) . '/' . $this-&gt;getName() . '.yml';
+        if (file_exists($fixturePath)) {
+            $this-&gt;_dataSet = new PHPUnit_Extensions_Database_DataSet_YamlDataSet($fixturePath);
+        } else {
+            $this-&gt;_dataSet = new PHPUnit_Extensions_Database_DataSet_DefaultDataSet();
+        }
+        parent::setUp();
+    }
+
+    public function getConnection()
+    {
+        if ($this-&gt;_conn === null) {
+            if (self::$_pdo == null) {
+                self::$_pdo = new PDO(DB_DSN, DB_USER, DB_PASSWD);
+            }
+            $this-&gt;_conn = $this-&gt;createDefaultDBConnection(self::$_pdo, DB_DBNAME);
+        }
+        return $this-&gt;_conn;
+    }
+
+    public function getDataSet()
+    {
+        return $this-&gt;_dataSet;
+    }
+
+    // テスト後にテーブルをTRUNCATEする
+    public function getTearDownOperation()
+    {
+        return PHPUnit_Extensions_Database_Operation_Factory::TRUNCATE();
+    }
+}
+</code></pre>
+
+<p>あとは各UnitTestの<code>tearDown</code>メソッドで <code>parent::tearDown()</code> を実行する。</p>
+
+<pre><code>&lt;?php
+class SampleTest extends AppTestCase
+{
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+    .....
+}
+</code></pre>
+
+<p>以下が変更後のMySQLのクエリログだ。<br />
+最後にTRUNCATEが実行されている。</p>
+
+<pre><code>2016-11-08T08:43:49.367260Z       120 Connect   root@192.168.75.91 on app_test using TCP/IP
+2016-11-08T08:43:49.367966Z       120 Query     SET NAMES 'ujis'
+2016-11-08T08:43:49.626685Z       121 Connect   root@192.168.75.91 on app_test using TCP/IP
+2016-11-08T08:43:49.743978Z       122 Connect   root@192.168.75.91 on  using TCP/IP
+2016-11-08T08:43:49.744418Z       122 Init DB   app_test
+2016-11-08T08:43:49.751453Z       122 Init DB   app_test
+2016-11-08T08:43:49.752239Z       122 Query     select * from users
+2016-11-08T08:43:49.758493Z       122 Init DB   aap_test
+2016-11-08T08:43:49.759944Z       122 Init DB   app_test
+2016-11-08T08:43:49.760656Z       122 Query     select * from users
+2016-11-08T08:43:49.828928Z       121 Query     SET FOREIGN_KEY_CHECKS = 0
+2016-11-08T08:43:49.829372Z       121 Query     TRUNCATE `users`
+2016-11-08T08:43:49.852672Z       121 Query     SET FOREIGN_KEY_CHECKS = 1
+2016-11-08T08:43:49.853435Z       121 Query     SHOW COLUMNS FROM `users`
+2016-11-08T08:43:49.854605Z       121 Query     SHOW INDEX FROM `users`
+2016-11-08T08:43:49.855462Z       121 Query     INSERT INTO `users`
+                (`account_id`, `domain`, `created_at`)
+                VALUES
+                ('1', ‘example.com', '2016-11-02 18:40:10')
+2016-11-08T08:43:49.863268Z       122 Init DB   app_test
+2016-11-08T08:43:49.864301Z       122 Init DB   app_test
+2016-11-08T08:43:49.864678Z       122 Query     select * from users
+2016-11-08T08:43:49.869473Z       121 Query     SET FOREIGN_KEY_CHECKS = 0
+2016-11-08T08:43:49.869882Z       121 Query     TRUNCATE `users`
+2016-11-08T08:43:49.885689Z       121 Query     SET FOREIGN_KEY_CHECKS = 1
+2016-11-08T08:43:49.888006Z       120 Quit
+2016-11-08T08:43:49.914728Z       121 Quit
+2016-11-08T08:43:49.941933Z       122 Quit
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Php-idnkitをインストールする]]></title>
+    <link href="http://48n.jp/blog/2016/09/09/install-php-idnkit/"/>
+    <updated>2016-09-09T10:53:43+09:00</updated>
+    <id>http://48n.jp/blog/2016/09/09/install-php-idnkit</id>
+    <content type="html"><![CDATA[<p>php-idnkitをインストールしたのでメモ。<br />
+OSはubuntu、PHPのバージョンは5.6.24で行った。</p>
+
+<p>php-idnkitはidnkitをPHPから使えるようにするPHPの拡張モジュール。<br />
+拡張モジュールなのでPHPをコンパイルし直す必要はない。モジュールをコンパイルして、php.iniのextensionに指定すれば使えるようになる。</p>
+
+<h2 id="idnkitのインストール">idnkitのインストール</h2>
+
+<p>php-idnkitはあくまでidnkitをPHPから使えるようにする拡張モジュールなのでidnkitがないと動作しない。<br />
+まずはidnkitをインストールする。</p>
+
+<p>idnkitはJPNICが提供しており、以下からソースコードをダウンロードすることができる。</p>
+
+<ul>
+  <li>
+    <p><a href="https://www.nic.ad.jp/ja/idn/idnkit/download/">https://www.nic.ad.jp/ja/idn/idnkit/download/</a></p>  </li>
+</ul>
+
+<pre><code>$ wget https://www.nic.ad.jp/ja/idn/idnkit/download/sources/idnkit-1.0-src.tar.gz
+$ tar -zxf idnkit-1.0-src.tar.gz
+$ cd idnkit-1.0-src &amp;&amp; \
+    ./configure &amp;&amp; \
+    make &amp;&amp; \
+    make install
+</code></pre>
+
+<h2 id="php-idnkitをインストール">php-idnkitをインストール</h2>
+
+<p>続いてphp-idnkitをインストールする。<br />
+そのままではエラーとなったので以下のパッチをあてた。</p>
+
+<p>php-idnkit.patch</p>
+
+<pre><code class="language-diff">--- xxx/idnkit.c
++++ yyy/idnkit.c
+@@ -36,7 +36,11 @@ static int le_idnkit;
+  *
+  * Every user visible function must have an entry in idnkit_functions[].
+  */
++#if ZEND_MODULE_API_NO &gt;= 20100525
++zend_function_entry idnkit_functions[] = {
++#else
+ function_entry idnkit_functions[] = {
++#endif
+    PHP_FE(idnkit_decodename,   NULL)
+    PHP_FE(idnkit_encodename,   NULL)
+    PHP_FE(idnkit_errno,        NULL)
+@@ -104,7 +108,7 @@ PHP_MINIT_FUNCTION(idnkit)
+    idn_nameinit(1);
+
+    /* get idnkit version */
+-   REGISTER_STRING_CONSTANT("IDNKIT_VERSION", (char*)idn_version_getstring(), CONST_CS | CONST_PERSISTENT);
++   REGISTER_STRING_CONSTANT("IDNKIT_VERSION", "1.0", CONST_CS | CONST_PERSISTENT);
+
+    /* idnkit actions */
+    REGISTER_LONG_CONSTANT("IDNKIT_DELIMMAP",       IDN_DELIMMAP,       CONST_CS | CONST_PERSISTENT);
+</code></pre>
+
+<pre><code>$ wget http://www.sera.desuyo.net/idnkit/php-idnkit-20031204.tar.gz
+$ tar -zxf php-idnkit-20031204.tar.gz
+$ cd idnkit &amp;&amp; \
+    patch -lsp1 &lt; /tmp/php-idnkit.patch &amp;&amp; \
+    phpize &amp;&amp; \
+    ./configure &amp;&amp; \
+    make &amp;&amp; \
+    make install
+</code></pre>
+
+<h2 id="phpiniにextensionを指定">php.iniにextensionを指定</h2>
+
+<p>最後にphp.iniにextensionを指定を指定する。<br />
+以下は、<code>/usr/local/lib/php.ini</code> にphp.iniがある場合の設定例。</p>
+
+<pre><code>$ echo "extension=idnkit.so" &gt;&gt; /usr/local/lib/php.ini
+</code></pre>
+
+<p>以下のコマンドが動作すればOK。</p>
+
+<pre><code class="language-php">$ php -a
+&gt; echo idnkit_encodename(mb_convert_encoding("日本語ＪＰドメイン名.jp", "UTF-8", "auto"));
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[mysql_real_escape_string()のみで防げないSQLインジェクション]]></title>
+    <link href="http://48n.jp/blog/2016/09/06/sql-injection/"/>
+    <updated>2016-09-06T14:26:15+09:00</updated>
+    <id>http://48n.jp/blog/2016/09/06/sql-injection</id>
+    <content type="html"><![CDATA[<p>PHPアプリのSQLインジェクション対策として、<code>mysql_real_escape_string()</code> 等があるがこれだけでは万全ではないことがあるのでメモ。</p>
+
+<p>例えば以下のSQLでは<code>mysql_real_escape_string()</code>を使っているが、脆弱性が存在する。</p>
+
+<pre><code class="language-php">$id = mysql_real_escape_string("1 OR 1=1");
+$sql = "SELECT * FROM table_name WHERE id = $id";
+</code></pre>
+
+<p><code>mysql_real_escape_string()</code> では上記を防ぐことができない。<br />
+クエリ内の変数をシングルクォート（<code>'</code>）で囲むことで上記を防ぐことができる。</p>
+
+<pre><code class="language-php">$id = mysql_real_escape_string("1 OR 1=1");
+$sql = "SELECT * FROM table_name WHERE id = '$id'";
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHPの構文チェックを自動で行う方法]]></title>
+    <link href="http://48n.jp/blog/2016/08/08/php-lint-with-ci/"/>
+    <updated>2016-08-08T13:30:30+09:00</updated>
+    <id>http://48n.jp/blog/2016/08/08/php-lint-with-ci</id>
+    <content type="html"><![CDATA[<p>私のチームではCIで自動的にLINTをする仕組みを構築しています。<br />
+この仕組みにより、レガシーコードでテストコードがない環境でもシンタックスエラーの混入を防ぐことができます。</p>
+
+<p>中身はシンプルで以下のスクリプトを作成して、CIプラットホームで実行するようにします。</p>
+
+<p>php-lint.sh</p>
+
+<pre><code>#!/bin/sh
+
+RESULT=`find . -type f -name "*.php" -exec php -l {} \; 2&gt;&amp;1 | grep "PHP Parse error"`
+
+if [ "$RESULT" != "" ];then
+    echo "$RESULT"
+    exit 1
+fi
+</code></pre>
+
+<p>例えば、Droneでチェックする場合は以下のように設定します。</p>
+
+<p>.drone.yml</p>
+
+<pre><code>script:
+  - ./php-lint.sh
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

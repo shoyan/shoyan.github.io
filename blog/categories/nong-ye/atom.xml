@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 農業 | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/nong-ye/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[4億円調達したゼロアグリと農業の未来]]></title>
+    <link href="http://48n.jp/blog/2017/01/10/think-agriculture-and-iot/"/>
+    <updated>2017-01-10T17:53:25+09:00</updated>
+    <id>http://48n.jp/blog/2017/01/10/think-agriculture-and-iot</id>
+    <content type="html"><![CDATA[<p>Iotの技術を使った<a href="http://www.zero-agri.jp/">ゼロアグリ</a>を開発している<a href="http://www.routrek.co.jp/">ルートレック・ネットワークス</a>が4億円の資金調達をした。<br />
+ゼロアグリは農作物の水や肥料の管理を独自のアルゴリズムとIoTの技術を使って機械化する取り組みを行っている。</p>
+
+<ul>
+  <li>
+    <p><a href="http://jp.techcrunch.com/2016/12/26/zero-agri-raises-400m-yen/">http://jp.techcrunch.com/2016/12/26/zero-agri-raises-400m-yen/</a></p>  </li>
+</ul>
+
+<p>私は農業とIoTの分野に大きな可能性を感じておりウォッチしているのだが、ゼロアグリのように進めているところはしっかり進めているように感じる。<br />
+まだまだ開発段階のものが多いが10年後には実用化レベルに達するものが結構出てくると思っており、新しい農業の形が形成されていくのではと思う。</p>
+
+<p>ゼロアグリの佐々木氏は「農場に関するデータを可視化するものだけだと農家に受け入れられなかった」と語っているが、まさにその通りだと思う。<br />
+農業は数値ではなく感覚で判断するものだと思う。<br />
+そこにいきなり数値が出てきても受け入れられるのはなかなか難しいだろう。</p>
+
+<p>私は家庭菜園をしているが、土がよければ放っておいても野菜は育つ。<br />
+そういうものだから、土の水分や養分をモニタリングしてもあまり意味がない。</p>
+
+<p>じゃあ、何が必要かというと、目の前の農家が困っていることを解決出来る仕組みだと思う。<br />
+その問題を解決するにあたってどうしても物理的に制御が必要なものが出てくるはずだ。<br />
+IoTの技術の進化でその技術を多くの人が使えるようになってきている。<br />
+実際に困っていることを解決するためのものをそこらの人が作る。<br />
+そういうことができる時代がやってきていることに可能性を感じる。</p>
+
+<p>私の友人は農家をやっているが、有機農法なので除草に手間がかかっているようだ。<br />
+その除草の手間をIoTの技術を使って軽減できないだろうかと考える(いいアイデアはない)。<br />
+また配達が手間のようなので、配達の手間を省けるような仕組みを考えるといいかもしれない。<br />
+例えばドローンを使って郵送するとか。<br />
+実際やろうとしたらものすごく大変そうだけど(野菜って重いんですよね)。</p>
+]]></content>
+  </entry>
+  
+</feed>

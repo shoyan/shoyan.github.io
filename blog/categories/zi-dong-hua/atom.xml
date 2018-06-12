@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 自動化 | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/zi-dong-hua/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Guardでrubocopを自動化する]]></title>
+    <link href="http://48n.jp/blog/2016/12/07/guard-rubocop/"/>
+    <updated>2016-12-07T13:55:09+09:00</updated>
+    <id>http://48n.jp/blog/2016/12/07/guard-rubocop</id>
+    <content type="html"><![CDATA[<p>RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。<br />
+push→シンタックスエラー→直してもう1回pushというのがまどろこしいので<a href="https://github.com/yujinakayama/guard-rubocop">guard-rubocop</a>を使ってファイルを保存する度にチェックするようにしてみた。<br />
+ストレスが軽減され、良い感じだったので紹介する。</p>
+
+<h2 id="guard-rubocopの導入">guard-rubocopの導入</h2>
+
+<p>gurad-rubocopを導入するにはまず、rubocopを導入している必要がある。<br />
+この記事ではrubocopは導入済みという前提で進める。</p>
+
+<p>gurad-rubocopの導入はいたって簡単。<br />
+3分で導入できるので是非やってほしい。</p>
+
+<p>Gemfileに以下を定義する。</p>
+
+<pre><code class="language-ruby">group :development do
+  gem 'guard'
+  gem 'guard-rubocop', require: false
+end
+</code></pre>
+
+<p><code>bundle install</code> を行うと、guardコマンドが利用できるようになる。<br />
+<code>bundle exec guard init rubocop</code> で <code>Guardfile</code> が生成される。</p>
+
+<p>これでインストール完了。</p>
+
+<p>あとはターミナルで <code>bundle exec guard</code> コマンドを実行する。<br />
+その状態でファイルを変更するとそのファイルを対象にrubocopコマンドが実行される。</p>
+
+<h2 id="オプション">オプション</h2>
+
+<p>デフォルトだとgurad起動時にrubocopコマンドが実行されるようになっている。<br />
+起動時に実行したくない時はGuardfileに以下の設定を行えばよい。</p>
+
+<pre><code>guard :rubocop do
+
+</code></pre>
+
+<p>以下のように変更する。</p>
+
+<pre><code>guard :rubocop, all_on_start: false do
+
+</code></pre>
+
+<p>他にもオプションがあるので詳しくはREADMEを参照してほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/yujinakayama/guard-rubocop#options">https://github.com/yujinakayama/guard-rubocop#options</a></p>  </li>
+</ul>
+
+<h3 id="関連記事">関連記事</h3>
+
+<ul>
+  <li><a href="/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/">Guardでrspecのテストを自動化する</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Guardでrspecのテストを自動化する]]></title>
+    <link href="http://48n.jp/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/"/>
+    <updated>2016-05-24T15:05:01+09:00</updated>
+    <id>http://48n.jp/blog/2016/05/24/introduce-guard-gem-and-guard-rspec</id>
+    <content type="html"><![CDATA[<p>自動化ツールのGuardの紹介をします。  <br />
+Guardはファイルを監視して、ファイルになんらかの変更がされたら、指定した処理を実行するツールです。  <br />
+この機能を使ってファイルが変更されたらテストを自動で実行させたり、シンタックスチェックをすることができます。  <br />
+今回はrspecで自動的にテストを実行する方法を紹介します。</p>
+
+<p>まずはGuardのinstallをします。  <br />
+Gemfileに定義してインストールします。</p>
+
+<p>Gemfile</p>
+
+<pre><code class="language-ruby">group :development do
+  gem 'guard'
+  gem 'guard-rspec', require: false
+end
+
+</code></pre>
+
+<p>bundle installして、Guardfileを作成します。  <br />
+GuardfileはGuardの設定を定義するファイルです。</p>
+
+<pre><code>$ bundle install
+$ bundle exec guard init rspec
+
+</code></pre>
+
+<p>guard init rspecを実行するとrspecの設定が書かれたGuardfileが作成されます。  <br />
+Railsを想定した設定が書かれていますので、Railsの場合はそのままでOKです。</p>
+
+<h2 id="ファイルが実行されたらrspecを実行する">ファイルが実行されたらrspecを実行する</h2>
+
+<p>ファイルが実行されたらrspecを実行するようにしましょう。  <br />
+別でウィンドウを開いてguardを実行します。</p>
+
+<pre><code>$ bundle exec guard
+
+</code></pre>
+
+<p>ファイルを変更するとそのファイルのテストが実行され、テスト結果が表示されます。</p>
+
+<h2 id="guard-rspecのdsl">Guard-rspecのDSL</h2>
+
+<p>Guardの設定はGuardのDSLを用いて設定します。</p>
+
+<pre><code># rspecのグループを定義し、監視しているファイルに変更があった場合は"bundle exec rspec""を実行する。
+guard :rspec, cmd: "bundle exec rspec" do
+  # Guard::RspecのDSLのインスタンスを作成
+  dsl = Guard::RSpec::Dsl.new(self)
+  rspec = dsl.rspec
+  watch(rspec.spec_helper) { rspec.spec_dir }
+end
+
+</code></pre>
+
+<p>watchで監視するファイルを設定します。  <br />
+watchの引数は以下です。</p>
+
+<pre><code class="language-text">watch(監視するファイル) { コマンドに渡される引数 }
+
+</code></pre>
+
+<p>ここででてきた、<code>rspec.spec_helper</code> と <code>rspec.spec_dir</code> はどんな値を返すのでしょうか。<br />
+pryで覗いてみましょう。</p>
+
+<pre><code class="language-ruby">$ pry
+&gt; require 'guard/rspec/dsl'
+&gt; dsl = Guard::RSpec::Dsl.new(self)
+&gt; rspec = dsl.rspec
+&gt; rspec.spec_helper
+=&gt; "spec/spec_helper.rb"
+&gt; rspec.spec_dir
+=&gt; "spec"
+
+</code></pre>
+
+<p>ソースを少し見てみましょう。</p>
+
+<pre><code>def rspec
+  @rspec ||= OpenStruct.new(to_s: "spec").tap do |rspec|
+    rspec.spec_dir = "spec"
+    rspec.spec = -(m) { Dsl.detect_spec_file_for(rspec, m) }
+    rspec.spec_helper = "#{rspec.spec_dir}/spec_helper.rb"
+    rspec.spec_files = %r{^#{rspec.spec_dir}/.+_spec\.rb$}
+    rspec.spec_support = %r{^#{rspec.spec_dir}/support/(.+)\.rb$}
+  end
+end
+
+</code></pre>
+
+<p><a href="https://github.com/guard/guard-rspec/blob/master/lib/guard/rspec/dsl.rb#L28">https://github.com/guard/guard-rspec/blob/master/lib/guard/rspec/dsl.rb#L28</a></p>
+<p>実装には<code>OpenStruct</code>が使われています。  <br />
+<code>OpenStruct</code>とは要素を動的に追加・削除できる手軽な構造体を提供するクラスです  <br />
+http://docs.ruby-lang.org/ja/2.1.0/class/OpenStruct.html</p>
+
+<p>要素を追加するためにtapメソッドを使っています。  <br />
+<code>OpenStruct</code>とtapメソッドをうまく使っていますね。</p>
+
+<p>実は、というか当たり前なのですがOpenStructなので値の上書きも簡単にできてしまいます。</p>
+
+<pre><code>&gt; rspec.spec_helper
+=&gt; "spec/spec_helper.rb"
+&gt; rspec.spec_helper = 'hoge'
+=&gt; "hoge"
+&gt; rspec.spec_helper
+=&gt; "hoge"
+
+</code></pre>
+
+<h2 id="guardのカスタマイズ">Guardのカスタマイズ</h2>
+
+<p>Guardの様々なプラグインが開発されています。  <br />
+プラグインは以下のページで参照できます。  <br />
+https://github.com/guard/guard/wiki/Guard-Plugins</p>
+
+<p>ちなみに、今回使った<code>guard-rspec</code>もGuardのプラグインです。  <br />
+他にも様々なプラグインが用意されています。</p>
+
+<h2 id="関連記事">関連記事</h2>
+
+<ul>
+  <li><a href="/blog/2016/12/07/guard-rubocop/">Guardでrubocopを自動化する</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

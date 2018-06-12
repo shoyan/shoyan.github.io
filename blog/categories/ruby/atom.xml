@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[2017年のRubyについて数値をまとめてみました]]></title>
+    <link href="http://48n.jp/blog/2017/12/10/ruby2017/"/>
+    <updated>2017-12-10T08:05:39+09:00</updated>
+    <id>http://48n.jp/blog/2017/12/10/ruby2017</id>
+    <content type="html"><![CDATA[<p>この記事は<a href="https://qiita.com/advent-calendar/2017/ruby">Ruby Advent Calendar 2017</a> 10日目の記事です。</p>
+
+<p>こんにちは、SHOYANです。2017年ももうすぐ終わりますね。みなさんにとって2017年はどのような年だったでしょうか。<br />
+おそらくこの記事を読んでいるほとんどの方がRubyを好きなのだと思います。であれば、2017年にRubyでどのようなことが起こったのか気になりませんか？そんなRubyが大好きなあなたに向けて、本記事では2017年のRubyについてまとめました。</p>
+
+<h2 id="2017年にrubyについて書かれた記事ってどれくらい">2017年にRubyについて書かれた記事ってどれくらい？</h2>
+
+<p>まずは、Rubyについて書かれた記事からいってみましょう。<br />
+インターネット上の全ての記事を探してくるのは膨大な時間がかかるので、ここでの対象は<a href="https://qiita.com/search?q=tag%3ARuby+created%3A%3E2017-01-01">Qiitaで書かれた記事</a>とします。</p>
+
+<p>2017年は<span style="font-weight:bolder">2,969</span>件の記事が書かれました。</p>
+
+<p>最もいいねのついた記事は<a href="https://qiita.com/gazayas">@gazayas</a>さんの書いた<a href="https://qiita.com/gazayas/items/3d352d1b6ec9a225c6f6">外国人が語る：英語でクラスやメソッド等の名付け方</a>でした。</p>
+
+<h2 id="2017年にrubyで書かれたコードってどれくらい">2017年にRubyで書かれたコードってどれくらい？</h2>
+
+<p>2017年に世界でどれくらいの量のRubyのコードが書かれたか興味がありませんか？<br />
+コードの量というのを定量的に表すのは難しいので、ここではGitHubで2017年に作成されたリポジトリの数を紹介します。</p>
+
+<p>2017年にGitHub作成されたリポジトリの数は<span style="font-weight:bolder">277,359</span>でした。</p>
+
+<p>その中で最もスターを集めたのは<a href="https://github.com/atech/postal">atech/postal</a> でした。</p>
+
+<h2 id="rubyistって世界に何人くらいいるの">Rubyistって世界に何人くらいいるの？</h2>
+
+<p>世界中にどれくらいのRubyistがいるでしょうか？<br />
+GitHubからRubyistの数を調べてみました。</p>
+
+<p>GitHubのRubyistの数は<span style="font-weight:bolder">368,282</span>人です。</p>
+
+<h2 id="rubyのアップデートってどれくらい行われた">Rubyのアップデートってどれくらい行われた？</h2>
+
+<p>2017年はRuby2.4がリリースされました。Rubyの公式サイトのリリース情報によると、2017年に合計で<span style="font-weight:bolder">6</span>回のアップデートが行われています。</p>
+
+<h2 id="rubyistの求人の数ってどれくらいあるの">Rubyistの求人の数ってどれくらいあるの？</h2>
+
+<p>Rubyistの求人の数ってどれくらいあるのでしょうか？<br />
+マイナビ転職によると求職数は<span style="font-weight:bolder">598</span>件でした。</p>
+
+<h2 id="2017年に出版されたrubyの書籍は何冊">2017年に出版されたRubyの書籍は何冊？</h2>
+
+<p>2017年に日本で発売されたRubyの書籍は何冊か知っていますか？<br />
+<a href="http://amzn.to/2jfF8sa">14冊の書籍</a>が発売されています。</p>
+
+<h3 id="最後に">最後に</h3>
+
+<p>Rubyに関する様々な指標をまとめてみましたが、いかがでしたでしょうか。どのような指標が面白かったでしょうか？感想をフィードバックしていただけると嬉しいです。2018年もたくさんのRubyのコードや記事が書かれ、たくさんの素晴らしいプロダクトが誕生することでしょう。最後まで記事を読んでくださってどうもありがとうございました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rubyのモジュールはあと勝ち]]></title>
+    <link href="http://48n.jp/blog/2017/05/10/ruby-module-after-win/"/>
+    <updated>2017-05-10T16:52:23+09:00</updated>
+    <id>http://48n.jp/blog/2017/05/10/ruby-module-after-win</id>
+    <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
+
+<p>今回はRubyのモジュールについての話しです。<br />
+結論ファーストです。Rubyのモジュールはあと勝ちということを知りました。</p>
+
+<p>もう少し正確に言うと、異なるモジュールに同じ名前のメソッドが定義してあった場合、後にinclude されたメソッドで上書きされます。<br />
+この知見はActiveRecordのソースコードを読んでいて知りました。</p>
+
+<p>ActiveRecord::Validationsモジュールのソースコードを読んでいて、ActiveRecord::Validationsモジュールにsaveメソッドがあるのが気になりました。<br />
+というのも、saveメソッドはActiveRecord::Persistentモジュールにも定義してあるからです。</p>
+
+<p>ActiveRecord::ValidationsモジュールのAPIのドキュメントによると、以下のように書いてあります。</p>
+
+<blockquote>
+  <p>The regular ActiveRecord::Base#save method is replaced with this when the validations module is mixed in, which it is by default.</p>
+</blockquote>
+
+<p>訳: 通常、ActiveRecord::Base#メソッドはバリデーションモジュールが混在している場合にはこれと置き換えられます。これはデフォルトです。</p>
+
+<p>ここでActiveRecordの仕組みについて少し説明しておくと、ActiveRecord::Baseというクラスがあり、そのクラスで各モジュールをincludeしています。</p>
+
+<p>2017年5月現在では、以下のようにincludeされています。</p>
+
+<pre><code class="language-ruby">module ActiveRecord
+  class Base
+    include 様々なモジュール
+    include Persistence
+    include 様々なモジュール
+    include Validations
+    include 様々なモジュール
+  end
+end
+</code></pre>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb</a></p>  </li>
+</ul>
+
+<p>ActiveRecord::Persistenceの後にActiveRecord::Validationsモジュールがincludeされています。<br />
+どうやら後にincludeされたモジュールのメソッドで上書きされているようです。</p>
+
+<p>ここでサンプルコードを使って確かめてみました。</p>
+
+<pre><code class="language-ruby">module Hoge
+  def name
+    'hoge'
+  end
+end
+
+module Moge
+  def name
+    'moge'
+  end
+end
+
+class Man
+  include Hoge
+  include Moge
+end
+
+man = Man.new
+p man.name
+</code></pre>
+
+<p>実行してみると、<code>moge</code> が出力されました。<br />
+予想通り、後から読み込まれたモジュールのメソッドで上書きされていました。</p>
+
+<p>メソッド名が重複するということは普通にありそうなので、この挙動については知っておいたほうがいいかもしれませんね。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Guardでrubocopを自動化する]]></title>
+    <link href="http://48n.jp/blog/2016/12/07/guard-rubocop/"/>
+    <updated>2016-12-07T13:55:09+09:00</updated>
+    <id>http://48n.jp/blog/2016/12/07/guard-rubocop</id>
+    <content type="html"><![CDATA[<p>RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。<br />
+push→シンタックスエラー→直してもう1回pushというのがまどろこしいので<a href="https://github.com/yujinakayama/guard-rubocop">guard-rubocop</a>を使ってファイルを保存する度にチェックするようにしてみた。<br />
+ストレスが軽減され、良い感じだったので紹介する。</p>
+
+<h2 id="guard-rubocopの導入">guard-rubocopの導入</h2>
+
+<p>gurad-rubocopを導入するにはまず、rubocopを導入している必要がある。<br />
+この記事ではrubocopは導入済みという前提で進める。</p>
+
+<p>gurad-rubocopの導入はいたって簡単。<br />
+3分で導入できるので是非やってほしい。</p>
+
+<p>Gemfileに以下を定義する。</p>
+
+<pre><code class="language-ruby">group :development do
+  gem 'guard'
+  gem 'guard-rubocop', require: false
+end
+</code></pre>
+
+<p><code>bundle install</code> を行うと、guardコマンドが利用できるようになる。<br />
+<code>bundle exec guard init rubocop</code> で <code>Guardfile</code> が生成される。</p>
+
+<p>これでインストール完了。</p>
+
+<p>あとはターミナルで <code>bundle exec guard</code> コマンドを実行する。<br />
+その状態でファイルを変更するとそのファイルを対象にrubocopコマンドが実行される。</p>
+
+<h2 id="オプション">オプション</h2>
+
+<p>デフォルトだとgurad起動時にrubocopコマンドが実行されるようになっている。<br />
+起動時に実行したくない時はGuardfileに以下の設定を行えばよい。</p>
+
+<pre><code>guard :rubocop do
+
+</code></pre>
+
+<p>以下のように変更する。</p>
+
+<pre><code>guard :rubocop, all_on_start: false do
+
+</code></pre>
+
+<p>他にもオプションがあるので詳しくはREADMEを参照してほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/yujinakayama/guard-rubocop#options">https://github.com/yujinakayama/guard-rubocop#options</a></p>  </li>
+</ul>
+
+<h3 id="関連記事">関連記事</h3>
+
+<ul>
+  <li><a href="/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/">Guardでrspecのテストを自動化する</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Slackで定期的にRubotyに仕事をさせる]]></title>
+    <link href="http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty/"/>
+    <updated>2016-10-31T16:58:56+09:00</updated>
+    <id>http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty</id>
+    <content type="html"><![CDATA[<p>ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。<br />
+最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。<br />
+具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。</p>
+
+<p>うまくいかなかったのでSlackのリマインダー機能を使ってみることにした。<br />
+Slackのリマインダー機能を使うと <code>Reminder:</code> と言うプレフィックスが入るのでRubotyが反応せず、こちらもうまくいかなかった。</p>
+
+<p>最終的にはcronでスクリプトを定期実行させることにした。<br />
+Slackに通知するスクリプトを作って、それをcronで定期的に実行させる。<br />
+メッセージを拾ったRubotyがタスクを実行するといった感じだ。</p>
+
+<h3 id="サンプルコード">サンプルコード</h3>
+
+<pre><code class="language-ruby">require "faraday"
+
+username = 'your name'
+channel = 'your channel'
+slack_token = 'your slack token'
+icon_url = 'your icon url'
+
+body = {
+  username: username,
+  channel: channel,
+  icon_url: icon_url,
+  text: "ruboty ping"
+}
+
+Faraday.new('https://slack.com') do |c|
+  c.request :url_encoded
+  c.adapter Faraday.default_adapter
+end.post("/api/chat.postMessage?token=#{slack_token}", body)
+</code></pre>
+
+<p>これでRubotyに定期的に仕事をさせることができるようになった。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RubyGems.orgに反映させるRakeタスクの紹介]]></title>
+    <link href="http://48n.jp/blog/2016/10/25/introduce-gem-push/"/>
+    <updated>2016-10-25T14:17:29+09:00</updated>
+    <id>http://48n.jp/blog/2016/10/25/introduce-gem-push</id>
+    <content type="html"><![CDATA[<p>Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。<br />
+Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。<br />
+毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。</p>
+
+<pre><code class="language-ruby">require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :default =&gt; :spec
+
+namespace "gem" do
+  desc 'Build a gem package'
+  task :build do
+    sh "gem build your_gem_name.gemspec"
+  end
+
+  desc 'Push a gem package'
+  task :push do
+    Rake::Task["gem:build"].execute
+    sh "gem push your_gem_name-#{YourGemName::VERSION}.gem"
+  end
+end
+</code></pre>
+
+<p>公開する時は以下のタスクを実行すればいい。</p>
+
+<pre><code>$ rake gem:push
+</code></pre>
+
+<p>以下は実際のソースだ。<br />
+参考にしてほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/git_find_committer/blob/master/Rakefile">https://github.com/shoyan/git_find_committer/blob/master/Rakefile</a></p>  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

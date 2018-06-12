@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 寄稿 | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/ji-gao/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[WEB+DB PRESS Vol.99に寄稿しました]]></title>
+    <link href="http://48n.jp/blog/2017/06/26/introduce-webdb-press-vol99/"/>
+    <updated>2017-06-26T10:37:20+09:00</updated>
+    <id>http://48n.jp/blog/2017/06/26/introduce-webdb-press-vol99</id>
+    <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
+
+<p>2017年6月24日に発売された<a href="http://gihyo.jp/magazine/wdpress/archive/2017/vol99" target="_blank">WEB+DB PRESS Vol.99</a>に寄稿させていただきました。</p>
+
+<p><a href="http://gihyo.jp/magazine/wdpress/archive/2017/vol99" target="_blank"><img src="http://48n.jp/images/wdpress99.jpg" alt="wdpress99.jpg" /></a></p>
+
+<h2 id="テーマについて">テーマについて</h2>
+
+<p>テーマは「良いコードってなんだろう？」です。</p>
+
+<p>自分が何となく考えている良いコードを文章にするのは思っていた以上に難しいテーマでした。それでも、自分なりに良いコードとはこういうものではないかということを明文化できたのは非常にいい経験になりました。良いコードに対しての考え方は様々であるのは当然だと考えていて、今回の記事もその考えの1つだと思って読んでいただけるとよいかと思います。</p>
+
+<h3 id="目次">目次</h3>
+
+<p>［Rubyで学ぶ！］良いコードって何だろう？<br />
+現場で光る 変数，メソッド，クラス，モジュール活用法</p>
+
+<ul>
+  <li>第1章：良いコードを書く理由
+    <ul>
+      <li>10年利用されるソフトウェアに必要なこと  ……髙橋 健一，谷口 禎英</li>
+    </ul>
+  </li>
+  <li>第2章：変数，定数，メソッド
+    <ul>
+      <li>意図を伝える書き方，名前の付け方……井本 大登，山崎 勝平</li>
+    </ul>
+  </li>
+  <li>第3章：クラス
+    <ul>
+      <li>責務の分割，デザインパターンの活用……山崎 勝平，大和田 純</li>
+    </ul>
+  </li>
+  <li>第4章：モジュール
+    <ul>
+      <li>理解しやすい形で振る舞いを共有する……内村 元樹</li>
+    </ul>
+  </li>
+  <li>第5章：チーム開発でのテクニック
+    <ul>
+      <li>コードレビュー，開発の指針，アーキテクチャ……坂東 昌哉</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="執筆について">執筆について</h2>
+
+<p>執筆は東京と福岡の2拠点で行いました。そちらについては次のブログで紹介しています。</p>
+
+<ul>
+  <li><a href="http://tech.pepabo.com/2017/06/19/webdbpress-vol99/" target="_blank">WEB+DB PRESS Vol.99 の特集＆連載記事を寄稿しました！</a></li>
+</ul>
+
+<h2 id="まとめ">まとめ</h2>
+
+<p>紹介した特集以外にも様々な興味深い記事が掲載されています。<br />
+私はwebpack、Rails5.1、チーム内の対立解消の記事が面白そうだな〜と思っています。<br />
+ぜひ、書店で手にとってご覧ください！</p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4774189871&amp;linkId=8bc1233b7c31524433977a518e28c82d"></iframe>
+]]></content>
+  </entry>
+  
+</feed>

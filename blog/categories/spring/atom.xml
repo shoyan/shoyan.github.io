@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Spring | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/spring/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2018-06-12T19:53:03+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[IntelliJでSpringBootのアプリケーションを作成する]]></title>
+    <link href="http://48n.jp/blog/2018/01/19/create-spring-boot-project/"/>
+    <updated>2018-01-19T11:48:27+09:00</updated>
+    <id>http://48n.jp/blog/2018/01/19/create-spring-boot-project</id>
+    <content type="html"><![CDATA[<p>SpringBootのアプリケーションを作成する方法はいくつかありますが、今回はIntelliJで作成する方法を紹介します。</p>
+
+<p>IntellJを起動してメニューバーから <code>File</code> &gt; <code>New</code> &gt; <code>Project...</code>を選択します。</p>
+
+<p>左メニューよりSpring Initializrを選択してNextを押します。</p>
+
+<p><img src="/images/create-spring-boot-project1.png" alt="weather-nitify-slack" /></p>
+
+<p>Project MetaDataはアプリケーションごとに書き換えますが、今回はデモなのでデフォルトのままです。<br />
+Gradleを使うのでTypeをGradle Project を選択してNextを押します。</p>
+
+<p><img src="/images/create-spring-boot-project2.png" alt="weather-nitify-slack" /></p>
+
+<p>Dependenciesでは使いたいライブラリを選択できます。<br />
+今回は特に選択せず、Nextを押します。</p>
+
+<p><img src="/images/create-spring-boot-project3.png" alt="weather-nitify-slack" /></p>
+
+<p>Project nameはdemoで作成します。<br />
+Project locationでファイルを作成する場所を指定します。</p>
+
+<p><img src="/images/create-spring-boot-project4.png" alt="weather-nitify-slack" /></p>
+
+<p>Finishを押すとSpring Bootのアプリケーションが作成されます。<br />
+作成したファイルをGitHubにアップロードしています。</p>
+
+<p><a href="https://github.com/shoyan/spring-boot-demo">https://github.com/shoyan/spring-boot-demo</a></p>
+]]></content>
+  </entry>
+  
+</feed>
