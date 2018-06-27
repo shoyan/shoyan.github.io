@@ -9,9 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="機械学習をやるぞ！と息巻いてから半年が経とうとしている。
-進捗はてんでダメ。ほとんど勉強せずに時間だけが過ぎてしまった。
-さすがにこれではいけないと学習を始めた。 とりあえず学ぶにも何かしらの教材がないと効率が悪いと思い、基礎的な理論が勉強できそうな 「機械学習理論入門」を買った(半年前に)。 &hellip;">
+  <meta name="description" content="最近、ブログをリニューアルしようとJekyllをちょこちょこ触っている。
+ブログを作る上でJekyllで知っておいたほうが良いことをまとめていきたいと思う。 Jekyllとは Jekyllは静的なサイトを作ることに特化したツールだ。
+Ruby製でGithub pagesでも利用されている。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +148,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/12/06/jekyll-tutorial-01/">Jekyllチュートリアル</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-12-06T23:49:36+09:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:49 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近、ブログをリニューアルしようとJekyllをちょこちょこ触っている。<br />
+ブログを作る上でJekyllで知っておいたほうが良いことをまとめていきたいと思う。</p>
+
+<h2 id="jekyllとは">Jekyllとは</h2>
+
+<p>Jekyllは静的なサイトを作ることに特化したツールだ。<br />
+Ruby製でGithub pagesでも利用されている。<br />
+内部的には<a href="https://github.com/Shopify/liquid/wiki">Liquid</a>が使われている。<br />
+Liquidはテンプレートエンジンで変数や制御文(foreachとか)を使うことができる。<br />
+Jekyllはそれをラップしたものだ。<br />
+Jekyllの何が便利かというと、サイトの設定をymlファイルで管理したりJekyllコマンドでMarkdownからhtmlファイルを生成したりすることができるという点だ。<br />
+また、サードパーティ製のテーマを利用できたりもする。</p>
+
+<h2 id="ドキュメント">ドキュメント</h2>
+
+<p>Jekyllはドキュメントがなかなかしっかりしているので、公式のドキュメントを見るのがよい。</p>
+<ul>
+  <li>
+    <p><a href="https://jekyllrb.com/">https://jekyllrb.com/</a></p>  </li>
+</ul>
+
+<p>日本語版も用意してある。</p>
+<ul>
+  <li>
+    <p><a href="https://jekyllrb-ja.github.io/">https://jekyllrb-ja.github.io/</a></p>  </li>
+</ul>
+
+<p>まずドキュメントを探してみて、わからなければググるという感じで自分は調べている。</p>
+
+<h2 id="目次">目次</h2>
+
+<ul>
+  <li>Jekyllをはじめよう</li>
+  <li>Jekyllの構成について</li>
+  <li>Jekyllのテーマを作成する</li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -691,87 +756,6 @@ Kindle Unlimitedを契約したので、洋書の入手に事欠かなくなっ�
 <ul>
   <li><a href="http://localhost:4000/blog/2016/09/12/study-english-four-month/">英語の勉強をはじめて4ヶ月の記録</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/31/run-regular-basis-the-ruboty/">Slackで定期的にRubotyに仕事をさせる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-31T16:58:56+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>4:58 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。<br />
-最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。<br />
-具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。</p>
-
-<p>うまくいかなかったのでSlackのリマインダー機能を使ってみることにした。<br />
-Slackのリマインダー機能を使うと <code>Reminder:</code> と言うプレフィックスが入るのでRubotyが反応せず、こちらもうまくいかなかった。</p>
-
-<p>最終的にはcronでスクリプトを定期実行させることにした。<br />
-Slackに通知するスクリプトを作って、それをcronで定期的に実行させる。<br />
-メッセージを拾ったRubotyがタスクを実行するといった感じだ。</p>
-
-<h3 id="サンプルコード">サンプルコード</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;faraday&quot;</span>
-</span><span class="line">
-</span><span class="line"><span class="n">username</span> <span class="o">=</span> <span class="s1">&#39;your name&#39;</span>
-</span><span class="line"><span class="n">channel</span> <span class="o">=</span> <span class="s1">&#39;your channel&#39;</span>
-</span><span class="line"><span class="n">slack_token</span> <span class="o">=</span> <span class="s1">&#39;your slack token&#39;</span>
-</span><span class="line"><span class="n">icon_url</span> <span class="o">=</span> <span class="s1">&#39;your icon url&#39;</span>
-</span><span class="line">
-</span><span class="line"><span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class="line">  <span class="ss">username</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
-</span><span class="line">  <span class="ss">channel</span><span class="p">:</span> <span class="n">channel</span><span class="p">,</span>
-</span><span class="line">  <span class="ss">icon_url</span><span class="p">:</span> <span class="n">icon_url</span><span class="p">,</span>
-</span><span class="line">  <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;ruboty ping&quot;</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line">
-</span><span class="line"><span class="no">Faraday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;https://slack.com&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">request</span> <span class="ss">:url_encoded</span>
-</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">adapter</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">default_adapter</span>
-</span><span class="line"><span class="k">end</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/chat.postMessage?token=</span><span class="si">#{</span><span class="n">slack_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>これでRubotyに定期的に仕事をさせることができるようになった。</p>
 </div>
   
   

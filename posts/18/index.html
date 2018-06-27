@@ -9,8 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Shellで日本語ドメインをIDNフォーマットに変換する方法を紹介します。 対象のOSはMacです。 libidnというGNUのライブラリがあるので、それを使います。 libidnのインストール homebrewでインストールします。 1
-$ brew install libidn &hellip;">
+  <meta name="description" content="クロスサイトスクリプティングはユーザーの入力を受け付ける動的なアプリケーションに含まれる脆弱性を利用した攻撃です。
+英語ではCross Site Scriptingと呼ばれその頭文字をとるとCSSとなりますが、「Cascading Style Sheets」 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +147,105 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/03/cross-site-scripting-aka-xss/">クロスサイトスクリプティングの脆弱性とその対策</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-03T17:45:45+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:45 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>クロスサイトスクリプティングはユーザーの入力を受け付ける動的なアプリケーションに含まれる脆弱性を利用した攻撃です。<br />
+英語ではCross Site Scriptingと呼ばれその頭文字をとるとCSSとなりますが、「Cascading Style Sheets」との区別が紛らわしいため一般的にXSSの表記が使われています。</p>
+
+<h2 id="クロスサイトスクリプティングとはどのような脆弱性であるのか">クロスサイトスクリプティングとはどのような脆弱性であるのか</h2>
+
+<p>XSSとは動的なWebサイトのプログラムの脆弱性を利用した攻撃です。<br />
+この脆弱性を利用することで、攻撃者は悪意のあるJavaScriptコードをサイトに埋め込み、そのコードを実行することができるようになります。</p>
+
+<p>例えば、XSSの脆弱性がある掲示板があったとします。<br />
+攻撃者はフィッシングサイトにページを遷移させるJavaScriptコードを投稿しました。<br />
+すると、他の利用者がこの掲示板を閲覧したときにそのJavaScriptコードが実行され、フィッシングサイトが表示されるようになります。</p>
+
+<h2 id="この脆弱性を持ったサイトが攻撃されるとどのような被害が起き得るのか">この脆弱性を持ったサイトが攻撃されるとどのような被害が起き得るのか</h2>
+
+<p>上記の例のようにXSSはWebサイトの利用者を攻撃の対象とします。</p>
+
+<p>例えば、以下のような被害が出る可能性があります。</p>
+
+<ul>
+  <li>ユーザーのcookie情報を盗み、その情報を利用してそのユーザーでログインする</li>
+  <li>不正なページへユーザーを誘導する</li>
+  <li>不正なファイルをダウンロードさせる</li>
+</ul>
+
+<p>Webサイトを直接攻撃することも可能です。  <br />
+JavaScriptのhtmlを書き換える機能を使って、攻撃対象のサイトの内容を書き換えることができてしまいます。</p>
+
+<h2 id="なぜそのようなセキュリティホールが作り込まれてしまうのか">なぜそのようなセキュリティホールが作り込まれてしまうのか</h2>
+
+<p>HTMLには特殊文字が存在します。  <br />
+具体的には「’”&lt;&gt;&amp;」といった文字です。  <br />
+これらの特殊文字をHTML上に表示するには適切な方法で変換しなければなりません。  <br />
+しかし、XSSの脆弱性のあるプログラムはこのような特殊文字を意識せずに作られてしまっています。</p>
+
+<h2 id="どのように対策をすればよいのか">どのように対策をすればよいのか</h2>
+
+<p>入力時のチェックと出力時のチェックを行います。</p>
+
+<h3 id="入力時のチェック">入力時のチェック</h3>
+
+<p>具体的には、入力時に入力できる文字を制限します。<br />
+例えば、郵便番号を入力するフォームの場合は、数字と-しか入力できないようにします。<br />
+そうすれば、悪意のあるコード自体が入力できなくなります。<br />
+入り口でとめる作戦です。</p>
+
+<p>注意点としては、入力文字のチェックは必ずサーバサイドで行わなければなりません。<br />
+PHP等のサーバサイドで実行されるプログラムでチェックする必要があるということです。<br />
+クライアントサイド(JavaScript)のチェックでは攻撃者がそのチェック機構自体を無効にすることが可能です。</p>
+
+<h3 id="出力時のチェック">出力時のチェック</h3>
+
+<p>実際には仕様上、入力文字を制限することができないことがあります。<br />
+例えばフリーフォームの場合、無闇に入力文字を制限するとユーザーは自由に文章を入力することができなくなってしまいます。</p>
+
+<p>そこで、出力時に文字を無害化（サニタイジング）します。</p>
+
+<p>サニタイジングについては、プログラム言語やフレームワークに専用の機能が用意されています。<br />
+その機能を使うことを強く推奨します。</p>
+
+<p>例えばPHPであれば、<code>htmlspecialchars</code>というhtmlの特殊文字を無害化する関数が用意されています。<br />
+http://php.net/manual/ja/function.htmlspecialchars.php</p>
+
+<p>また、フレームワークはデフォルトでサニタイズされた文字が出力される仕組みになっているはずなので、そのようなフレームワークを使ったほうがよいでしょう。</p>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://www.atmarkit.co.jp/ait/articles/0211/09/news001.html">クロスサイトスクリプティングの脆弱性とは？</a></li>
+  <li><a href="http://qiita.com/mpyw/items/565b3670dd0c7f9162fa">XSS攻撃への対策</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -701,78 +800,6 @@ div要素にグラフが描画されます。</p>
 <p>様々なグラフのデモページが用意されており、参考になります。</p>
 
 <p><a href="http://www.highcharts.com/demo">http://www.highcharts.com/demo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/30/yum-install-failed-by-insufficient-space-on-docker/">Dockerのコンテナでyum Installが失敗する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-30T12:58:52+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:58 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Dockerのコンテナでyum installが失敗する。  <br />
-以下のようなエラーがでていた。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Insufficient space in download directory /var/cache/yum/x86_64/6/updates/packages
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>容量が不足しているらしい。</p>
-
-<p>ディスク容量を確認したところ、100%になっていた。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bash-4.2# df
-</span><span class="line">Filesystem     1K-blocks     Used Available Use% Mounted on
-</span><span class="line">none            19049892 18226752         0 100% /
-</span><span class="line">tmpfs             509992        0    509992   0% /dev
-</span><span class="line">tmpfs             509992        0    509992   0% /sys/fs/cgroup
-</span><span class="line">/dev/sda1       19049892 18226752         0 100% /etc/hosts
-</span><span class="line">shm                65536        0     65536   0% /dev/shm
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>不要なコンテナが溜まっていて、そのせいでディスク容量を圧迫していたようだ。</p>
-
-<h3 id="コンテナを消す方法">コンテナを消す方法</h3>
-
-<ul>
-  <li>docker ps -a でコンテナの一覧が表示される</li>
-  <li>docker rm  container_id で消す</li>
-</ul>
-
-<p>コンテナを消すと、ディスク容量に空きができてyum installできるようになった。</p>
-
-<p>こちらは類似案件。</p>
-
-<ul>
-  <li><a href="http://shoyan.github.io/blog/2016/04/13/no-space-left-on-device-on-docker/">Dockerでno Space Left on Deviceが出てbuildできなくなった</a></li>
-</ul>
 </div>
   
   
