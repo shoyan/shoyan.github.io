@@ -9,8 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Treant.jsとはツリーダイアグラムを描画するためのJavaScriptライブラリです。 Treant.jsでツリーダイアグラムを描画してみました。 http://codepen.io/shoyan/details/MeaqzN/
-簡単なサンプルを作ってみる &hellip;">
+  <meta name="description" content="ShellスクリプトのTipsです。 シェル変数の初期化をする 変数に値が設定されていない場合は、指定された値を返します。 1
+: ${VAR:=初期化する値} パラメーターを取得する $@ にパラメーターが格納されています。 例えば以下の記述をした for.sh ファイルを作成します。 1
+2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +148,207 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/22/shell-tips/">ShellのTipsてきなやつ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-22T18:16:41+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>6:16 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ShellスクリプトのTipsです。</p>
+
+<h2 id="シェル変数の初期化をする">シェル変数の初期化をする</h2>
+
+<p>変数に値が設定されていない場合は、指定された値を返します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">: ${VAR:=初期化する値}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="パラメーターを取得する">パラメーターを取得する</h2>
+
+<p><code>$@</code> にパラメーターが格納されています。</p>
+
+<p>例えば以下の記述をした for.sh ファイルを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">for role in "$@"; do
+</span><span class="line">  echo $role
+</span><span class="line">done
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のように出力されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ ./for.sh hoge moge
+</span><span class="line">=&gt; hoge
+</span><span class="line">moge
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="評価結果を変数に格納する">評価結果を変数に格納する</h2>
+
+<p><code>"$()"</code> で囲めば、評価結果を変数に格納することができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ name="$(hostname)"
+</span><span class="line">$ echo $name
+</span><span class="line">=&gt; shoyan-pc
+</span><span class="line">
+</span><span class="line"># 以下も同じです。
+</span><span class="line">
+</span><span class="line">$ name=`hostname`
+</span><span class="line">$ echo $name
+</span><span class="line">=&gt; shoyan-pc
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="if-と-test-コマンドの合わせ技">if と test コマンドの合わせ技</h2>
+
+<p>ifとtestコマンドを使う場合はtestコマンドを省略した<code>[]</code>がよく使われます。</p>
+
+<p>[ 文字列1 = 文字列2 ]  <br />
+[ 数値1 オプション 数値2 ]  <br />
+[ オプション 評価対象 ]</p>
+
+<p>[ の直後と ] の直前には必ず半角スペースが必要です (無いと正常に動作しません)。</p>
+
+<p>ちなみに比較は <code>==</code> でなくて <code>=</code>です。</p>
+
+<p>シェルの比較は文字列の比較と数値の比較があり、それぞれに対応するオペレーターがあります。  <br />
+そのせいで複雑になっている印象があります。</p>
+
+<h3 id="数値の比較">数値の比較</h3>
+
+<h4 id="数値1と数値2が等しいかどうか">数値1と数値2が等しいかどうか</h4>
+
+<p><code>-eq</code>、もしくは <code>=</code>を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ 1 -eq 1 ]; echo $?
+</span><span class="line">0
+</span><span class="line">$  [ 1 = 1 ]; echo $?
+</span><span class="line">0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="数値1と数値2が等しくないかどうか">数値1と数値2が等しくないかどうか</h4>
+
+<p><code>-ne</code> を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ 1 -ne 2 ]; echo $?
+</span><span class="line">0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>!=</code> でも動作しますが、慣習的にあまり使わないようです。</p>
+
+<h3 id="文字列の比較">文字列の比較</h3>
+<h4 id="文字列1と文字列2が等しいかどうか">文字列1と文字列2が等しいかどうか</h4>
+
+<p>同じ場合にtrueを返す<code>=</code>と その否定である <code>!=</code> を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ "hey" = "hey" ]; echo $?
+</span><span class="line">0
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちなみに数値の比較に使う <code>-eq</code> で比較したところエラーとなりました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  [ "hey" -eq "hey" ]; echo $?
+</span><span class="line">[: integer expression expected: hey
+</span><span class="line">2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="文字列1と文字列2が等しくないかどうか">文字列1と文字列2が等しくないかどうか</h4>
+
+<p>文字列比較のNOT条件<br />
+<code>!=</code>を使用します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ "$hoge" != "fuga" ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>数値比較のNOT条件</p>
+
+<p>数値の比較の場合は <code>-ne</code> オプションを使うのが慣習のようです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ 1 -ne 2 ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="変数が空かどうか">変数が空かどうか</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ -z "$hoge" ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>空でないかを判定する場合は <code>-n</code> を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ -n "$hoge" ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="findで抽出したファイルをreadコマンドで1行ずつ処理する">findで抽出したファイルをreadコマンドで1行ずつ処理する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">find application -type f -name "*.ini" | while read LINE; do wc -l ${LINE}; done;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="実行ファイルのあるパスを取得する">実行ファイルのあるパスを取得する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo "$(cd $(dirname $0);pwd)"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>1つ上のディレクトリは以下のように取得する</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">echo "$(cd $(dirname $0);cd ..;pwd)"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://doi-t.hatenablog.com/entry/2013/12/08/161929">シェル変数のデフォルト値を設定する、未初期化時にエラーメッセージを出力してスクリプトを強制終了する - 百日半狂乱</a></li>
+  <li><a href="http://shellscript.sunone.me/if_and_test.html#数値の比較:ed775c34e441eb16a91481d087cc1a74">if 文と test コマンド - UNIX &amp; Linux コマンド・シェルスクリプト リファレンス</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -688,95 +890,6 @@ FTPはデータ転送用のポートと制御用のポートの2つを利用す�
 </span><span class="line"> <span class="n">expect</span><span class="p">(</span><span class="no">NKF</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;Shift_JIS&#39;</span>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/15/whenever-cannot-load-such-file/">Capistrano/wheneverで Cannot Load Such Fileがでる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-15T13:42:55+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:42 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>wheneverを導入するため<code>Capfile</code>に <code>require "whenever/capistrano"</code>と定義して <code>bundle exec cap -T</code> とすると以下のエラーがでた。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">LoadError: cannot load such file -- /Users/shoyan/app/vendor/bundle/ruby/2.2.0/gems/whenever-0.9.5/lib/whenever/tasks/whenever.rake
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>実際に<code>vendor/bundle/ruby/2.2.0/gems/whenever-0.9.5/lib/whenever/tasks/whenever.rake</code> を確認してみると、たしかにそのファイルが存在しない。</p>
-
-<p>wheneverのリポジトリを見てみると、シンボリックリンクがはってあった。</p>
-
-<p><code>bundle install</code> したときにはシンボリックリンクがはられないようだ。</p>
-
-<p>手元のRubyのバージョンは、2.2.4だった。</p>
-
-<p>ruby2.3.1で実行してみると <code>Gem::Package::PathError</code> が発生した。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ERROR:  While executing gem ... (Gem::Package::PathError)
-</span><span class="line">    installing into parent path /Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/capistrano/v3/tasks/whenever.rake of /Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/whenever-0.9.5 is not allowed
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>このエラーはRuby2.3.2では直っていることが期待される。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/rubygems/rubygems/issues/1448#issuecomment-218355005">https://github.com/rubygems/rubygems/issues/1448#issuecomment-218355005</a></p>  </li>
-</ul>
-
-<h2 id="回避策">回避策</h2>
-
-<p>Capfileでの指定はやめて、<code>lib/capistrano/tasks</code> 以下にwhenever.taskを作成した。  <br />
-これでcapのタスク自体は実行できるようになった。  <br />
-しかし、ruby2.3.1の環境ではbundle installがこけるのでwheneverの導入自体ができないという状況。</p>
-
-<h2 id="その後">その後</h2>
-
-<p>bundle installがこけるバグは以下のPRがでており0.9.6で修正されていた。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/javan/whenever/pull/633">https://github.com/javan/whenever/pull/633</a></p>  </li>
-</ul>
-
-<p>また、0.9.5では <code>cap whenever:update_crontab</code> で <code>instance variable @_env not defined</code> が発生してコマンドが正常に実行できないバグがあったが、0.9.7で修正されている。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/javan/whenever/issues/634">https://github.com/javan/whenever/issues/634</a></p>  </li>
-</ul>
-
-<p>実はこのバグは自分が踏んでおり、その修正案をPRしてCHANGELOGに名前が刻まれた。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/javan/whenever/pull/636">https://github.com/javan/whenever/pull/636</a></p>  </li>
-  <li>
-    <p><a href="https://github.com/javan/whenever/commit/5aa0ccfa53e87bda43e92da005d781a4b5a8d5a5">https://github.com/javan/whenever/commit/5aa0ccfa53e87bda43e92da005d781a4b5a8d5a5</a></p>  </li>
-</ul>
-
 </div>
   
   
