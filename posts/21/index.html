@@ -9,7 +9,10 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Sinatraには not_foundハンドラとerrorハンドラの2つのハンドラが用意されています。 not_foundハンドラは404エラーを補足するためのエラーハンドラです。 errorハンドラは様々なエラーを補足するためのエラーハンドラです。 Not Foundハンドラ &hellip;">
+  <meta name="description" content="例外発生時にException Notificationで通知をしようと思い、導入してみたところ以下のエラーがでました。 1
+2
+ERROR: Failed to generate exception summary:
+ActionView::Template::Error: undefined &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +149,108 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/13/exception-notification-and-sinatra/">Exception Notificationでundefined Method `current' for Time:Classエラーがでた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-13T13:28:11+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:28 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>例外発生時に<a href="https://github.com/smartinez87/exception_notification">Exception Notification</a>で通知をしようと思い、導入してみたところ以下のエラーがでました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ERROR: Failed to generate exception summary:
+</span><span class="line">ActionView::Template::Error: undefined method `current' for Time:Class
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>日付の取得に<code>Time.current</code>を使っており、<code>Time.current</code>はActive supportにより拡張されたメソッドなのでActive Supportを使っている環境でしか動作しません(要するにRailsじゃないと動かない。Sinatraは…)。</p>
+
+<p>PRもでているので対応してほしいところです。</p>
+
+<ul>
+  <li><a href="https://github.com/smartinez87/exception_notification/pull/332">Fix timestamp error</a></li>
+</ul>
+
+<h2 id="対応方法">対応方法</h2>
+
+<p><code>require 'active_support/core_ext/time’</code> をすることで<code>Time.current</code>を使えるようにしました。</p>
+
+<p>サンプルコード</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">require 'rubygems'
+</span><span class="line">require 'bundler/setup'
+</span><span class="line">require "sinatra/base"
+</span><span class="line">require 'exception_notification'
+</span><span class="line"># Time.currentを使えるようにする
+</span><span class="line">require 'active_support/core_ext/time'
+</span><span class="line">
+</span><span class="line">class App &lt; Sinatra::Application
+</span><span class="line">  use ExceptionNotification::Rack,
+</span><span class="line">    :email =&gt; {
+</span><span class="line">      :email_prefix =&gt; "[Exception] ",
+</span><span class="line">      :sender_address =&gt; %{"notifier" &lt;notifier@example.com&gt;},
+</span><span class="line">      :exception_recipients =&gt; %w{shoyan@example.com}
+</span><span class="line">    }
+</span><span class="line">
+</span><span class="line">  get '/' do
+</span><span class="line">    begin
+</span><span class="line">      // 何かの処理
+</span><span class="line">    rescue Exception =&gt; e
+</span><span class="line">      status 500
+</span><span class="line">      ExceptionNotifier.notify_exception(e, env: env)
+</span><span class="line">      e.message
+</span><span class="line">    end
+</span><span class="line">  end
+</span><span class="line">end
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -641,74 +746,6 @@ usedが0なのでスワップ領域は使われていないことになります
     <p><a href="https://www.howtoforge.com/community/threads/cannot-ssh-with-shell-user.52800/i">https://www.howtoforge.com/community/threads/cannot-ssh-with-shell-user.52800/i</a></p>  </li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/04/introduce-studyplus/">勉強が楽しく続くようになるアプリ Studyplusのいいところ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-04T22:12:07+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:12 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Studyplusという勉強のSNSアプリを最近使い始めたのですが、よくできているので紹介したいと思います。</p>
-
-<p><a href="http://studyplus.jp/">http://studyplus.jp/</a></p>
-<h2 id="studyplusとは">Studyplusとは</h2>
-
-<p>勉強のSNSアプリです。  <br />
-自分のした勉強の内容や時間を記録することができます。  <br />
-また、他の人が書いたログを見ることができ、いいねをつけることができます。</p>
-
-<h2 id="studyplusのいいところ">Studyplusのいいところ</h2>
-
-<h3 id="勉強したアプリや教材を登録できる">勉強したアプリや教材を登録できる</h3>
-
-<p>勉強したアプリや教材を登録できるのですが、種類が多く検索すればだいたい見つかります。</p>
-
-<h3 id="いいねでモチベーションアップ">いいねでモチベーションアップ</h3>
-
-<p>いいねがつくとモチベーションがあがります。  <br />
-けっこういいねをしてくれる人がいて、ありがたいことです。</p>
-
-<h3 id="勉強時間を把握できる">勉強時間を把握できる</h3>
-
-<p>勉強時間を記録することができ、どの教材でどれくらい勉強したのかがグラフで表示されます。  <br />
-1日の勉強時間、累計の勉強時間も記録されます。</p>
-
-<h3 id="ほかの人の勉強方法がわかる">ほかの人の勉強方法がわかる</h3>
-
-<p>ほかの人が勉強に使っている教材や勉強時間がわかります。</p>
-
-<h2 id="とりあえず使ってみる">とりあえず使ってみる</h2>
-
-<p>インストールしたら、目標とアイコンを登録しましょう。  <br />
-友達申請ができるので10人くらい申請しておきます。  <br />
-そうするといいねをしてもらいやすくなるのでモチベーションを上げるのに役立ちます。</p>
-
-<p>僕はおもに英語の勉強のログを残すために使っています。  <br />
-Studyplusを使うようになってから英語の勉強時間を把握できるようになりました。  <br />
-勉強時間が少ないことがわかったので、もっと勉強しなければと意識しだしました。  <br />
-おかげで勉強時間が増えました。</p>
 </div>
   
   

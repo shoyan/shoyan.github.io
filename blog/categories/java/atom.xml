@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | SHOYAN BLOG]]></title>
   <link href="http://48n.jp/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2018-06-28T17:54:06+09:00</updated>
+  <updated>2018-06-29T15:31:50+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[そろそろlombokから卒業しようと考えています]]></title>
+    <link href="http://48n.jp/blog/2018/06/29/graduate-from-lombok/"/>
+    <updated>2018-06-29T15:26:49+09:00</updated>
+    <id>http://48n.jp/blog/2018/06/29/graduate-from-lombok</id>
+    <content type="html"><![CDATA[<p>便利な<a href="https://projectlombok.org/" target="_blank">lombok</a>ですが、そろそろオワコンな感じがしています。理由はJavaのアップデートに追従することが困難になってきているからです。詳しくは<a href="https://qiita.com/tmurakam99/items/b5ffe7f18bc06577f619" target="_blank">Lombok の Java9以降対応</a>の記事に書いてあります。実際、Java9対応も遅かったですね。lombokを使い続けると、Javaのアップデートに追従していけなくなる未来が想像できます。</p>
+
+<p>Spring Bootも2系からはlombokは使っていませんね。</p>
+
+<p>lombokは便利ですが、別に無くてもなんとかなるライブラリなので、あえてこれから使う選択をする必要はないと思います。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PMDでJavaのコードのバグをチェックする]]></title>

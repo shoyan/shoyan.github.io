@@ -9,8 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。
-push→シンタックスエラー→直してもう1回pushというのがまどろこしいのでguard-rubocopを使ってファイルを保存する度にチェックするようにしてみた。 &hellip;">
+  <meta name="description" content="THE WORLD BANKという世界の様々なデータを公開しているサイトがあります(最近知りました)。
+何気なく普段のニュースに触れていると世界で最も成長しているのは中国だという印象があります。
+しかし、データを見るとそうでないことが明らかになります。 では、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +148,89 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/12/26/world-gdp-in-2015/">世界で最も成長しているのは中国じゃなかったと数値が教えてくれた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-12-26T14:05:53+09:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:05 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://data.worldbank.org/">THE WORLD BANK</a>という世界の様々なデータを公開しているサイトがあります(最近知りました)。<br />
+何気なく普段のニュースに触れていると世界で最も成長しているのは中国だという印象があります。<br />
+しかし、データを見るとそうでないことが明らかになります。</p>
+
+<p>では、国の経済成長の指標であるGDPを見ていきます。</p>
+
+<h2 id="2015年のgdpの伸び率トップ10">2015年のGDPの伸び率トップ10</h2>
+
+<ol>
+  <li>アイルランド 26.3%</li>
+  <li>West Bank and Gaza(ヨルダン川西岸地区) 12.4%</li>
+  <li>エチオピア 9.6%</li>
+  <li>パラオ 9.4%</li>
+  <li>コートジボワール 9.2%</li>
+  <li>ウズベキスタン 8.0%</li>
+  <li>インド 7.6%</li>
+  <li>ラオス 7.4%</li>
+  <li>ミャンマー 7.3%</li>
+  <li>ドミニカ共和国、コロンビア、 タンザニア 7.0%</li>
+</ol>
+
+<p>「あれ、中国がいない？」と多くの日本人は思うのではないでしょうか。<br />
+中国のGDPは6.9%で11位です。<br />
+ちなみにGDP成長率6.9%の国はコンゴやルワンダがあります。</p>
+
+<p>あれだけ景気の良いと言われている中国以上に成長している国があるのですね(最近は危ぶまれる声も聞きますが)。</p>
+
+<p>ちなみに1位のアイルランドは26.3%と尋常ではない伸び率です。<br />
+この要因は一体何なんでしょうか。</p>
+
+<p>調べてみたところ、アイルランドは法人税が安く、そのために本社を移転してくる会社が多いとのことです。</p>
+
+<blockquote>
+  <p>アイルランドには１２・５％と低い法人税率を目当てに多国籍企業が合併・買収（Ｍ＆Ａ）などを通じて本社を移転してくるケースが多い。同国の資産は統計上かさ上げされ、先進国では異例の“高成長”につながった。</p>
+</blockquote>
+
+<p><a href="http://www.sankei.com/economy/news/160713/ecn1607130011-n1.html">http://www.sankei.com/economy/news/160713/ecn1607130011-n1.html</a></p>
+<p>アイルランドに本社移転した会社の資産がアイルランドのGDPに反映され、このように異常に高い数値として出ているようで、実際の経済成長とは乖離しているというのが識者の認識のようです。</p>
+
+<p>我らが日本のGDP成長率はいくらかというと0.5%です。<br />
+マイナス成長している国も少なからずあるのでマイナスじゃないだけマシかもしれません。<br />
+日本の高度経済成長期のGDP成長率は8%〜12%で推移しています。</p>
+
+<p>ワールドカップとオリンピックで沸いたブラジルはマイナス3.8%成長で、大きくこけている感じがありますね。</p>
+
+<p>ちなみに地域では南アジアの成長率がすごくて7.1%でした。</p>
+
+<p>南アジアの国々</p>
+
+<p><img src="/images/south-asia-gdp.png" alt="south-asia-gdp" /></p>
+
+<p>高度経済成長期の日本のように成長している国があるという事実に、世界は広いなと感じます。</p>
+
+<p>また、こういう数値を認識せずに中国が最も経済成長しているなどの誤った認識を持ってしまう事は避けたほうが良いと思いました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -444,347 +528,6 @@ Jekyllの何が便利かというと、サイトの設定をymlファイルで�
 <ul>
   <li><a href="http://railsguides.jp/i18n.html#%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%AFi18n-api">Rails国際化(I18n) API Rails ガイド</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/11/08/after-truncate-in-the-phpunit/">PHPUnitの後処理でテーブルをTRUNCATEする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-11-08T17:48:30+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:48 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>PHPUnitでテスト用のレコードを作成するのだが、テストで作成したレコードが残ってしまい再度テストを行うと失敗するという現象に遭遇した。</p>
-
-<p>以下のように<code>AppTestCase</code> を作成してカスタマイズしている。<br />
-<code>setup()</code> メソッドで <code>datasets</code> ディレクトリにymlファイルがあればその内容でデータを作成している。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="k">class</span> <span class="nc">AppTestCase</span> <span class="k">extends</span> <span class="nx">PHPUnit_Extensions_Database_TestCase</span>
-</span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="k">static</span> <span class="k">private</span> <span class="nv">$_pdo</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class="line">    <span class="k">private</span> <span class="nv">$_conn</span>       <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class="line">    <span class="k">private</span> <span class="nv">$_dataSet</span><span class="p">;</span>
-</span><span class="line">    <span class="k">private</span> <span class="nv">$_obj</span><span class="p">;</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="nv">$fixturePath</span> <span class="o">=</span> <span class="s1">&#39;datasets/&#39;</span> <span class="o">.</span> <span class="nb">get_class</span><span class="p">(</span><span class="nv">$this</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/&#39;</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getName</span><span class="p">()</span> <span class="o">.</span> <span class="s1">&#39;.yml&#39;</span><span class="p">;</span>
-</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="nv">$fixturePath</span><span class="p">))</span> <span class="p">{</span>
-</span><span class="line">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_dataSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PHPUnit_Extensions_Database_DataSet_YamlDataSet</span><span class="p">(</span><span class="nv">$fixturePath</span><span class="p">);</span>
-</span><span class="line">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class="line">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_dataSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PHPUnit_Extensions_Database_DataSet_DefaultDataSet</span><span class="p">();</span>
-</span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="k">parent</span><span class="o">::</span><span class="na">setUp</span><span class="p">();</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getConnection</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_conn</span> <span class="o">===</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">            <span class="k">if</span> <span class="p">(</span><span class="nx">self</span><span class="o">::</span><span class="nv">$_pdo</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">                <span class="nx">self</span><span class="o">::</span><span class="nv">$_pdo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="nx">DB_DSN</span><span class="p">,</span> <span class="nx">DB_USER</span><span class="p">,</span> <span class="nx">DB_PASSWD</span><span class="p">);</span>
-</span><span class="line">            <span class="p">}</span>
-</span><span class="line">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_conn</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createDefaultDBConnection</span><span class="p">(</span><span class="nx">self</span><span class="o">::</span><span class="nv">$_pdo</span><span class="p">,</span> <span class="nx">DB_DBNAME</span><span class="p">);</span>
-</span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_conn</span><span class="p">;</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDataSet</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_dataSet</span><span class="p">;</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>PHPUnitのドキュメントにはTRUNCATEが実行されると書いてあるが、TRUNCATEはテストデータが作成される前に行われるので最後に作成されたレコードは残ってしまう。</p>
-
-<ul>
-  <li>
-    <p><a href="https://phpunit.de/manual/current/ja/database.html">https://phpunit.de/manual/current/ja/database.html</a></p>  </li>
-</ul>
-
-<p>MySQLサーバのクエリログは以下。<br />
-ドキュメント通りデータが作成される前にTRUNCATEが実行されている。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">26.906619</span><span class="nx">Z</span>        <span class="mi">26</span> <span class="nx">Connect</span>   <span class="nx">root</span><span class="o">@</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">75.91</span> <span class="nx">on</span> <span class="nx">app_test</span> <span class="nx">using</span> <span class="nx">TCP</span><span class="o">/</span><span class="nx">IP</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">26.907174</span><span class="nx">Z</span>        <span class="mi">26</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">NAMES</span> <span class="s1">&#39;ujis&#39;</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.136497</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Connect</span>   <span class="nx">root</span><span class="o">@</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">75.91</span> <span class="nx">on</span> <span class="nx">app_test</span> <span class="nx">using</span> <span class="nx">TCP</span><span class="o">/</span><span class="nx">IP</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.248506</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Connect</span>   <span class="nx">root</span><span class="o">@</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">75.91</span> <span class="nx">on</span>  <span class="nx">using</span> <span class="nx">TCP</span><span class="o">/</span><span class="nx">IP</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.249034</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.256189</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.256837</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Query</span>     <span class="nx">select</span> <span class="o">*</span> <span class="nx">from</span> <span class="nx">users</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.258065</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.258473</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.331138</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">FOREIGN_KEY_CHECKS</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.331548</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Query</span>     <span class="nx">TRUNCATE</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.349437</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">FOREIGN_KEY_CHECKS</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.349922</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Query</span>     <span class="nx">SHOW</span> <span class="nx">COLUMNS</span> <span class="nx">FROM</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.350848</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Query</span>     <span class="nx">SHOW</span> <span class="nx">INDEX</span> <span class="nx">FROM</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.351590</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Query</span>     <span class="nx">INSERT</span> <span class="nx">INTO</span> <span class="sb">`users`</span>
-</span><span class="line">                <span class="p">(</span><span class="sb">`account_id`</span><span class="p">,</span> <span class="sb">`domain`</span><span class="p">,</span> <span class="sb">`created_at`</span><span class="p">)</span>
-</span><span class="line">                <span class="nx">VALUES</span>
-</span><span class="line">                <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="nx">‘example</span><span class="o">.</span><span class="nx">com</span><span class="s1">&#39;, &#39;</span><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mo">02</span> <span class="mi">18</span><span class="o">:</span><span class="mi">40</span><span class="o">:</span><span class="mi">10</span><span class="err">&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.354645</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.355089</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.355386</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Query</span>     <span class="nx">select</span> <span class="o">*</span> <span class="nx">from</span> <span class="nx">users</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.360299</span><span class="nx">Z</span>        <span class="mi">26</span> <span class="nx">Quit</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.391481</span><span class="nx">Z</span>        <span class="mi">27</span> <span class="nx">Quit</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T07</span><span class="o">:</span><span class="mi">47</span><span class="o">:</span><span class="mf">27.431965</span><span class="nx">Z</span>        <span class="mi">28</span> <span class="nx">Quit</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>テストを実行した後にTRUNCATEするには <code>getTearDownOperation</code> メソッドを追加する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="k">class</span> <span class="nc">AppTestCase</span> <span class="k">extends</span> <span class="nx">PHPUnit_Extensions_Database_TestCase</span>
-</span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="k">static</span> <span class="k">private</span> <span class="nv">$_pdo</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class="line">    <span class="k">private</span> <span class="nv">$_conn</span>       <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-</span><span class="line">    <span class="k">private</span> <span class="nv">$_dataSet</span><span class="p">;</span>
-</span><span class="line">    <span class="k">private</span> <span class="nv">$_obj</span><span class="p">;</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="nv">$fixturePath</span> <span class="o">=</span> <span class="s1">&#39;datasets/&#39;</span> <span class="o">.</span> <span class="nb">get_class</span><span class="p">(</span><span class="nv">$this</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/&#39;</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getName</span><span class="p">()</span> <span class="o">.</span> <span class="s1">&#39;.yml&#39;</span><span class="p">;</span>
-</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="nv">$fixturePath</span><span class="p">))</span> <span class="p">{</span>
-</span><span class="line">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_dataSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PHPUnit_Extensions_Database_DataSet_YamlDataSet</span><span class="p">(</span><span class="nv">$fixturePath</span><span class="p">);</span>
-</span><span class="line">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class="line">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_dataSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PHPUnit_Extensions_Database_DataSet_DefaultDataSet</span><span class="p">();</span>
-</span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="k">parent</span><span class="o">::</span><span class="na">setUp</span><span class="p">();</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getConnection</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_conn</span> <span class="o">===</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">            <span class="k">if</span> <span class="p">(</span><span class="nx">self</span><span class="o">::</span><span class="nv">$_pdo</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">                <span class="nx">self</span><span class="o">::</span><span class="nv">$_pdo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="nx">DB_DSN</span><span class="p">,</span> <span class="nx">DB_USER</span><span class="p">,</span> <span class="nx">DB_PASSWD</span><span class="p">);</span>
-</span><span class="line">            <span class="p">}</span>
-</span><span class="line">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_conn</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createDefaultDBConnection</span><span class="p">(</span><span class="nx">self</span><span class="o">::</span><span class="nv">$_pdo</span><span class="p">,</span> <span class="nx">DB_DBNAME</span><span class="p">);</span>
-</span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_conn</span><span class="p">;</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDataSet</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_dataSet</span><span class="p">;</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="c1">// テスト後にテーブルをTRUNCATEする</span>
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getTearDownOperation</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">return</span> <span class="nx">PHPUnit_Extensions_Database_Operation_Factory</span><span class="o">::</span><span class="na">TRUNCATE</span><span class="p">();</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>あとは各UnitTestの<code>tearDown</code>メソッドで <code>parent::tearDown()</code> を実行する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class="line"><span class="k">class</span> <span class="nc">SampleTest</span> <span class="k">extends</span> <span class="nx">AppTestCase</span>
-</span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">parent</span><span class="o">::</span><span class="na">setUp</span><span class="p">();</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">public</span> <span class="k">function</span> <span class="nf">tearDown</span><span class="p">()</span>
-</span><span class="line">    <span class="p">{</span>
-</span><span class="line">        <span class="k">parent</span><span class="o">::</span><span class="na">tearDown</span><span class="p">();</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="o">.....</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下が変更後のMySQLのクエリログだ。<br />
-最後にTRUNCATEが実行されている。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.367260</span><span class="nx">Z</span>       <span class="mi">120</span> <span class="nx">Connect</span>   <span class="nx">root</span><span class="o">@</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">75.91</span> <span class="nx">on</span> <span class="nx">app_test</span> <span class="nx">using</span> <span class="nx">TCP</span><span class="o">/</span><span class="nx">IP</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.367966</span><span class="nx">Z</span>       <span class="mi">120</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">NAMES</span> <span class="s1">&#39;ujis&#39;</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.626685</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Connect</span>   <span class="nx">root</span><span class="o">@</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">75.91</span> <span class="nx">on</span> <span class="nx">app_test</span> <span class="nx">using</span> <span class="nx">TCP</span><span class="o">/</span><span class="nx">IP</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.743978</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Connect</span>   <span class="nx">root</span><span class="o">@</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">75.91</span> <span class="nx">on</span>  <span class="nx">using</span> <span class="nx">TCP</span><span class="o">/</span><span class="nx">IP</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.744418</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.751453</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.752239</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Query</span>     <span class="nx">select</span> <span class="o">*</span> <span class="nx">from</span> <span class="nx">users</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.758493</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">aap_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.759944</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.760656</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Query</span>     <span class="nx">select</span> <span class="o">*</span> <span class="nx">from</span> <span class="nx">users</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.828928</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">FOREIGN_KEY_CHECKS</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.829372</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">TRUNCATE</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.852672</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">FOREIGN_KEY_CHECKS</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.853435</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">SHOW</span> <span class="nx">COLUMNS</span> <span class="nx">FROM</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.854605</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">SHOW</span> <span class="nx">INDEX</span> <span class="nx">FROM</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.855462</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">INSERT</span> <span class="nx">INTO</span> <span class="sb">`users`</span>
-</span><span class="line">                <span class="p">(</span><span class="sb">`account_id`</span><span class="p">,</span> <span class="sb">`domain`</span><span class="p">,</span> <span class="sb">`created_at`</span><span class="p">)</span>
-</span><span class="line">                <span class="nx">VALUES</span>
-</span><span class="line">                <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="nx">‘example</span><span class="o">.</span><span class="nx">com</span><span class="s1">&#39;, &#39;</span><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mo">02</span> <span class="mi">18</span><span class="o">:</span><span class="mi">40</span><span class="o">:</span><span class="mi">10</span><span class="err">&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.863268</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.864301</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Init</span> <span class="nx">DB</span>   <span class="nx">app_test</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.864678</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Query</span>     <span class="nx">select</span> <span class="o">*</span> <span class="nx">from</span> <span class="nx">users</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.869473</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">FOREIGN_KEY_CHECKS</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.869882</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">TRUNCATE</span> <span class="sb">`users`</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.885689</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Query</span>     <span class="nx">SET</span> <span class="nx">FOREIGN_KEY_CHECKS</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.888006</span><span class="nx">Z</span>       <span class="mi">120</span> <span class="nx">Quit</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.914728</span><span class="nx">Z</span>       <span class="mi">121</span> <span class="nx">Quit</span>
-</span><span class="line"><span class="mi">2016</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="nx">T08</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mf">49.941933</span><span class="nx">Z</span>       <span class="mi">122</span> <span class="nx">Quit</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
 </div>
   
   
