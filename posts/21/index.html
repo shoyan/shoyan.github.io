@@ -9,8 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="ファイルのパスを生成する際にセパレーターを意識しなくてはならず、どうにもいけていないコードがあります(ありますというか自分が量産していました)。 以下のようなコードです。 1
-path = &quot;#{path1}/{$path2}&quot; &hellip;">
+  <meta name="description" content="Node.jsのフレームワーク、Expressを試してみました。 ExpressはNode.jsでwebアプリケーションを作成するためのフレームワークです。 インストール まずは、Node.jsをインストールします。 以下のページからパッケージをダウンロードしてインストールします。 https &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +146,215 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/17/first-step-express/">Expressのインストールと構成を把握する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-17T13:33:55+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:33 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Node.jsのフレームワーク、<a href="http://expressjs.com">Express</a>を試してみました。  <br />
+ExpressはNode.jsでwebアプリケーションを作成するためのフレームワークです。</p>
+
+<h2 id="インストール">インストール</h2>
+
+<p>まずは、Node.jsをインストールします。</p>
+
+<p>以下のページからパッケージをダウンロードしてインストールします。  <br />
+https://nodejs.org/en/</p>
+
+<p>次にnpmを使って<a href="http://expressjs.com/en/starter/generator.html">express-generator</a>をインストールします。  <br />
+express-generatorはExpressのスケルトンアプリケーションを作成するコマンドです。  <br />
+npmはNode.jsをインストールした際にインストールされていると思います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo npm install express-generator -g
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="スケルトンアプリケーションを作成する">スケルトンアプリケーションを作成する</h2>
+
+<p>expressコマンドでスケルトンアプリケーションを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ express myapp
+</span><span class="line">$ cd myapp
+</span><span class="line">$ npm install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>起動してみます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">⇒  DEBUG=myapp:* npm start
+</span><span class="line">
+</span><span class="line">&gt; myapp@0.0.0 start /Users/PMAC025S/Development/sample/nodejs/myapp
+</span><span class="line">&gt; node ./bin/www
+</span><span class="line">
+</span><span class="line">  myapp:server Listening on port 3000 +0ms
+</span><span class="line">GET / 200 659.865 ms - 170
+</span><span class="line">GET /stylesheets/style.css 200 9.088 ms - 111
+</span><span class="line">GET /favicon.ico 404 70.846 ms - 1285
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>http://localhost:3000</code> にアクセスしてみます。<br />
+Welcome to Express と表示されていれば正常に起動できています。</p>
+
+<p>サーバーの停止は<code>Ctrl + C</code>です。</p>
+
+<h2 id="ルーティング">ルーティング</h2>
+
+<p>ルーティングの基本的な構造です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">app.METHOD(PATH, HANDLER)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>app</strong>: expressのインスタンス  <br />
+<strong>METHOD</strong>: HTTPメソッド(GET, POST, PUT, PATCH, DELETE等)  <br />
+<strong>PATH</strong>: サーバーのパス  <br />
+<strong>HANDLER</strong>: 実行する関数</p>
+
+<p>Hello World!を返すルーティングのサンプルです。  <br />
+<code>/</code>にGETリクエストを送ると、Hello World!が返却されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/</code>にPOSTリクエストを送ると、<code>Got a POST request</code>が返却されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">app</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;Got a POST request&#39;</span><span class="p">);</span>
+</span><span class="line"><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="expressの構造">Expressの構造</h2>
+
+<p>express-generator で作成されたファイルを確認していきます。  <br />
+ファイル構成は以下です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">⇒</span>  <span class="nx">tree</span> <span class="o">-</span><span class="nx">L</span> <span class="mi">2</span>
+</span><span class="line"><span class="p">.</span>
+</span><span class="line"><span class="err">├──</span> <span class="nx">app</span><span class="p">.</span><span class="nx">js</span>
+</span><span class="line"><span class="err">├──</span> <span class="nx">bin</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">└──</span> <span class="nx">www</span>
+</span><span class="line"><span class="err">├──</span> <span class="nx">node_modules</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">body</span><span class="o">-</span><span class="nx">parser</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">cookie</span><span class="o">-</span><span class="nx">parser</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">debug</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">express</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">jade</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">morgan</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">└──</span> <span class="nx">serve</span><span class="o">-</span><span class="nx">favicon</span>
+</span><span class="line"><span class="err">├──</span> <span class="kr">package</span><span class="p">.</span><span class="nx">json</span>
+</span><span class="line"><span class="err">├──</span> <span class="kr">public</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">images</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">javascripts</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">└──</span> <span class="nx">stylesheets</span>
+</span><span class="line"><span class="err">├──</span> <span class="nx">routes</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">├──</span> <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+</span><span class="line"><span class="err">│</span>   <span class="err">└──</span> <span class="nx">users</span><span class="p">.</span><span class="nx">js</span>
+</span><span class="line"><span class="err">└──</span> <span class="nx">views</span>
+</span><span class="line">    <span class="err">├──</span> <span class="nx">error</span><span class="p">.</span><span class="nx">jade</span>
+</span><span class="line">    <span class="err">├──</span> <span class="nx">index</span><span class="p">.</span><span class="nx">jade</span>
+</span><span class="line">    <span class="err">└──</span> <span class="nx">layout</span><span class="p">.</span><span class="nx">jade</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="appjs">app.js</h3>
+
+<p>app.jsではアプリの設定やルーティングを定義します。  <br />
+簡単なアプリであれば、ここに全て書いてしまってもよいでしょう。  <br />
+express-generatorで作成されたファイル構成では、<code>routes/</code>、<code>views/</code> ディレクトリが作成されており、ルーティングやテンプレートは分離する構成となっています。</p>
+
+<h3 id="bin">bin</h3>
+<p>実行ファイルが格納されます。</p>
+
+<h3 id="node_modules">node_modules</h3>
+<p>Expressなどのモジュールが入っているディレクトリです。npmでインストールしたファイルが格納されます。</p>
+
+<h3 id="packagejson">package.json</h3>
+<p>アプリの設定やメタ情報を定義するファイルです。</p>
+
+<h3 id="public">public</h3>
+<p>公開ディレクトリです、cssファイル、imageファイル、JavaScriptファイルを格納します。</p>
+
+<h3 id="routes">routes</h3>
+<p>アプリケーションのルーティングと処理を定義したファイルを格納します。</p>
+
+<h3 id="viewsディレクトリ">viewsディレクトリ</h3>
+<p>テンプレートを定義したファイルを格納します。</p>
+
+<p>Expressの構成は把握できました。  <br />
+次はExpressを使ってチャットアプリケーションを作ってみたいと思います(次回へ続く)。</p>
+
+<h3 id="参考リンク">参考リンク</h3>
+
+<ul>
+  <li><a href="http://expressjs.com/en/starter/installing.html">Installing Express</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -605,151 +813,6 @@ knife zeroはknifeプラグインで、リモートnode上でchef-clientを実�
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">$ bundle exec knife zero converge 'fqdn:server01.example.com' -x shoyan
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/08/learn-the-memory-with-free-command/">freeコマンドで確認するOSのメモリ情報</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-08T22:22:45+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:22 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>サーバーのメモリ情報はシステムの空きメモリと使用メモリの量を表示する<code>free</code>コマンドを使って確認することができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[shoyan@server01 ~]$ free
-</span><span class="line">             total       used       free     shared    buffers     cached
-</span><span class="line">Mem:       1922324    1716832     205492          0     197248    1055352
-</span><span class="line">-/+ buffers/cache:     464232    1458092
-</span><span class="line">Swap:      4194300          0    4194300
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>-mオプションを使うとMB単位で表示させることができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[shoyan@server01 ~]$ free -m
-</span><span class="line">             total       used       free     shared    buffers     cached
-</span><span class="line">Mem:          1877       1676        200          0        192       1030
-</span><span class="line">-/+ buffers/cache:        453       1423
-</span><span class="line">Swap:         4095          0       4095
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="まずどこを見るべきか">まずどこを見るべきか</h2>
-
-<p>見るべきところは、3行目の <code>-/+ buffers/cache:        453       1423</code> の部分です。  <br />
-453MBが使用中で、1423MBは自由に使えるメモリがあります。</p>
-
-<h2 id="項目の説明">項目の説明</h2>
-
-<p>表示項目を確認していきます。</p>
-
-<p><strong>total</strong>: OSが認識している物理的なメモリサイズです。  <br />
-1877MBなので、およそ1.8GBです。  <br />
-RAIDカードやNICなどを装着しているときは、それらのためにメモリが使われるので実際の搭載メモリサイズよりも少なくなります。  <br />
-ですので、物理メモリとしては2GBなのですが、RAIDカードやNICでメモリが使用されてOSが認識しているメモリは1.8GBとなります。</p>
-
-<p><strong>used</strong>: 使用しているメモリサイズです。  <br />
-バッファキャッシュとページキャッシュが含まれています。  <br />
-およそ1.6GBを使用しています。</p>
-
-<p><strong>free</strong>: 空きメモリサイズです。  <br />
-この値にはバッファキャッシュとページキャッシュが含まれていません。  <br />
-OSは使い続けるほどメモリにキャッシュを割り当てます。  <br />
-そのため、使い続けるほどfreeの値は0に近づきます。  <br />
-ですので、この値が少ないからといって空きメモリがないわけではありません。  <br />
-200MBのメモリがfreeとして表示されています。</p>
-
-<p><strong>shared</strong>: 共有メモリに割り当てられたメモリです。  <br />
-0なので共有メモリに割り当てられているメモリはありません。</p>
-
-<p><strong>buffers</strong>: バッファキャッシュに割り当てられたメモリです。  <br />
-バッファキャッシュとはブロックデバイス用のキャッシュです。  <br />
-192MBが割り当てられています。</p>
-
-<p><strong>cached</strong>: ページキャッシュに割り当てられたメモリです。  <br />
-ページキャッシュはファイルに対するキャッシュです。  <br />
-1030MBがページキャッシュとして割り当てられています。</p>
-
-<p>バッファキャッシュとページキャッシュという2つのキャッシュがでてきました。  <br />
-ここでは厳密にわけて考える必要はありません。  <br />
-バッファキャッシュとページキャッシュを合計したものがキャッシュとして使用されているメモリと考えます。</p>
-
-<p><strong>-/+ buffers/cache</strong>: バッファキャッシュとページキャッシュを考慮したメモリです。  <br />
-1つ目の値がused、2つめの値がfreeです。</p>
-
-<p><strong>used</strong>: 2行目のusedからページキャッシュとバッファキャッシュを引いた値です。  <br />
-OSとアプリケーションが純粋に使用しているメモリサイズを表します。</p>
-
-<p>実際に計算してみましょう。  <br />
-1676 - 192 - 1030 = 454  <br />
-ほぼあっていますね。</p>
-
-<p><strong>free</strong>: 2行目のfreeにページキャッシュとバッファキャッシュを足した値です。  <br />
-キャッシュに割り当てられているメモリを自由に割り当て可能なメモリと考えれば、この値が空きメモリサイズになります。</p>
-
-<p>実際に計算してみましょう。  <br />
-200 + 192 + 1030 = 1422  <br />
-こちらもほぼあっています。</p>
-
-<p><strong>Swap</strong>: スワップに割り当てたサイズです。  <br />
-1つめの値がtotal、2つめの値がused、3つめの値がfreeです。</p>
-
-<p><strong>total</strong>: スワップに割り当てたディスクサイズです。  <br />
-<strong>used</strong>: 割り当てた中で使用中のサイズです。  <br />
-<strong>free</strong>: 割り当てた中で使用していないサイズです。</p>
-
-<p>Swapのtotal値は4095MB、usedは0、freeは4095MBです。  <br />
-usedが0なのでスワップ領域は使われていないことになります。</p>
-
-<h2 id="キャッシュはフリーメモリと考える">キャッシュはフリーメモリと考える</h2>
-
-<p>注意点として、freeの値がないからといってすぐにメモリ不足と判断することはできません。  <br />
-なぜなら、OSは処理の高速化のためにキャッシュを使うようになっているからです。  <br />
-時間の経過とともにキャッシュに割り当てられるメモリは増えていきます。  <br />
-キャッシュはフリーメモリと考えて問題ないようです。</p>
-
-<p>メモリの仕組みやキャッシュについて詳しく知りたい場合は以下の本をおすすめします。</p>
-
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=DBD1D1&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=479811703X" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<h2 id="参考文献">参考文献</h2>
-<ul>
-  <li>4.メモリ使用率(第5章 パフォーマンス管理～上級:基本管理コースII)
-    <ul>
-      <li>
-        <p><a href="https://users.miraclelinux.com/technet/document/linux/training/2_5_4.html">https://users.miraclelinux.com/technet/document/linux/training/2_5_4.html</a></p>      </li>
-    </ul>
-  </li>
-</ul>
 
 </div>
   

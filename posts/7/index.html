@@ -9,8 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Iotの技術を使ったゼロアグリを開発しているルートレック・ネットワークスが4億円の資金調達をした。
-ゼロアグリは農作物の水や肥料の管理を独自のアルゴリズムとIoTの技術を使って機械化する取り組みを行っている。 http://jp.techcrunch.com/2016/12/26/zero- &hellip;">
+  <meta name="description" content="Rails5から belogs_to アソシエーションの挙動が変わった。 親モデルに属している子モデルは親モデルの外部キーが存在しないとバリデーションエラーになるのがデフォルトの挙動となっている。
+参照先レコードのidをnullで登録しようとした場合は以下のようなバリデーションエラーが出る。 1 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +147,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/01/13/belongs-to-should-default-to-required-true-rails5/">Rails5からbelongs_toアソシエーションの挙動が変わった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-01-13T15:44:48+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:44 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rails5から <code>belogs_to</code> アソシエーションの挙動が変わった。</p>
+
+<p>親モデルに属している子モデルは親モデルの外部キーが存在しないとバリデーションエラーになるのがデフォルトの挙動となっている。<br />
+参照先レコードのidをnullで登録しようとした場合は以下のようなバリデーションエラーが出る。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ActiveRecord::RecordInvalid: Validation failed: Post  must exist</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>DHHの一声で <code>belogs_to</code> の挙動が変わる様が垣間見れるイシュー。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/rails/rails/issues/18233">https://github.com/rails/rails/issues/18233</a></p>  </li>
+</ul>
+
+<p>DHHの言い分としては「普通 belongs_to って、参照先テーブルのIDは必ずもってるだろ。ならデフォルト required: true でよくね？」という話。</p>
+
+<p>この挙動をRails4と同じにしたい場合は <code>optional: true</code> を使う(<code>required: false</code> は廃止予定なので使わないほうがいい)。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class="line">  <span class="n">belongs_to</span> <span class="ss">:article</span> <span class="p">,</span> <span class="ss">optional</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>belongs_to</code> のオプションの詳細については以下のドキュメントで参照できる。</p>
+
+<ul>
+  <li>
+    <p><a href="http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-belongs_to">http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-belongs_to</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -435,77 +498,6 @@ Jekyllの何が便利かというと、サイトの設定をymlファイルで�
   <li>Jekyllの構成について</li>
   <li>Jekyllのテーマを作成する</li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/11/11/machine-learning-01/">機械学習ことはじめ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-11-11T14:13:32+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:13 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>機械学習をやるぞ！と息巻いてから半年が経とうとしている。<br />
-進捗はてんでダメ。ほとんど勉強せずに時間だけが過ぎてしまった。<br />
-さすがにこれではいけないと学習を始めた。</p>
-
-<p>とりあえず学ぶにも何かしらの教材がないと効率が悪いと思い、基礎的な理論が勉強できそうな 「機械学習理論入門」を買った(半年前に)。<br />
-機械学習の理論を優しく書いてあるはずなのだが、高校数学の理解もままならない自分の数学力では理解に苦しみ、本棚の肥やしとなっていた。<br />
-この段階では機械学習にも色々種類があるんだなということがわかった。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4774176982&amp;linkId=f54a583abd60635f4ad56b5e2705933b"></iframe>
-
-<p>次に機械学習理論の入門としてわかりやすそうなやる夫シリーズを読みだした。</p>
-
-<ul>
-  <li><a href="http://tkengo.github.io/blog/2016/01/03/yaruo-machine-learning1/">やる夫で学ぶ機械学習 - 序章 -</a></li>
-  <li><a href="http://tkengo.github.io/blog/2016/01/04/yaruo-machine-learning2/">やる夫で学ぶ機械学習 - 単回帰問題 -</a></li>
-</ul>
-
-<p>まずは最小二乗法についての話が出てきた。<br />
-これはそれとなく理解できたので、最小二乗法を使って誤差を求めるプログラムをRubyで実装してみたりもした。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/shoyan/machine_learning/blob/master/01.rb">https://github.com/shoyan/machine_learning/blob/master/01.rb</a></p>  </li>
-</ul>
-
-<p>しかし、最急降下法でつまづいてしまった。<br />
-最急降下法に出てくる合成関数の微分がよく分からない</p>
-
-<p>そもそも合成関数ってなんだというところで、合成関数について勉強した。<br />
-合成関数は関数の引数が関数になっている関数だった。</p>
-
-<p>関数: y=g(x)<br />
-合成関数: y=g(f(x)) ←こういう感じで引数が関数となっている</p>
-
-<p>やる夫シリーズを理解するには微分の知識が必要だということがわかったので、微分について勉強するために数学ガールを読んでいる。微分について会話形式で学んでいけるので、なかなかわかりやすい。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4797382317&amp;linkId=d26bd243cf2a37dd3f63507bea574228"></iframe>
-
-<p>というところで、現状は微分を学んでいる。</p>
-
-<p>だいぶ遠回りしている感がある。<br />
-道のりは険しい。</p>
 </div>
   
   
