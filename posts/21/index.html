@@ -9,10 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="例外発生時にException Notificationで通知をしようと思い、導入してみたところ以下のエラーがでました。 1
-2
-ERROR: Failed to generate exception summary:
-ActionView::Template::Error: undefined &hellip;">
+  <meta name="description" content="ファイルのパスを生成する際にセパレーターを意識しなくてはならず、どうにもいけていないコードがあります(ありますというか自分が量産していました)。 以下のようなコードです。 1
+path = &quot;#{path1}/{$path2}&quot; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -149,6 +147,76 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/16/cording-without-separator-on-ruby/">Rubyでスラッシュを意識せずにコーディングする方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-16T13:25:01+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:25 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ファイルのパスを生成する際にセパレーターを意識しなくてはならず、どうにもいけていないコードがあります(ありますというか自分が量産していました)。  <br />
+以下のようなコードです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">path1</span><span class="si">}</span><span class="s2">/{$path2}&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>セパレーターを意識せずコーディングできないものかと調べたところ、<code>File.join</code>を使えばよしなにやってくれることがわかりました。<br />
+<code>File.join</code>を使えばセパレーターを指定する必要はありません。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;moge&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge/moge&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>File.join</code>は正しいであろうパスのフォーマットに補正してくれるため、<code>//hoge</code>のようなパスが生成されることもありません。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;moge/&quot;</span><span class="p">,</span> <span class="s2">&quot;/fuga&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge/moge/fuga&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>パラメーターが配列でもよしなにやってくれます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sx">%w(hoge moge/ fuga)</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge/moge/fuga&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>地味ですが、これでセパレーターの悩みから解放されて幸せになれます。</p>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li>
+    <p><a href="http://ruby-doc.org/core-2.2.0/File.html#method-c-join">http://ruby-doc.org/core-2.2.0/File.html#method-c-join</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -681,69 +749,6 @@ usedが0なのでスワップ領域は使われていないことになります
         <p><a href="https://users.miraclelinux.com/technet/document/linux/training/2_5_4.html">https://users.miraclelinux.com/technet/document/linux/training/2_5_4.html</a></p>      </li>
     </ul>
   </li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/06/can-not-ssh-login-allow-groups-problems/">AllowGroupsの問題でsshログインできない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-06T13:33:16+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:33 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>sshログインできないので <code>/var/log/secure</code> のログを見てみました。<br />
-以下のメッセージがでていました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Apr 28 14:11:14 server01 sshd[31264]: User shoyan from example.jp not allowed because none of user's groups are listed in AllowGroups
-</span><span class="line">Apr 28 14:11:14 server01 sshd[31265]: input_userauth_request: invalid user shoyan
-</span><span class="line">Apr 28 14:11:14 server01 sshd[31265]: Connection closed by 192.168.1.1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>none of user's groups are listed in AllowGroups</code> と書いてあるので、groupの問題らしい。</p>
-
-<p><code>/etc/ssh/sshd_config</code>をみると、AllowGroups にいなかったのでユーザーのグループを追加しました。</p>
-
-<p>sshd_configを変更したら、設定を反映させるためにreloadします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># service sshd reload
-</span><span class="line">sshd を再読み込み中:                                       [  OK  ]
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>AllowGroupsにユーザーのグループを追加することによってログインできるようになりました。</p>
-
-<h3 id="参考文献">参考文献</h3>
-
-<ul>
-  <li>
-    <p><a href="http://open-groove.net/linux/sshd-restart/">http://open-groove.net/linux/sshd-restart/</a></p>  </li>
-  <li>
-    <p><a href="https://www.howtoforge.com/community/threads/cannot-ssh-with-shell-user.52800/i">https://www.howtoforge.com/community/threads/cannot-ssh-with-shell-user.52800/i</a></p>  </li>
 </ul>
 
 </div>

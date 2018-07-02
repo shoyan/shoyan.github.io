@@ -9,8 +9,11 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Studyplusという勉強のSNSアプリを最近使い始めたのですが、よくできているので紹介したいと思います。 http://studyplus.jp/
-Studyplusとは 勉強のSNSアプリです。 自分のした勉強の内容や時間を記録することができます。 また、他の人が書いたログを見ることができ、 &hellip;">
+  <meta name="description" content="sshログインできないので /var/log/secure のログを見てみました。
+以下のメッセージがでていました。 1
+2
+3
+Apr 28 14:11:14 server01 sshd[31264]: User shoyan from example.jp not allowed &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +150,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/06/can-not-ssh-login-allow-groups-problems/">AllowGroupsの問題でsshログインできない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-06T13:33:16+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:33 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sshログインできないので <code>/var/log/secure</code> のログを見てみました。<br />
+以下のメッセージがでていました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Apr 28 14:11:14 server01 sshd[31264]: User shoyan from example.jp not allowed because none of user's groups are listed in AllowGroups
+</span><span class="line">Apr 28 14:11:14 server01 sshd[31265]: input_userauth_request: invalid user shoyan
+</span><span class="line">Apr 28 14:11:14 server01 sshd[31265]: Connection closed by 192.168.1.1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>none of user's groups are listed in AllowGroups</code> と書いてあるので、groupの問題らしい。</p>
+
+<p><code>/etc/ssh/sshd_config</code>をみると、AllowGroups にいなかったのでユーザーのグループを追加しました。</p>
+
+<p>sshd_configを変更したら、設定を反映させるためにreloadします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># service sshd reload
+</span><span class="line">sshd を再読み込み中:                                       [  OK  ]
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>AllowGroupsにユーザーのグループを追加することによってログインできるようになりました。</p>
+
+<h3 id="参考文献">参考文献</h3>
+
+<ul>
+  <li>
+    <p><a href="http://open-groove.net/linux/sshd-restart/">http://open-groove.net/linux/sshd-restart/</a></p>  </li>
+  <li>
+    <p><a href="https://www.howtoforge.com/community/threads/cannot-ssh-with-shell-user.52800/i">https://www.howtoforge.com/community/threads/cannot-ssh-with-shell-user.52800/i</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1014,186 +1080,6 @@ https://github.com/shoyan/site-parser</p>
   </li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/26/sets-body-and-status-code-and-header-with-sinatra/">Sinatraのレスポンスの設定とストリーミングヘルパー</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-26T13:52:30+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:52 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>通常はルーティングブロックの戻り値にセットした文字列がbodyにセットされます。  <br />
-任意の評価フローでbodyをセットしたい場合はどうすればいいでしょうか。  <br />
-Sinatraには任意の評価フローでbodyをセットできる、bodyヘルパーが用意されています。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/foo&#39;</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">body</span> <span class="s2">&quot;bar&quot;</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="n">after</span> <span class="k">do</span>
-</span><span class="line">  <span class="nb">puts</span> <span class="n">body</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Status Codeを設定するstatusヘルパー、headerを設定するheadersヘルパーも用意されています。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/foo&#39;</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">status</span> <span class="mi">418</span>
-</span><span class="line">  <span class="n">headers</span> <span class="p">\</span>
-</span><span class="line">    <span class="s2">&quot;Allow&quot;</span>   <span class="o">=&gt;</span> <span class="s2">&quot;BREW, POST, GET, PROPFIND, WHEN&quot;</span><span class="p">,</span>
-</span><span class="line">    <span class="s2">&quot;Refresh&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Refresh: 20; http://www.ietf.org/rfc/rfc2324.txt&quot;</span>
-</span><span class="line">  <span class="n">body</span> <span class="s2">&quot;I&#39;m a tea pot!&quot;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>引数の伴わないbody, status, headersは現在の値を確認するために使えます。</p>
-
-<h3 id="streamingヘルパー">Streamingヘルパー</h3>
-
-<p>streamヘルパーを使うとおもしろいことができます。  <br />
-レスポンスボディの部分を生成している段階でデータを送信することができます。  <br />
-この仕組みを使ってストリーミングAPIを実装することもできます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">stream</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
-</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;It&#39;s gonna be legen -</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class="line">    <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
-</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; (wait for it) </span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class="line">    <span class="nb">sleep</span> <span class="mi">1</span>
-</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;- dary!</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下は、ストリーミングAPIのサンプルです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># app.rb</span>
-</span><span class="line"><span class="c1"># long polling</span>
-</span><span class="line">
-</span><span class="line"><span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="ss">:thin</span>
-</span><span class="line"><span class="n">connections</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class="line">
-</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/subscribe&#39;</span> <span class="k">do</span>
-</span><span class="line">  <span class="c1"># register a client&#39;s interest in server events</span>
-</span><span class="line">  <span class="n">stream</span><span class="p">(</span><span class="ss">:keep_open</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
-</span><span class="line">    <span class="n">connections</span> <span class="o">&lt;&lt;</span> <span class="n">out</span>
-</span><span class="line">    <span class="c1"># purge dead connections</span>
-</span><span class="line">    <span class="n">connections</span><span class="o">.</span><span class="n">reject!</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:closed?</span><span class="p">)</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="n">post</span> <span class="s1">&#39;/message&#39;</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">connections</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
-</span><span class="line">    <span class="c1"># notify client that a new message has arrived</span>
-</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;message&#39;</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class="line">
-</span><span class="line">    <span class="c1"># indicate client to connect again</span>
-</span><span class="line">    <span class="n">out</span><span class="o">.</span><span class="n">close</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">  <span class="c1"># acknowledge</span>
-</span><span class="line">  <span class="s2">&quot;message received&quot;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>ストリーミングはThinやRainbowsなどのイベント型サーバーでないと動かないので注意が必要です。</p>
-
-<p>サーバーを起動させてみます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">gem</span> <span class="n">insatall</span> <span class="n">thin</span>
-</span><span class="line"><span class="err">$</span> <span class="n">ruby</span> <span class="n">app</span><span class="o">.</span><span class="n">rb</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>別のターミナルを開いて、以下を実行します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">curl</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="ss">localhost</span><span class="p">:</span><span class="mi">4567</span><span class="o">/</span><span class="n">subscribe</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>何もレスポンスがありませんが、接続が維持された状態となります。</p>
-
-<p>別のタブを開いて以下の実行してみましょう。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">curl</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="ss">localhost</span><span class="p">:</span><span class="mi">4567</span><span class="o">/</span><span class="n">message</span> <span class="o">-</span><span class="n">X</span> <span class="no">POST</span> <span class="o">-</span><span class="n">d</span> <span class="s2">&quot;message=hello&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>すると、subscribeのほうにhelloと表示されて接続が切れます。  <br />
-これは、/messageのout.closeを実行しているからです。  <br />
-試しに、out.closeをコメントアウトしてサーバーを起動すると接続維持されたままになります。</p>
 </div>
   
   

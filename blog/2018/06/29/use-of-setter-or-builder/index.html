@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SHOYAN BLOG</title>
+  <title>SetterとBuilderの使いわけ - SHOYAN BLOG</title>
   <meta name="author" content="Shohei Yamasaki">
 
   
@@ -51,7 +51,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@sinn_shoyan" />
 
 
-  <meta name="twitter:title" content="SHOYAN BLOG" />
+  <meta name="twitter:title" content="SetterとBuilderの使いわけ" />
 
 
 
@@ -148,15 +148,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2018/06/29/use-of-setter-or-builder/">SetterとBuilderの使いわけ</a></h1>
+      
+        <h1 class="entry-title">SetterとBuilderの使いわけ</h1>
+        
+          <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/06/29/use-of-setter-or-builder/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/06/29/use-of-setter-or-builder/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
+  
+  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+</div>
+
+        
+      
     
     
       <p class="meta">
@@ -173,7 +185,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
 
 
-  <div class="entry-content"><p>先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。</p>
+<div class="entry-content"><p>先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -297,186 +309,175 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <p>SetterもBuilderもやりたいことはオブジェクトにパラメーターをセットすることです。Setterを使うとオブジェクトの状態を変更してしまうことになります。イミュータブルな実装かつ柔軟にパラメーターを設定したい場合はBuilderを使いましょう。</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/06/29/graduate-from-lombok/">そろそろlombokから卒業しようと考えています</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-06-29T15:26:49+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:26 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>便利な<a href="https://projectlombok.org/" target="_blank">lombok</a>ですが、そろそろオワコンな感じがしています。理由はJavaのアップデートに追従することが困難になってきているからです。詳しくは<a href="https://qiita.com/tmurakam99/items/b5ffe7f18bc06577f619" target="_blank">Lombok の Java9以降対応</a>の記事に書いてあります。実際、Java9対応も遅かったですね。lombokを使い続けると、Javaのアップデートに追従していけなくなる未来が想像できます。</p>
-
-<p>Spring Bootも2系からはlombokは使っていませんね。</p>
-
-<p>lombokは便利ですが、別に無くてもなんとかなるライブラリなので、あえてこれから使う選択をする必要はないと思います。</p>
-</div>
-  
   
 
 
-    </article>
+
+  <span class="byline author vcard">Authored by <span class="fn">
   
+    Shohei Yamasaki
   
-    <article>
+  </span></span>
+
+
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/06/28/about-remote-work/">リモートワークは効率が悪いはウソ</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2018-06-28T14:42:53+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:42 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ここ最近は週に1回ほどリモートワークで働いています。プログラミングであればリモートワークで問題ないです。</p>
-
-<p>リモートワークの利点として会議に出なくていいことがあります。会社にいると何かと会議に招集されて時間や集中力が奪われてしまいますが、リモートワークであればその心配はありません。本当に出る必要がある会議であればリモートで参加すればいいですし、多くの場合は対面で話さずともドキュメントベースのコミュニケーションで事足ります。</p>
-
-<p>ほかにも通勤時間が不要になることで1日に余裕ができるメリットがあります。私は往復で通勤時間に2時間が必要です。リモートワークにすればこの2時間が自由に使えるようになります。通勤時間がない分、早めに仕事を切り上げてその後の時間は子供と遊んだりできます。</p>
-
-<p>リモートワークだと集中できない、生産性が下がるという意見がありますが、実際にやってみるとそんなデメリットはありませんでした。オフィスより家の方が集中できます。なぜなら、集中するには静かな場所が必要だからです。テレビがついているような騒がしい場所で集中することは難しいのです。オフィスはテレビがついている部屋と大して変わらないと思います。</p>
-
-<p>リモートワーク導入で生産性が下がるのではないかという意見もありますが、そんなことはありません。通勤時間がなくなるうえ、集中できる環境であれば生産性が上がるのは当然でしょう。コミュニケーションが必要な時はSlackなどのツールを利用すればよいです。ただし、100％リモートワークとなるとコミュニケーションの問題が出てくるであろうというのはわかります。ですので、オフィスワークとリモートワークのハイブリットがバランスがよいのではないでしょうか。</p>
-
-<p>頑張って残業するよりリモートワークを取り入れましょう。そのほうが生産性があがり社員の満足度もあがりますよ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time class='entry-date' datetime='2018-06-29T17:39:49+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:39 pm</span></time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/06/27/how-to-write-future-tec-document/">これからの技術書の書き方</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-06-27T13:52:30+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>1:52 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>技術書は少しずつ書いて有料で公開する。これが、これからの技術書の書き方だと思います。具体的な例としては「<a href="https://note.mu/makingx/m/m2dc6f318899c" target="_blank">はじめるSpring Boot 2</a>」があります。</p>
-
-<p><a href="https://twitter.com/making" target="_blank">@Making</a>さんの記事「<a href="https://note.mu/makingx/n/n5d1d61f0b214" target="_blank">紙媒体の技術書を書きたくないです…</a>」に書かれているように技術書を書くには膨大な時間が必要です。それを全て書き終えて出版するには相当の時間がかかります。ITの技術はどんどん進歩しているので、出版される頃には古くなってしまう場合もあります。紙媒体だと内容が間違っていても修正できません。また、出版の期日に間に合わせるために、著者に非常に負担がかかります。今の出版のやり方はデメリットが多すぎるんですよね。</p>
-
-<p>だいたい技術書の内容って全ては必要ない場合がほとんどです。一部だけ読みたいのに全てを購入するのは無駄なのです。これからは<a href="https://note.mu/" target="_blank">note</a>などのサービスを使って有料で出版されるケースが増えてくると思います。そうすれば、自分のペースで書けるし取り分も増えます。読むほうも必要なところだけ買えばいいので無駄がありませんね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+      <div class="margin-height-10">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 下部広告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5334899437265020"
+     data-ad-slot="8372852198"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+      </div>
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2018/06/21/victory-gachiyagura/">ラピッドブラスターエリートデコのガチヤグラ必勝法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-06-21T17:14:05+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2018</span></span> <span class='time'>5:14 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>スプラトゥーン2のガチヤグラで勝つ方法を紹介します。私はこのやり方でS＋までいきました。ガチヤグラでなかなか勝てないイカの諸君の参考になればと思います。</p>
-
-<h2 id="ラピッドブラスターエリートデコを使う">ラピッドブラスターエリートデコを使う</h2>
-<p>ガチヤグラで私がおすすめする武器はラピッドブラスターエリートデコです。圧倒的な射程で一方的にヤグラ上の敵を倒すことができます。また、防衛拠点にいる敵をどかすこともできます。</p>
-
-<p>ガチヤグラはブラスター系の武器が強いルールです。なぜかというと、ヤグラ上の敵はブラスターの爆風で簡単に倒すことができます。これがシューターになるとなかなかヤグラ上の敵に当てるのが難しいです。</p>
-
-<h2 id="ラピッドブラスターエリートデコの立ち回り">ラピッドブラスターエリートデコの立ち回り</h2>
-<p>ラピッドブラスターエリートデコは敵と確実に距離をとってラピッドブラスターエリートデコの弾だけ当たる距離で戦うことが基本的な立ち回りです。このような立ち回りをする理由は、射程が長い分近づかれると弾を当てるのが難しく、簡単に倒されてしまうからです。</p>
-
-<h3 id="初動の立ち回り">初動の立ち回り</h3>
-<p>初動は自陣をしっかり塗ります。インクを塗っておかないと相手との距離がとれなくなるため、簡単に倒されてしまいます。しっかりインクを塗っておきましょう。初動は自陣にインクを塗りつつ、戦況がどのように動くかを把握します。</p>
-
-<h3 id="人数有利の場合の立ち回り">人数有利の場合の立ち回り</h3>
-<p>こちらのチームが人数有利でヤグラ周りに敵がいなければ率先してヤグラに乗ってよいでしょう。ヤグラ上からヤグラに向かってくる敵や防衛拠点にいる敵を攻撃します。</p>
-
-<h3 id="人数不利の場合の立ち回り">人数不利の場合の立ち回り</h3>
-<p>人数不利の場合は、安全なところまで下がって味方が前線に復帰してくるのを待ちます。孤立した場合はリスポーンに戻ってしまってもよいです。敵がヤグラに乗っている場合は、安全なところからヤグラ上の敵を攻撃してヤグラの進行を妨害します。</p>
-
-<h2 id="おすすめのギア">おすすめのギア</h2>
-<p>おすすめするギアはイカ速、メインインク効率アップです。イカ速は敵との距離を取るために積んでいます。メインインク効率アップは、メイン効率がよくないため積んでいます。私はイカ速1.0、メインインク効率2.0を積んでいます。デスが少なく抑えれる場合はメインインク効率を1.0にして、ペナルティや逆境強化を積んでもよいでしょう。</p>
-
-<h2 id="まとめ">まとめ</h2>
-<p>ポイントは敵と距離をとって戦うこと、人数有利の時、人数不利の時の立ち回りを意識することです。あとは実践あるのみです。自然とこの立ち回りができるくらい実践を繰り返せば必ずウデマエはあがります。</p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/06/29/use-of-setter-or-builder/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/06/29/use-of-setter-or-builder/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
+  
+  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 </div>
-  
-  
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/06/29/graduate-from-lombok/" title="Previous Post: そろそろlombokから卒業しようと考えています">&laquo; そろそろlombokから卒業しようと考えています</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>よく読まれている記事</h1>
+  <style>
+.recommend-box {
+  margin: 10px 0;
+}
+.recommend-box img {
+  padding: 10px 0;
+  float: left;
+  max-width: 140px;
+  min-height: 75px;
+  padding: 10px;
+  border-right: 1px solid #999;
+}
+.clearfix {
+  overflow: auto;
+}
+.recommend-box li {
+  border-right: 1px solid #999;
+  border-left: 1px solid #999;
+  border-bottom: 1px solid #999;
+  list-style-type: none;
+}
+.recommend-box li:first-child {
+  border-top: 1px solid #999;
+}
+.recommend-box h3 {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 170px;
+    min-width: 100px;
+}
+</style>
+<ul class="recommend-box">
+  <li class="clearfix">
+    <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">
+      <img src="/images/math-1547018_640.jpg"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">30歳から始める数学</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">
+      <img src="/images/logo.png"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">幸せな子育てとエンジニアライフ</a>
+    </h3>
+  </li>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2016/03/17/php-coding-rule/">
+      <img src="/images/logo.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2016/06/23/php-syntax-check/">
+      <img src="/images/2016-06-23_php-syntax-check.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組み</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/10/28/highway-faster-than-ag/">
+      <img src="/images/logo.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2015/10/28/highway-faster-than-ag/">超高速grep「The Silver Searcher(ag)」からhighwayに乗り換えた</a>
+    </h3>
+  </li>
+</ul>
+
+</section>
+
+<section>
+  <div class="margin-height-10 center">
+    【人材募集情報】<BR>
+<A HREF="https://px.a8.net/svt/ejp?a8mat=2TIYB0+33C2WI+0K+15P77M" target="_blank" rel="nofollow">「A8.net」を開発運用するアフィリエイトソリューションプロバイダーの<BR>株式会社ファンコミュニケーションズが業務拡大につき技術者を募集中。</A>
+<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2TIYB0+33C2WI+0K+15P77M" alt="">
 
 
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
   </div>
+</section>
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div> <script> /** * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS. * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */ /* var disqus_config = function () { this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable }; */ 
+(function() { // DON'T EDIT BELOW THIS LINE 
+ var d = document, s = d.createElement('script'); s.src = '//shoyanblog.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
+  </section>
+
+
+</div>
 
     </div>
   </div>
