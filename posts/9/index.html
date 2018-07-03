@@ -9,23 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。
-Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。
-毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15 &hellip;">
+  <meta name="description" content="ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。
+最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。
+具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -162,6 +148,87 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/31/run-regular-basis-the-ruboty/">Slackで定期的にRubotyに仕事をさせる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-31T16:58:56+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>4:58 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。<br />
+最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。<br />
+具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。</p>
+
+<p>うまくいかなかったのでSlackのリマインダー機能を使ってみることにした。<br />
+Slackのリマインダー機能を使うと <code>Reminder:</code> と言うプレフィックスが入るのでRubotyが反応せず、こちらもうまくいかなかった。</p>
+
+<p>最終的にはcronでスクリプトを定期実行させることにした。<br />
+Slackに通知するスクリプトを作って、それをcronで定期的に実行させる。<br />
+メッセージを拾ったRubotyがタスクを実行するといった感じだ。</p>
+
+<h3 id="サンプルコード">サンプルコード</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;faraday&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">username</span> <span class="o">=</span> <span class="s1">&#39;your name&#39;</span>
+</span><span class="line"><span class="n">channel</span> <span class="o">=</span> <span class="s1">&#39;your channel&#39;</span>
+</span><span class="line"><span class="n">slack_token</span> <span class="o">=</span> <span class="s1">&#39;your slack token&#39;</span>
+</span><span class="line"><span class="n">icon_url</span> <span class="o">=</span> <span class="s1">&#39;your icon url&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">  <span class="ss">username</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">channel</span><span class="p">:</span> <span class="n">channel</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">icon_url</span><span class="p">:</span> <span class="n">icon_url</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;ruboty ping&quot;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Faraday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;https://slack.com&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">request</span> <span class="ss">:url_encoded</span>
+</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">adapter</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">default_adapter</span>
+</span><span class="line"><span class="k">end</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/chat.postMessage?token=</span><span class="si">#{</span><span class="n">slack_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これでRubotyに定期的に仕事をさせることができるようになった。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -578,122 +645,6 @@ volumesを利用してファイルを配置している。</p>
     <p><a href="https://github.com/shoyan/docker-compose-with-link-sample">https://github.com/shoyan/docker-compose-with-link-sample</a></p>  </li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/09/17/sim/">SIMについて</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-09-17T16:36:10+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:36 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>SIMといえば携帯電話やスマートフォンに入っているカードという認識はありましたが、そのSIMについて調べてみました。</p>
-
-<h2 id="simの概要">SIMの概要</h2>
-
-<p>SIMとは Subscriber Identity Module = 加入者IDモジュール の頭文字をとったものです。<br />
-それをカード状にしたものが「SIMカード」と呼ばれています。<br />
-つまり一種のIDカードです。<br />
-また、簡単に情報が盗まれないような仕組みも入っています。</p>
-
-<h2 id="simの中に入っている情報">SIMの中に入っている情報</h2>
-
-<h3 id="電話番号">電話番号</h3>
-
-<p>SIMが内部に保持している情報の代表的なものが電話番号です。<br />
-電話番号は国際的に一意になるよう定められており、国番号と加入者電話番号の組み合わせにより世界中で唯一無二の存在になります。<br />
-例えば、090-1234-5678のSIMカードを持っている人は、日本からはその番号が、海外からは国番号を表す「+」記号と日本の国番号「81」を先頭につけて「+81-90-1234-5678」がそのSIMへの電話番号となります。<br />
-090ではなく90となっているのは理由があります。<br />
-実はこの省略された0は電話番号の一部ではなく、「国内プリフィックス」と呼ばれる、国内への電話番号だよということを電話に識別させるための識別番号なのです。<br />
-ですので、日本から電話をかけるときは  「0」、海外から電話をかけるときは「81」に変わるわけです。</p>
-
-<h3 id="iccidicカードid">ICCID(ICカードID)</h3>
-
-<p>国際電気通信連合で定められた、すべてのICカードを一意に識別するためのIDです。<br />
-クレジットカードにも使われています。<br />
-構成は以下です([]の中の数字は桁数です)。</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>[2]産業識別(電気通信=89)</td>
-      <td>[2]国番号(日本81)</td>
-      <td>[3]事業者番号(ドコモ=100, SB=200, KDDI=300)</td>
-      <td>[11]カード番号</td>
-      <td>[1]チェックデジット</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="imsiinternational-mobile-subscriber-id--国際的な端末加入者識別番号">IMSI(International Mobile Subscriber ID = 国際的な端末加入者識別番号)</h3>
-
-<p>SIMカードで最も重要な情報です。<br />
-SIMカードの通信上の根本となるもので、1枚のSIMカードに固有の一意な番号が与えられおり、世界で一意に識別できる番号です。<br />
-構成は以下です。</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>[3]MCC(国番号 日本=440)</td>
-      <td>[2]MNC(事業者番号 ドコモ=10, SB=20, KDDI=50/54)</td>
-      <td>[最大10]MSIN</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="msisdnmobile-subscriber-isdn-number--電話番号">MSISDN(Mobile Subscriber ISDN Number = 電話番号)</h3>
-
-<p>キャリアと契約するとキャリアから与えられる番号で、いわゆる電話番号です。<br />
-これはSIMカード固有ではなく、キャリアがどのSIMカードにこの番号を書くかを決定します。</p>
-
-<p>構成は以下です。</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>[3]CC(国番号 日本=81)</td>
-      <td>[2]NDC(国内宛先番号 90など)</td>
-      <td>[最大10]加入者番号(電話番号)</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>例えば、090-1234-5678の番号の場合は <code>|81|90|12345678|</code> となります。</p>
-
-<h2 id="simの利点">SIMの利点</h2>
-
-<p>SIMカードを使う利点は、端末と電話番号の切り離しができることです。<br />
-つまり、端末からSIMカードを抜いてしまえば電話番号はまったく残らないことになります。<br />
-これにより以下のメリットがあります。</p>
-
-<ul>
-  <li>
-    <p>ユーザーはSIMを抜いて別の端末に挿せば様々な端末を同じ電話番号で使えるようになります。これにより、新しい端末が出た際にSIMカードを挿せば同じ電話番号ですぐ使うといったことができ、機種を変えることが容易になります。</p>
-  </li>
-  <li>
-    <p>端末と電話番号が結合していると、必然的にキャリアの力が上になります（というのもメーカーは端末を作ったらキャリアに電話番号をつけてもらわないといけなくなるため）。SIMカードによって端末と電話番号が分離することで、メーカーはキャリアの意向に関係なく自由に端末を作ってマーケティングすることが可能となります。</p>
-  </li>
-</ul>
 </div>
   
   

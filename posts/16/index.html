@@ -9,9 +9,23 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="数式を扱うために前回の記事で、markdownをkramdownに変更したのですが、コードのシンタックスハイライトが効かなくなってしまいました。 kramdownのparserをGFMにしてやるとうまくいきました。 _config.yml 1
+  <meta name="description" content="以下のような文字列(ファイルに保存されているとする)からsedやawkを使ってlabelだけとるshell芸を紹介します。 1
 2
-kramdown: input: GFM &hellip;">
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
++-------------------------+-------+
+| label | state &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +162,105 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/29/extract-string-with-sed-and-awk/">Sedやawkを使ってテキストから必要な列のみ取得する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-29T17:01:36+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:01 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以下のような文字列(ファイルに保存されているとする)からsedやawkを使ってlabelだけとるshell芸を紹介します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">+-------------------------+-------+
+</span><span class="line">| label                   | state |
+</span><span class="line">+-------------------------+-------+
+</span><span class="line">| A                       |     0 |
+</span><span class="line">| B                       |     0 |
+</span><span class="line">| C                       |     0 |
+</span><span class="line">| D                       |     0 |
+</span><span class="line">| E                       |     0 |
+</span><span class="line">| F                       |     0 |
+</span><span class="line">| G                       |     0 |
+</span><span class="line">| H                       |     2 |
+</span><span class="line">| I                       |     0 |
+</span><span class="line">| J                       |     0 |
+</span><span class="line">| K                       |     0 |
+</span><span class="line">+-------------------------+----———+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="label列のみ取得">label列のみ取得</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">⇒  sed -n '4,14p' table.txt | awk '{print $2}'
+</span><span class="line">A
+</span><span class="line">B
+</span><span class="line">C
+</span><span class="line">D
+</span><span class="line">E
+</span><span class="line">F
+</span><span class="line">G
+</span><span class="line">H
+</span><span class="line">I
+</span><span class="line">J
+</span><span class="line">K</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="スペース区切りに加工する">スペース区切りに加工する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">⇒  sed -n '4,14p' table.txt | awk '{print $2 " "}' | tr -d '\n'
+</span><span class="line">A B C D E F G H I J K</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>sed -n '4,14p’</code> で指定した行数のみ取得しています  <br />
+次に<code>awk '{print $2}’</code> でlabel列のみ抽出しています。  <br />
+改行を消すのは <code>tr -d '\n’</code> が便利です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -843,168 +956,6 @@ Mergeいただきました。</p>
   <li><a href="http://doi-t.hatenablog.com/entry/2013/12/08/161929">シェル変数のデフォルト値を設定する、未初期化時にエラーメッセージを出力してスクリプトを強制終了する - 百日半狂乱</a></li>
   <li><a href="http://shellscript.sunone.me/if_and_test.html#数値の比較:ed775c34e441eb16a91481d087cc1a74">if 文と test コマンド - UNIX &amp; Linux コマンド・シェルスクリプト リファレンス</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/21/introduce-treantjs/">Treant.jsでツリーダイアグラムを描画する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-21T13:26:40+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>1:26 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Treant.jsとはツリーダイアグラムを描画するためのJavaScriptライブラリです。  <br />
-<a href="http://fperucic.github.io/treant-js/">Treant.js</a>でツリーダイアグラムを描画してみました。</p>
-
-<p><a href="http://codepen.io/shoyan/details/MeaqzN/">http://codepen.io/shoyan/details/MeaqzN/</a></p>
-<h2 id="簡単なサンプルを作ってみる">簡単なサンプルを作ってみる</h2>
-
-<p>まずは簡単なサンプルを作ってみましょう。</p>
-
-<p><a href="http://codepen.io/shoyan/pen/qNOMoN">http://codepen.io/shoyan/pen/qNOMoN</a></p>
-<p><a href="http://codepen.io/">codepen.io</a>を使うと簡単にサンプルが作成できるので便利です。</p>
-
-<p>Treant.jsを利用するには、いくつか必要なモジュールがあります。</p>
-
-<h4 id="js">JS</h4>
-
-<ul>
-  <li>
-    <p><a href="http://fperucic.github.io/treant-js/Treant.js">http://fperucic.github.io/treant-js/Treant.js</a></p>  </li>
-  <li>
-    <p><a href="http://fperucic.github.io/treant-js/vendor/raphael.js">http://fperucic.github.io/treant-js/vendor/raphael.js</a></p>  </li>
-</ul>
-
-<h4 id="css">CSS</h4>
-
-<ul>
-  <li>
-    <p><a href="http://fperucic.github.io/treant-js/Treant.css">http://fperucic.github.io/treant-js/Treant.css</a></p>  </li>
-</ul>
-
-<h3 id="baseとなるhtmlのテンプレート">BaseとなるHTMLのテンプレート</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="cp">&lt;!doctype html&gt;</span>
-</span><span class="line"><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;ja&quot;</span><span class="nt">&gt;</span>
-</span><span class="line"><span class="nt">&lt;head&gt;</span>
-</span><span class="line">    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">/&gt;</span>
-</span><span class="line">    <span class="nt">&lt;title&gt;&lt;/title&gt;</span>
-</span><span class="line">
-</span><span class="line">    <span class="c">&lt;!-- stylesheets --&gt;</span>
-</span><span class="line">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;http://fperucic.github.io/treant-js/Treant.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">/&gt;</span>
-</span><span class="line">     <span class="nt">&lt;style&gt;</span>
-</span><span class="line">         <span class="nt">body</span><span class="o">,</span><span class="nt">div</span><span class="o">,</span><span class="nt">dl</span><span class="o">,</span><span class="nt">dt</span><span class="o">,</span><span class="nt">dd</span><span class="o">,</span><span class="nt">ul</span><span class="o">,</span><span class="nt">ol</span><span class="o">,</span><span class="nt">li</span><span class="o">,</span><span class="nt">h1</span><span class="o">,</span><span class="nt">h2</span><span class="o">,</span><span class="nt">h3</span><span class="o">,</span><span class="nt">h4</span><span class="o">,</span><span class="nt">h5</span><span class="o">,</span><span class="nt">h6</span><span class="o">,</span><span class="nt">pre</span><span class="o">,</span><span class="nt">form</span><span class="o">,</span><span class="nt">fieldset</span><span class="o">,</span><span class="nt">input</span><span class="o">,</span><span class="nt">textarea</span><span class="o">,</span><span class="nt">p</span><span class="o">,</span><span class="nt">blockquote</span><span class="o">,</span><span class="nt">th</span><span class="o">,</span><span class="nt">td</span> <span class="p">{</span> <span class="k">margin</span><span class="o">:</span><span class="m">0</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span><span class="m">0</span><span class="p">;</span> <span class="p">}</span>
-</span><span class="line">         <span class="nt">body</span> <span class="p">{</span> <span class="k">background</span><span class="o">:</span> <span class="m">#fff</span><span class="p">;</span> <span class="p">}</span>
-</span><span class="line">         <span class="c">/* optional Container STYLES */</span>
-</span><span class="line">         <span class="nc">.chart</span> <span class="p">{</span> <span class="k">height</span><span class="o">:</span> <span class="m">159px</span><span class="p">;</span> <span class="k">width</span><span class="o">:</span> <span class="m">332px</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">5px</span> <span class="k">auto</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="m">3px</span> <span class="k">solid</span> <span class="m">#DDD</span><span class="p">;</span> <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span> <span class="p">}</span>
-</span><span class="line">         <span class="nc">.node</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="m">#9CB5ED</span><span class="p">;</span> <span class="k">border</span><span class="o">:</span> <span class="m">2px</span> <span class="k">solid</span> <span class="m">#C8C8C8</span><span class="p">;</span> <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span> <span class="p">}</span>
-</span><span class="line">         <span class="nc">.node</span> <span class="nt">p</span> <span class="p">{</span> <span class="k">font-size</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">line-height</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">height</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span> <span class="k">font-weight</span><span class="o">:</span> <span class="k">bold</span><span class="p">;</span> <span class="k">padding</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span> <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span> <span class="p">}</span>
-</span><span class="line">    <span class="nt">&lt;/style&gt;</span>
-</span><span class="line"><span class="nt">&lt;/head&gt;</span>
-</span><span class="line"><span class="nt">&lt;body&gt;</span>
-</span><span class="line">    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;tree-simple&quot;</span> <span class="na">style=</span><span class="s">&quot;width:335px; height: 160px&quot;</span> <span class="err">&lt;/</span><span class="na">div</span><span class="nt">&gt;</span>
-</span><span class="line">
-</span><span class="line">    <span class="c">&lt;!-- javascript --&gt;</span>
-</span><span class="line">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://fperucic.github.io/treant-js/vendor/raphael.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span><span class="line">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://fperucic.github.io/treant-js/Treant.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span><span class="line"><span class="nt">&lt;/body&gt;</span>
-</span><span class="line"><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="js-1">JS</h3>
-
-<p>JavaScriptファイルです。設定をJSONで定義して、コンストラクタに渡しています。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-</pre></td><td class="code"><pre><code class="js"><span class="line"><span class="nx">simple_chart_config</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class="line">    <span class="err">#</span> <span class="nx">chart</span><span class="err">の設定をします</span>
-</span><span class="line">    <span class="nx">chart</span><span class="o">:</span> <span class="p">{</span>
-</span><span class="line">        <span class="nx">container</span><span class="o">:</span> <span class="s2">&quot;#tree-simple&quot;</span>
-</span><span class="line">    <span class="p">},</span>
-</span><span class="line">    <span class="err">#</span> <span class="err">ノードを定義します</span>
-</span><span class="line">    <span class="nx">nodeStructure</span><span class="o">:</span> <span class="p">{</span>
-</span><span class="line">        <span class="nx">text</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Parent node&quot;</span> <span class="p">},</span>
-</span><span class="line">        <span class="nx">children</span><span class="o">:</span> <span class="p">[</span>
-</span><span class="line">            <span class="p">{</span>
-</span><span class="line">                <span class="nx">text</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;First child&quot;</span> <span class="p">}</span>
-</span><span class="line">            <span class="p">},</span>
-</span><span class="line">            <span class="p">{</span>
-</span><span class="line">                <span class="nx">text</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Second child&quot;</span> <span class="p">}</span>
-</span><span class="line">            <span class="p">}</span>
-</span><span class="line">        <span class="p">]</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line"><span class="p">};</span>
-</span><span class="line"><span class="err">#</span> <span class="err">コンストラクタ</span>
-</span><span class="line"><span class="kd">var</span> <span class="nx">my_chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Treant</span><span class="p">(</span><span class="nx">simple_chart_config</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>基本的には、nodeStructureに必要なノードを定義して、CSSで見た目を調整するという感じです。  <br />
-アニメーションにも対応していて、その場合はjQueryが必要だったりするようです。  <br />
-サンプルも色々あるので参考にしてみるとよいと思います。  <br />
-http://fperucic.github.io/treant-js/</p>
 </div>
   
   
