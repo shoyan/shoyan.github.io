@@ -9,8 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="クロスサイトスクリプティングはユーザーの入力を受け付ける動的なアプリケーションに含まれる脆弱性を利用した攻撃です。
-英語ではCross Site Scriptingと呼ばれその頭文字をとるとCSSとなりますが、「Cascading Style Sheets」 &hellip;">
+  <meta name="description" content="sshのハンドシェイクでこけてしまい、その原因がわからずハマりました。 原因としては、TCPWrappersで拒否されていました。 TCPWrappersとはなんだろうということで調べてみました。 TCPWrappersとは TCPWrapperとは、ネットワークのアクセス制御をする機能です。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +146,97 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/06/guide-tcpwrappers/">TCPWrappersとは何なのかを調べてみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-06T19:33:59+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>7:33 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sshのハンドシェイクでこけてしまい、その原因がわからずハマりました。  <br />
+原因としては、TCPWrappersで拒否されていました。  <br />
+TCPWrappersとはなんだろうということで調べてみました。</p>
+
+<h2 id="tcpwrappersとは">TCPWrappersとは</h2>
+
+<p>TCPWrapperとは、ネットワークのアクセス制御をする機能です。<br />
+デフォルトでインストールされています。</p>
+
+<h2 id="linuxの基本的なアクセス制御の仕組み">Linuxの基本的なアクセス制御の仕組み</h2>
+
+<p><img src="https://www.centos.org/docs/5/html/Deployment_Guide-en-US/images/tcp-wrappers/tcp_wrap_diagram.png" alt="Access Control to Network Services" /></p>
+
+<p>アクセス制御の仕組みとして、FirewallとTCP Wrappersがあります。  <br />
+Firewallはiptablesで制御します。<br />
+なぜ2つの仕組みが存在するのかはわかりません（誰か教えてください）。</p>
+
+<p>クライアント→Firewall→TCPWrappers→サービスという流れで処理を行います。  <br />
+TCPWrappersは接続を許可するかどうかのファイルを参照し、許可リストにあればサービスに処理を受け渡します。</p>
+
+<p>処理のログはsyslog daemon (syslogd)によってクライアントと接続先サービスの情報を <code>/var/log/secure</code> または <code>/var/log/messages</code> に書き込まれます。</p>
+
+<h2 id="tcpwrappersのアドバンテージ">TCPWrappersのアドバンテージ</h2>
+
+<p>TCPWrappersを使うことで、以下のメリットがあるとのこと。</p>
+
+<ul>
+  <li>接続したクライアントとそのサービスがログに残る</li>
+  <li>様々なプロトコルを集約して管理できる</li>
+</ul>
+
+<p>##TCPWrappersの設定ファイル</p>
+
+<p>以下の2つのファイルがあります。</p>
+
+<ul>
+  <li>/etc/hosts.allow</li>
+  <li>/etc/hosts.deny</li>
+</ul>
+
+<p>TCPWrappersはクライアントからのリクエストを受けると、以下の処理を行います。</p>
+
+<ul>
+  <li><code>/etc/hosts.allow</code> を参照します。クライアントがリストに存在した場合、接続を許可します。リストに存在しない場合は次のステップに進みます。</li>
+  <li><code>/etc/hosts.deny</code>を参照します。クライアントがリストに存在した場合、接続を拒否します。リストにない場合は接続を許可します。</li>
+</ul>
+
+<h3 id="注意点">注意点</h3>
+
+<ul>
+  <li><code>/etc/hosts.allow</code>から先に評価され、そこでリストに一致した場合<code>/etc/hosts.deny</code>は評価されません。<code>/etc/hosts.allow</code>と<code>/etc/hosts.deny</code>に同じクライアントを指定した場合は<code>/etc/hosts.allow</code>が優先されます。</li>
+  <li>ファイルの上から評価されていき、一致した時点で評価を打ち切ります。順番が重要です。</li>
+  <li>TCPWrappersはキャッシュを持ちません。ですので、設定ファイルを書き換えたら即反映されます。デーモンをリスタートする必要はありません。</li>
+  <li>最後に改行を含めるとエラーメッセージが出るとのことなので、含めないほうがよさそうです。<code>warning: /etc/hosts.allow, line 20: missing newline or line too long</code>というメッセージが <code>/var/log/messages</code> または <code>/var/log/secure</code>に出力されるとのことです。</li>
+</ul>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://lpi.or.jp/column/linux/linux_m06.shtml">【第6回】TCPWrappers(hosts.allow,hosts.deny)とSSHの公開鍵認証について</a></li>
+  <li><a href="https://www.centos.org/docs/5/html/Deployment_Guide-en-US/ch-tcpwrappers.html">42.5. TCP Wrappers and xinetd</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -646,160 +736,6 @@ Role=&gt;ミドルウェアのバージョン違い</p>
     <p><a href="http://stackoverflow.com/questions/27366774/chefexceptionschecksummismatch-when-installing-nginx-1-7-8-from-source">http://stackoverflow.com/questions/27366774/chefexceptionschecksummismatch-when-installing-nginx-1-7-8-from-source</a></p>  </li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/31/to-draw-a-graph-using-high-charts/">グラフを描画するHighChartsで平均気温のグラフを描画する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-31T13:58:42+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>1:58 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>グラフを描画する<a href="http://www.highcharts.com/">HighCharts</a>を紹介します。  <br />
-HighChartsはJavaScriptのグラフ描画ライブラリです。  <br />
-HighChartsを使えば簡単にグラフの描画ができます。</p>
-
-<h2 id="デモページ">デモページ</h2>
-
-<p>福岡市の平均気温をグラフで表示してみました。</p>
-
-<p><a href="http://codepen.io/shoyan/details/jrOjWK/">http://codepen.io/shoyan/details/jrOjWK/</a></p>
-<h2 id="サンプルを作ってみる">サンプルを作ってみる</h2>
-
-<p>簡単なサンプルを作ってみましょう。  <br />
-私がサンプルとして利用していた<a href="http://codepen.io/">CODEPEN</a>を利用すると簡単に作成できるのでオススメです。</p>
-
-<p>HighChartsを使うには、jQueryとhighCharts.jsが必要です。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;script src="http://code.highcharts.com/highcharts.js"&gt;&lt;/script&gt;
-</span><span class="line">&lt;script src="https://code.jquery.com/jquery-2.2.4.min.js"&gt;&lt;/script&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>index.htmlのbody部は以下を定義します。<br />
-div要素にグラフが描画されます。</p>
-
-<p>index.html</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;div id="container" style="width:100%; height:400px;"&gt;&lt;/div&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>JavaScript tag <code>&lt;script&gt; &lt;/script&gt;</code> に書くか、外部ファイルに定義してください。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$(function () {
-</span><span class="line">    $('#container').highcharts({
-</span><span class="line">        chart: {
-</span><span class="line">            type: 'bar'
-</span><span class="line">        },
-</span><span class="line">        title: {
-</span><span class="line">            text: 'Fruit Consumption'
-</span><span class="line">        },
-</span><span class="line">        xAxis: {
-</span><span class="line">            categories: ['Apples', 'Bananas', 'Oranges']
-</span><span class="line">        },
-</span><span class="line">        yAxis: {
-</span><span class="line">            title: {
-</span><span class="line">                text: 'Fruit eaten'
-</span><span class="line">            }
-</span><span class="line">        },
-</span><span class="line">        series: [{
-</span><span class="line">            name: 'Jane',
-</span><span class="line">            data: [1, 0, 4]
-</span><span class="line">        }, {
-</span><span class="line">            name: 'John',
-</span><span class="line">            data: [5, 7, 3]
-</span><span class="line">        }]
-</span><span class="line">    });
-</span><span class="line">});
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>あとは、ブラウザでアクセスすればグラフが描画されます。</p>
-
-<h2 id="構文">構文</h2>
-
-<p>基本的な構文は以下です。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$("グラフを描画するhtml要素").highcharts(option)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="highchartsの基本的なパラメーターoption">HighChartsの基本的なパラメーター(option)</h3>
-
-<p>HighChartsの基本的なパラメーター(option)を紹介します。</p>
-
-<ul>
-  <li><strong>TITLE</strong>: チャートのタイトル</li>
-  <li><strong>SERIES</strong>: 描画するデータの値</li>
-  <li><strong>TOOLTIP</strong>: チャートにマウスオーバーしたときに表示されるツールチップの設定</li>
-  <li><strong>LEGEND</strong>: SERIESの説明</li>
-  <li><strong>AXES</strong>: 縦軸と横軸の説明を設定します。</li>
-</ul>
-
-<h3 id="グラフの種類について">グラフの種類について</h3>
-
-<p>typeにグラフの種類を設定できます。</p>
-
-<ul>
-  <li>棒グラフ: column</li>
-  <li>折れ線グラフ: line</li>
-  <li>円グラフ: pie</li>
-  <li>帯グラフ: bar</li>
-  <li>ヒストグラム: column</li>
-  <li>散布図: scatter</li>
-  <li>箱ひげ図: boxplot</li>
-  <li>三角グラフ: pyramid</li>
-</ul>
-
-<p>様々なグラフのデモページが用意されており、参考になります。</p>
-
-<p><a href="http://www.highcharts.com/demo">http://www.highcharts.com/demo</a></p>
 </div>
   
   
