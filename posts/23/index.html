@@ -9,7 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="RACK_ENVについて調べた内容とUnicorn、SinatraでのRACK_ENVの扱い方や注意点をまとめました。 RACK_ENVとはRACKの環境変数です。 何を設定するかによって使用するmiddlewareが変わります。 RACK_ENVには、development、deployment &hellip;">
+  <meta name="description" content="Studyplusという勉強のSNSアプリを最近使い始めたのですが、よくできているので紹介したいと思います。 http://studyplus.jp/
+Studyplusとは 勉強のSNSアプリです。 自分のした勉強の内容や時間を記録することができます。 また、他の人が書いたログを見ることができ、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +147,74 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/04/introduce-studyplus/">勉強が楽しく続くようになるアプリ Studyplusのいいところ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-04T22:12:07+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:12 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Studyplusという勉強のSNSアプリを最近使い始めたのですが、よくできているので紹介したいと思います。</p>
+
+<p><a href="http://studyplus.jp/">http://studyplus.jp/</a></p>
+<h2 id="studyplusとは">Studyplusとは</h2>
+
+<p>勉強のSNSアプリです。  <br />
+自分のした勉強の内容や時間を記録することができます。  <br />
+また、他の人が書いたログを見ることができ、いいねをつけることができます。</p>
+
+<h2 id="studyplusのいいところ">Studyplusのいいところ</h2>
+
+<h3 id="勉強したアプリや教材を登録できる">勉強したアプリや教材を登録できる</h3>
+
+<p>勉強したアプリや教材を登録できるのですが、種類が多く検索すればだいたい見つかります。</p>
+
+<h3 id="いいねでモチベーションアップ">いいねでモチベーションアップ</h3>
+
+<p>いいねがつくとモチベーションがあがります。  <br />
+けっこういいねをしてくれる人がいて、ありがたいことです。</p>
+
+<h3 id="勉強時間を把握できる">勉強時間を把握できる</h3>
+
+<p>勉強時間を記録することができ、どの教材でどれくらい勉強したのかがグラフで表示されます。  <br />
+1日の勉強時間、累計の勉強時間も記録されます。</p>
+
+<h3 id="ほかの人の勉強方法がわかる">ほかの人の勉強方法がわかる</h3>
+
+<p>ほかの人が勉強に使っている教材や勉強時間がわかります。</p>
+
+<h2 id="とりあえず使ってみる">とりあえず使ってみる</h2>
+
+<p>インストールしたら、目標とアイコンを登録しましょう。  <br />
+友達申請ができるので10人くらい申請しておきます。  <br />
+そうするといいねをしてもらいやすくなるのでモチベーションを上げるのに役立ちます。</p>
+
+<p>僕はおもに英語の勉強のログを残すために使っています。  <br />
+Studyplusを使うようになってから英語の勉強時間を把握できるようになりました。  <br />
+勉強時間が少ないことがわかったので、もっと勉強しなければと意識しだしました。  <br />
+おかげで勉強時間が増えました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1125,133 +1194,6 @@ Sinatraには任意の評価フローでbodyをセットできる、bodyヘル�
 <p>すると、subscribeのほうにhelloと表示されて接続が切れます。  <br />
 これは、/messageのout.closeを実行しているからです。  <br />
 試しに、out.closeをコメントアウトしてサーバーを起動すると接続維持されたままになります。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/25/introduce-http-gem/">Rubyでhttp通信をするhttp Gem</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-25T14:05:02+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:05 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>rubyでhttp通信をする際に便利なhttp gemというものがあるので紹介します。  <br />
-https://github.com/httprb/http</p>
-
-<h2 id="install">Install</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ gem install http
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="getしてみる">getしてみる</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">pry</span>
-</span><span class="line"><span class="err">$</span> <span class="nb">require</span> <span class="err">’</span><span class="n">http</span><span class="err">&#39;</span>
-</span><span class="line"><span class="err">$</span> <span class="n">response</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://github.com&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="err">$</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="mi">200</span>
-</span><span class="line"><span class="err">$</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=</span><span class="se">\&quot;</span><span class="s2">content-type</span><span class="se">\&quot;</span><span class="s2"> content=...&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="http-メソッドを指定する">http メソッドを指定する</h2>
-<p>以下のように指定します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&gt;&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;https://restapi.com/objects&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;https://restapi.com/put&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;https://restapi.com/put&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;https://restapi.com/put&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="s1">&#39;https://restapi.com/put&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="クエリストリングを指定する">クエリストリングを指定する</h2>
-<p>以下のように paramsオプションで指定します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">get</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://example.com/resource&quot;</span><span class="p">,</span> <span class="ss">:params</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:foo</span> <span class="o">=&gt;</span> <span class="s2">&quot;bar&quot;</span><span class="p">})</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;#&lt;HTTP::Response/1.1 404 Not …&quot;</span>
-</span><span class="line">
-</span><span class="line"><span class="c1"># 以下のように生成されたuriを確認できます</span>
-</span><span class="line"><span class="err">$</span> <span class="n">get</span><span class="o">.</span><span class="n">uri</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="c1">#&lt;HTTP::URI:0x007fce62a33aa8 URI:http://example.com/resource?foo=bar&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="bodyを指定する">bodyを指定する</h2>
-<p>formオプションに設定します。  <br />
-URLエンコードされたパラメーターが設定されます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;http://example.com/resource&quot;</span><span class="p">,</span> <span class="ss">:form</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:foo</span> <span class="o">=&gt;</span> <span class="s2">&quot;42&quot;</span><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>生データを渡したいときは、bodyオプションを使います。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;http://example.com/resource&quot;</span><span class="p">,</span> <span class="ss">:body</span> <span class="o">=&gt;</span> <span class="s2">&quot;foo=42&amp;bar=baz&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="ネストしたbodyの渡し方">ネストしたbodyの渡し方</h3>
-<p>ネストした配列を渡したい場合はjsonを使って以下のように指定できます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">HTTP</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;http://example.com/resource&quot;</span><span class="p">,</span> <span class="ss">:params</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">&quot;A&quot;</span><span class="p">},</span> <span class="ss">json</span><span class="p">:</span> <span class="p">{</span> <span class="ss">bar</span><span class="p">:</span> <span class="p">{</span> <span class="ss">hoge</span><span class="p">:</span> <span class="s2">&quot;ok!&quot;</span><span class="p">}</span> <span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="basic認証に対応する">Basic認証に対応する</h2>
-
-<p>以下のように設定ができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">http</span> <span class="o">=</span> <span class="no">HTTP</span><span class="o">.</span><span class="n">basic_auth</span><span class="p">(</span><span class="ss">user</span><span class="p">:</span> <span class="s1">&#39;user_name&#39;</span><span class="p">,</span> <span class="ss">pass</span><span class="p">:</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="ssl証明書の検証を無効にする">SSL証明書の検証を無効にする</h2>
-<p>開発環境の場合などでSSL証明書の検証を無視したい場合は以下のように設定できます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">ctx</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">SSLContext</span><span class="o">.</span><span class="n">new</span>
-</span><span class="line"><span class="n">ctx</span><span class="o">.</span><span class="n">verify_mode</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_NONE</span>
-</span><span class="line"><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span> <span class="ss">:ssl_context</span> <span class="o">=&gt;</span> <span class="n">ctx</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

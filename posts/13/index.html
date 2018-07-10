@@ -9,7 +9,10 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Docker HubとGitHubを使ってDockerイメージの自動ビルドを行う方法を紹介します。 自動ビルドのメリット 自動ビルドのメリットは以下です。 常に最新のイメージがDocker Hubに用意される Dockerfileが公開され使う人が安心できる &hellip;">
+  <meta name="description" content="私のチームではCIで自動的にLINTをする仕組みを構築しています。
+この仕組みにより、レガシーコードでテストコードがない環境でもシンタックスエラーの混入を防ぐことができます。 中身はシンプルで以下のスクリプトを作成して、CIプラットホームで実行するようにします。 php-lint.sh 1
+2
+3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +149,67 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/08/php-lint-with-ci/">PHPの構文チェックを自動で行う方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-08T13:30:30+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:30 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>私のチームではCIで自動的にLINTをする仕組みを構築しています。<br />
+この仕組みにより、レガシーコードでテストコードがない環境でもシンタックスエラーの混入を防ぐことができます。</p>
+
+<p>中身はシンプルで以下のスクリプトを作成して、CIプラットホームで実行するようにします。</p>
+
+<p>php-lint.sh</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/sh
+</span><span class="line">
+</span><span class="line">RESULT=`find . -type f -name "*.php" -exec php -l {} \; 2&gt;&amp;1 | grep "PHP Parse error"`
+</span><span class="line">
+</span><span class="line">if [ "$RESULT" != "" ];then
+</span><span class="line">    echo "$RESULT"
+</span><span class="line">    exit 1
+</span><span class="line">fi</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>例えば、Droneでチェックする場合は以下のように設定します。</p>
+
+<p>.drone.yml</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">script:
+</span><span class="line">  - ./php-lint.sh</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -539,100 +603,6 @@ allオプションを使って実装します。</p>
 <p>30日間は無料で使えて、それ以降は有料プランとなります。<br />
 有料プランは3つあって、Small($10 / mon)、Medium($20 / mon)、Large($35 / mon) が選べます。<br />
 監視するリポジトリの数がプランによって違います。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/25/introduce-to-git-find-committer/">Gitのコミッターを集計するGitFindCommitterをつくった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-07-25T18:09:52+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:09 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Gitのコミッターを集計する<a href="https://github.com/shoyan/git_find_committer">GitFindCommitter</a>をつくったので紹介します。</p>
-
-<h2 id="gitfindcommitterとは">GitFindCommitterとは</h2>
-
-<p>GitFindCommitterとは変更されたファイルを対象としてコミッターを探すツールです。<br />
-名前の通り、Gitのコミット履歴からコミッターを探します。<br />
-例えば、fixブランチでhoge.rbとfuga.rbを修正したとします。<br />
-GitFindCommitterはhoge.rbとfugue.rbを対象にコミッターを探します。</p>
-
-<h2 id="なぜつくったのか">なぜつくったのか</h2>
-
-<p>チーム内でコードレビューを行っているのですが、なかなかレビューしてもらえないということが時々あります。<br />
-コードレビューの際に詳しいコミッターをレコメンドすればスムーズにレビューしてもらえるのではと考えました。<br />
-レビュアーのレコメンド機能はまだ作成中なのですが、そのモジュールの1つとしてGemに機能を切り出しました。</p>
-
-<h2 id="使い方">使い方</h2>
-
-<p>以下のコマンドでインストールします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ gem install git_find_committer</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>searchメソッドにリポジトリとブランチを指定すると、関連するファイルのコミッターを探してきます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;git_find_committer&#39;</span>
-</span><span class="line">
-</span><span class="line"><span class="no">GitFindCommitter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="ss">repo</span><span class="p">:</span> <span class="s1">&#39;balloonbros/sutekki&#39;</span><span class="p">,</span> <span class="ss">branch</span><span class="p">:</span> <span class="s1">&#39;add-ui&#39;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="p">{</span><span class="ss">:name</span><span class="o">=&gt;</span><span class="s2">&quot;Shohei Yamasaki&quot;</span><span class="p">,</span> <span class="ss">:commit_count</span><span class="o">=&gt;</span><span class="mi">51</span><span class="p">},</span> <span class="p">{</span><span class="ss">:name</span><span class="o">=&gt;</span><span class="s2">&quot;keitakawamoto&quot;</span><span class="p">,</span> <span class="ss">:commit_count</span><span class="o">=&gt;</span><span class="mi">21</span><span class="p">}</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>GitHub Enterpriseにも対応しており、GitHub Enterpriseで利用する場合は、以下の設定が必要です。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">GitFindCommitter</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;hostname&gt;&quot;</span>
-</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="s2">&quot;&lt;your 40 char token&gt;&quot;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="便利なtips">便利なTips</h2>
-
-<p>集計対象のコミッターをフィルターすることができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">GitFindCommitter</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-</span><span class="line">  <span class="n">c</span><span class="o">.</span><span class="n">available_committer_names</span> <span class="o">=</span> <span class="sx">%w(shoyan)</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>名前のみ配列で取得します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">GitFindCommitter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="ss">repo</span><span class="p">:</span> <span class="s1">&#39;balloonbros/sutekki&#39;</span><span class="p">,</span> <span class="ss">branch</span><span class="p">:</span> <span class="err">&#39;</span><span class="n">add</span><span class="o">-</span><span class="n">ui</span><span class="err">’</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;Shohei Yamasaki&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

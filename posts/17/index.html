@@ -9,9 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="ShellスクリプトのTipsです。 シェル変数の初期化をする 変数に値が設定されていない場合は、指定された値を返します。 1
-: ${VAR:=初期化する値} パラメーターを取得する $@ にパラメーターが格納されています。 例えば以下の記述をした for.sh ファイルを作成します。 1
-2 &hellip;">
+  <meta name="description" content="修正した部分だけPHPの構文チェックをする仕組みを作ってみました。 構文に問題があればGithubのPull Requestにコメントされます。 この方法のよいところは既存のソースを変えることなくPHPの構文チェックの仕組みを導入できることです。 規約に沿っていないコードが大量にあり、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +146,287 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組みを作った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-23T17:14:34+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:14 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>修正した部分だけPHPの構文チェックをする仕組みを作ってみました。  <br />
+構文に問題があればGithubのPull Requestにコメントされます。</p>
+
+<p><img src="/images/2016-06-23_php-syntax-check.png" alt="2016-06-23_php-syntax-check" /></p>
+
+<p>この方法のよいところは既存のソースを変えることなくPHPの構文チェックの仕組みを導入できることです。  <br />
+規約に沿っていないコードが大量にあり、かつテストコードがないような環境(レガシー環境)にも導入することができます。</p>
+
+<p>使用したツールは以下です。</p>
+
+<ul>
+  <li><a href="https://github.com/packsaddle">packsaddle</a></li>
+  <li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a></li>
+  <li><a href="https://circleci.com/">CircleCI</a></li>
+  <li><a href="https://github.com/">Github</a></li>
+</ul>
+
+<p>また、packsaddleのツールはRuby製ですので、Rubyが動作する環境が必要です。</p>
+
+<p>サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/php-syntax-check">https://github.com/shoyan/php-syntax-check</a></p>  </li>
+</ul>
+
+<p>以下のスクリプトをCircleCIで実行しています。</p>
+
+<p>check_syntax.sh</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">#!/bin/bash</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;Start&quot;</span>
+</span><span class="line"><span class="nv">LIST</span><span class="o">=</span><span class="sb">`</span>git diff --name-only origin/master <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span><span class="sb">`</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$LIST&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;PHP file not changed.&quot;</span>
+</span><span class="line">    <span class="nb">exit </span>0
+</span><span class="line"><span class="k">fi</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$CI_PULL_REQUEST&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">    git diff --name-only origin/master <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> xargs vendor/bin/phpcs -n --standard<span class="o">=</span>PSR2 --report<span class="o">=</span>checkstyle <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master <span class="se">\</span>
+</span><span class="line">        <span class="p">|</span> bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">        --require saddler/reporter/github <span class="se">\</span>
+</span><span class="line">        --reporter Saddler::Reporter::Github::PullRequestReviewComment
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="仕組み">仕組み</h2>
+
+<p>以下の3つのセクションに分類されます。</p>
+
+<ul>
+  <li>対象のファイルを抽出</li>
+  <li>構文チェック</li>
+  <li>結果をレポート</li>
+</ul>
+
+<h3 id="1-対象のファイルを抽出">1. 対象のファイルを抽出</h3>
+
+<p>以下のコマンドでmasterと差分のあるファイル名を取得します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>さらに grepで拡張子が .phpのファイルのみ対象にします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master <span class="p">|</span> grep -e ‘.php<span class="nv">$&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="2-構文チェック">2. 構文チェック</h3>
+
+<p>構文チェックツールは好きなものを使えます(CheckStyleフォーマットで出力できるものに限りますが)。  <br />
+今回は<a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a>を使いました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">xargs vendor/bin/phpcs -n --standard<span class="o">=</span>PSR2 --report<span class="o">=</span>checkstyle
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>xargs</code>は前のコマンドを引数でとるために必要です。</p>
+
+<p>以下のコマンドでmasterとブランチの差分をチェックして、差分があるところのエラーを検知対象のエラーとしています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>エラーの差分の抽出に<a href="https://github.com/packsaddle/ruby-checkstyle_filter-git">checkstyle_filter-git</a>というツールを使っています。<br />
+これは、入力として渡したCheckStyle formatの文字列から、変更した内容の部分のエラーを抽出するツールです。<br />
+例えばファイルの10行目〜15行目を変更した場合、その行で発生したエラーのみを抽出します。</p>
+
+<h3 id="3-結果をレポート">3. 結果をレポート</h3>
+
+<p>saddlerを使って結果をGithubに通知します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">        --require saddler/reporter/github <span class="se">\</span>
+</span><span class="line">        --reporter Saddler::Reporter::Github::PullRequestReviewComment
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注意点としては、PRを作っていないと通知でエラーとなります。</p>
+
+<p>ですので、Pull Requestがあるかどうかをチェックするif文をいれています。<br />
+<code>$CI_PULL_REQUEST</code> はCIrcleCIの変数で、Pull Requestが作られていればこの変数にURLが格納されています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$CI_PULL_REQUESTS&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>また、通知には<code>GITHUB_ACCESS_TOKEN</code>を発行して環境変数に登録しておく必要があります。</p>
+
+<ul>
+  <li>
+    <p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">https://help.github.com/articles/creating-an-access-token-for-command-line-use/</a></p>  </li>
+</ul>
+
+<p>CircleCIの環境変数の設定については、以下を参照ください。</p>
+
+<ul>
+  <li>
+    <p><a href="https://circleci.com/docs/environment-variables/#custom">https://circleci.com/docs/environment-variables/#custom</a></p>  </li>
+</ul>
+
+<p>また、通知ではなく単に結果を出力する場合は、<a href="https://github.com/packsaddle/ruby-saddler-reporter-text">saddler/reporter/text</a>を指定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">  --require saddler/reporter/text <span class="se">\</span>
+</span><span class="line">  --reporter Saddler::Reporter::Text
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下は、出力があった場合はエラーにする例です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">RESULT</span><span class="o">=</span><span class="sb">`</span>git diff --name-only origin/master <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> xargs vendor/bin/phpcs -n --standard<span class="o">=</span>custom_ruleset.xml --report<span class="o">=</span>checkstyle <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master <span class="se">\</span>
+</span><span class="line">    <span class="p">|</span> bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
+</span><span class="line">      --require saddler/reporter/text <span class="se">\</span>
+</span><span class="line">      --reporter Saddler::Reporter::Text<span class="sb">`</span>
+</span><span class="line">
+</span><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$RESULT&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;An error has been detected,this following:&quot;</span>
+</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;$RESULT&quot;</span>
+</span><span class="line">    <span class="nb">exit </span>1
+</span><span class="line"><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="その他">その他</h2>
+
+<p><del>ファイルのエンコードがEUC-JPのソースコードに適用したところエラーとなりました。  
+リポジトリをフォークして対応しました。</del><br />
+1.1.0より使えるようになりました！</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b">https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b</a></p>  </li>
+</ul>
+
+<p>以下のように設定します。</p>
+
+<p>Gemfile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">gem <span class="s2">&quot;checkstyle_filter-git&quot;</span>, git: <span class="s2">&quot;https://github.com/shoyan/ruby-checkstyle_filter-git.git&quot;</span>, branch: <span class="s2">&quot;implement-exec&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>iconvでgit diffの出力結果の文字コードを<code>EUC-JP</code>-&gt;<code>UTF-8</code>に変換して渡せるようにしました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master <span class="se">\</span>
+</span><span class="line">  <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
+</span><span class="line">  <span class="p">|</span> xargs phpcs -n --standard<span class="o">=</span>custom_ruleset.xml --report<span class="o">=</span>checkstyle <span class="se">\</span>
+</span><span class="line">  <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git <span class="nb">exec</span> <span class="s2">&quot;git diff origin/master | iconv -f EUCJP -t UTF8&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><del>PRもしているので直ることに期待です。</del><br />
+Mergeいただきました。</p>
+
+<ul>
+  <li><a href="https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11">https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11</a></li>
+</ul>
+
+<p>サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。</p>
+
+<ul>
+  <li><a href="https://github.com/shoyan/php-syntax-check">https://github.com/shoyan/php-syntax-check</a></li>
+</ul>
+
+<h2 id="関連記事">関連記事</h2>
+
+<ul>
+  <li><a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a></li>
+</ul>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://packsaddle.org/articles/saddler-overview/">変更したファイルにrubocopやjscsを実行して pull requestに自動でコメントする</a></li>
+  <li><a href="http://qiita.com/noboru_i/items/23827b655ac854ba04b2">規約に沿ってないPHPコードを駆逐する</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -829,67 +1108,6 @@ FTPはデータ転送用のポートと制御用のポートの2つを利用す�
   <li><a href="http://ash.jp/net/telnet_ftp.htm">FTPコマンドでファイル転送</a></li>
   <li><a href="http://qiita.com/kasei-san/items/bf766e6c2ececa4c3905">FTPS、SFTPの違いって?</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/16/check-file-encoding/">Rubyでファイルエンコーディングを確認する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-16T13:46:56+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:46 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Rubyでファイルエンコーディングを確認するにはNKFモジュールを使って確認します。</p>
-
-<p><a href="http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html">http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html</a></p>
-<p>NKFモジュールとは、nkf(Network Kanji code conversion Filter, http://sourceforge.jp/projects/nkf/) をRubyから使うためのモジュールです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;nkf&#39;</span>
-</span><span class="line">
-</span><span class="line"><span class="n">content</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;path/to/file.txt&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="no">NKF</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;Shift_JIS&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>このような感じでrspecでテストするときにも使えます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;nkf&#39;</span>
-</span><span class="line">
-</span><span class="line"><span class="n">it</span> <span class="s1">&#39;file encoding is Shift_JIS&#39;</span> <span class="k">do</span>
-</span><span class="line"> <span class="n">content</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;filename.csv&quot;</span><span class="p">)</span>
-</span><span class="line"> <span class="n">expect</span><span class="p">(</span><span class="no">NKF</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;Shift_JIS&#39;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
