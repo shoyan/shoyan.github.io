@@ -9,8 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Rubyでファイルエンコーディングを確認するにはNKFモジュールを使って確認します。 http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html
-NKFモジュールとは、nkf(Network Kanji code conversion Filter, &hellip;">
+  <meta name="description" content="FTPはすでにご存知のかたも多いと思います。 自分はFTPについて、「ファイル転送に使われるプロトコルであり、セキュリティが脆弱である」というくらいしか理解していなかったので詳細を把握するために調べました。 FTPとは FTPとはインターネットの初期の頃から存在するプロトコルで、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +146,279 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/17/learn-ftp/">FTPについて調べてみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-17T15:21:34+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:21 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>FTPはすでにご存知のかたも多いと思います。  <br />
+自分はFTPについて、「ファイル転送に使われるプロトコルであり、セキュリティが脆弱である」というくらいしか理解していなかったので詳細を把握するために調べました。</p>
+
+<h2 id="ftpとは">FTPとは</h2>
+
+<p>FTPとはインターネットの初期の頃から存在するプロトコルで、今でもインターネットでよく使われています。  <br />
+用途としては、以下に使われます。</p>
+
+<ul>
+  <li>ウェブページの各種ファイル(HTMLや画像)をクライアントのPCからサーバーへアップロードする</li>
+  <li>ソフトウェアの配布サイトやFTPファイルサーバーからクライアントPCへダウンロードする</li>
+</ul>
+
+<p>FTPを利用するにはユーザー名とパスワードが必要です。  <br />
+ソフトを配布するための目的で使う匿名でアクセスできるAnonymous(匿名)FTPサーバーもあります。  <br />
+しかし、形式上ユーザー名とパスワードは必要なので、ユーザー名にanonymousやftpを使います。パスワードは何でもよいですが、慣習としてメールアドレスを入力するようです。</p>
+
+<h2 id="プロトコルの概要">プロトコルの概要</h2>
+
+<p>FTPのプロトコルは<a href="https://tools.ietf.org/html/rfc959">RFC959</a>に定義してあります。  <br />
+RFC959が書かれたのが1985年なのでおよそ30年前に作られたプロトコルです。</p>
+
+<p>FTPは大きくわけると、コネクションの確立とデータ転送にわけることができます。  <br />
+そして、使うポートも2つが用意してあります。</p>
+
+<ul>
+  <li>20: データ転送ポート</li>
+  <li>21: コントロールポート</li>
+</ul>
+
+<p>20番がデータを転送するときに使うポートで、21番は認証などの接続に使うためのポートです。</p>
+
+<h3 id="コネクションの確立">コネクションの確立</h3>
+
+<p>FTPは <code>アクティブモード</code> か <code>パッシブモード</code> のいずれかで動作し、サーバーとの接続をする際にどちらかを選択します。</p>
+
+<h3 id="アクティブモードの場合">アクティブモードの場合</h3>
+
+<p>アクティブモードの場合、クライアントはデータ転送用のポートを用意しPORTコマンドを使って待ち受けポートをサーバーに伝えます。  <br />
+サーバーはPORTコマンドを受け取ると、そのポートに対して接続を行います。  <br />
+しかし、Firewallがある環境の場合、サーバーからの接続が拒否されうまくいかない場合があります。  <br />
+その際はパッシブモードを使います。</p>
+
+<h3 id="パッシブモード">パッシブモード</h3>
+
+<p>パッシブモードでは、まず最初にクライアントがPASVというコマンドを使いサーバーに送信します。  <br />
+そのコマンドを受け取ったサーバーは自身のIPアドレスとポート番号をクライアントに送信します。  <br />
+クライアントは受け取ったIPアドレスとポート番号へコネクションを確立しにいきます。</p>
+
+<p>アクティブモードはサーバーより接続を行う、パッシブモードはクライアントより接続を行うという違いがあります。  <br />
+ちなみに、FTPはよく使われるプロトコルのため、PORTコマンドがFirewallを通過する際にPORTコマンドに書かれたPORTは通過できるようにしてくれるFirewallもあるとのことです。</p>
+
+<h2 id="データ転送">データ転送</h2>
+
+<p>接続ができたら、次はデータ転送を行います。  <br />
+FTPにはデータタイプという考え方があって、現在は2つのモードが使われています。</p>
+
+<h3 id="アスキーモード">アスキーモード</h3>
+
+<p>アスキーモードは、必要であればデータを変換します。  <br />
+例えば異なるOS間でファイルを送ると改行コードが違ったりする場合があると思いますが、アスキーモードはファイルを受け取るホストに適した改行コードにファイルを変換します。</p>
+
+<h3 id="imageモードバイナリモード">Imageモード(バイナリモード)</h3>
+
+<p>Imageモードは一般的にバイナリモードと呼ばれます。  <br />
+バイト単位でデータを転送します。  <br />
+アスキーモードのようにデータの変換は行われません。</p>
+
+<p>データの転送モードには、以下の3つのモードがあります。</p>
+
+<ul>
+  <li>ストリームモード</li>
+  <li>ブロックモード</li>
+  <li>圧縮モード</li>
+</ul>
+
+<h3 id="ストリームモード">ストリームモード</h3>
+
+<p>データをそのまま転送するモードです。</p>
+
+<h3 id="ブロックモード">ブロックモード</h3>
+
+<p>データをブロックに分割して転送するモードです。</p>
+
+<h3 id="圧縮モード">圧縮モード</h3>
+
+<p>ランレングスエンコーディングを使ってデータを圧縮して転送するモードです。</p>
+
+<h2 id="セキュリティ上の問題">セキュリティ上の問題</h2>
+
+<p>FTPはセキュアなプロトコルとして設計されていません。  <br />
+ユーザー名やパスワードを暗号化せずに送信する問題のほかにも数多くのセキュリティ脆弱性があげられています。</p>
+
+<ul>
+  <li>総当たり攻撃</li>
+  <li>en:FTP bounce attack</li>
+  <li>パケットキャプチャ (sniffing)</li>
+  <li>Port stealing</li>
+  <li>en:Spoofing attack</li>
+  <li>ユーザ名保護</li>
+</ul>
+
+<p>また、通信内容を暗号化できないので通信経路上でパケットキャプチャすることで盗聴することができてしまいます。  <br />
+セキュアにする一般的な方法として、SSL/TLSセッション上で通信を行うようにします。  <br />
+これをFTPSと言います。  <br />
+また、SSHを介してファイル転送を行うSFTP、SCPを使います。</p>
+
+<p>ちなみにFTPSとSFTPの違いは以下のようになります。</p>
+
+<ul>
+  <li>FTPS : FTPの通信をSSL/TLSで暗号化 → FTPの拡張</li>
+  <li>SFTP : SSHの通信を使って、FTPを行う → SSHで動作するアプリケーション</li>
+</ul>
+
+<p>理解を深めるためにtelnetを使って実際にFTPサーバーと通信してみます。</p>
+
+<h2 id="実際にftpを試してみる">実際にFTPを試してみる</h2>
+
+<p>実際にFTPを試してみる場合、FTPサーバーが必要です。  <br />
+<a href="https://lolipop.jp">ロリポップ！レンタルサーバー</a>を使えば無料でFTPサーバーが利用できます。</p>
+
+<p>ちなみにtelnetでファイルの送受信はできません。  <br />
+というのも、telnetでは1つのポートを使った通信しかサポートしていないからです。  <br />
+FTPはデータ転送用のポートと制御用のポートの2つを利用するため、telnetでは認証しか行えません。</p>
+
+<p>まずは、telnetで認証をやってみます(localhostにftpサーバーが起動しているという前提です)。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ telnet localhost 21
+</span><span class="line">Trying 127.0.0.1...
+</span><span class="line">Connected to localhost.
+</span><span class="line">Escape character is '^]'.
+</span><span class="line">220 FTP server ready.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>まず、ユーザ名を入力します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">USER ftp
+</span><span class="line">331 Password required for example.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>次に、パスワードを入力します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">PASS 123
+</span><span class="line">230 User example.com logged in.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>telnetでは他に何もできませんのでQUITします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">QUIT
+</span><span class="line">221 Goodbye.
+</span><span class="line">Connection closed by foreign host.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ftpでファイルの送受信を行う">FTPでファイルの送受信を行う</h3>
+
+<p>FTPでファイルの送受信を行うには、ftpコマンドを使います。  <br />
+<code>-d</code> オプションはデバッグモードです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ftp -d localhost 21
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ユーザー名とパスワードを聞かれるので入力します。</p>
+
+<p><code>ls</code>でファイルの一覧をみることができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ftp&gt; ls
+</span><span class="line">---&gt; EPSV
+</span><span class="line">229 Entering Extended Passive Mode (|||65086|)
+</span><span class="line">229 Entering Extended Passive Mode (|||65086|)
+</span><span class="line">---&gt; LIST
+</span><span class="line">150 Opening ASCII mode data connection for file list
+</span><span class="line">drwx---r-x   6 shoyan shoyan      4096 Jun 17 11:31 .
+</span><span class="line">drwx---r-x   6 shoyan shoyan     4096 Jun 17 11:31 ..
+</span><span class="line">-rw-r--r--   1 shoyan shoyan     3096 Jun 17 11:30 index.html
+</span><span class="line">226 Transfer complete
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>get</code>コマンドでファイルをダウンロードできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ftp&gt; get index.html
+</span><span class="line">local: index.html remote: index.html
+</span><span class="line">---&gt; SIZE index.html
+</span><span class="line">213 3096
+</span><span class="line">---&gt; EPSV
+</span><span class="line">229 Entering Extended Passive Mode (|||65011|)
+</span><span class="line">229 Entering Extended Passive Mode (|||65011|)
+</span><span class="line">---&gt; RETR index.html
+</span><span class="line">150 Opening BINARY mode data connection for index.html (3096 bytes)
+</span><span class="line">100% |************************************************************************************************************************************************************************************************|  3096        4.61 MiB/s    00:00 ETA
+</span><span class="line">226 Transfer complete
+</span><span class="line">3096 bytes received in 00:00 (163.72 KiB/s)
+</span><span class="line">---&gt; MDTM index.html
+</span><span class="line">213 20160617023028
+</span><span class="line">parsed date `20160617023028' as 1466130628, Fri, 17 Jun 2016 11:30:28 +0900
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>参考リンク</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/File_Transfer_Protocol">File Transfer Protocol</a></li>
+  <li><a href="https://ja.wikipedia.org/wiki/File_Transfer_Protocol">File Transfer Protocol(日本語)</a></li>
+  <li><a href="http://www5e.biglobe.ne.jp/%257eaji/3min/56.html">3 Minutes Networking No.56</a></li>
+  <li><a href="http://ash.jp/net/ftp_command.htm">telnetでファイル転送？(FTP)</a></li>
+  <li><a href="http://ash.jp/net/telnet_ftp.htm">FTPコマンドでファイル転送</a></li>
+  <li><a href="http://qiita.com/kasei-san/items/bf766e6c2ececa4c3905">FTPS、SFTPの違いって?</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -702,160 +974,6 @@ CapistranoやCapistranoプラグインではSSHKitが使われています。</p
 <ul>
   <li><a href="https://ja.wikipedia.org/wiki/Base64Base64">Base64 - Wikipedia</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/09/calculate-the-date-of-the-last-week-monday/">先週月曜日の日付を取得するアルゴリズム</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-09T14:04:17+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:04 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="先週の月曜日を求めるアルゴリズム">先週の月曜日を求めるアルゴリズム</h2>
-
-<ul>
-  <li>先週(7日前)が月曜日である場合はその日付を返す</li>
-  <li>月曜日でない場合
-    <ul>
-      <li>月曜日より前であれば日付を1日たす</li>
-      <li>月曜日より後であれば日付を1日ひく</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="rubyで実装">Rubyで実装</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">last_monday</span><span class="p">(</span><span class="n">date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span>
-</span><span class="line">  <span class="k">return</span> <span class="n">date</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">monday?</span>
-</span><span class="line">  <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">wday</span> <span class="o">&lt;</span> <span class="mi">1</span>
-</span><span class="line">    <span class="n">date</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class="line">  <span class="k">else</span>
-</span><span class="line">    <span class="n">date</span> <span class="o">-=</span> <span class="mi">1</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">  <span class="n">last_monday</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="先週の金曜日を求める場合">先週の金曜日を求める場合</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">last_friday</span><span class="p">(</span><span class="n">date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span>
-</span><span class="line">  <span class="k">return</span> <span class="n">date</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">friday?</span>
-</span><span class="line">  <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">wday</span> <span class="o">&lt;</span> <span class="mi">5</span>
-</span><span class="line">    <span class="n">date</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class="line">  <span class="k">else</span>
-</span><span class="line">    <span class="n">date</span> <span class="o">-=</span> <span class="mi">1</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">  <span class="n">last_friday</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="次の月曜日の日付を求めるアルゴリズム">次の月曜日の日付を求めるアルゴリズム</h2>
-
-<ul>
-  <li>明日が月曜日かどうか
-    <ul>
-      <li>月曜日であればその日を返す</li>
-      <li>月曜日でなければ1日たす</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="rubyで実装-1">Rubyで実装</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">next_monday</span><span class="p">(</span><span class="n">date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class="line">  <span class="k">return</span> <span class="n">date</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">monday?</span>
-</span><span class="line">  <span class="n">next_monday</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="前回の月曜日の日付を求めるアルゴリズム">前回の月曜日の日付を求めるアルゴリズム</h2>
-
-<ul>
-  <li>昨日が月曜日かどうか
-    <ul>
-      <li>月曜日であればその日を返す</li>
-      <li>月曜日でなければ1日ひく</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="rubyで実装-2">Rubyで実装</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">prev_monday</span><span class="p">(</span><span class="n">date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class="line">  <span class="k">return</span> <span class="n">date</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">monday?</span>
-</span><span class="line">  <span class="n">prev_monday</span><span class="p">(</span><span class="n">date</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="実行結果">実行結果</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">puts</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d (%a)&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mi">09</span> <span class="p">(</span><span class="no">Thu</span><span class="p">)</span>
-</span><span class="line"><span class="nb">puts</span> <span class="n">prev_monday</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d (%a)&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mo">06</span> <span class="p">(</span><span class="no">Mon</span><span class="p">)</span>
-</span><span class="line"><span class="nb">puts</span> <span class="n">next_monday</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d (%a)&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mi">13</span> <span class="p">(</span><span class="no">Mon</span><span class="p">)</span>
-</span><span class="line"><span class="nb">puts</span> <span class="n">last_monday</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d (%a)&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mo">05</span><span class="o">-</span><span class="mi">30</span> <span class="p">(</span><span class="no">Mon</span><span class="p">)</span>
-</span><span class="line"><span class="nb">puts</span> <span class="n">last_friday</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d (%a)&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mo">03</span> <span class="p">(</span><span class="no">Fri</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

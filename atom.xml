@@ -4,7 +4,7 @@
   <title><![CDATA[SHOYAN BLOG]]></title>
   <link href="http://48n.jp/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2018-07-10T10:13:57+09:00</updated>
+  <updated>2018-08-07T14:59:59+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[最短でビデオチャットを開発したい人へ]]></title>
+    <link href="http://48n.jp/blog/2018/08/07/started-video-chat/"/>
+    <updated>2018-08-07T14:23:15+09:00</updated>
+    <id>http://48n.jp/blog/2018/08/07/started-video-chat</id>
+    <content type="html"><![CDATA[<p>ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。</p>
+
+<ol>
+  <li><a href="#1-webrtcの概要を把握する">WebRTCの概要を把握する</a></li>
+  <li><a href="#2-webrtcのコードを動かしてみる">WebRTCのコードを動かしてみる</a></li>
+  <li><a href="#3-webrtcの開発を支援するサービスを利用する">WebRTCの開発を支援するサービスを利用する</a></li>
+</ol>
+
+<h2 id="1-webrtcの概要を把握する">1. WebRTCの概要を把握する</h2>
+
+<p>まずはWebRTCについての概要を把握しておくと、実装するときの理解が深まります。まずは、次の記事を読んでください。</p>
+
+<ul>
+  <li><a href="https://gist.github.com/voluntas/67e5a26915751226fdcf" target="_blank">WebRTC コトハジメ</a></li>
+</ul>
+
+<p>同じタイトルですが、Qiitaのこの記事もわかりやすいです。</p>
+
+<ul>
+  <li><a href="https://qiita.com/yusuke84/items/286f569d110daede721e" target="_blank">WebRTC コトハジメ</a></li>
+</ul>
+
+<h2 id="2-webrtcのコードを動かしてみる">2. WebRTCのコードを動かしてみる</h2>
+
+<p>上記の記事を読んだら、早速コードを動かしてみましょう。コードを実際に動かしてみることで、着実にWebRTCの概念を理解していくことができます。</p>
+
+<p>次の記事で簡単にPCのカメラの映像をブラウザに表示できることが体感してください。</p>
+
+<ul>
+  <li><a href="https://html5experts.jp/mganeko/19728/" target="_blank">カメラを使ってみよう ーWebRTC入門2016</a></li>
+</ul>
+
+<p>次の記事でシグナリングの流れを掴みましょう。</p>
+
+<ul>
+  <li><a href="https://html5experts.jp/mganeko/19814/" target="_blank">手動でWebRTCの通信をつなげよう ーWebRTC入門2016</a></li>
+</ul>
+
+<h2 id="3-webrtcの開発を支援するサービスを利用する">3. WebRTCの開発を支援するサービスを利用する</h2>
+
+<p>本格的なビデオチャットを開発するのはなかなか大変です。その開発を楽にしてくれるサービスが世の中に存在します。私がおすすめするのはSkyWayというサービスです。このサービスを利用することでNAT越えなどの仕組みを自分で実装せずにすみます。日本語ドキュメントが整備されており、サービス自体も無料で試すことができます。</p>
+
+<ul>
+  <li><a href="https://webrtc.ecl.ntt.com/" target="_blank">SkyWay</a></li>
+</ul>
+
+<p>SkyWayを利用するにあたっては、次のスライドが参考になります。</p>
+
+<ul>
+  <li><a href="https://www.slideshare.net/iwashi86/skyway-how-to-use-skyway-webrtc" target="_blank">SkyWayを使いこなすために - How to use SkyWay (WebRTC)</a></li>
+</ul>
+
+<p>余談ですが、WebRTCのライブラリであるPeerJSはメンテされてないので使わない方がよいです。</p>
+<ul>
+  <li><a href="https://medium.com/@Tukimikage/peerjs%E3%82%92%E4%BB%8A%E5%BE%8C%E3%82%82%E4%BD%BF%E3%81%84%E7%B6%9A%E3%81%91%E3%82%8B%E3%81%AE%E3%81%AF%E5%8D%B1%E9%99%BA-8c3cf68d56a0" target="_blank">PeerJSを今後も使い続けるのは危険</a></li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[デュアルスイーパーカスタムのフジツボスポーツクラブの立ち回り（ガチエリア編）]]></title>
@@ -1005,61 +1069,6 @@ Project locationでファイルを作成する場所を指定します。</p>
 
 <p><em>補足</em><br />
 <em>数値は2017年12月13日のものです。</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2017年のRubyについて数値をまとめてみました]]></title>
-    <link href="http://48n.jp/blog/2017/12/10/ruby2017/"/>
-    <updated>2017-12-10T08:05:39+09:00</updated>
-    <id>http://48n.jp/blog/2017/12/10/ruby2017</id>
-    <content type="html"><![CDATA[<p>この記事は<a href="https://qiita.com/advent-calendar/2017/ruby">Ruby Advent Calendar 2017</a> 10日目の記事です。</p>
-
-<p>こんにちは、SHOYANです。2017年ももうすぐ終わりますね。みなさんにとって2017年はどのような年だったでしょうか。<br />
-おそらくこの記事を読んでいるほとんどの方がRubyを好きなのだと思います。であれば、2017年にRubyでどのようなことが起こったのか気になりませんか？そんなRubyが大好きなあなたに向けて、本記事では2017年のRubyについてまとめました。</p>
-
-<h2 id="2017年にrubyについて書かれた記事ってどれくらい">2017年にRubyについて書かれた記事ってどれくらい？</h2>
-
-<p>まずは、Rubyについて書かれた記事からいってみましょう。<br />
-インターネット上の全ての記事を探してくるのは膨大な時間がかかるので、ここでの対象は<a href="https://qiita.com/search?q=tag%3ARuby+created%3A%3E2017-01-01">Qiitaで書かれた記事</a>とします。</p>
-
-<p>2017年は<span style="font-weight:bolder">2,969</span>件の記事が書かれました。</p>
-
-<p>最もいいねのついた記事は<a href="https://qiita.com/gazayas">@gazayas</a>さんの書いた<a href="https://qiita.com/gazayas/items/3d352d1b6ec9a225c6f6">外国人が語る：英語でクラスやメソッド等の名付け方</a>でした。</p>
-
-<h2 id="2017年にrubyで書かれたコードってどれくらい">2017年にRubyで書かれたコードってどれくらい？</h2>
-
-<p>2017年に世界でどれくらいの量のRubyのコードが書かれたか興味がありませんか？<br />
-コードの量というのを定量的に表すのは難しいので、ここではGitHubで2017年に作成されたリポジトリの数を紹介します。</p>
-
-<p>2017年にGitHub作成されたリポジトリの数は<span style="font-weight:bolder">277,359</span>でした。</p>
-
-<p>その中で最もスターを集めたのは<a href="https://github.com/atech/postal">atech/postal</a> でした。</p>
-
-<h2 id="rubyistって世界に何人くらいいるの">Rubyistって世界に何人くらいいるの？</h2>
-
-<p>世界中にどれくらいのRubyistがいるでしょうか？<br />
-GitHubからRubyistの数を調べてみました。</p>
-
-<p>GitHubのRubyistの数は<span style="font-weight:bolder">368,282</span>人です。</p>
-
-<h2 id="rubyのアップデートってどれくらい行われた">Rubyのアップデートってどれくらい行われた？</h2>
-
-<p>2017年はRuby2.4がリリースされました。Rubyの公式サイトのリリース情報によると、2017年に合計で<span style="font-weight:bolder">6</span>回のアップデートが行われています。</p>
-
-<h2 id="rubyistの求人の数ってどれくらいあるの">Rubyistの求人の数ってどれくらいあるの？</h2>
-
-<p>Rubyistの求人の数ってどれくらいあるのでしょうか？<br />
-マイナビ転職によると求職数は<span style="font-weight:bolder">598</span>件でした。</p>
-
-<h2 id="2017年に出版されたrubyの書籍は何冊">2017年に出版されたRubyの書籍は何冊？</h2>
-
-<p>2017年に日本で発売されたRubyの書籍は何冊か知っていますか？<br />
-<a href="http://amzn.to/2jfF8sa">14冊の書籍</a>が発売されています。</p>
-
-<h3 id="最後に">最後に</h3>
-
-<p>Rubyに関する様々な指標をまとめてみましたが、いかがでしたでしょうか。どのような指標が面白かったでしょうか？感想をフィードバックしていただけると嬉しいです。2018年もたくさんのRubyのコードや記事が書かれ、たくさんの素晴らしいプロダクトが誕生することでしょう。最後まで記事を読んでくださってどうもありがとうございました。</p>
 ]]></content>
   </entry>
   

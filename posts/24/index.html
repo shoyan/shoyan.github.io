@@ -9,16 +9,14 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="rubyでhttp通信をする際に便利なhttp gemというものがあるので紹介します。 https://github.com/httprb/http Install 1
-$ gem install http getしてみる 1
+  <meta name="description" content="通常はルーティングブロックの戻り値にセットした文字列がbodyにセットされます。 任意の評価フローでbodyをセットしたい場合はどうすればいいでしょうか。 Sinatraには任意の評価フローでbodyをセットできる、bodyヘルパーが用意されています。 1
 2
 3
 4
 5
 6
 7
-$ pry
-$ require ’http&# &hellip;">
+get &#39 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -155,6 +153,186 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/26/sets-body-and-status-code-and-header-with-sinatra/">Sinatraのレスポンスの設定とストリーミングヘルパー</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-04-26T13:52:30+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:52 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>通常はルーティングブロックの戻り値にセットした文字列がbodyにセットされます。  <br />
+任意の評価フローでbodyをセットしたい場合はどうすればいいでしょうか。  <br />
+Sinatraには任意の評価フローでbodyをセットできる、bodyヘルパーが用意されています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/foo&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">body</span> <span class="s2">&quot;bar&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">after</span> <span class="k">do</span>
+</span><span class="line">  <span class="nb">puts</span> <span class="n">body</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Status Codeを設定するstatusヘルパー、headerを設定するheadersヘルパーも用意されています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/foo&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">status</span> <span class="mi">418</span>
+</span><span class="line">  <span class="n">headers</span> <span class="p">\</span>
+</span><span class="line">    <span class="s2">&quot;Allow&quot;</span>   <span class="o">=&gt;</span> <span class="s2">&quot;BREW, POST, GET, PROPFIND, WHEN&quot;</span><span class="p">,</span>
+</span><span class="line">    <span class="s2">&quot;Refresh&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Refresh: 20; http://www.ietf.org/rfc/rfc2324.txt&quot;</span>
+</span><span class="line">  <span class="n">body</span> <span class="s2">&quot;I&#39;m a tea pot!&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>引数の伴わないbody, status, headersは現在の値を確認するために使えます。</p>
+
+<h3 id="streamingヘルパー">Streamingヘルパー</h3>
+
+<p>streamヘルパーを使うとおもしろいことができます。  <br />
+レスポンスボディの部分を生成している段階でデータを送信することができます。  <br />
+この仕組みを使ってストリーミングAPIを実装することもできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">stream</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
+</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;It&#39;s gonna be legen -</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; (wait for it) </span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class="line">    <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;- dary!</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下は、ストリーミングAPIのサンプルです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># app.rb</span>
+</span><span class="line"><span class="c1"># long polling</span>
+</span><span class="line">
+</span><span class="line"><span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="ss">:thin</span>
+</span><span class="line"><span class="n">connections</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class="line">
+</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/subscribe&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># register a client&#39;s interest in server events</span>
+</span><span class="line">  <span class="n">stream</span><span class="p">(</span><span class="ss">:keep_open</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
+</span><span class="line">    <span class="n">connections</span> <span class="o">&lt;&lt;</span> <span class="n">out</span>
+</span><span class="line">    <span class="c1"># purge dead connections</span>
+</span><span class="line">    <span class="n">connections</span><span class="o">.</span><span class="n">reject!</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:closed?</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">post</span> <span class="s1">&#39;/message&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">connections</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
+</span><span class="line">    <span class="c1"># notify client that a new message has arrived</span>
+</span><span class="line">    <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="n">params</span><span class="o">[</span><span class="s1">&#39;message&#39;</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class="line">
+</span><span class="line">    <span class="c1"># indicate client to connect again</span>
+</span><span class="line">    <span class="n">out</span><span class="o">.</span><span class="n">close</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1"># acknowledge</span>
+</span><span class="line">  <span class="s2">&quot;message received&quot;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ストリーミングはThinやRainbowsなどのイベント型サーバーでないと動かないので注意が必要です。</p>
+
+<p>サーバーを起動させてみます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">gem</span> <span class="n">insatall</span> <span class="n">thin</span>
+</span><span class="line"><span class="err">$</span> <span class="n">ruby</span> <span class="n">app</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>別のターミナルを開いて、以下を実行します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">curl</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="ss">localhost</span><span class="p">:</span><span class="mi">4567</span><span class="o">/</span><span class="n">subscribe</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>何もレスポンスがありませんが、接続が維持された状態となります。</p>
+
+<p>別のタブを開いて以下の実行してみましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">curl</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="ss">localhost</span><span class="p">:</span><span class="mi">4567</span><span class="o">/</span><span class="n">message</span> <span class="o">-</span><span class="n">X</span> <span class="no">POST</span> <span class="o">-</span><span class="n">d</span> <span class="s2">&quot;message=hello&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>すると、subscribeのほうにhelloと表示されて接続が切れます。  <br />
+これは、/messageのout.closeを実行しているからです。  <br />
+試しに、out.closeをコメントアウトしてサーバーを起動すると接続維持されたままになります。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -727,95 +905,6 @@ myapp_spec.rbはアプリケーションをテストするためのファイル�
   <li>[日本語]http://www.sinatrarb.com/intro-ja.html</li>
   <li>[Sinatra Recipes]http://recipes.sinatrarb.com/</li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/19/tips-for-capistrano3-unicorn/">Capistrano3-unicornを使う</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-19T17:21:17+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:21 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>capistrano3-unicornとは、capistranoでデプロイしたときにunicornのstart/restartをしてくれるgemです。<br />
-https://github.com/tablexi/capistrano3-unicorn</p>
-
-<h3 id="install">Install</h3>
-<p><code>Gemfile</code>に以下を追記して<code>bundle install</code>します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;capistrano3-unicorn&#39;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>Capfile</code>に以下を追記します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;capistrano3/unicorn&#39;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>config/deploy.rb</code>に以下を追記します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">after</span> <span class="s1">&#39;deploy:publishing&#39;</span><span class="p">,</span> <span class="s1">&#39;deploy:restart&#39;</span>
-</span><span class="line"><span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">task</span> <span class="ss">:restart</span> <span class="k">do</span>
-</span><span class="line">    <span class="n">invoke</span> <span class="s1">&#39;unicorn:restart&#39;</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>これで設定完了です。<br />
-cap deployすればunicorn restartが実行されるようになります。</p>
-
-<h3 id="注意点ポイント">注意点ポイント</h3>
-
-<p>設定していて少しわかり辛かった点があります。</p>
-
-<p>unicorn.rbがデフォルトでは<code>CURRENT_PATH/config/unicorn/RAILS_ENV.rb</code>に設定されています。  <br />
-sinatraなどのrails以外のアプリケーションの場合は、RAILS_ENVがセットされていないため、<code>CURRENT_PATH/config/unicorn/.rb</code>のようになってしまいます。<br />
-ですので、明示的に設定が必要です。  <br />
-しかし、設定方法についてドキュメントに明記されてないので少し戸惑いました。</p>
-
-<p>設定はソースを参考にしました。</p>
-
-<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L4">https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L4</a></p>
-<h4 id="unicorn_config_pathの設定">unicorn_config_pathの設定</h4>
-
-<p>以下のようにlambdaを使って設定します。  <br />
-config/unicorn.rbをunicorn_config_pathとして設定しています。  <br />
-config/deploy.rb</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:unicorn_config_path</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_path</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="s2">&quot;unicorn.rb&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
