@@ -9,9 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="最近、仕事中はポモドーロ・テクニックを使っている。
-ポモドーロ・テクニックは25分集中して5分休憩するサイクルを繰り返すことでメリハリをつけて集中力を高める手法だ。 どのようにやるのか タイマーさえあれば簡単にできる。
-私はPomodoro Timeというアプリを使っている。 やってみた感想 &hellip;">
+  <meta name="description" content="DockerはLinksというコンテナ間のネットワークを繋ぐ仕組みを持つ。
+例えば、アプリケーションコンテナとデータベースコンテナを連携して使いたいときに有用だ。
+今回はMySQLとPHPのコンテナを連携させる方法を紹介する。 MySQLコンテナの作成 まずは、mysqlコンテナを作成する。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +148,150 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/09/16/links-container-for-docker/">Dockerのコンテナ間を繋ぐLinksを使ってPHPとMySQLコンテナを連携させる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-09-16T17:37:10+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:37 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>DockerはLinksというコンテナ間のネットワークを繋ぐ仕組みを持つ。<br />
+例えば、アプリケーションコンテナとデータベースコンテナを連携して使いたいときに有用だ。<br />
+今回はMySQLとPHPのコンテナを連携させる方法を紹介する。</p>
+
+<h2 id="mysqlコンテナの作成">MySQLコンテナの作成</h2>
+
+<p>まずは、mysqlコンテナを作成する。<br />
+バックグラウンドで起動させるための <code>--detach</code>オプションと3306ポートを解放するための <code>expose</code>オプションを指定している。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker run --detach --expose=3306 --name=test-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のようにコンテナが起動していることを確認できるはずだ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">⇒  docker ps
+</span><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+</span><span class="line">b18a5159fe7c        mysql               "docker-entrypoint.sh"   1 minutes ago      Up 1 minutes       3306/tcp            test-mysql</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="phpコンテナの作成">PHPコンテナの作成</h2>
+
+<p>次にPHPコンテナを作成する。<br />
+以下のDockerfileと確認用のconnect.phpを用意しておく。</p>
+
+<p>Dockerfile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">FROM php:7.1
+</span><span class="line">RUN apt-get update
+</span><span class="line">RUN docker-php-ext-install pdo_mysql mbstring
+</span><span class="line">ADD . /app</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>connect.php</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class="line">
+</span><span class="line"><span class="nv">$dsn</span> <span class="o">=</span> <span class="s1">&#39;mysql:host=&#39;</span> <span class="o">.</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">&#39;MYSQL_PORT_3306_TCP_ADDR&#39;</span><span class="p">];</span>
+</span><span class="line"><span class="nv">$user</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="nv">$password</span> <span class="o">=</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">&#39;MYSQL_ENV_MYSQL_ROOT_PASSWORD&#39;</span><span class="p">];</span>
+</span><span class="line">
+</span><span class="line"><span class="nv">$dbh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="nv">$dsn</span><span class="p">,</span> <span class="nv">$user</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT version();&quot;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$row</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ビルドする。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">$ docker build -t mysql-php .
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のように <code>--link 連携したいコンテナ名:エイリアス名</code> でPHPコンテナを起動すると、起動したコンテナの環境変数に連携したいコンテナに関する情報が登録される。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">$ docker run -it --link test-mysql:mysql mysql-php bash
+</span><span class="line"># root@9ec43f759596:/#
+</span><span class="line"># env
+</span><span class="line">MYSQL_PORT_3306_TCP_PORT=3306
+</span><span class="line">MYSQL_PORT_3306_TCP=tcp://172.17.0.3:3306
+</span><span class="line">MYSQL_ENV_MYSQL_VERSION=5.7.15-1debian8
+</span><span class="line">MYSQL_NAME=/big_shirley/mysql
+</span><span class="line">MYSQL_PORT_3306_TCP_PROTO=tcp
+</span><span class="line">MYSQL_PORT_3306_TCP_ADDR=172.17.0.3
+</span><span class="line">MYSQL_ENV_MYSQL_MAJOR=5.7
+</span><span class="line">MYSQL_PORT=tcp://172.17.0.3:3306
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>最後にPHPのコンテナでconnect.phpを実行して接続できることを確認してみる。<br />
+version名が表示されれば成功だ。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line"># php /app/connect.php
+</span><span class="line">=&gt;
+</span><span class="line">Array
+</span><span class="line">(
+</span><span class="line">    [version()] =&gt; 5.7.15
+</span><span class="line">)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -482,53 +626,6 @@ OSはubuntu、PHPのバージョンは5.6.24で行った。</p>
 <p>「起業前夜」の次は何を読むのかというと、楡周平の「プラチナタウン」だ。<br />
 寂れた地方を元気にしていく内容の小説。<br />
 色々と学べることがありそうで楽しみだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/09/06/sql-injection/">mysql_real_escape_string()のみで防げないSQLインジェクション</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-09-06T14:26:15+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:26 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>PHPアプリのSQLインジェクション対策として、<code>mysql_real_escape_string()</code> 等があるがこれだけでは万全ではないことがあるのでメモ。</p>
-
-<p>例えば以下のSQLでは<code>mysql_real_escape_string()</code>を使っているが、脆弱性が存在する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="nv">$id</span> <span class="o">=</span> <span class="nb">mysql_real_escape_string</span><span class="p">(</span><span class="s2">&quot;1 OR 1=1&quot;</span><span class="p">);</span>
-</span><span class="line"><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM table_name WHERE id = </span><span class="si">$id</span><span class="s2">&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>mysql_real_escape_string()</code> では上記を防ぐことができない。<br />
-クエリ内の変数をシングルクォート（<code>'</code>）で囲むことで上記を防ぐことができる。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="nv">$id</span> <span class="o">=</span> <span class="nb">mysql_real_escape_string</span><span class="p">(</span><span class="s2">&quot;1 OR 1=1&quot;</span><span class="p">);</span>
-</span><span class="line"><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM table_name WHERE id = &#39;</span><span class="si">$id</span><span class="s2">&#39;&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

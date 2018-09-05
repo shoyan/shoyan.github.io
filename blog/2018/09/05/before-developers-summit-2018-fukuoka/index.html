@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>最短でビデオチャットを開発したい人へ - SHOYAN BLOG</title>
+  <title>Developers Summit 2018 FUKUOKAに登壇します - SHOYAN BLOG</title>
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。 WebRTCの概要を把握する WebRTCのコードを動かしてみる WebRTCの開発を支援するサービスを利用する 1. WebRTCの概要を把握する &hellip;">
+  <meta name="description" content="2018年9月7日にアクロス福岡で開催される Developers Summit 2018 FUKUOKA(デブサミ福岡)に登壇します。
+明日はどのような話しから入ろうかがまだ決まっていなくて、どうしようかと考えています。 発表内容は0からはじまった開発チームが、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -47,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@sinn_shoyan" />
 
 
-  <meta name="twitter:title" content="最短でビデオチャットを開発したい人へ" />
+  <meta name="twitter:title" content="Developers Summit 2018 FUKUOKAに登壇します" />
 
 
 
@@ -150,11 +151,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header>
     
       
-        <h1 class="entry-title">最短でビデオチャットを開発したい人へ</h1>
+        <h1 class="entry-title">Developers Summit 2018 FUKUOKAに登壇します</h1>
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/08/07/started-video-chat/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/08/07/started-video-chat/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka/" >Tweet</a>
   
   
   
@@ -173,7 +174,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<time class='entry-date' datetime='2018-08-07T14:23:15+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:23 pm</span></time>
+<time class='entry-date' datetime='2018-09-05T19:40:36+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>7:40 pm</span></time>
         
         
       </p>
@@ -181,62 +182,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
 
 
-<div class="entry-content"><p>ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。</p>
+<div class="entry-content"><p>2018年9月7日にアクロス福岡で開催される <a href="https://event.shoeisha.jp/devsumi/20180906" target="_blank">Developers Summit 2018 FUKUOKA</a>(デブサミ福岡)に登壇します。<br />
+明日はどのような話しから入ろうかがまだ決まっていなくて、どうしようかと考えています。</p>
 
-<ol>
-  <li><a href="#1-webrtcの概要を把握する">WebRTCの概要を把握する</a></li>
-  <li><a href="#2-webrtcのコードを動かしてみる">WebRTCのコードを動かしてみる</a></li>
-  <li><a href="#3-webrtcの開発を支援するサービスを利用する">WebRTCの開発を支援するサービスを利用する</a></li>
-</ol>
-
-<h2 id="1-webrtcの概要を把握する">1. WebRTCの概要を把握する</h2>
-
-<p>まずはWebRTCについての概要を把握しておくと、実装するときの理解が深まります。まずは、次の記事を読んでください。</p>
-
+<p>発表内容は0からはじまった開発チームが、どのようにチームとしてまとまっていき、アプリケーション開発を成功させることができたかという事例の紹介となります。</p>
 <ul>
-  <li><a href="https://gist.github.com/voluntas/67e5a26915751226fdcf" target="_blank">WebRTC コトハジメ</a></li>
+  <li><a href="https://event.shoeisha.jp/devsumi/20180906/session/1775/" target="_blank">Y!Jカード天神チームの立ち上げからこれまで</a></li>
 </ul>
 
-<p>同じタイトルですが、Qiitaのこの記事もわかりやすいです。</p>
-
-<ul>
-  <li><a href="https://qiita.com/yusuke84/items/286f569d110daede721e" target="_blank">WebRTC コトハジメ</a></li>
-</ul>
-
-<h2 id="2-webrtcのコードを動かしてみる">2. WebRTCのコードを動かしてみる</h2>
-
-<p>上記の記事を読んだら、早速コードを動かしてみましょう。コードを実際に動かしてみることで、着実にWebRTCの概念を理解していくことができます。</p>
-
-<p>次の記事で簡単にPCのカメラの映像をブラウザに表示できることが体感してください。</p>
-
-<ul>
-  <li><a href="https://html5experts.jp/mganeko/19728/" target="_blank">カメラを使ってみよう ーWebRTC入門2016</a></li>
-</ul>
-
-<p>次の記事でシグナリングの流れを掴みましょう。</p>
-
-<ul>
-  <li><a href="https://html5experts.jp/mganeko/19814/" target="_blank">手動でWebRTCの通信をつなげよう ーWebRTC入門2016</a></li>
-</ul>
-
-<h2 id="3-webrtcの開発を支援するサービスを利用する">3. WebRTCの開発を支援するサービスを利用する</h2>
-
-<p>本格的なビデオチャットを開発するのはなかなか大変です。その開発を楽にしてくれるサービスが世の中に存在します。私がおすすめするのはSkyWayというサービスです。このサービスを利用することでNAT越えなどの仕組みを自分で実装せずにすみます。日本語ドキュメントが整備されており、サービス自体も無料で試すことができます。</p>
-
-<ul>
-  <li><a href="https://webrtc.ecl.ntt.com/" target="_blank">SkyWay</a></li>
-</ul>
-
-<p>SkyWayを利用するにあたっては、次のスライドが参考になります。</p>
-
-<ul>
-  <li><a href="https://www.slideshare.net/iwashi86/skyway-how-to-use-skyway-webrtc" target="_blank">SkyWayを使いこなすために - How to use SkyWay (WebRTC)</a></li>
-</ul>
-
-<p>余談ですが、WebRTCのライブラリであるPeerJSはメンテされてないので使わない方がよいです。</p>
-<ul>
-  <li><a href="https://medium.com/@Tukimikage/peerjs%E3%82%92%E4%BB%8A%E5%BE%8C%E3%82%82%E4%BD%BF%E3%81%84%E7%B6%9A%E3%81%91%E3%82%8B%E3%81%AE%E3%81%AF%E5%8D%B1%E9%99%BA-8c3cf68d56a0" target="_blank">PeerJSを今後も使い続けるのは危険</a></li>
-</ul>
+<p>デブサミ福岡のような大きなイベントに登壇するのは今回が初めてなので、うまくできるか不安ではありますが、精一杯やりたいと思っています。もし、当日会場に来られる方がいれば是非、お声がけください。</p>
 </div>
 
 
@@ -259,15 +213,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<time class='entry-date' datetime='2018-08-07T14:23:15+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:23 pm</span></time>
+<time class='entry-date' datetime='2018-09-05T19:40:36+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>7:40 pm</span></time>
       
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/kai-fa/'>開発</a>
-  
-</span>
 
 
       <div class="margin-height-10">
@@ -288,7 +236,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/08/07/started-video-chat/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/08/07/started-video-chat/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka/" >Tweet</a>
   
   
   
@@ -300,10 +248,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2018/07/10/how-to-winning-method-dual-sweeper-custome-in-the-fujitsubo/" title="Previous Post: デュアルスイーパーカスタムのフジツボスポーツクラブの立ち回り（ガチエリア編）">&laquo; デュアルスイーパーカスタムのフジツボスポーツクラブの立ち回り（ガチエリア編）</a>
+        <a class="basic-alignment left" href="/blog/2018/08/07/started-video-chat/" title="Previous Post: 最短でビデオチャットを開発したい人へ">&laquo; 最短でビデオチャットを開発したい人へ</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2018/09/05/before-developers-summit-2018-fukuoka/" title="Next Post: Developers Summit 2018 FUKUOKAに登壇します">Developers Summit 2018 FUKUOKAに登壇します &raquo;</a>
       
     </p>
   </footer>

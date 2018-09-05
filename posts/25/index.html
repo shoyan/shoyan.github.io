@@ -9,8 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="capistrano3-unicornとは、capistranoでデプロイしたときにunicornのstart/restartをしてくれるgemです。
-https://github.com/tablexi/capistrano3-unicorn Install &hellip;">
+  <meta name="description" content="RubyといえばRuby on Railsが有名ですが、DBを使わないシンプルなアプリケーションの場合はSinatraで十分な気がします。 この記事では、SinatraのインストールとRspecでテストする方法を紹介します。 SinatraのInstall &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +146,207 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/20/try-sinatra/">SinatraのインストールとRspecでテストする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-04-20T13:53:28+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:53 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>RubyといえばRuby on Railsが有名ですが、DBを使わないシンプルなアプリケーションの場合はSinatraで十分な気がします。  <br />
+この記事では、SinatraのインストールとRspecでテストする方法を紹介します。</p>
+
+<h3 id="sinatraのinstall">SinatraのInstall</h3>
+<p>sinatra_sampleというディレクトリを作成してそこにアプリを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">mkdir sinatra_sample
+</span><span class="line">cd sinatra_sample
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Gemfileを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># Gemfile
+</span><span class="line">source 'https://rubygems.org'
+</span><span class="line">
+</span><span class="line">gem 'rake'
+</span><span class="line">gem 'sinatra'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>bundle install</code> でインストールします。</p>
+
+<h3 id="アプリケーションを作成">アプリケーションを作成</h3>
+
+<p>myapp.rbを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># my_app.rb</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;Hello world!&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のコマンドで実行します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">ruby</span> <span class="n">myapp</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ブラウザで以下にアクセスするとHello world!と表示されます。  <br />
+http://localhost:4567</p>
+
+<p>あっという間にできましたね。</p>
+
+<h3 id="rspecでテストをする">Rspecでテストをする</h3>
+
+<p>RspecでテストするためにRspecをインストールします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># Gemfile</span>
+</span><span class="line">
+</span><span class="line"><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span>
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;rspec&#39;</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;rack-test&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>bundle install</code>でインストールします。</p>
+
+<p>spec/spec_helper.rb を作成します。  <br />
+spec_helper.rbはrspecの設定を行うためのファイルです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># spec/spec_helper.rb</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;rspec&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;RACK_ENV&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span> <span class="s1">&#39;../../myapp.rb&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span>
+</span><span class="line">
+</span><span class="line"><span class="k">module</span> <span class="nn">RSpecMixin</span>
+</span><span class="line">  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">app</span><span class="p">()</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Application</span> <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="o">.</span><span class="n">include</span> <span class="no">RSpecMixin</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>spec/myapp_spec.rbを作成します。  <br />
+myapp_spec.rbはアプリケーションをテストするためのファイルです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># spec/app_spec.rb</span>
+</span><span class="line"><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span> <span class="s1">&#39;../spec_helper.rb&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span>
+</span><span class="line">
+</span><span class="line"><span class="n">describe</span> <span class="s2">&quot;My Sinatra Application&quot;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">it</span> <span class="s2">&quot;should allow accessing the home page&quot;</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">last_response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_ok</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>テストを実行してみましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rspec</span> <span class="n">spec</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">⇒</span>  <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rspec</span> <span class="n">spec</span>
+</span><span class="line"><span class="o">.</span>
+</span><span class="line">
+</span><span class="line"><span class="no">Finished</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="mo">0311</span><span class="mi">9</span> <span class="n">seconds</span> <span class="p">(</span><span class="n">files</span> <span class="n">took</span> <span class="mi">0</span><span class="o">.</span><span class="mi">20975</span> <span class="n">seconds</span> <span class="n">to</span> <span class="nb">load</span><span class="p">)</span>
+</span><span class="line"><span class="mi">1</span> <span class="n">example</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failures</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>テストが成功しました！</p>
+
+<h3 id="参考文献">参考文献</h3>
+
+<p>資料は以下を参照しました。</p>
+
+<ul>
+  <li>[英語]http://www.sinatrarb.com/intro.html</li>
+  <li>[日本語]http://www.sinatrarb.com/intro-ja.html</li>
+  <li>[Sinatra Recipes]http://recipes.sinatrarb.com/</li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -503,232 +703,6 @@ http://stackoverflow.com/questions/30604846/docker-error-no-space-left-on-device
 
 <p>VMのディスク容量がないときに発生するエラーのようだ。  <br />
 不要なコンテナがたくさんあったので、それらのコンテナを消すとエラーはでなくなった。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-03-17T00:41:01+09:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:41 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="この記事の内容">この記事の内容</h2>
-<p>PHPのコーディング規約とそれをサポートするツールの紹介です。  <br />
-座学形式で説明していきます。</p>
-
-<p>概要を知りたい場合は以下のスライドを参照ください。<br />
-<script async="" class="speakerdeck-embed" data-id="1d8ea4db4cd746b0857ab03889710555" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script></p>
-
-<h3 id="はじまりはじまり">はじまり、はじまり</h3>
-<p>みなさん、こんにちは。<br />
-PHPが大好きなプログラマことshoyanです。</p>
-
-<p>今回、PHPのコーディング規約とそれをサポートするツールの紹介をしたいと思います。</p>
-
-<h3 id="なぜ必要か">なぜ必要か</h3>
-<p>まずはなぜコーディング規約が必要なのでしょうか？</p>
-
-<p>みんなに質問してみる  <br />
-しばらく沈黙</p>
-
-<p>目のあった人に質問する  <br />
-なんか適当に答えてくれる</p>
-
-<p>ありがとうございます。<br />
-正解です。<br />
-補足として、なぜコーディング規約が必要になったかを説明します。</p>
-
-<p>そもそもコーディング規約は一人で開発する場合には必要ありません。<br />
-二人以上で開発を行う場合に必要となってきます。</p>
-
-<p>たとえば、太郎くんとドナルドさんが二人で開発をしていたとします。<br />
-太郎くんがコードレビューを依頼しました。<br />
-30分後に確認するとコメントがついていました。</p>
-
-<p>1行で書いていたif文のコードにドナルドさんからコメントがついていました。  <br />
-少し下にスクロールすると、if文のあとにスペースが必要だとコメントが入っていました。  <br />
-少し下にスクロールすると、else ifのスペースは不要だとコメントが。  <br />
-また更にその下には改行は不要とのコメントが…  <br />
-なんと全部で30個のコメントがついていたのです。  <br />
-30個のコメントの27個はコーディングスタイルに関するコメントでした。</p>
-
-<p>さて、このレビューは有益でしょうか。<br />
-お互いにとってあまり有益ではありませんね。</p>
-
-<p>じゃあ、どうしましょう。</p>
-
-<p>そこでコーディング規約です。<br />
-コーディング規約という共通のルールを作ることにより、お互いが納得できるコードを書く指標をつくります。</p>
-
-<p>さて、コーディング規約に則ったコードを書くぞ！となったとしましょう。<br />
-では、PHPのコーディング規約を探してみましょう。<br />
-ところが、PHPの本家にはコーディング規約のドキュメントがありません。</p>
-
-<p>ということは、共通ルールがないということになります。<br />
-PHPの本家はコーディングルールなんて知ったこっちゃない。<br />
-開発者が勝手にやってくれ。ということです。</p>
-
-<p>その要望に答えてPHPにはコーディング規約が乱立しています。<br />
-たとえば、以下のような感じです。</p>
-
-<ul>
-  <li>Flow Framework
-    <ul>
-      <li>
-        <p><a href="http://flowframework.readthedocs.org/en/stable/TheDefinitiveGuide/PartV/CodingGuideLines/PHP.html">http://flowframework.readthedocs.org/en/stable/TheDefinitiveGuide/PartV/CodingGuideLines/PHP.html</a></p>      </li>
-    </ul>
-  </li>
-  <li>WordPress
-    <ul>
-      <li>
-        <p><a href="https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/">https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/</a></p>      </li>
-    </ul>
-  </li>
-  <li>ZendFramework
-    <ul>
-      <li>
-        <p><a href="http://framework.zend.com/manual/1.12/en/coding-standard.coding-style.html">http://framework.zend.com/manual/1.12/en/coding-standard.coding-style.html</a></p>      </li>
-    </ul>
-  </li>
-  <li>PEAR
-    <ul>
-      <li>
-        <p><a href="https://pear.php.net/manual/en/standards.php">https://pear.php.net/manual/en/standards.php</a></p>      </li>
-    </ul>
-  </li>
-  <li>FuelPHP
-    <ul>
-      <li>
-        <p><a href="http://fuelphp.com/docs/general/coding_standards.html">http://fuelphp.com/docs/general/coding_standards.html</a></p>      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>このようにフレームワークごとにコーディングルールが定められています。</p>
-
-<p>1つのフレームワークであれば問題はありません。<br />
-しかし、2つのプロジェクトがあって、別々のフレームワークを使っていたらどうでしょう。<br />
-開発者はそれぞれのフレームワークの規約を切り替えながら開発をしないといけません。<br />
-これは考えるだけでも面倒くさそうですね。</p>
-
-<h3 id="psr">PSR</h3>
-<p>このような現状をなんとかしようと策定されたのがPSRです。  <br />
-PSRはPHP Standards Recommendations の頭文字をとったものです。  <br />
-日本語にするとPHP標準勧告です。  <br />
-PHP Framework Interop Groupが策定しています。</p>
-
-<h3 id="psrのゴール">PSRのゴール</h3>
-<blockquote>
-  <p>We’re a group of established PHP projects whose goal is to talk about commonalities between our projects and find ways we can work better together.</p>
-</blockquote>
-
-<p>要するにフレームワークに依存しないルールを作って、どのプロジェクト（どのフレームワークを使っているプロジェクト）でも<br />
-同じようにコードを書くことをできるようにしましょうということです。(意訳)</p>
-
-<p>ちなみにPSRには状態が色々あって、正式なものはACCEPTEDです。<br />
-ほかにも、DEPRECATED、REVIEW、DRAFTがあります。<br />
-以下のページで見ることができます。<br />
-http://www.php-fig.org/psr/</p>
-
-<p>StatusがACCEPTEDなPSRは1〜7があります。<br />
-その中のPSR1とPSR2をここでは紹介します。<br />
-PSR1はBasic Coding Standardが定義してあります。<br />
-PSR2はCoding Style Guideで、PSR1を拡張したものです。<br />
-詳細は以下のページをご覧ください。</p>
-
-<ul>
-  <li>
-    <p><a href="http://www.php-fig.org/psr/psr-1/">http://www.php-fig.org/psr/psr-1/</a></p>  </li>
-  <li>
-    <p><a href="http://www.php-fig.org/psr/psr-2/">http://www.php-fig.org/psr/psr-2/</a></p>  </li>
-</ul>
-
-<h3 id="php-code-snifferについて">PHP Code Snifferについて</h3>
-<p>PHPのコーディング規約をチェックするツールはいくつかありますが、ここではPHP_CodeSnifferを紹介します。</p>
-
-<p>Snifferは嗅覚性探知機という意味です。</p>
-
-<p>たとえば、捜索犬はsniffer dog 、ガス探知機はgas snifferと英語でいいます。<br />
-要するにPHP Code探索機です。</p>
-
-<p>PHP Code Snifferにはツールが2つあります。<br />
-1つめはphpcsです。</p>
-
-<p>phpcsはコーディングスタイルのチェックをするツールで、PHP Code Snifferを略したものです。<br />
-コーディングスタイルを指定することができます。<br />
-指定できるコーディングスタイルは、MySource, PEAR, PHPCS, PSR1, PSR2, Squiz and Zend です。<br />
-また、コーディングルールを自分で設定することもできます。</p>
-
-<p>実行コマンド</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">phpcs --standard=PSR2 check_file or check_dir/
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>2つめはphpcbfです。</p>
-
-<p>PHP Code Beautifier and Fixerを略したツールです。  <br />
-これは自動でコードを修正してくれるツールです。</p>
-
-<p>実行コマンド</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">phpcbf --standard=PSR2 check_file or check_dir/
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>PHP Code Snifferのいいところは、チェックと修正のツールがわかれているところです。<br />
-それにより、CIによるチェックとその修正が簡単に行えます。</p>
-
-<p>PHP Code Snifferの詳しい使い方はWikiを参照ください。  <br />
-https://github.com/squizlabs/PHP_CodeSniffer/wiki’</p>
-
-<h3 id="コーディング規約の運用">コーディング規約の運用</h3>
-
-<p>コーディング規約を運用していくにあたっての問題点はなんだと思いますか？</p>
-
-<p>しばらく沈黙</p>
-
-<p>「コーディング規約が存在してもあまり守られない」ことです。</p>
-
-<p>多分、みんな納得</p>
-
-<p>では、どうすればコーディング規約を守れるようになるでしょうか。</p>
-
-<p>CIでチェックするのが1番です。</p>
-
-<p>コーディング規約に違反しているコードがあればエラーにします。<br />
-そうすればコーディング規約を違反しているコードがmasterにマージされることはありません。</p>
-
-<p>コーディング規約の導入はプロジェクトの初期から始めるのがベストですが、<br />
-途中からでも自動修正ツールを使えば大半は修正することができます。<br />
-また、CIのプラットホームが最近は充実しているのでチェックの自動化も容易に行えます。</p>
-
-<p>実際に導入した記事を書きましたので、こちらも参考にしてください。</p>
-
-<ul>
-  <li><a href="/blog/2016/06/23/php-syntax-check/">修正した部分だけPHP構文チェックをする</a></li>
-</ul>
-
 </div>
   
   
