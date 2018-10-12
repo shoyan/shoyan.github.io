@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="RubyといえばRuby on Railsが有名ですが、DBを使わないシンプルなアプリケーションの場合はSinatraで十分な気がします。 この記事では、SinatraのインストールとRspecでテストする方法を紹介します。 SinatraのInstall &hellip;">
+  <meta name="description" content="Chefのレシピを書くとき、Dockerコンテナにレシピを流せると気軽に確認ができてよいなと思い、DockerコンテナにChefを流せるようにしてみました。 リポジトリを作ったので参考にどうぞ。 https://github.com/shoyan/nginx-and-ruby-on-docker &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,132 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/21/nginx-and-ruby-on-docker/">DockerコンテナにChefを流してみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-04-21T18:19:01+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>6:19 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Chefのレシピを書くとき、Dockerコンテナにレシピを流せると気軽に確認ができてよいなと思い、DockerコンテナにChefを流せるようにしてみました。</p>
+
+<p>リポジトリを作ったので参考にどうぞ。  <br />
+https://github.com/shoyan/nginx-and-ruby-on-docker</p>
+
+<h3 id="install">Install</h3>
+<p>DockerとChefをインストールしている必要があるので、以下からインストールしてください。</p>
+
+<p>Docker</p>
+
+<ul>
+  <li>
+    <p><a href="https://www.docker.com/products/docker-toolbox">https://www.docker.com/products/docker-toolbox</a></p>  </li>
+</ul>
+
+<p>Chef</p>
+
+<ul>
+  <li>
+    <p><a href="https://downloads.chef.io/chef-client/">https://downloads.chef.io/chef-client/</a></p>  </li>
+</ul>
+
+<h3 id="dockerコンテナにchefを流す">DockerコンテナにChefを流す</h3>
+<p>まずは、Docker QuickStart TerminalをクリックしてDockerを起動します(アプリケーションにあります)。</p>
+
+<p>Dockerを起動したらNginxとrubyをインストールするCookbookを実行します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ git clone https://github.com/shoyan/nginx-and-ruby-on-docker
+</span><span class="line">$ cd nginx-and-ruby-on-docker
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のコマンドでimageをbuildします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker build -t nginx-and-ruby .
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>imageを確認</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$  docker images
+</span><span class="line">REPOSITORY             TAG                            IMAGE ID            CREATED             SIZE
+</span><span class="line">nginx-and-ruby         latest                         6b4d5602119f        36 seconds ago      382.2 MB
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Dockerのコンテナを起動します。  <br />
+image_idは docker imagesのIMAGE IDを指定します。  <br />
+今回の場合は6b4d5602119fです(場合により変わります)。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker run --privileged -d --name nginx-and-ruby image_id /sbin/init
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>–privilegedはCentOS7のimageでserviceコマンドを起動するおまじないです。  <br />
+<a href="http://shoyan.github.io/blog/2016/04/14/start-systemctl-on-docker/">Dockerでsystemctlでserviceが起動できない</a></p>
+
+<p>起動したDockerのコンテナにログインします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker exec -it nginx-and-ruby bash
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ログインしたらDockerコンテナでChefを実行します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># chef-client -z -j nodes/bootstrap.json -c client.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Dockerを使うとChefを実行→コンテナを消す→真っさらな状態からもう一度Chefを流すというサイクルが気軽にできるので便利です。</p>
+
+<p>もう一度真っさらな状態のコンテナを作りたいときは、以下のようにします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ doker ps
+</span><span class="line">CONTAINER ID        IMAGE                  COMMAND              CREATED             STATUS                        PORTS                                           NAMES
+</span><span class="line">17a11c4b6ce8        6b4d5602119f           "/sbin/init"         2 hours ago         Exited (137) 12 seconds ago                                                   nginx-and-ruby
+</span><span class="line">
+</span><span class="line"># Dockerコンテナを消す
+</span><span class="line">$ docker rm -f 17a11c4b6ce8
+</span><span class="line">
+</span><span class="line"># dockerコンテナを起動する
+</span><span class="line">$ docker run --privileged -d --name nginx-and-ruby image_id /sbin/init
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://github.com/shoyan/nginx-and-ruby-on-docker">https://github.com/shoyan/nginx-and-ruby-on-docker</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -649,60 +775,6 @@ nameを’site’と変更してやることでうまくいくようになった
 <ul>
   <li><a href="https://github.com/shoyan/nginx-and-ruby-on-docker">nginx-and-ruby-on-docker</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/13/no-space-left-on-device-on-docker/">Dockerでno Space Left on Deviceが出てbuildできなくなった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-13T16:14:05+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:14 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Dockerのbuild時に以下のエラーが発生するようになった。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$  docker build -t docker-and-chef .
-</span><span class="line">Sending build context to Docker daemon 131.6 kB
-</span><span class="line">Error response from daemon: mkdir /mnt/sda1/var/lib/docker/tmp/docker-builder670782655: no space left on device
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>PCを再起動してみても直らず、どうしたものかとググっていたら以下の情報を見つけた。<br />
-http://stackoverflow.com/questions/30604846/docker-error-no-space-left-on-device</p>
-
-<p>やることは以下</p>
-
-<ul>
-  <li><code>docker ps -a</code>して表示されたコンテナを消す。</li>
-  <li><code>docker images</code> して表示されたイメージを消す。</li>
-</ul>
-
-<p>コンテナは<code>docker rm container_id</code>で消すことができる。  <br />
-イメージは<code>docker rim image_id</code>で消すことができる。</p>
-
-<p>VMのディスク容量がないときに発生するエラーのようだ。  <br />
-不要なコンテナがたくさんあったので、それらのコンテナを消すとエラーはでなくなった。</p>
 </div>
   
   

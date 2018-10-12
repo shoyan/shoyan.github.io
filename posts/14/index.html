@@ -9,9 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="RubotyはhubotクローンでRubyで書けるbotです。
-このチュートリアルではRubotyのインストールとプラグインの作成方法を紹介します。
-冗長な説明をあえて除きRubotyを動かすために重要な部分のみ解説することでスピーディにRubotyを動作できるようにしています。 &hellip;">
+  <meta name="description" content="前回はRubotyのインストールとプラグインチュートリアルでRubotyの導入方法を紹介しました。
+今回はRubotyをSlackで動かす方法を紹介します。 RubotyにはSlackアダプターが用意してありますが、新しくユーザーの作成が必要です。
+ユーザーの作成が必要のない、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +148,79 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/02/ruboty-and-slack/">Botsインテグレーションを使って手軽にRubotyをSlackで動かす</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-02T13:40:25+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>1:40 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前回は<a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a>でRubotyの導入方法を紹介しました。<br />
+今回はRubotyをSlackで動かす方法を紹介します。</p>
+
+<p>RubotyにはSlackアダプターが用意してありますが、新しくユーザーの作成が必要です。<br />
+ユーザーの作成が必要のない、Botsインテグレーションと<a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a>を使ってRubotyをSlackで動かす方法を紹介します。</p>
+
+<h2 id="ruboty-slack_rtmのインストール">ruboty-slack_rtmのインストール</h2>
+
+<p>Gemfileに以下を定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem "ruboty-slack_rtm"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>bundle install</code> コマンドでインストールします。</p>
+
+<h2 id="slackのbotsインテグレーションを設定する">SlackのBotsインテグレーションを設定する</h2>
+
+<p>Slackの管理画面でBotsインテグレーションを登録します。</p>
+
+<p><img src="/images/bots-integration.png" alt="bots-integration" /></p>
+
+<p>登録するとTokenが発行されるので、そのTokenをSLACK_TOKENという名前で環境変数に設定します。<br />
+Rubotyは dotenv に対応しているので、<code>.env</code> ファイルを作成し、そこにTOKENを登録しておくと便利です。</p>
+
+<p>.env</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">SLACK_TOKEN=&lt;slack token&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Ruboty を起動します。<code>.env</code> ファイルを読み込むように <code>—dotenv</code> オプションをつけて起動します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bundle exec ruby --dotenv</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>起動すると SlackのRubotyがログインマークに変わります。</p>
+
+<p>あとは、チャンネルにinviteすればSlackでRubotyが使えます！<br />
+ちなみにrubotyではなく、Botsインテグレーションで登録したユーザー名に反応します。</p>
+
+<h3 id="関連記事">関連記事</h3>
+
+<ul>
+  <li><a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -533,72 +606,6 @@ CircleCIにアカウントを作って、CIを行うリポジトリを設定す�
 <ul>
   <li><a href="https://circleci.com/docs/configuration/">Configuring CircleCI - CircleCI</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/21/remember-scrum/">3年経ってスクラムをふりかえる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-07-21T18:41:04+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>6:41 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>一時期のスクラムムーブメントは一体なんだったのか。<br />
-最近はスクラムマスターやファシリテーター、振り返りなどのスクラム用語をめっきりと聞かなくなった。</p>
-
-<p>私のチームではスクラムの最後のプラクティスである朝会さえもなくなった。<br />
-結果、それで困っているかというとそんなことはない。</p>
-
-<p>スクラムムーブメントを振り返ってみたいと思う。</p>
-
-<h3 id="スクラム黎明期">スクラム黎明期</h3>
-
-<p>スクラムが流行り始めたのは2013年頃だったと思う。<br />
-次々と新しいスクラム本が出版され、私もSCRUM BOOT CAMP THE BOOKやアジャイルサムライを読んでスクラムの手法について勉強した。<br />
-会社ではスクラムの講習が開かれ、スクラムマスターやプロダクトオーナーを決めたりもした。</p>
-
-<p>私のチームでは朝会と夕会を行い、カンバンでタスクを見える化し、プロジェクトの前には見積もりをチームで行い、定期的にふりかえりを行った。<br />
-スクラムマスターとプロダクトオーナーを決めて、スクラムのプラクティスを実践していた。</p>
-
-<h3 id="スクラム暗黒時代">スクラム暗黒時代</h3>
-
-<p>うまくいっているように思われたスクラムだが、雲行きが怪しくなってきた。<br />
-スクラムのやり方に縛られ、チームの雰囲気がギクシャクしたものになってきたのだ。<br />
-定例のふりかえりでは発言が出ず、議論も深まることなく、時間の無駄に思えた。</p>
-
-<h3 id="スクラムとはなんだったのか">スクラムとはなんだったのか</h3>
-
-<p>わずか3年でスクラムは姿を消してしまった。<br />
-誤解のないように言っておくが、スクラム自体がダメではないということである。<br />
-実際にスクラムを導入して成果をあげているチームもあるだろう。<br />
-実際によい時期もあったと思う。</p>
-
-<p>スクラムとは手法であり、その内容は主に人同士のコミュニケーションを増やすためのものだ。<br />
-よって、人同士のコミュニケーションがうまくいかないと当然スクラムもうまくいかない。<br />
-また、コミュニケーションが増えるにあたりMTGなどの時間が増えてしまう問題がある。<br />
-そのコストは無視できるほど小さくない。</p>
-
-<p>スクラムは悪くない。<br />
-しかし、スクラムは難しい。</p>
 </div>
   
   
