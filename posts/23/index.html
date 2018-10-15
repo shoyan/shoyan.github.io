@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Chefでよく使われるknifeコマンドですが、そのプラグインであるknife zeroを使ってレシピを適用する方法を紹介します。 knife zeroはknifeプラグインで、リモートnode上でchef-clientを実行するツールです。 リモートnodeとはchefを適用するサーバー( &hellip;">
+  <meta name="description" content="Sinatraには not_foundハンドラとerrorハンドラの2つのハンドラが用意されています。 not_foundハンドラは404エラーを補足するためのエラーハンドラです。 errorハンドラは様々なエラーを補足するためのエラーハンドラです。 Not Foundハンドラ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,159 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/12/error-handling-sinatra/">Sinatraのエラーハンドリング</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-12T13:29:14+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:29 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sinatraには not_foundハンドラとerrorハンドラの2つのハンドラが用意されています。  <br />
+not_foundハンドラは404エラーを補足するためのエラーハンドラです。  <br />
+errorハンドラは様々なエラーを補足するためのエラーハンドラです。</p>
+
+<h2 id="not-foundハンドラ">Not Foundハンドラ</h2>
+
+<p>not_foundハンドラは404エラーを補足するためのエラーハンドラです。  <br />
+<code>Sinatra::NotFound</code>が発生したとき、またはステータスコードが404のときは not_foundハンドラが実行されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">not_found</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;This is nowhere to be found.&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="errorハンドラ">Errorハンドラ</h2>
+
+<p>errorハンドラは様々なエラーを補足するためのエラーハンドラです。  <br />
+例外オブジェクトにはRack変数の sinatra.error でアクセスできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;Sorry there was a nasty error - &#39;</span> <span class="o">+</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;sinatra.error&#39;</span><span class="o">].</span><span class="n">message</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下の設定をすると、environmentがDevelopmentのときにブラウザにスタックトレースを表示することができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:show_exceptions</span><span class="p">,</span> <span class="ss">:after_handler</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>エラー固有の制御もできます。<br />
+MyCustomeErrorのエラーハンドリングをしたいときは以下のように定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="no">MyCustomError</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;So what happened was...&#39;</span> <span class="o">+</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;sinatra.error&#39;</span><span class="o">].</span><span class="n">message</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>raiseでエラーを発生させるようにしてみます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="k">raise</span> <span class="no">MyCustomError</span><span class="p">,</span> <span class="s1">&#39;something bad&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 以下のようにレスポンスが返ります。</span>
+</span><span class="line">
+</span><span class="line"><span class="no">So</span> <span class="n">what</span> <span class="n">happened</span> <span class="n">was</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="n">something</span> <span class="n">bad</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ステータスコードを指定してエラーハンドリングを行う方法もあります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="mi">403</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;Access forbidden&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>レンジの指定も可能です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="mi">400</span><span class="o">.</span><span class="n">.</span><span class="mi">510</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;Boom&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="errorハンドラにerrorコードを指定しなかった場合は何を補足するのか">errorハンドラにerrorコードを指定しなかった場合は何を補足するのか</h3>
+<p>errorハンドラにerrorコードを指定しなかった場合は、Exceptionを補足します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="o">*</span><span class="n">codes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class="line">    <span class="n">args</span>  <span class="o">=</span> <span class="n">compile!</span> <span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="sr">/.*/</span><span class="p">,</span> <span class="n">block</span>
+</span><span class="line">    <span class="n">codes</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="nb">Array</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span><span class="o">.</span><span class="n">flatten</span>
+</span><span class="line">    <span class="n">codes</span> <span class="o">&lt;&lt;</span> <span class="no">Exception</span> <span class="k">if</span> <span class="n">codes</span><span class="o">.</span><span class="n">empty?</span> <span class="c1">#errorコードの指定がない場合</span>
+</span><span class="line">    <span class="n">codes</span> <span class="o">&lt;&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">NotFound</span> <span class="k">if</span> <span class="n">codes</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</span><span class="line">    <span class="n">codes</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="p">(</span><span class="vi">@errors</span><span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[]</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">args</span> <span class="p">}</span>
+</span><span class="line">  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L1287">https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L1287</a></p>
+<p>その他の例外は補足しません。  <br />
+例えばExceptionのサブクラスであるStandardErrorは拾ってくれません。  <br />
+ですので、明示的にerrorコードを指定しておいたほうがよいです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="mi">500</span> <span class="k">do</span>
+</span><span class="line">  <span class="s1">&#39;Sorry there was a nasty error - &#39;</span> <span class="o">+</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;sinatra.error&#39;</span><span class="o">].</span><span class="n">message</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="参考文献">参考文献</h2>
+
+<ul>
+  <li>
+    <p><a href="http://www.sinatrarb.com/intro.html#Error%20Handling">http://www.sinatrarb.com/intro.html#Error%20Handling</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -556,129 +709,6 @@ usedが0なのでスワップ領域は使われていないことになります
 Studyplusを使うようになってから英語の勉強時間を把握できるようになりました。  <br />
 勉強時間が少ないことがわかったので、もっと勉強しなければと意識しだしました。  <br />
 おかげで勉強時間が増えました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra/">RACK_ENVとUnicorn、SinatraでのRACK_ENVの扱いと注意点</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-02T14:14:29+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:14 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>RACK_ENVについて調べた内容とUnicorn、SinatraでのRACK_ENVの扱い方や注意点をまとめました。  <br />
-RACK_ENVとはRACKの環境変数です。  <br />
-何を設定するかによって使用するmiddlewareが変わります。  <br />
-RACK_ENVには、<code>development</code>、<code>deployment</code>、<code>none</code>の3種類があります。</p>
-
-<p>以下がそれぞれのRACK_ENVで使われるmiddlewareです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#       - development: CommonLogger, ShowExceptions, and Lint
-</span><span class="line">#       - deployment: CommonLogger
-</span><span class="line">#       - none: なし
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p><a href="https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157">https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157</a></p>
-<p><code>development</code>と<code>deployment</code>に該当しない場合はmiddlewareは何も使われないようです。</p>
-
-<p><a href="https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L228">https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L228</a></p>
-<p>ここを間違えて<code>production</code>と設定する例を時々見るのですが、<code>production</code>は存在しないので、<code>none</code>と同じ挙動となります。<br />
-capistrano3-unicornのソースコードを見てみると、<code>production</code>を指定した場合<code>deployment</code>を設定するようになっていました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:unicorn_rack_env</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:rails_env</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="p">?</span> <span class="s2">&quot;development&quot;</span> <span class="p">:</span> <span class="s2">&quot;deployment&quot;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7">https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7</a></p>
-<p>unicornはちょっと挙動を変えていて、<code>development</code>と<code>deployment</code>のときは ShowExceptionsとLintは読み込まないようです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="k">case</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RACK_ENV&quot;</span><span class="o">]</span>
-</span><span class="line">  <span class="k">when</span> <span class="s2">&quot;development&quot;</span>
-</span><span class="line">  <span class="k">when</span> <span class="s2">&quot;deployment&quot;</span>
-</span><span class="line">    <span class="n">middleware</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:ShowExceptions</span><span class="p">)</span>
-</span><span class="line">    <span class="n">middleware</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:Lint</span><span class="p">)</span>
-</span><span class="line">  <span class="k">else</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">inner_app</span>
-</span><span class="line">  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p><a href="https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79">https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79</a></p>
-<h3 id="sinatraの環境変数">Sinatraの環境変数</h3>
-
-<p>SinatraはRACK_ENVとenvironmentという環境変数が2つありややこしいです。  <br />
-基本的には、environmentを定義して使います。  <br />
-異なる環境で実行したい場合、RACK_ENVを指定することができます(これが混乱のもと)。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">異なる環境を走らせるには、RACK_ENV環境変数を設定します。
-</span><span class="line">RACK_ENV=production ruby my_app.rb
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p><a href="https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments">https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments</a></p>
-<p><code>set :environment, :production</code> と定義して、<code>RACK_ENV=development ruby my_app.rb</code> を実行してみました。  <br />
-このときの <code>settings.production?</code>の戻り値は何になるでしょうか。  <br />
-trueとなり、productionと判定されます。  <br />
-set :environmentで指定されたもので判定されるようです。</p>
-
-<p>まとめると以下のような挙動になります。</p>
-
-<ul>
-  <li>set :environment が指定されているときは指定された値が使われる</li>
-  <li>set :environment が指定されていないときは RACK_ENVが使われる</li>
-  <li>set :environment も RACK_ENVも指定されていないときは developmentになる</li>
-</ul>
-
-<p>ここで1つ気になることがでてきました。  <br />
-capistrano3-unicornを使った場合は、RACK_ENVはdeploymentが指定されます。  <br />
-Sinatraで <code>set :environment</code> を設定しなかった場合はRACK_ENVの値が優先されます。  <br />
-ということは、本番環境でも<code>settings.production?</code>がfalseとなってしまいます。  <br />
-これは意図しない挙動ですね。  <br />
-また、テンプレートのキャッシュについても効かなくなってしまいます。</p>
-
-<h3 id="まとめ">まとめ</h3>
-<p>Sinatraではset :environment を明示的に指定しましょう。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:environment</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RACK_ENV&quot;</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot;deployment&quot;</span><span class="p">?</span> <span class="ss">:production</span> <span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RACK_ENV&quot;</span><span class="o">].</span><span class="n">to_sym</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="参考文献">参考文献</h2>
-<ul>
-  <li>
-    <p><a href="https://blog.kksg.net/posts/unicorn-environment">https://blog.kksg.net/posts/unicorn-environment</a></p>  </li>
-  <li>
-    <p><a href="http://unicorn.bogomips.org/unicorn_1.html#TOC">http://unicorn.bogomips.org/unicorn_1.html#TOC</a></p>  </li>
-  <li>
-    <p><a href="https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments">https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments</a></p>  </li>
-</ul>
-
 </div>
   
   

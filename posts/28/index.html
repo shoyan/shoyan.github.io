@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Slackは使っていますか？ 僕は会社やプライベートはもっぱらSlackを使っています。 SlackにはAPIが備わっていて、APIを使えばSlack通知が簡単にできます。 今回はRubyでSlackに通知する方法を紹介します。 RubyでSlack通知をするには、以下の作業が必要です。 &hellip;">
+  <meta name="description" content="@keita_kawamotoが天気予報を見ずに出社して、途中で雨に降られて困っていたので天気予報通知をつくってみました。 Herokuでスケジューラーに登録してSlackに通知するようにしています。 ソースコードは公開しているので参考にどうぞ。 天気情報を取得する &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,282 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/06/weather-notify-slack-on-heroku/">天気予報をSlackに通知する on Heroku</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-06T16:12:17+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:12 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://twitter.com/keita_kawamoto">@keita_kawamoto</a>が天気予報を見ずに出社して、途中で雨に降られて困っていたので天気予報通知をつくってみました。  <br />
+Herokuでスケジューラーに登録してSlackに通知するようにしています。</p>
+
+<p><img src="/images/weather-notify-slack.png" alt="weather-nitify-slack" /></p>
+
+<p><a href="https://github.com/shoyan/slack-weather-notifier">ソースコード</a>は公開しているので参考にどうぞ。</p>
+
+<h2 id="天気情報を取得する">天気情報を取得する</h2>
+
+<p>天気情報の取得は<a href="http://weather.livedoor.com/weather_hacks/webservice">weather_hacks</a>のAPIを利用しました。  <br />
+APIはjsonでレスポンスが返されます。</p>
+
+<p>以下、サンプルコードです。</p>
+
+<p>slack-weather-notifier.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">uri</span> <span class="o">=</span> <span class="s1">&#39;http://weather.livedoor.com/forecast/webservice/json/v1?city=400010&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">res</span>     <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class="line"><span class="n">title</span>   <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">link</span>    <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;link&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">weather</span> <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;forecasts&#39;</span><span class="o">].</span><span class="n">first</span>
+</span><span class="line"><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">#{</span><span class="n">weather</span><span class="o">[</span><span class="s1">&#39;date&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">の</span><span class="si">#{</span><span class="n">title</span><span class="si">}</span><span class="s2">](</span><span class="si">#{</span><span class="n">link</span><span class="si">}</span><span class="s2">)は「</span><span class="si">#{</span><span class="n">weather</span><span class="o">[</span><span class="s1">&#39;telop&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">」です。&quot;</span>
+</span><span class="line"><span class="nb">puts</span> <span class="n">message</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ターミナルで<code>ruby slack-weather-notifier.rb</code> と実行すると、今日の天気の情報が表示されます。</p>
+
+<h2 id="slackに通知する">Slackに通知する</h2>
+
+<p>天気情報の取得ができたので、次はSlackに通知します。  <br />
+Slackの通知にはIncoming WebHooksを使います。  <br />
+Incoming WebHooksを使うには、Webhook URLの発行が必要です。</p>
+
+<p>Slackの設定画面にアクセスします。  <br />
+<code>https://example.slack.com/services/new/incoming-webhook</code>  <br />
+<code>example.slack.com</code>は自分のSlack Teamのドメインをいれてください。</p>
+
+<p>通知先のチャンネルを選んで、Add Incoming Webhooks Integrationのボタンを押すと発行されます。</p>
+
+<p><img src="/images/slack-setting-example.png" alt="slack-setting-example.png" /></p>
+
+<p>設定画面でWebhook URLが確認できます。  <br />
+このURLにPOSTすると、Slackに通知できるようになります。</p>
+
+<p>Customize NameやCustomize Iconを変更すると、通知するbotの名前やアイコンが変更できます。</p>
+
+<p><img src="/images/slack-setting-example2.png" alt="slack-setting-example2.png" /></p>
+
+<p>では、通知をしてみましょう。  <br />
+通知は<a href="https://github.com/shoyan/slack-incoming-webhooks">slack-incoming-webhooks</a>というgemを使うと簡単にできるので、今回はそれを使います。</p>
+
+<h3 id="slack-incoming-webhooks-をインストール">slack-incoming-webhooks をインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">slack</span><span class="o">-</span><span class="n">incoming</span><span class="o">-</span><span class="n">webhooks</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>先ほどのスクリプトにslack通知の設定を追加します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;slack/incoming/webhooks&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">uri</span> <span class="o">=</span> <span class="s1">&#39;http://weather.livedoor.com/forecast/webservice/json/v1?city=400010&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">res</span>     <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class="line"><span class="n">title</span>   <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">link</span>    <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;link&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">weather</span> <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;forecasts&#39;</span><span class="o">].</span><span class="n">first</span>
+</span><span class="line">
+</span><span class="line"><span class="n">slack</span> <span class="o">=</span> <span class="no">Slack</span><span class="o">::</span><span class="no">Incoming</span><span class="o">::</span><span class="no">Webhooks</span><span class="o">.</span><span class="n">new</span> <span class="s2">&quot;webhook_url&quot;</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">post</span> <span class="s2">&quot;&lt;</span><span class="si">#{</span><span class="n">link</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">weather</span><span class="o">[</span><span class="s1">&#39;date&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">の</span><span class="si">#{</span><span class="n">title</span><span class="si">}</span><span class="s2">&gt;は「</span><span class="si">#{</span><span class="n">weather</span><span class="o">[</span><span class="s1">&#39;telop&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">」です。&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ターミナルで<code>ruby slack-weather-notifier.rb</code> と実行してみましょう。  <br />
+Slackに通知されれば成功です。</p>
+
+<h2 id="herokuでappを作成">HerokuでAppを作成</h2>
+<p>さて、天気情報とSlack通知ができるようになりました。  <br />
+これが定期的に実行できれば便利ですね。</p>
+
+<p>Herokuを使えば無料でスクリプトを定期実行できます。  <br />
+Herokuでアカウントを作成します。  <br />
+https://signup.heroku.com/</p>
+
+<p>アカウント登録をしたら、Toolbeltをインストールします。  <br />
+Toolbeltは、Herokuをコマンドラインから利用できるようになるツールです。  <br />
+https://toolbelt.heroku.com/</p>
+
+<p>次に認証を行います。  <br />
+ターミナルに<code>heroku login</code>とコマンドを入力します。  <br />
+メールアドレスとパスワードが聞かれるので、先ほどHerokuで登録したメールアドレスとパスワードを入力してください。</p>
+
+<h2 id="アプリを作成">アプリを作成</h2>
+<p>アプリケーションを登録しましょう。</p>
+
+<p>Herokuにデプロイするには、Gitを使ってリモートリポジトリへプッシュする必要があるので、Gitの登録を行います。</p>
+
+<p>ここでは、slack-weather-notifierというディレクトリを作成し、そこに先ほどのファイルを作成し、Gitで管理します。</p>
+
+<p>また、Herokuでslack-incoming-webhooks gemを使うためにGemfileでgemを管理します。  <br />
+slack-weather-notifierディレクトリの直下にGemfileを作成します。</p>
+
+<p>Gemfile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">gem</span> <span class="s1">&#39;slack-incoming-webhooks&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ターミナルで <code>bundle install</code>と実行すると、gemがインストールされ、Gemfile.lockファイルが作成されます。</p>
+
+<p>もし、bundlerをインストールしていない場合は、 <code>gem install bundler</code> でインストールしてください。</p>
+
+<p>以下のような構成になります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">slack</span><span class="o">-</span><span class="n">weather</span><span class="o">-</span><span class="n">notifier</span>
+</span><span class="line"><span class="err">├──</span> <span class="no">Gemfile</span>
+</span><span class="line"><span class="err">├──</span> <span class="no">Gemfile</span><span class="o">.</span><span class="n">lock</span>
+</span><span class="line"><span class="err">└──</span> <span class="n">slack</span><span class="o">-</span><span class="n">weather</span><span class="o">-</span><span class="n">notifier</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Webhook Urlは外部に公開すべきではないので、環境変数に登録して、それを使うようにします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;slack-incoming-webhooks&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">uri</span> <span class="o">=</span> <span class="s1">&#39;http://weather.livedoor.com/forecast/webservice/json/v1?city=400010&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">res</span>     <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class="line"><span class="n">title</span>   <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">link</span>    <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;link&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">weather</span> <span class="o">=</span> <span class="n">res</span><span class="o">[</span><span class="s1">&#39;forecasts&#39;</span><span class="o">].</span><span class="n">first</span>
+</span><span class="line">
+</span><span class="line"><span class="n">slack</span> <span class="o">=</span> <span class="no">Slack</span><span class="o">::</span><span class="no">Incoming</span><span class="o">::</span><span class="no">Webhooks</span><span class="o">.</span><span class="n">new</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;WEBHOOK_URL&#39;</span><span class="o">]</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">post</span> <span class="s2">&quot;&lt;</span><span class="si">#{</span><span class="n">link</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">weather</span><span class="o">[</span><span class="s1">&#39;date&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">の</span><span class="si">#{</span><span class="n">title</span><span class="si">}</span><span class="s2">&gt;は「</span><span class="si">#{</span><span class="n">weather</span><span class="o">[</span><span class="s1">&#39;telop&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">」です。&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Gitに登録しましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">git</span> <span class="n">init</span>
+</span><span class="line"><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class="line"><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;first commit&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Herokuにpushします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">heroku</span> <span class="n">master</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>WEBHOOK URLを登録します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">heroku config:set <span class="nv">WEBHOOK_URL</span><span class="o">=</span>ここにwebhook_urlを入力
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="スケジューラーを登録">スケジューラーを登録</h2>
+<h3 id="カード登録">カード登録</h3>
+<p>スケジューラーを利用するにはカード登録が必要です。  <br />
+無料利用枠を超過した場合は料金が発生しますが、数秒で終わるスクリプトなので大丈夫です。</p>
+
+<p>以下でカードを登録できます。  <br />
+https://dashboard.heroku.com/account/billing</p>
+
+<h3 id="スケジューラーを登録-1">スケジューラーを登録</h3>
+<p>カード登録ができたらAdd-onsにスケジューラーを追加します。</p>
+
+<p>以下のコマンドでコンソールから登録できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">heroku addons:add scheduler:standard
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>またはaddonページから登録してください。  <br />
+https://addons.heroku.com/scheduler</p>
+
+<h3 id="スケジュール管理画面を開く">スケジュール管理画面を開く</h3>
+<p><a href="https://heroku-scheduler.herokuapp.com/dashboard">https://heroku-scheduler.herokuapp.com/dashboard</a></p>
+<p>コンソールからも開けます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>heroku addons:open scheduler
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="スケジューラーの設定">スケジューラーの設定</h3>
+<p>Select an appで登録したアプリケーションを選び ‘Add Standard for free’ のボタンをクリックすると登録できます。  <br />
+登録したら、ダッシュボードのアプリケーションのページのAdd-onsにHeroku Schedulerが表示されています。</p>
+
+<p>クリックすると、設定ページに飛ぶので、コマンドと時間を登録します。  <br />
+ちなみに時間はUTCなので気をつけてください。  <br />
+0:00で登録すると日本時間の9:00に通知されます。</p>
+
+<p><img src="/images/heroku-scheduler.png" alt="heroku-scheduler" /></p>
+
+<p><a href="https://github.com/shoyan/slack-weather-notifier">ソースコード</a>は公開しているので参考にどうぞ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -714,43 +990,9 @@ run_specは全てのテストが成功したら0を返す。<br />
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/29/rails-new-without-db/">RailsをDBなしで使う</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-29T15:12:27+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:12 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>RailsはデフォルトではDBを利用する設定になっているので、普通にrails newすると、Gemfileにsqlite3が定義されたりdatabase.ymlが作成されてしまいます。</p>
-
-<p>DBなしでRailsを使いたい場合は、以下のコマンドを実行します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>rails new application_name -O
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/29">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     

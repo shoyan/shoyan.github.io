@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="技術書は少しずつ書いて有料で公開する。これが、これからの技術書の書き方だと思います。具体的な例としては「はじめるSpring Boot 2」があります。 @Makingさんの記事「紙媒体の技術書を書きたくないです…」に書かれているように技術書を書くには膨大な時間が必要です。 &hellip;">
+  <meta name="description" content="ここ最近は週に1回ほどリモートワークで働いています。プログラミングであればリモートワークで問題ないです。 リモートワークの利点として会議に出なくていいことがあります。会社にいると何かと会議に招集されて時間や集中力が奪われてしまいますが、リモートワークであればその心配はありません。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/06/28/about-remote-work/">リモートワークは効率が悪いはウソ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-06-28T14:42:53+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:42 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ここ最近は週に1回ほどリモートワークで働いています。プログラミングであればリモートワークで問題ないです。</p>
+
+<p>リモートワークの利点として会議に出なくていいことがあります。会社にいると何かと会議に招集されて時間や集中力が奪われてしまいますが、リモートワークであればその心配はありません。本当に出る必要がある会議であればリモートで参加すればいいですし、多くの場合は対面で話さずともドキュメントベースのコミュニケーションで事足ります。</p>
+
+<p>ほかにも通勤時間が不要になることで1日に余裕ができるメリットがあります。私は往復で通勤時間に2時間が必要です。リモートワークにすればこの2時間が自由に使えるようになります。通勤時間がない分、早めに仕事を切り上げてその後の時間は子供と遊んだりできます。</p>
+
+<p>リモートワークだと集中できない、生産性が下がるという意見がありますが、実際にやってみるとそんなデメリットはありませんでした。オフィスより家の方が集中できます。なぜなら、集中するには静かな場所が必要だからです。テレビがついているような騒がしい場所で集中することは難しいのです。オフィスはテレビがついている部屋と大して変わらないと思います。</p>
+
+<p>リモートワーク導入で生産性が下がるのではないかという意見もありますが、そんなことはありません。通勤時間がなくなるうえ、集中できる環境であれば生産性が上がるのは当然でしょう。コミュニケーションが必要な時はSlackなどのツールを利用すればよいです。ただし、100％リモートワークとなるとコミュニケーションの問題が出てくるであろうというのはわかります。ですので、オフィスワークとリモートワークのハイブリットがバランスがよいのではないでしょうか。</p>
+
+<p>頑張って残業するよりリモートワークを取り入れましょう。そのほうが生産性があがり社員の満足度もあがりますよ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -313,133 +353,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p>設計書は分析する人と実装する人が違う場合のみに必要です。また、仮に必要だとしても設計書自体に価値はないため、最低限の時間で作るべきものです。</p>
 
 <p>時間は有限です。であれば、価値のあることに時間を使いましょう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/20/usage-pmd/">PMDでJavaのコードのバグをチェックする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-03-20T18:41:09+09:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:41 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなる<a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD</a>を紹介します。PMDを使えばバグの原因となりそうなコードを検知することができるため、不具合を未然に防ぐことが可能です。</p>
-
-<h2 id="pmdとは">PMDとは</h2>
-
-<p>PMDは次の4つの問題があるコードを検知することができるツールです。</p>
-
-<ul>
-  <li>Possible bugs - バグの要因となるコード</li>
-  <li>Dead code - 使われていないコード</li>
-  <li>Suboptimal code - 効率の悪いコード</li>
-  <li>Overcomplicated expressions - 複雑な構文</li>
-</ul>
-
-<p>PMD自体はJavaで実装されていますが、Java以外の言語にも対応しています。今回はJavaのコードを対象に使い方を紹介します。</p>
-
-<h2 id="pmdのインストール方法">PMDのインストール方法</h2>
-
-<h3 id="homebrewでインストールする">Homebrewでインストールする</h3>
-
-<p>Macであれば、次のコマンドでインストールできます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">brew install pmd</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="バイナリをダウンロードする">バイナリをダウンロードする</h3>
-
-<p>バイナリをダウンロードしてインストールすることができます。次のページからダウンロードしてください。</p>
-
-<ul>
-  <li><a href="https://github.com/pmd/pmd/releases" target="_blank">the github releases page</a></li>
-</ul>
-
-<h2 id="pmdでコードをチェックする">PMDでコードをチェックする</h2>
-
-<h3 id="サンプルコードの準備">サンプルコードの準備</h3>
-
-<p>PMDでコードをチェックしてみます。今回はサンプルコードを作って検証します。サンプルコードはGithubにアップロードしているのでクローンしてご利用ください。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git clone git@github.com:shoyan/pmd-samples.git
-</span><span class="line">cd pad-samples</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="pmdの実行">PMDの実行</h3>
-
-<p>Pmdを実行します。<code>-d</code>がソースコードのパス、<code>-R</code>がルールが設定してあるファイルのパス、<code>-l</code>に言語を指定します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">pmd pmd -d src/main/java -R rules.xml -l java
-</span><span class="line">3月 20, 2018 6:03:49 午後 net.sourceforge.pmd.cache.NoopAnalysisCache &lt;init&gt;
-</span><span class="line">警告: This analysis could be faster, please consider using Incremental Analysis: https://pmd.github.io/pmd-6.1.0/pmd_userdocs_getting_started.html#incremental-analysis
-</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:2:        Avoid unused private fields such as 'FOO'.
-</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:4:        Avoid unused local variables such as 'i'.
-</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:6:        Avoid unused private methods such as 'foo()'.</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>3つの問題が検知されています。UnusedCode.javaの2行目を見てみると、使われていないメンバ変数があります。他のエラーも同様に使われていないローカル変数とプライベートメソッドを検知しています。</p>
-
-<h3 id="ルールについて">ルールについて</h3>
-
-<p>ルールの一覧については次のリンクよりご覧ください。</p>
-<ul>
-  <li><a href="https://pmd.github.io/pmd-6.1.0/pmd_rules_java.html" target="_blank">Java Rules</a></li>
-</ul>
-
-<p>0の状態からルールを構築するのは大変です。そのため、PMDのリポジトリには様々なルールのサンプルが定義されています。基本的なルールが網羅されているbasic.xmlを利用するとよいでしょう。他にも様々なルールがあるので参考にしてください。</p>
-<ul>
-  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java" target="_blank">rulesets java</a></li>
-</ul>
-
-<h3 id="カテゴリ">カテゴリ</h3>
-
-<p>PMDのルールはカテゴリに分類されています。例えば、ベストプラクティスであれば、ベストプラクティスに沿ったルールが定義されています。カテゴリの詳細については次のリンクでご覧ください。</p>
-
-<ul>
-  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/category/java" target="_blank">category</a></li>
-</ul>
-
-<h2 id="トラブルシューティング">トラブルシューティング</h2>
-
-<p>PMD6.1.0はPMD7への過渡期バージョンのようで、Deprecatedの警告が山のように出ます。<br />
-設定ファイルでしか警告を消す術がないので設定ファイルを修正します。</p>
-
-<p>次のようにdeprecatedをfalseにするか、プロパティ自体を削除してください。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" deprecated=“false" /&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD Introduction</a></li>
-</ul>
-
 </div>
   
   

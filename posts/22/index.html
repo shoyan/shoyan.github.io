@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="データの分析によく使われるエクセルですが、Google Spreadsheetsでも様々な関数が用意されています。 関数を使えば日付の差分を調べたり、特定の条件に一致するデータをカウントすることができます。 Google Spreadsheetsを使ってデータの集計、 &hellip;">
+  <meta name="description" content="サーバーの監視にマカレルを導入してみました。 使ってみた感想としては、難しい設定もなく簡単に導入することができて、とてもよくできているなぁと関心しました。 マカレルエージェントのインストール マカレルでサーバーを監視をするには監視対象のサーバーにマカレルエージェントをインストールする必要があります &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,150 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/19/the-server-monitored-by-mackerel/">マカレルでサーバーを監視する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-19T14:16:15+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:16 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>サーバーの監視に<a href="https://mackerel.io/ja/features">マカレル</a>を導入してみました。  <br />
+使ってみた感想としては、難しい設定もなく簡単に導入することができて、とてもよくできているなぁと関心しました。</p>
+
+<h2 id="マカレルエージェントのインストール">マカレルエージェントのインストール</h2>
+
+<p>マカレルでサーバーを監視をするには監視対象のサーバーにマカレルエージェントをインストールする必要があります。<br />
+また、事前に申し込みをして、apikeyを発行しておく必要があります。</p>
+
+<p>マカレルエージェントのインストールはChefを使って行います。  <br />
+<a href="https://github.com/mackerelio/cookbook-mackerel-agent">cookbook-mackerel-agent</a>を使いました。</p>
+
+<p>metadata.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">depends 'mackerel-agent'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>recipes/default.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">include_recipe 'mackerel-agent'
+</span><span class="line">include_recipe 'mackerel-agent::plugins'
+</span><span class="line">yum_package 'mackerel-check-plugins'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>cookbook-mackerel-agentだけだとcheckプラグインが入らなかったので<code>yum_package</code>リソースを使ってインストールしています。</p>
+
+<p>attributes/default.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">default['mackerel-agent']['package-action'] = 'upgrade'
+</span><span class="line">default['mackerel-agent']['conf']['apikey'] = ‘API KEYをかく'
+</span><span class="line">default['mackerel-agent']['conf']['plugins'] = true
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>サーバーにレシピを適用するとマカレルの管理画面にサーバーがでてくるのでロールを設定します。  <br />
+これでサーバーのメトリクスを見ることができます。</p>
+
+<h2 id="プラグインを使う">プラグインを使う</h2>
+
+<p>マカレルには様々なプラグインが用意されています。  <br />
+使い方はgithubのREADMEに書いてあります。  <br />
+https://github.com/mackerelio/mackerel-agent-plugins</p>
+
+<p>自分はプラグインを使って以下のことを行っています。</p>
+
+<h3 id="linuxマカレルプラグインを使って様々なメトリクスをだす">linuxマカレルプラグインを使って様々なメトリクスをだす</h3>
+
+<p>linuxマカレルプラグインを使えばswapやnetstat、Disk read time 等のグラフを表示することができます。</p>
+
+<p>attributes/default.rb に以下を定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">default['mackerel-agent']['conf']['plugin.metrics.linux']['command'] = '/usr/local/bin/mackerel-plugin-linux'
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="unicornマカレルプラグインを使ってunicornのメトリクスをだす">Unicornマカレルプラグインを使ってUnicornのメトリクスをだす</h3>
+
+<p>Unicornマカレルプラグインを使えばダッシュボードにUnicornのメモリとワーカ数のグラフが表示されます。</p>
+
+<p>attributes/default.rb に以下を定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">default['mackerel-agent']['conf']['plugin.metrics.unicorn']['command'] = "/usr/local/bin/mackerel-plugin-unicorn -pidfile=/var/www/app/shared/tmp/pids/unicorn.pid"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="httpの監視">httpの監視</h3>
+
+<p>httpのレスポンスをチェックして監視を行います。  <br />
+細かい設定を行いたい場合は、<code>check-tcp</code>がよいですが、単純なチェックでよいのであれば<code>http</code>のほうが設定が簡単です。</p>
+
+<p>attributes/default.rb に以下を定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">default['mackerel-agent']['conf']['plugin.checks.http']['command'] = "/usr/bin/check-http -u http://localhost"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ログファイルの監視">ログファイルの監視</h3>
+
+<p>nginxのログファイルを監視し、500系のエラーが頻発したときは通知するようにします。</p>
+
+<p>attributes/default.rb に以下を定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/bin/check-log --file /var/log/nginx/access.log --pattern 'HTTP/1\.[01]" [5][0-9][0-9] ' --warning-over 3 --critical-over 10 --return
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="監視ルールの設定">監視ルールの設定</h2>
+
+<p>監視ルールを設定することで閾値を超えた際に通知をすることができます。  <br />
+CPU、メモリ、ロードアベレージ、ディスク容量等の監視を管理画面より設定できます。  <br />
+詳しい設定方法については以下を参照ください。</p>
+
+<ul>
+  <li><a href="https://mackerel.io/ja/docs/entry/howto/alerts">監視・通知を設定する - Mackerel ヘルプ</a></li>
+</ul>
+
+<h2 id="slackに通知する">Slackに通知する</h2>
+
+<p>何か異常が起きた場合はSlackに通知をするようにします。  <br />
+こちらも管理画面から設定できます。  <br />
+具体的な設定方法については、ドキュメントを参照ください。</p>
+
+<ul>
+  <li><a href="https://mackerel.io/ja/docs/entry/howto/alerts">監視・通知を設定する - Mackerel ヘルプ</a></li>
+</ul>
+
+<h2 id="参考リンク">参考リンク</h2>
+<ul>
+  <li><a href="https://mackerel.io/ja/docs/">ヘルプ - Mackerel ヘルプ</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -641,159 +785,6 @@ express-generatorで作成されたファイル構成では、<code>routes/</cod
 </span><span class="line">  end
 </span><span class="line">end
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/12/error-handling-sinatra/">Sinatraのエラーハンドリング</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-12T13:29:14+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:29 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Sinatraには not_foundハンドラとerrorハンドラの2つのハンドラが用意されています。  <br />
-not_foundハンドラは404エラーを補足するためのエラーハンドラです。  <br />
-errorハンドラは様々なエラーを補足するためのエラーハンドラです。</p>
-
-<h2 id="not-foundハンドラ">Not Foundハンドラ</h2>
-
-<p>not_foundハンドラは404エラーを補足するためのエラーハンドラです。  <br />
-<code>Sinatra::NotFound</code>が発生したとき、またはステータスコードが404のときは not_foundハンドラが実行されます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">not_found</span> <span class="k">do</span>
-</span><span class="line">  <span class="s1">&#39;This is nowhere to be found.&#39;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="errorハンドラ">Errorハンドラ</h2>
-
-<p>errorハンドラは様々なエラーを補足するためのエラーハンドラです。  <br />
-例外オブジェクトにはRack変数の sinatra.error でアクセスできます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="k">do</span>
-</span><span class="line">  <span class="s1">&#39;Sorry there was a nasty error - &#39;</span> <span class="o">+</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;sinatra.error&#39;</span><span class="o">].</span><span class="n">message</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下の設定をすると、environmentがDevelopmentのときにブラウザにスタックトレースを表示することができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:show_exceptions</span><span class="p">,</span> <span class="ss">:after_handler</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>エラー固有の制御もできます。<br />
-MyCustomeErrorのエラーハンドリングをしたいときは以下のように定義します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="no">MyCustomError</span> <span class="k">do</span>
-</span><span class="line">  <span class="s1">&#39;So what happened was...&#39;</span> <span class="o">+</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;sinatra.error&#39;</span><span class="o">].</span><span class="n">message</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>raiseでエラーを発生させるようにしてみます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class="line">  <span class="k">raise</span> <span class="no">MyCustomError</span><span class="p">,</span> <span class="s1">&#39;something bad&#39;</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="c1"># 以下のようにレスポンスが返ります。</span>
-</span><span class="line">
-</span><span class="line"><span class="no">So</span> <span class="n">what</span> <span class="n">happened</span> <span class="n">was</span><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="n">something</span> <span class="n">bad</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>ステータスコードを指定してエラーハンドリングを行う方法もあります。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="mi">403</span> <span class="k">do</span>
-</span><span class="line">  <span class="s1">&#39;Access forbidden&#39;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>レンジの指定も可能です。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="mi">400</span><span class="o">.</span><span class="n">.</span><span class="mi">510</span> <span class="k">do</span>
-</span><span class="line">  <span class="s1">&#39;Boom&#39;</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="errorハンドラにerrorコードを指定しなかった場合は何を補足するのか">errorハンドラにerrorコードを指定しなかった場合は何を補足するのか</h3>
-<p>errorハンドラにerrorコードを指定しなかった場合は、Exceptionを補足します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="o">*</span><span class="n">codes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
-</span><span class="line">    <span class="n">args</span>  <span class="o">=</span> <span class="n">compile!</span> <span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="sr">/.*/</span><span class="p">,</span> <span class="n">block</span>
-</span><span class="line">    <span class="n">codes</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="nb">Array</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span><span class="o">.</span><span class="n">flatten</span>
-</span><span class="line">    <span class="n">codes</span> <span class="o">&lt;&lt;</span> <span class="no">Exception</span> <span class="k">if</span> <span class="n">codes</span><span class="o">.</span><span class="n">empty?</span> <span class="c1">#errorコードの指定がない場合</span>
-</span><span class="line">    <span class="n">codes</span> <span class="o">&lt;&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">NotFound</span> <span class="k">if</span> <span class="n">codes</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-</span><span class="line">    <span class="n">codes</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="p">(</span><span class="vi">@errors</span><span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[]</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">args</span> <span class="p">}</span>
-</span><span class="line">  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><a href="https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L1287">https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L1287</a></p>
-<p>その他の例外は補足しません。  <br />
-例えばExceptionのサブクラスであるStandardErrorは拾ってくれません。  <br />
-ですので、明示的にerrorコードを指定しておいたほうがよいです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">error</span> <span class="mi">500</span> <span class="k">do</span>
-</span><span class="line">  <span class="s1">&#39;Sorry there was a nasty error - &#39;</span> <span class="o">+</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;sinatra.error&#39;</span><span class="o">].</span><span class="n">message</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="参考文献">参考文献</h2>
-
-<ul>
-  <li>
-    <p><a href="http://www.sinatrarb.com/intro.html#Error%20Handling">http://www.sinatrarb.com/intro.html#Error%20Handling</a></p>  </li>
-</ul>
-
 </div>
   
   

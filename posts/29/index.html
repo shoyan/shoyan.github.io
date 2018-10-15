@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>計画はいらない - SHOYAN BLOG</title>
+  <title>SHOYAN BLOG</title>
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="2018年もあと3ヶ月で終わろうとしています。少し早いですが、2018年を振り返ってみると、良いことも良くないことも含めて様々なことがありました。結果的に近年で最も濃い1年になりました。 私自身は今年を特別な1年にしようなどとは微塵も考えていませんでした。また、 &hellip;">
+  <meta name="description" content="RailsはデフォルトではDBを利用する設定になっているので、普通にrails newすると、Gemfileにsqlite3が定義されたりdatabase.ymlが作成されてしまいます。 DBなしでRailsを使いたい場合は、以下のコマンドを実行します。 1
+$ rails new &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -47,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@sinn_shoyan" />
 
 
-  <meta name="twitter:title" content="計画はいらない" />
+  <meta name="twitter:title" content="SHOYAN BLOG" />
 
 
 
@@ -144,27 +145,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      
-        <h1 class="entry-title">計画はいらない</h1>
-        
-          <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/10/12/not-goal/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/10/12/not-goal/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
-  
-  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-</div>
-
-        
-      
+      <h1 class="entry-title"><a href="/blog/2015/06/29/rails-new-without-db/">RailsをDBなしで使う</a></h1>
     
     
       <p class="meta">
@@ -173,7 +162,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<time class='entry-date' datetime='2018-10-12T16:35:56+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:35 pm</span></time>
+<time class='entry-date' datetime='2015-06-29T15:12:27+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:12 pm</span></time>
         
         
       </p>
@@ -181,193 +170,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
 
 
-<div class="entry-content"><p>2018年もあと3ヶ月で終わろうとしています。少し早いですが、2018年を振り返ってみると、良いことも良くないことも含めて様々なことがありました。結果的に近年で最も濃い1年になりました。</p>
+  <div class="entry-content"><p>RailsはデフォルトではDBを利用する設定になっているので、普通にrails newすると、Gemfileにsqlite3が定義されたりdatabase.ymlが作成されてしまいます。</p>
 
-<p>私自身は今年を特別な1年にしようなどとは微塵も考えていませんでした。また、何かを達成しようと詳細な計画をたてたりもしていません。しかし、結果的には今まで経験したことのないことをいくつか経験することができました。</p>
+<p>DBなしでRailsを使いたい場合は、以下のコマンドを実行します。</p>
 
-<p>ここで言いたいことは「計画していないけどうまくいった」ということです。</p>
-
-<p>私はこのような経験を積むにつれて、計画を立てるのはあまり意味のないことなのではないか、と考えるようになりました。明確な計画を立て地道に進むというのは一見素晴らしいように思えます。しかし、実際は計画通りにいかないことがほとんどです。もし計画通りにいけば、みんな子供の頃に夢見たスポーツ選手や芸能人になっていることでしょう。</p>
-
-<p>私たちは経験則で人生とは計画通りにいかないことを知っています。しかし、計画を立てようとしがちです。そして、年の暮れには「計画が達成できなかった。自分は無能な人間だ」と自分を蔑みます。そんなことに何の価値があるのでしょうか。ほとんどが失敗する計画をなぜ立てるのでしょうか。</p>
-
-<p>いい加減、そのようなことはやめたほうがいいのではないかと思うわけです。私は「好きなことをひたすら追いかければよい」と思います。</p>
-
-<p>理由についてはまた書いていきたいと思います。</p>
-
-<p><a href="好きなことをひたすら追いかければよい">/blog/2018/10/15/not-goal-2/</a></p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>rails new application_name -O
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
+  
   
 
 
-
-  <span class="byline author vcard">Authored by <span class="fn">
+    </article>
   
-    Shohei Yamasaki
-  
-  </span></span>
-
-
-      
-
-
-
-
-<time class='entry-date' datetime='2018-10-12T16:35:56+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:35 pm</span></time>
-      
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/koramu/'>コラム</a>
-  
-</span>
-
-
-      <div class="margin-height-10">
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 下部広告 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5334899437265020"
-     data-ad-slot="8372852198"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-      </div>
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/10/12/not-goal/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/10/12/not-goal/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
-  
-  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2018/09/05/before-developers-summit-2018-fukuoka/" title="Previous Post: Developers Summit 2018 FUKUOKAに登壇します">&laquo; Developers Summit 2018 FUKUOKAに登壇します</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2018/10/15/not-goal-2/" title="Next Post: 好きなことをひたすら追いかければよい">好きなことをひたすら追いかければよい &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-<section>
-  <h1>よく読まれている記事</h1>
-  <style>
-.recommend-box {
-  margin: 10px 0;
-}
-.recommend-box img {
-  padding: 10px 0;
-  float: left;
-  max-width: 140px;
-  min-height: 75px;
-  padding: 10px;
-  border-right: 1px solid #999;
-}
-.clearfix {
-  overflow: auto;
-}
-.recommend-box li {
-  border-right: 1px solid #999;
-  border-left: 1px solid #999;
-  border-bottom: 1px solid #999;
-  list-style-type: none;
-}
-.recommend-box li:first-child {
-  border-top: 1px solid #999;
-}
-.recommend-box h3 {
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-left: 170px;
-    min-width: 100px;
-}
-</style>
-<ul class="recommend-box">
-  <li class="clearfix">
-    <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">
-      <img src="/images/math-1547018_640.jpg"/>
-    </a>
-    <h3>
-      <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">30歳から始める数学</a>
-    </h3>
-  </li>
-  <li class="clearfix">
-    <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">
-      <img src="/images/logo.png"/>
-    </a>
-    <h3>
-      <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">幸せな子育てとエンジニアライフ</a>
-    </h3>
-  </li>
-  </li>
-  <li class="clearfix">
-    <a href="/blog/2016/03/17/php-coding-rule/">
-      <img src="/images/logo.png"/>
-    <a/>
-    <h3>
-      <a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a>
-    </h3>
-  </li>
-  <li class="clearfix">
-    <a href="/blog/2016/06/23/php-syntax-check/">
-      <img src="/images/2016-06-23_php-syntax-check.png"/>
-    <a/>
-    <h3>
-      <a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組み</a>
-    </h3>
-  </li>
-  <li class="clearfix">
-    <a href="/blog/2015/10/28/highway-faster-than-ag/">
-      <img src="/images/logo.png"/>
-    <a/>
-    <h3>
-      <a href="/blog/2015/10/28/highway-faster-than-ag/">超高速grep「The Silver Searcher(ag)」からhighwayに乗り換えた</a>
-    </h3>
-  </li>
-</ul>
-
-</section>
-
-<section>
-  <div class="margin-height-10 center">
-    【人材募集情報】<BR>
-<A HREF="https://px.a8.net/svt/ejp?a8mat=2TIYB0+33C2WI+0K+15P77M" target="_blank" rel="nofollow">「A8.net」を開発運用するアフィリエイトソリューションプロバイダーの<BR>株式会社ファンコミュニケーションズが業務拡大につき技術者を募集中。</A>
-<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2TIYB0+33C2WI+0K+15P77M" alt="">
-
-
+    <a class="next" href="/posts/28">Newer &rarr;</a>
+    
   </div>
-</section>
-
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div> <script> /** * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS. * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */ /* var disqus_config = function () { this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable }; */ 
-(function() { // DON'T EDIT BELOW THIS LINE 
- var d = document, s = d.createElement('script'); s.src = '//shoyanblog.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
-
-
-</div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
 
     </div>
   </div>

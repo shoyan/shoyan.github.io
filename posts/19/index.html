@@ -9,7 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Capistrano/sshkitを紹介します。 https://github.com/capistrano/sshkit SSHKitはリモートサーバーに対してコマンドを実行するためのツールキットです。 CapistranoやCapistranoプラグインではSSHKitが使われています。 &hellip;">
+  <meta name="description" content="wheneverを導入するためCapfileに require "whenever/capistrano"と定義して bundle exec cap -T とすると以下のエラーがでた。 1
+LoadError: cannot load such file -- /Users/shoyan/app/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +147,95 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/15/whenever-cannot-load-such-file/">Capistrano/wheneverで Cannot Load Such Fileがでる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-15T13:42:55+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:42 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>wheneverを導入するため<code>Capfile</code>に <code>require "whenever/capistrano"</code>と定義して <code>bundle exec cap -T</code> とすると以下のエラーがでた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">LoadError: cannot load such file -- /Users/shoyan/app/vendor/bundle/ruby/2.2.0/gems/whenever-0.9.5/lib/whenever/tasks/whenever.rake
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>実際に<code>vendor/bundle/ruby/2.2.0/gems/whenever-0.9.5/lib/whenever/tasks/whenever.rake</code> を確認してみると、たしかにそのファイルが存在しない。</p>
+
+<p>wheneverのリポジトリを見てみると、シンボリックリンクがはってあった。</p>
+
+<p><code>bundle install</code> したときにはシンボリックリンクがはられないようだ。</p>
+
+<p>手元のRubyのバージョンは、2.2.4だった。</p>
+
+<p>ruby2.3.1で実行してみると <code>Gem::Package::PathError</code> が発生した。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ERROR:  While executing gem ... (Gem::Package::PathError)
+</span><span class="line">    installing into parent path /Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/capistrano/v3/tasks/whenever.rake of /Users/shoyan/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/whenever-0.9.5 is not allowed
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>このエラーはRuby2.3.2では直っていることが期待される。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/rubygems/rubygems/issues/1448#issuecomment-218355005">https://github.com/rubygems/rubygems/issues/1448#issuecomment-218355005</a></p>  </li>
+</ul>
+
+<h2 id="回避策">回避策</h2>
+
+<p>Capfileでの指定はやめて、<code>lib/capistrano/tasks</code> 以下にwhenever.taskを作成した。  <br />
+これでcapのタスク自体は実行できるようになった。  <br />
+しかし、ruby2.3.1の環境ではbundle installがこけるのでwheneverの導入自体ができないという状況。</p>
+
+<h2 id="その後">その後</h2>
+
+<p>bundle installがこけるバグは以下のPRがでており0.9.6で修正されていた。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/javan/whenever/pull/633">https://github.com/javan/whenever/pull/633</a></p>  </li>
+</ul>
+
+<p>また、0.9.5では <code>cap whenever:update_crontab</code> で <code>instance variable @_env not defined</code> が発生してコマンドが正常に実行できないバグがあったが、0.9.7で修正されている。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/javan/whenever/issues/634">https://github.com/javan/whenever/issues/634</a></p>  </li>
+</ul>
+
+<p>実はこのバグは自分が踏んでおり、その修正案をPRしてCHANGELOGに名前が刻まれた。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/javan/whenever/pull/636">https://github.com/javan/whenever/pull/636</a></p>  </li>
+  <li>
+    <p><a href="https://github.com/javan/whenever/commit/5aa0ccfa53e87bda43e92da005d781a4b5a8d5a5">https://github.com/javan/whenever/commit/5aa0ccfa53e87bda43e92da005d781a4b5a8d5a5</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -796,97 +886,6 @@ mail.attachments[0]に添付ファイルが入っているので、その種類�
 
 <ul>
   <li><a href="http://stackoverflow.com/questions/14286179/rails-how-to-test-that-actionmailer-sent-a-specific-attachment">rails-how-to-test-that-actionmailer-sent-a-specific-attachment</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/06/guide-tcpwrappers/">TCPWrappersとは何なのかを調べてみた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-06T19:33:59+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>7:33 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>sshのハンドシェイクでこけてしまい、その原因がわからずハマりました。  <br />
-原因としては、TCPWrappersで拒否されていました。  <br />
-TCPWrappersとはなんだろうということで調べてみました。</p>
-
-<h2 id="tcpwrappersとは">TCPWrappersとは</h2>
-
-<p>TCPWrapperとは、ネットワークのアクセス制御をする機能です。<br />
-デフォルトでインストールされています。</p>
-
-<h2 id="linuxの基本的なアクセス制御の仕組み">Linuxの基本的なアクセス制御の仕組み</h2>
-
-<p><img src="https://www.centos.org/docs/5/html/Deployment_Guide-en-US/images/tcp-wrappers/tcp_wrap_diagram.png" alt="Access Control to Network Services" /></p>
-
-<p>アクセス制御の仕組みとして、FirewallとTCP Wrappersがあります。  <br />
-Firewallはiptablesで制御します。<br />
-なぜ2つの仕組みが存在するのかはわかりません（誰か教えてください）。</p>
-
-<p>クライアント→Firewall→TCPWrappers→サービスという流れで処理を行います。  <br />
-TCPWrappersは接続を許可するかどうかのファイルを参照し、許可リストにあればサービスに処理を受け渡します。</p>
-
-<p>処理のログはsyslog daemon (syslogd)によってクライアントと接続先サービスの情報を <code>/var/log/secure</code> または <code>/var/log/messages</code> に書き込まれます。</p>
-
-<h2 id="tcpwrappersのアドバンテージ">TCPWrappersのアドバンテージ</h2>
-
-<p>TCPWrappersを使うことで、以下のメリットがあるとのこと。</p>
-
-<ul>
-  <li>接続したクライアントとそのサービスがログに残る</li>
-  <li>様々なプロトコルを集約して管理できる</li>
-</ul>
-
-<p>##TCPWrappersの設定ファイル</p>
-
-<p>以下の2つのファイルがあります。</p>
-
-<ul>
-  <li>/etc/hosts.allow</li>
-  <li>/etc/hosts.deny</li>
-</ul>
-
-<p>TCPWrappersはクライアントからのリクエストを受けると、以下の処理を行います。</p>
-
-<ul>
-  <li><code>/etc/hosts.allow</code> を参照します。クライアントがリストに存在した場合、接続を許可します。リストに存在しない場合は次のステップに進みます。</li>
-  <li><code>/etc/hosts.deny</code>を参照します。クライアントがリストに存在した場合、接続を拒否します。リストにない場合は接続を許可します。</li>
-</ul>
-
-<h3 id="注意点">注意点</h3>
-
-<ul>
-  <li><code>/etc/hosts.allow</code>から先に評価され、そこでリストに一致した場合<code>/etc/hosts.deny</code>は評価されません。<code>/etc/hosts.allow</code>と<code>/etc/hosts.deny</code>に同じクライアントを指定した場合は<code>/etc/hosts.allow</code>が優先されます。</li>
-  <li>ファイルの上から評価されていき、一致した時点で評価を打ち切ります。順番が重要です。</li>
-  <li>TCPWrappersはキャッシュを持ちません。ですので、設定ファイルを書き換えたら即反映されます。デーモンをリスタートする必要はありません。</li>
-  <li>最後に改行を含めるとエラーメッセージが出るとのことなので、含めないほうがよさそうです。<code>warning: /etc/hosts.allow, line 20: missing newline or line too long</code>というメッセージが <code>/var/log/messages</code> または <code>/var/log/secure</code>に出力されるとのことです。</li>
-</ul>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="http://lpi.or.jp/column/linux/linux_m06.shtml">【第6回】TCPWrappers(hosts.allow,hosts.deny)とSSHの公開鍵認証について</a></li>
-  <li><a href="https://www.centos.org/docs/5/html/Deployment_Guide-en-US/ch-tcpwrappers.html">42.5. TCP Wrappers and xinetd</a></li>
 </ul>
 </div>
   

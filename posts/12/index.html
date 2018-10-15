@@ -9,9 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="私は本が好きで常に何かしらの本を読んでいる。 最近、高任和夫の「起業前夜」を読了した。
-商社のサラリーマンが会社の闇に気づいて、それをなんとかしようとする話しだ。
-その過程で様々な人と出会い、主人公は自分の人生や幸福について考えることになる。 &hellip;">
+  <meta name="description" content="php-idnkitをインストールしたのでメモ。
+OSはubuntu、PHPのバージョンは5.6.24で行った。 php-idnkitはidnkitをPHPから使えるようにするPHPの拡張モジュール。
+拡張モジュールなのでPHPをコンパイルし直す必要はない。モジュールをコンパイルして、php. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +148,155 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/09/09/install-php-idnkit/">Php-idnkitをインストールする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-09-09T10:53:43+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:53 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>php-idnkitをインストールしたのでメモ。<br />
+OSはubuntu、PHPのバージョンは5.6.24で行った。</p>
+
+<p>php-idnkitはidnkitをPHPから使えるようにするPHPの拡張モジュール。<br />
+拡張モジュールなのでPHPをコンパイルし直す必要はない。モジュールをコンパイルして、php.iniのextensionに指定すれば使えるようになる。</p>
+
+<h2 id="idnkitのインストール">idnkitのインストール</h2>
+
+<p>php-idnkitはあくまでidnkitをPHPから使えるようにする拡張モジュールなのでidnkitがないと動作しない。<br />
+まずはidnkitをインストールする。</p>
+
+<p>idnkitはJPNICが提供しており、以下からソースコードをダウンロードすることができる。</p>
+
+<ul>
+  <li>
+    <p><a href="https://www.nic.ad.jp/ja/idn/idnkit/download/">https://www.nic.ad.jp/ja/idn/idnkit/download/</a></p>  </li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ wget https://www.nic.ad.jp/ja/idn/idnkit/download/sources/idnkit-1.0-src.tar.gz
+</span><span class="line">$ tar -zxf idnkit-1.0-src.tar.gz
+</span><span class="line">$ cd idnkit-1.0-src &amp;&amp; \
+</span><span class="line">    ./configure &amp;&amp; \
+</span><span class="line">    make &amp;&amp; \
+</span><span class="line">    make install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="php-idnkitをインストール">php-idnkitをインストール</h2>
+
+<p>続いてphp-idnkitをインストールする。<br />
+そのままではエラーとなったので以下のパッチをあてた。</p>
+
+<p>php-idnkit.patch</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="diff"><span class="line"><span class="gd">--- xxx/idnkit.c</span>
+</span><span class="line"><span class="gi">+++ yyy/idnkit.c</span>
+</span><span class="line"><span class="gu">@@ -36,7 +36,11 @@ static int le_idnkit;</span>
+</span><span class="line">  *
+</span><span class="line">  * Every user visible function must have an entry in idnkit_functions[].
+</span><span class="line">  */
+</span><span class="line"><span class="gi">+#if ZEND_MODULE_API_NO &gt;= 20100525</span>
+</span><span class="line"><span class="gi">+zend_function_entry idnkit_functions[] = {</span>
+</span><span class="line"><span class="gi">+#else</span>
+</span><span class="line"> function_entry idnkit_functions[] = {
+</span><span class="line"><span class="gi">+#endif</span>
+</span><span class="line">    PHP_FE(idnkit_decodename,   NULL)
+</span><span class="line">    PHP_FE(idnkit_encodename,   NULL)
+</span><span class="line">    PHP_FE(idnkit_errno,        NULL)
+</span><span class="line"><span class="gu">@@ -104,7 +108,7 @@ PHP_MINIT_FUNCTION(idnkit)</span>
+</span><span class="line">    idn_nameinit(1);
+</span><span class="line">
+</span><span class="line">    /* get idnkit version */
+</span><span class="line"><span class="gd">-   REGISTER_STRING_CONSTANT(&quot;IDNKIT_VERSION&quot;, (char*)idn_version_getstring(), CONST_CS | CONST_PERSISTENT);</span>
+</span><span class="line"><span class="gi">+   REGISTER_STRING_CONSTANT(&quot;IDNKIT_VERSION&quot;, &quot;1.0&quot;, CONST_CS | CONST_PERSISTENT);</span>
+</span><span class="line">
+</span><span class="line">    /* idnkit actions */
+</span><span class="line">    REGISTER_LONG_CONSTANT(&quot;IDNKIT_DELIMMAP&quot;,       IDN_DELIMMAP,       CONST_CS | CONST_PERSISTENT);
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="diff"><span class="line">$ wget http://www.sera.desuyo.net/idnkit/php-idnkit-20031204.tar.gz
+</span><span class="line">$ tar -zxf php-idnkit-20031204.tar.gz
+</span><span class="line">$ cd idnkit &amp;&amp; \
+</span><span class="line">    patch -lsp1 &lt; /tmp/php-idnkit.patch &amp;&amp; \
+</span><span class="line">    phpize &amp;&amp; \
+</span><span class="line">    ./configure &amp;&amp; \
+</span><span class="line">    make &amp;&amp; \
+</span><span class="line">    make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="phpiniにextensionを指定">php.iniにextensionを指定</h2>
+
+<p>最後にphp.iniにextensionを指定を指定する。<br />
+以下は、<code>/usr/local/lib/php.ini</code> にphp.iniがある場合の設定例。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="diff"><span class="line">$ echo &quot;extension=idnkit.so&quot; &gt;&gt; /usr/local/lib/php.ini
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のコマンドが動作すればOK。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="err">$</span> <span class="nx">php</span> <span class="o">-</span><span class="nx">a</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="k">echo</span> <span class="nx">idnkit_encodename</span><span class="p">(</span><span class="nb">mb_convert_encoding</span><span class="p">(</span><span class="s2">&quot;日本語ＪＰドメイン名.jp&quot;</span><span class="p">,</span> <span class="s2">&quot;UTF-8&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -335,88 +484,6 @@ select句でアプリケーションに使うカラムに絞ることでIOを減
 少しだけ自分も変わっているのだと思う。</p>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hdpYBEJMfy0" frameborder="0" allowfullscreen=""></iframe>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/24/sets-locale-on-docker/">Dockerでlocaleを設定する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-24T17:32:51+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:32 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Dockerでlocaleを設定したいときがある。<br />
-例えばマルチバイトを扱うときだ。<br />
-localeを設定していないイメージで処理を行うと <code>ArgumentError: invalid byte sequence in US-ASCII</code> のようなエラーが発生することがある。<br />
-Dockerでlocaleを設定する場合は、以下のようにDockerfileに定義する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">RUN locale-gen ja_JP.UTF-8
-</span><span class="line">ENV LANG ja_JP.UTF-8
-</span><span class="line">ENV LANGUAGE ja_JP:en
-</span><span class="line">ENV LC_ALL ja_JP.UTF-8</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>タイムゾーンも変えたい場合は以下も追記しておく。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">RUN ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>コンテナに入ってlocaleを表示すると以下のようになった。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">root@e893a5fa3eea:/# locale
-</span><span class="line">LANG=ja_JP.UTF-8
-</span><span class="line">LANGUAGE=ja_JP:en
-</span><span class="line">LC_CTYPE="ja_JP.UTF-8"
-</span><span class="line">LC_NUMERIC="ja_JP.UTF-8"
-</span><span class="line">LC_TIME="ja_JP.UTF-8"
-</span><span class="line">LC_COLLATE="ja_JP.UTF-8"
-</span><span class="line">LC_MONETARY="ja_JP.UTF-8"
-</span><span class="line">LC_MESSAGES="ja_JP.UTF-8"
-</span><span class="line">LC_PAPER="ja_JP.UTF-8"
-</span><span class="line">LC_NAME="ja_JP.UTF-8"
-</span><span class="line">LC_ADDRESS="ja_JP.UTF-8"
-</span><span class="line">LC_TELEPHONE="ja_JP.UTF-8"
-</span><span class="line">LC_MEASUREMENT="ja_JP.UTF-8"
-</span><span class="line">LC_IDENTIFICATION="ja_JP.UTF-8"
-</span><span class="line">LC_ALL=ja_JP.UTF-8</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

@@ -4,7 +4,7 @@
   <title><![CDATA[SHOYAN BLOG]]></title>
   <link href="http://48n.jp/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2018-10-12T16:47:51+09:00</updated>
+  <updated>2018-10-15T16:47:07+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[好きなことをひたすら追いかければよい]]></title>
+    <link href="http://48n.jp/blog/2018/10/15/not-goal-2/"/>
+    <updated>2018-10-15T16:39:50+09:00</updated>
+    <id>http://48n.jp/blog/2018/10/15/not-goal-2</id>
+    <content type="html"><![CDATA[<p>この記事は前回の続きです。前回の記事は「<a href="http://48n.jp/blog/2018/10/12/not-goal/">計画はいらない</a>」です。</p>
+
+<p>「好きなことをひたすら追いかければよい」理由は、そのほうがうまくいく可能性が高いからです。</p>
+
+<p>世の中には好きなことを極めることで、それが結果的に仕事になっている人がいます。例えばYoutuberのHIKAKINさんはその1人です。HIKAKINさんはヒューマンビートボックスを極め、それを自身の動画投稿に取り入れることにより一躍人気者になりました。</p>
+
+<p>人気が出たのは誰もそのようなことをやっておらず、新鮮だったということがあると思います。ヒューマンビートボックスにハマり、動画投稿にハマり、自身の面白いを追求した結果、トップYoutuberになることができたのです。</p>
+
+<p>このように世の中にないものには、計画を立ててそれを遂行するというやり方では到底到達できません。道はただ1つ。ハマってハマって追求するということです。</p>
+
+<p>自身の面白いはとてつもなく大きな可能性を秘めています。今は何も可能性がないように思えるかもしれません。しかし、その面白いにハマり追求することで当初は見えなかった道が見えてくるはずです。</p>
+
+<p>これは山登りに似ています。山の麓からは山しか見えません。山を登っていくうちにどんどん視界が開けて行きます。上から見ると、今まで見えなかった道が見えることでしょう。遠いと思っていた頂上も実際に歩いてみると、案外登頂できるものです。</p>
+
+<p>実際にやってみると想像していたものと違うということもあることでしょう。その場合はさっとさとやめればいいのです。思い立ったらすぐやって、さっさと飽きて次に行く。飽きるということにネガティブなイメージを抱く人もいるでしょうが、飽きるということは経験し、そこからなにかしら学んだということです。どんどん飽きて、次の新しい経験を積めばよいのです。そのほうがたくさん学ぶことができます。飽きた数こそがあなたが成長した証です。</p>
+
+<p>このように計画を立てずに面白そうなことはどんどんやる。飽きたらまた別の面白いことをやる。そうやって経験を積み、学んでいくことで、結果的にその経験が組み合わさって面白いことができるようになると思うのです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[計画はいらない]]></title>
@@ -31,6 +56,8 @@
 <p>いい加減、そのようなことはやめたほうがいいのではないかと思うわけです。私は「好きなことをひたすら追いかければよい」と思います。</p>
 
 <p>理由についてはまた書いていきたいと思います。</p>
+
+<p><a href="好きなことをひたすら追いかければよい">/blog/2018/10/15/not-goal-2/</a></p>
 ]]></content>
   </entry>
   
@@ -967,41 +994,6 @@
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Build tasks、Documentation tasks、Verification tasksが追加されています。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[IntelliJでSpringBootのアプリケーションを作成する]]></title>
-    <link href="http://48n.jp/blog/2018/01/19/create-spring-boot-project/"/>
-    <updated>2018-01-19T11:48:27+09:00</updated>
-    <id>http://48n.jp/blog/2018/01/19/create-spring-boot-project</id>
-    <content type="html"><![CDATA[<p>SpringBootのアプリケーションを作成する方法はいくつかありますが、今回はIntelliJで作成する方法を紹介します。</p>
-
-<p>IntellJを起動してメニューバーから <code>File</code> &gt; <code>New</code> &gt; <code>Project...</code>を選択します。</p>
-
-<p>左メニューよりSpring Initializrを選択してNextを押します。</p>
-
-<p><img src="http://48n.jp/images/create-spring-boot-project1.png" alt="weather-nitify-slack" /></p>
-
-<p>Project MetaDataはアプリケーションごとに書き換えますが、今回はデモなのでデフォルトのままです。<br />
-Gradleを使うのでTypeをGradle Project を選択してNextを押します。</p>
-
-<p><img src="http://48n.jp/images/create-spring-boot-project2.png" alt="weather-nitify-slack" /></p>
-
-<p>Dependenciesでは使いたいライブラリを選択できます。<br />
-今回は特に選択せず、Nextを押します。</p>
-
-<p><img src="http://48n.jp/images/create-spring-boot-project3.png" alt="weather-nitify-slack" /></p>
-
-<p>Project nameはdemoで作成します。<br />
-Project locationでファイルを作成する場所を指定します。</p>
-
-<p><img src="http://48n.jp/images/create-spring-boot-project4.png" alt="weather-nitify-slack" /></p>
-
-<p>Finishを押すとSpring Bootのアプリケーションが作成されます。<br />
-作成したファイルをGitHubにアップロードしています。</p>
-
-<p><a href="https://github.com/shoyan/spring-boot-demo">https://github.com/shoyan/spring-boot-demo</a></p>
 ]]></content>
   </entry>
   

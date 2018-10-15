@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://48n.jp/blog/2018/10/15/not-goal-2/</loc>
+<lastmod>2018-10-15T16:39:50+09:00</lastmod>
+</url>
+<url>
 <loc>http://48n.jp/blog/2018/10/12/not-goal/</loc>
 <lastmod>2018-10-12T16:35:56+09:00</lastmod>
 </url>
@@ -778,6 +782,9 @@
 </url>
 <url>
 <loc>http://48n.jp/posts/28/</loc>
+</url>
+<url>
+<loc>http://48n.jp/posts/29/</loc>
 </url>
 <url>
 <loc>http://48n.jp/googlef7e82fffb075bee5.html</loc>
