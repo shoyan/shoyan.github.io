@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>好きなことをひたすら追いかければよい - SHOYAN BLOG</title>
+  <title>RubyでのWebアプリケーション開発はSinatraから入りRailsに行く - SHOYAN BLOG</title>
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="この記事は前回の続きです。前回の記事は「計画はいらない」です。 「好きなことをひたすら追いかければよい」理由は、そのほうがうまくいく可能性が高いからです。 世の中には好きなことを極めることで、それが結果的に仕事になっている人がいます。例えばYoutuberのHIKAKINさんはその1人です。 &hellip;">
+  <meta name="description" content="私はソフトウェアエンジニアなのですが、プログラミング講師としても生徒さんにRubyを教えています。RubyでWebアプリケーションを作る場合、まず候補になるフレームワークはRuby on Railsですが、Railsは初学者には難しいと思います。プログラミング初学者にRailsを教えるということは &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@sinn_shoyan" />
 
 
-  <meta name="twitter:title" content="好きなことをひたすら追いかければよい" />
+  <meta name="twitter:title" content="RubyでのWebアプリケーション開発はSinatraから入りRailsに行く" />
 
 
 
@@ -150,11 +150,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header>
     
       
-        <h1 class="entry-title">好きなことをひたすら追いかければよい</h1>
+        <h1 class="entry-title">RubyでのWebアプリケーション開発はSinatraから入りRailsに行く</h1>
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/10/15/not-goal-2/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/10/15/not-goal-2/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/11/20/sinatra-way/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/11/20/sinatra-way/" >Tweet</a>
   
   
   
@@ -173,7 +173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<time class='entry-date' datetime='2018-10-15T16:39:50+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:39 pm</span></time>
+<time class='entry-date' datetime='2018-11-20T16:04:35+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:04 pm</span></time>
         
         
       </p>
@@ -181,23 +181,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
 
 
-<div class="entry-content"><p>この記事は前回の続きです。前回の記事は「<a href="/blog/2018/10/12/not-goal/">計画はいらない</a>」です。</p>
+<div class="entry-content"><p>私はソフトウェアエンジニアなのですが、プログラミング講師としても生徒さんにRubyを教えています。RubyでWebアプリケーションを作る場合、まず候補になるフレームワークはRuby on Railsですが、Railsは初学者には難しいと思います。プログラミング初学者にRailsを教えるということは、車の教習所でいきなりスポーツカーを運転させるようなものです。入門者には入門者に適した車があるのと同様にプログラミングにもそのようなものがあります。</p>
 
-<p>「好きなことをひたすら追いかければよい」理由は、そのほうがうまくいく可能性が高いからです。</p>
+<p>では、最初は何がいいかというと、Sinatraがよいと思います。そういうわけで、Sinatraを使ったWebアプリケーションのサンプルを探してみたのですが、よいものが見つかりませんでした。ないなら作ってしまえというわけで作りました。</p>
 
-<p>世の中には好きなことを極めることで、それが結果的に仕事になっている人がいます。例えばYoutuberのHIKAKINさんはその1人です。HIKAKINさんはヒューマンビートボックスを極め、それを自身の動画投稿に取り入れることにより一躍人気者になりました。</p>
+<ul>
+  <li><a href="https://github.com/shoyan/sinatra-app" target="_blank">https://github.com/shoyan/sinatra-app</a></li>
+</ul>
 
-<p>人気が出たのは誰もそのようなことをやっておらず、新鮮だったということがあると思います。ヒューマンビートボックスにハマり、動画投稿にハマり、自身の面白いを追求した結果、トップYoutuberになることができたのです。</p>
+<p>今回作成したのはシンプルなメモアプリケーションでフォームに入力した値をメモとして保存することができます。作成したメモの一覧表示、詳細表示、編集機能、削除機能を実装しています。基本的なCRUD操作を備えており、RESTについても学ぶことができるようになっています。</p>
 
-<p>このように世の中にないものには、計画を立ててそれを遂行するというやり方では到底到達できません。道はただ1つ。ハマってハマって追求するということです。</p>
+<p>わかりやすいようにディレクトリをわけています。initialディレクトリは最初からフルスクラッチで作る場合のディレクトリです。step1はメモの作成とメモの表示機能を実装しています。step2はstep1の機能にメモの削除とメモの編集機能を追加しています。</p>
 
-<p>自身の面白いはとてつもなく大きな可能性を秘めています。今は何も可能性がないように思えるかもしれません。しかし、その面白いにハマり追求することで当初は見えなかった道が見えてくるはずです。</p>
+<p>実装にあたっては、できるだけRubyの標準ライブラリを使うようにしました。理由は長い年月において最も安定的に使えるのはRubyの標準ライブラリであることからです。サードパーティのライブラリは便利ですが、Rubyのバージョンアップによる互換性の問題などを含んでいます。将来的にも安定して動作させることを考慮すると標準ライブラリで実現できる機能であれば標準ライブラリを選択するのは良い選択肢だと思います。</p>
 
-<p>これは山登りに似ています。山の麓からは山しか見えません。山を登っていくうちにどんどん視界が開けて行きます。上から見ると、今まで見えなかった道が見えることでしょう。遠いと思っていた頂上も実際に歩いてみると、案外登頂できるものです。</p>
+<p>また、データベース（正確にはRDBMS）はややこしいので使っていません。もう少し丁寧に説明すると、今回のアプリケーションはプログラミング初学者の学習に適しているアプリケーションをシンプルな実装（環境も含めて）で作るということを目的として作ったので、その点でRDBMSは適していません。では、どうやってメモを永続的に保持するのかというと、ファイルとして保持しています。この機能の実装には、Rubyの標準ライブラリであるpstoreを利用しました。pstoreとはオブジェクトをそのままファイルとして保存するライブラリです。メモアプリケーションの機能を実現するなら、これで十分なわけです。</p>
 
-<p>実際にやってみると想像していたものと違うということもあることでしょう。その場合はさっとさとやめればいいのです。思い立ったらすぐやって、さっさと飽きて次に行く。飽きるということにネガティブなイメージを抱く人もいるでしょうが、飽きるということは経験し、そこからなにかしら学んだということです。どんどん飽きて、次の新しい経験を積めばよいのです。そのほうがたくさん学ぶことができます。飽きた数こそがあなたが成長した証です。</p>
+<ul>
+  <li><a href="https://docs.ruby-lang.org/ja/latest/library/pstore.html" target="_blank">https://docs.ruby-lang.org/ja/latest/library/pstore.html</a></li>
+</ul>
 
-<p>このように計画を立てずに面白そうなことはどんどんやる。飽きたらまた別の面白いことをやる。そうやって経験を積み、学んでいくことで、結果的にその経験が組み合わさって面白いことができるようになると思うのです。</p>
+<p>Webアプリケーションの基礎はCRUDです。リクエストとパラメーター（必要であれば）をアプリケーションサーバーに送信し、ルーティング設定に従ってそのリクエストを処理します。そして、レスポンスを返します。この流れを理解することがはじめの1歩です。この流れが理解できていない状態でRailsを使うのは早すぎるように思いますし、データベースの用意やらマイグレーションやらは確実に最初の壁となってプログラミング初学者に立ちはだかるでしょう。</p>
+
+<p>そのようなややこしいことは置いておいて、まずは小さな動くアプリケーションを作りましょう。Sinatraであればターミナルに数コマンドを打つだけでアプリケーションを起動できます。自分で全てのコードを書いても数時間程度で書くことができます。コードのほとんどは標準のRubyのライブラリを使用しているため、とてもシンプルです。</p>
+
+<p>ここまではRailsについて散々けなしていますが、誤解のないように断っておくと、本格的なWebアプリケーションを作るのであればRailsがいいです。習得に数ヶ月はかかるでしょうが、多くの機能を少ないコードで実装できてしまうRailsの生産性の高さは、それだけの時間をかける価値があります。</p>
+
+<p>RubyでのWebアプリケーション開発は、まずはSinatraから入りそこからRailsに行くのがよいというのが私の考えです。</p>
 </div>
 
 
@@ -220,13 +230,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<time class='entry-date' datetime='2018-10-15T16:39:50+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:39 pm</span></time>
+<time class='entry-date' datetime='2018-11-20T16:04:35+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:04 pm</span></time>
       
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/koramu/'>コラム</a>
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -249,7 +259,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/10/15/not-goal-2/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/10/15/not-goal-2/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/11/20/sinatra-way/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/11/20/sinatra-way/" >Tweet</a>
   
   
   
@@ -261,10 +271,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2018/10/12/not-goal/" title="Previous Post: 計画はいらない">&laquo; 計画はいらない</a>
+        <a class="basic-alignment left" href="/blog/2018/10/15/not-goal-2/" title="Previous Post: 好きなことをひたすら追いかければよい">&laquo; 好きなことをひたすら追いかければよい</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2018/11/20/sinatra-way/" title="Next Post: RubyでのWebアプリケーション開発はSinatraから入りRailsに行く">RubyでのWebアプリケーション開発はSinatraから入りRailsに行く &raquo;</a>
       
     </p>
   </footer>

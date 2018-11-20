@@ -9,7 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="ハフマン符号とは1952年にデビッド・ハフマンという人が考え出したアルゴリズムです。 文字列をはじめとするデータの可逆圧縮に使われます。 よく使われる文字には短いビットを、あまり使われない文字には長いビットを割り当てることで全体としてサイズが削減されることを狙ったアルゴリズムです。 符号化の原理 &hellip;">
+  <meta name="description" content="アプリケーションサーバとログ収集サーバにFluentdをインストールし、アプリケーションサーバからログ収集サーバにログをフォワードする方法を紹介します。
+ここでは、アプリケーションサーバをMacOS X、ログ収集サーバをVagrantとします。 Fluentdをホストマシン(Mac)にインストール &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +147,243 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/04/fluentd-tutorial/">Fluentdを使ってローカル環境にログ収集サーバを構築する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-04T13:50:35+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:50 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>アプリケーションサーバとログ収集サーバにFluentdをインストールし、アプリケーションサーバからログ収集サーバにログをフォワードする方法を紹介します。<br />
+ここでは、アプリケーションサーバをMacOS X、ログ収集サーバをVagrantとします。</p>
+
+<h2 id="fluentdをホストマシンmacにインストール">Fluentdをホストマシン(Mac)にインストール</h2>
+
+<p>.dmgをダウンロードしてインストールしてください。</p>
+
+<ul>
+  <li><a href="https://td-agent-package-browser.herokuapp.com/2/macosx">ダウンロード</a></li>
+</ul>
+
+<p>以下でFluentdを起動します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo launchctl load /Library/LaunchDaemons/td-agent.plist</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Fluentdのログは <code>/var/log/td-agent/td-agent.log</code> に出力されます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ less /var/log/td-agent/td-agent.log</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>停止は以下です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo launchctl unload /Library/LaunchDaemons/td-agent.plist</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>設定ファイルは <code>/etc/td-agent/td-agent.conf</code> です。<br />
+設定を反映させるには、以下のコマンドで行います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo launchctl stop td-agent
+</span><span class="line">$ sudo launchctl start td-agent</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下でFluentdにリクエストします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ curl -X POST -d 'json={"json":"message"}' http://localhost:8888/debug.test</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/var/log/td-agent/td-agent.log</code> にログが出力されているはずです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ tail -n 1 /var/log/td-agent/td-agent.log
+</span><span class="line">2016-07-01 16:51:47 -0700 debug.test: {"json":"message"}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ログ収集サーバにfluentdをインストール">ログ収集サーバにFluentdをインストール</h2>
+
+<p>次にログ収集サーバにFluentdをインストールします。<br />
+OSはCentos6.5を使いました。<br />
+vagrantの使い方は割愛します。<br />
+networkはprivate_networkとし、192.168.33.10でアクセスできることとします。</p>
+
+<p>以下でログ収集サーバにログインします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ vagrant ssh
+</span><span class="line">
+</span><span class="line"># iptablesは無効にしておきます
+</span><span class="line">$ sudo service iptables stop
+</span><span class="line">
+</span><span class="line"># 以下のコマンドでFluentdインストールします。
+</span><span class="line">$ curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh
+</span><span class="line">
+</span><span class="line"># Fluentdを起動します
+</span><span class="line">$ sudo /etc/init.d/td-agent start</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ログ収集サーバでも同じように確認してみます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ curl -X POST -d 'json={"json":"message"}' http://localhost:8888/debug.test
+</span><span class="line">$ tail -n 1 /var/log/td-agent/td-agent.log
+</span><span class="line">2016-07-01 16:51:47 -0700 debug.test: {"json":"message"}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="アプリケーションサーバからログ収集サーバのfluentdにリクエストを送る">アプリケーションサーバからログ収集サーバのFluentdにリクエストを送る</h2>
+
+<p>アプリケーションサーバからログ収集サーバのFluentdにリクエストを送れるかを確認します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ curl -X POST -d 'json={"json":"message"}' http://192.168.33.10:8888/debug.test</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ログ収集サーバでログを確認します。<br />
+Fluentdは出力をバッファするのでフォワードされるまでにタイムログがある場合があります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ tail -n 1 /var/log/td-agent/td-agent.log</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>疎通を確認できたら、アプリケーションサーバからログ収集サーバのFluentdにログをforwardしてみましょう。</p>
+
+<p>アプリケーションサーバの<code>/etc/td-agent/td-agent.conf</code> を以下のように編集します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;source&gt;
+</span><span class="line">  type http
+</span><span class="line">  port 8888
+</span><span class="line">&lt;/source&gt;
+</span><span class="line">
+</span><span class="line">&lt;source&gt;
+</span><span class="line">  @type forward
+</span><span class="line">  port 24224
+</span><span class="line">&lt;/source&gt;
+</span><span class="line">
+</span><span class="line"># tagがvagrantの場合はvagrantのFluentdにフォワードする
+</span><span class="line">&lt;match tag vagrant.**&gt;
+</span><span class="line">  type forward
+</span><span class="line">  &lt;server&gt;
+</span><span class="line">    host 192.168.33.10
+</span><span class="line">    port 24224
+</span><span class="line">  &lt;/server&gt;
+</span><span class="line">&lt;/match&gt;
+</span><span class="line">
+</span><span class="line">&lt;match debug.**&gt;
+</span><span class="line">  type stdout
+</span><span class="line">&lt;/match&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ログ収集サーバの<code>/etc/td-agent/td-agent.conf</code>に以下の設定を追加します。<br />
+tagがvagrantで送られてきたものをログに出力します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;match vagrant.**&gt;
+</span><span class="line">  type stdout
+</span><span class="line">&lt;/match&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のコマンドでログ収集サーバのFluentdにデータがフォワードされます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ curl -X POST -d 'json={"json":"Fluentd!!!"}' http://localhost:8888/vagrant.test</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以上で基本的なフォワードの設定ができました。</p>
+
+<h2 id="ファイルを監視してログ収集サーバにフォワードする">ファイルを監視してログ収集サーバにフォワードする</h2>
+
+<p>次はファイルを監視してファイルにデータが追加されたらその内容をログ収集サーバにフォワードするようにします。<br />
+<code>in_tail</code>プラグインを使います。<br />
+<code>in_tail</code>プラグインを使うにはtypeにtailを使います。</p>
+
+<p>アプリケーションサーバの<code>/etc/td-agent/td-agent.conf</code>に以下を追記します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;source&gt;
+</span><span class="line">  type tail # in_tailプラグインを指定
+</span><span class="line">  path /tmp/access_log # 監視するファイルの指定
+</span><span class="line">  tag vagrant.access_log # ログにつけるタグを指定
+</span><span class="line">  pos_file /tmp/access_log.pos # ファイル内のどの行までを読んだかを記録しておくファイルを指定
+</span><span class="line">  format none # フォーマットはnoneを指定
+</span><span class="line">&lt;/source&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>設定を反映させるには、以下のコマンドで行います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo launchctl stop td-agent
+</span><span class="line">$ sudo launchctl start td-agent</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/tmp/access_log</code> に追記してみましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ echo "hello" &gt;&gt; /tmp/access_log</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>すると、ログ収集サーバのFluentdに内容がフォワードされます。</p>
+
+<p>参考リンク</p>
+
+<ul>
+  <li><a href="http://knowledge.sakura.ad.jp/tech/1336/">柔軟なログ収集を可能にする「Fluentd」入門</a></li>
+  <li><a href="http://docs.fluentd.org/articles/install-by-dmg">Installing Fluentd using .dmg Installer (MacOS X)</a></li>
+  <li><a href="http://docs.Fluentd.org/articles/config-file">Configuration File</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -726,287 +964,6 @@ LaTeX 書式の数式をリアルタイムで確認することができます�
   <li><a href="http://jekyllrb.com/docs/extras/">Extras - Jekyll • Simple, blog-aware, static sites</a></li>
   <li><a href="http://sekika.github.io/2015/10/10/equation-on-jekyll/">Jekyll 上での数式の表示</a></li>
   <li><a href="http://www.ic.daito.ac.jp/~mizutani/html/mathexpress.html">Webの数式表現</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組みを作った</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-23T17:14:34+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:14 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>修正した部分だけPHPの構文チェックをする仕組みを作ってみました。  <br />
-構文に問題があればGithubのPull Requestにコメントされます。</p>
-
-<p><img src="/images/2016-06-23_php-syntax-check.png" alt="2016-06-23_php-syntax-check" /></p>
-
-<p>この方法のよいところは既存のソースを変えることなくPHPの構文チェックの仕組みを導入できることです。  <br />
-規約に沿っていないコードが大量にあり、かつテストコードがないような環境(レガシー環境)にも導入することができます。</p>
-
-<p>使用したツールは以下です。</p>
-
-<ul>
-  <li><a href="https://github.com/packsaddle">packsaddle</a></li>
-  <li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a></li>
-  <li><a href="https://circleci.com/">CircleCI</a></li>
-  <li><a href="https://github.com/">Github</a></li>
-</ul>
-
-<p>また、packsaddleのツールはRuby製ですので、Rubyが動作する環境が必要です。</p>
-
-<p>サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/shoyan/php-syntax-check">https://github.com/shoyan/php-syntax-check</a></p>  </li>
-</ul>
-
-<p>以下のスクリプトをCircleCIで実行しています。</p>
-
-<p>check_syntax.sh</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c">#!/bin/bash</span>
-</span><span class="line">
-</span><span class="line"><span class="nb">echo</span> <span class="s2">&quot;Start&quot;</span>
-</span><span class="line"><span class="nv">LIST</span><span class="o">=</span><span class="sb">`</span>git diff --name-only origin/master <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span><span class="sb">`</span>
-</span><span class="line">
-</span><span class="line"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$LIST&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;PHP file not changed.&quot;</span>
-</span><span class="line">    <span class="nb">exit </span>0
-</span><span class="line"><span class="k">fi</span>
-</span><span class="line">
-</span><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$CI_PULL_REQUEST&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class="line">    git diff --name-only origin/master <span class="se">\</span>
-</span><span class="line">        <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
-</span><span class="line">        <span class="p">|</span> xargs vendor/bin/phpcs -n --standard<span class="o">=</span>PSR2 --report<span class="o">=</span>checkstyle <span class="se">\</span>
-</span><span class="line">        <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master <span class="se">\</span>
-</span><span class="line">        <span class="p">|</span> bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
-</span><span class="line">        --require saddler/reporter/github <span class="se">\</span>
-</span><span class="line">        --reporter Saddler::Reporter::Github::PullRequestReviewComment
-</span><span class="line"><span class="k">fi</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="仕組み">仕組み</h2>
-
-<p>以下の3つのセクションに分類されます。</p>
-
-<ul>
-  <li>対象のファイルを抽出</li>
-  <li>構文チェック</li>
-  <li>結果をレポート</li>
-</ul>
-
-<h3 id="1-対象のファイルを抽出">1. 対象のファイルを抽出</h3>
-
-<p>以下のコマンドでmasterと差分のあるファイル名を取得します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>さらに grepで拡張子が .phpのファイルのみ対象にします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master <span class="p">|</span> grep -e ‘.php<span class="nv">$&#39;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="2-構文チェック">2. 構文チェック</h3>
-
-<p>構文チェックツールは好きなものを使えます(CheckStyleフォーマットで出力できるものに限りますが)。  <br />
-今回は<a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a>を使いました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">xargs vendor/bin/phpcs -n --standard<span class="o">=</span>PSR2 --report<span class="o">=</span>checkstyle
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>xargs</code>は前のコマンドを引数でとるために必要です。</p>
-
-<p>以下のコマンドでmasterとブランチの差分をチェックして、差分があるところのエラーを検知対象のエラーとしています。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>エラーの差分の抽出に<a href="https://github.com/packsaddle/ruby-checkstyle_filter-git">checkstyle_filter-git</a>というツールを使っています。<br />
-これは、入力として渡したCheckStyle formatの文字列から、変更した内容の部分のエラーを抽出するツールです。<br />
-例えばファイルの10行目〜15行目を変更した場合、その行で発生したエラーのみを抽出します。</p>
-
-<h3 id="3-結果をレポート">3. 結果をレポート</h3>
-
-<p>saddlerを使って結果をGithubに通知します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
-</span><span class="line">        --require saddler/reporter/github <span class="se">\</span>
-</span><span class="line">        --reporter Saddler::Reporter::Github::PullRequestReviewComment
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>注意点としては、PRを作っていないと通知でエラーとなります。</p>
-
-<p>ですので、Pull Requestがあるかどうかをチェックするif文をいれています。<br />
-<code>$CI_PULL_REQUEST</code> はCIrcleCIの変数で、Pull Requestが作られていればこの変数にURLが格納されています。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$CI_PULL_REQUESTS&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class="line">
-</span><span class="line"><span class="k">fi</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>また、通知には<code>GITHUB_ACCESS_TOKEN</code>を発行して環境変数に登録しておく必要があります。</p>
-
-<ul>
-  <li>
-    <p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">https://help.github.com/articles/creating-an-access-token-for-command-line-use/</a></p>  </li>
-</ul>
-
-<p>CircleCIの環境変数の設定については、以下を参照ください。</p>
-
-<ul>
-  <li>
-    <p><a href="https://circleci.com/docs/environment-variables/#custom">https://circleci.com/docs/environment-variables/#custom</a></p>  </li>
-</ul>
-
-<p>また、通知ではなく単に結果を出力する場合は、<a href="https://github.com/packsaddle/ruby-saddler-reporter-text">saddler/reporter/text</a>を指定します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
-</span><span class="line">  --require saddler/reporter/text <span class="se">\</span>
-</span><span class="line">  --reporter Saddler::Reporter::Text
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下は、出力があった場合はエラーにする例です。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">RESULT</span><span class="o">=</span><span class="sb">`</span>git diff --name-only origin/master <span class="se">\</span>
-</span><span class="line">    <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
-</span><span class="line">    <span class="p">|</span> xargs vendor/bin/phpcs -n --standard<span class="o">=</span>custom_ruleset.xml --report<span class="o">=</span>checkstyle <span class="se">\</span>
-</span><span class="line">    <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git diff origin/master <span class="se">\</span>
-</span><span class="line">    <span class="p">|</span> bundle <span class="nb">exec </span>saddler report <span class="se">\</span>
-</span><span class="line">      --require saddler/reporter/text <span class="se">\</span>
-</span><span class="line">      --reporter Saddler::Reporter::Text<span class="sb">`</span>
-</span><span class="line">
-</span><span class="line"><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;$RESULT&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;An error has been detected,this following:&quot;</span>
-</span><span class="line">    <span class="nb">echo</span> <span class="s2">&quot;$RESULT&quot;</span>
-</span><span class="line">    <span class="nb">exit </span>1
-</span><span class="line"><span class="k">fi</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="その他">その他</h2>
-
-<p><del>ファイルのエンコードがEUC-JPのソースコードに適用したところエラーとなりました。  
-リポジトリをフォークして対応しました。</del><br />
-1.1.0より使えるようになりました！</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b">https://github.com/shoyan/ruby-checkstyle_filter-git/commit/a11c3c7f4daf1ddf26c0ab4f4ae9d8b1b78bda4b</a></p>  </li>
-</ul>
-
-<p>以下のように設定します。</p>
-
-<p>Gemfile</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">gem <span class="s2">&quot;checkstyle_filter-git&quot;</span>, git: <span class="s2">&quot;https://github.com/shoyan/ruby-checkstyle_filter-git.git&quot;</span>, branch: <span class="s2">&quot;implement-exec&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>iconvでgit diffの出力結果の文字コードを<code>EUC-JP</code>-&gt;<code>UTF-8</code>に変換して渡せるようにしました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line">git diff --name-only origin/master <span class="se">\</span>
-</span><span class="line">  <span class="p">|</span> grep -e <span class="s1">&#39;.php$&#39;</span> <span class="se">\</span>
-</span><span class="line">  <span class="p">|</span> xargs phpcs -n --standard<span class="o">=</span>custom_ruleset.xml --report<span class="o">=</span>checkstyle <span class="se">\</span>
-</span><span class="line">  <span class="p">|</span> bundle <span class="nb">exec </span>checkstyle_filter-git <span class="nb">exec</span> <span class="s2">&quot;git diff origin/master | iconv -f EUCJP -t UTF8&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><del>PRもしているので直ることに期待です。</del><br />
-Mergeいただきました。</p>
-
-<ul>
-  <li><a href="https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11">https://github.com/packsaddle/ruby-checkstyle_filter-git/pull/11</a></li>
-</ul>
-
-<p>サンプルとしてGithubにphp-syntax-checkというリポジトリを作成しているので参考にしてください。</p>
-
-<ul>
-  <li><a href="https://github.com/shoyan/php-syntax-check">https://github.com/shoyan/php-syntax-check</a></li>
-</ul>
-
-<h2 id="関連記事">関連記事</h2>
-
-<ul>
-  <li><a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a></li>
-</ul>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="http://packsaddle.org/articles/saddler-overview/">変更したファイルにrubocopやjscsを実行して pull requestに自動でコメントする</a></li>
-  <li><a href="http://qiita.com/noboru_i/items/23827b655ac854ba04b2">規約に沿ってないPHPコードを駆逐する</a></li>
 </ul>
 </div>
   

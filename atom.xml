@@ -4,7 +4,7 @@
   <title><![CDATA[SHOYAN BLOG]]></title>
   <link href="http://48n.jp/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2018-10-15T16:50:34+09:00</updated>
+  <updated>2018-11-20T16:50:14+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RubyでのWebアプリケーション開発はSinatraから入りRailsに行く]]></title>
+    <link href="http://48n.jp/blog/2018/11/20/sinatra-way/"/>
+    <updated>2018-11-20T16:04:35+09:00</updated>
+    <id>http://48n.jp/blog/2018/11/20/sinatra-way</id>
+    <content type="html"><![CDATA[<p>私はソフトウェアエンジニアなのですが、プログラミング講師としても生徒さんにRubyを教えています。RubyでWebアプリケーションを作る場合、まず候補になるフレームワークはRuby on Railsですが、Railsは初学者には難しいと思います。プログラミング初学者にRailsを教えるということは、車の教習所でいきなりスポーツカーを運転させるようなものです。入門者には入門者に適した車があるのと同様にプログラミングにもそのようなものがあります。</p>
+
+<p>では、最初は何がいいかというと、Sinatraがよいと思います。そういうわけで、Sinatraを使ったWebアプリケーションのサンプルを探してみたのですが、よいものが見つかりませんでした。ないなら作ってしまえというわけで作りました。</p>
+
+<ul>
+  <li><a href="https://github.com/shoyan/sinatra-app" target="_blank">https://github.com/shoyan/sinatra-app</a></li>
+</ul>
+
+<p>今回作成したのはシンプルなメモアプリケーションでフォームに入力した値をメモとして保存することができます。作成したメモの一覧表示、詳細表示、編集機能、削除機能を実装しています。基本的なCRUD操作を備えており、RESTについても学ぶことができるようになっています。</p>
+
+<p>わかりやすいようにディレクトリをわけています。initialディレクトリは最初からフルスクラッチで作る場合のディレクトリです。step1はメモの作成とメモの表示機能を実装しています。step2はstep1の機能にメモの削除とメモの編集機能を追加しています。</p>
+
+<p>実装にあたっては、できるだけRubyの標準ライブラリを使うようにしました。理由は長い年月において最も安定的に使えるのはRubyの標準ライブラリであることからです。サードパーティのライブラリは便利ですが、Rubyのバージョンアップによる互換性の問題などを含んでいます。将来的にも安定して動作させることを考慮すると標準ライブラリで実現できる機能であれば標準ライブラリを選択するのは良い選択肢だと思います。</p>
+
+<p>また、データベース（正確にはRDBMS）はややこしいので使っていません。もう少し丁寧に説明すると、今回のアプリケーションはプログラミング初学者の学習に適しているアプリケーションをシンプルな実装（環境も含めて）で作るということを目的として作ったので、その点でRDBMSは適していません。では、どうやってメモを永続的に保持するのかというと、ファイルとして保持しています。この機能の実装には、Rubyの標準ライブラリであるpstoreを利用しました。pstoreとはオブジェクトをそのままファイルとして保存するライブラリです。メモアプリケーションの機能を実現するなら、これで十分なわけです。</p>
+
+<ul>
+  <li><a href="https://docs.ruby-lang.org/ja/latest/library/pstore.html" target="_blank">https://docs.ruby-lang.org/ja/latest/library/pstore.html</a></li>
+</ul>
+
+<p>Webアプリケーションの基礎はCRUDです。リクエストとパラメーター（必要であれば）をアプリケーションサーバーに送信し、ルーティング設定に従ってそのリクエストを処理します。そして、レスポンスを返します。この流れを理解することがはじめの1歩です。この流れが理解できていない状態でRailsを使うのは早すぎるように思いますし、データベースの用意やらマイグレーションやらは確実に最初の壁となってプログラミング初学者に立ちはだかるでしょう。</p>
+
+<p>そのようなややこしいことは置いておいて、まずは小さな動くアプリケーションを作りましょう。Sinatraであればターミナルに数コマンドを打つだけでアプリケーションを起動できます。自分で全てのコードを書いても数時間程度で書くことができます。コードのほとんどは標準のRubyのライブラリを使用しているため、とてもシンプルです。</p>
+
+<p>ここまではRailsについて散々けなしていますが、誤解のないように断っておくと、本格的なWebアプリケーションを作るのであればRailsがいいです。習得に数ヶ月はかかるでしょうが、多くの機能を少ないコードで実装できてしまうRailsの生産性の高さは、それだけの時間をかける価値があります。</p>
+
+<p>RubyでのWebアプリケーション開発は、まずはSinatraから入りそこからRailsに行くのがよいというのが私の考えです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[好きなことをひたすら追いかければよい]]></title>
@@ -793,207 +828,6 @@
 <p>IT系のエンジニアで多いのはコードの書き方や実装の細部にこだわってしまうことです。そこにこだわってしまうと時間を使い過ぎてしまいます。その結果、私たちが最終的に作っている成果物（ユーザーから見える画面）がおそろかになってしまいます。</p>
 
 <p>コードの書き方や実装の細部を高めることは私たちが目指すゴールではありません。私たちが目指すゴールとは成果物を作り、ユーザーに届けることです。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Gradleのjavaプラグインとは]]></title>
-    <link href="http://48n.jp/blog/2018/01/21/gradle-java-plugin/"/>
-    <updated>2018-01-21T00:52:36+09:00</updated>
-    <id>http://48n.jp/blog/2018/01/21/gradle-java-plugin</id>
-    <content type="html"><![CDATA[<p>build.gradleでよく見かける<code>apply plugin: ‘java'</code>という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、javaプラグインを追加するとjavaに関連するタスクが使えるようになります。</p>
-
-<p>何もプラグインを追加していないgradleタスクは以下の通りです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>gradle tasks
-</span><span class="line">
-</span><span class="line">&gt; Task :tasks
-</span><span class="line">
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">All tasks runnable from root project
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">
-</span><span class="line">Build Setup tasks
-</span><span class="line">-----------------
-</span><span class="line">init - Initializes a new Gradle build.
-</span><span class="line">wrapper - Generates Gradle wrapper files.
-</span><span class="line">
-</span><span class="line">Help tasks
-</span><span class="line">----------
-</span><span class="line">buildEnvironment - Displays all buildscript dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">components - Displays the components produced by root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">dependencies - Displays all dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependencyInsight - Displays the insight into a specific dependency in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependentComponents - Displays the dependent components of components in root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line"><span class="nb">help</span> - Displays a <span class="nb">help </span>message.
-</span><span class="line">model - Displays the configuration model of root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">projects - Displays the sub-projects of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">properties - Displays the properties of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">tasks - Displays the tasks runnable from root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">
-</span><span class="line">To see all tasks and more detail, run gradle tasks --all
-</span><span class="line">
-</span><span class="line">To see more detail about a task, run gradle <span class="nb">help</span> --task &lt;task&gt;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">BUILD SUCCESSFUL in 0s
-</span><span class="line"><span class="m">1</span> actionable task: <span class="m">1</span> executed
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Javaプラグインを定義したあとのタスクは以下の通りです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-<span class="line-number">49</span>
-<span class="line-number">50</span>
-<span class="line-number">51</span>
-<span class="line-number">52</span>
-<span class="line-number">53</span>
-<span class="line-number">54</span>
-<span class="line-number">55</span>
-<span class="line-number">56</span>
-<span class="line-number">57</span>
-<span class="line-number">58</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>gradle tasks
-</span><span class="line">Starting a Gradle Daemon <span class="o">(</span>subsequent builds will be faster<span class="o">)</span>
-</span><span class="line">
-</span><span class="line">&gt; Task :tasks
-</span><span class="line">
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">All tasks runnable from root project
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">Build tasks
-</span><span class="line">-----------
-</span><span class="line">assemble - Assembles the outputs of this project.
-</span><span class="line">build - Assembles and tests this project.
-</span><span class="line">buildDependents - Assembles and tests this project and all projects that depend on it.
-</span><span class="line">buildNeeded - Assembles and tests this project and all projects it depends on.
-</span><span class="line">classes - Assembles main classes.
-</span><span class="line">clean - Deletes the build directory.
-</span><span class="line">jar - Assembles a jar archive containing the main classes.
-</span><span class="line">testClasses - Assembles <span class="nb">test </span>classes.
-</span><span class="line">
-</span><span class="line">Build Setup tasks
-</span><span class="line">-----------------
-</span><span class="line">init - Initializes a new Gradle build.
-</span><span class="line">wrapper - Generates Gradle wrapper files.
-</span><span class="line">
-</span><span class="line">Documentation tasks
-</span><span class="line">-------------------
-</span><span class="line">javadoc - Generates Javadoc API documentation <span class="k">for</span> the main <span class="nb">source </span>code.
-</span><span class="line">
-</span><span class="line">Help tasks
-</span><span class="line">----------
-</span><span class="line">buildEnvironment - Displays all buildscript dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">components - Displays the components produced by root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">dependencies - Displays all dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependencyInsight - Displays the insight into a specific dependency in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependentComponents - Displays the dependent components of components in root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span> <span class="nb">help</span> - Displays a <span class="nb">help </span>message.
-</span><span class="line">model - Displays the configuration model of root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">projects - Displays the sub-projects of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">properties - Displays the properties of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">tasks - Displays the tasks runnable from root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">
-</span><span class="line">Verification tasks
-</span><span class="line">------------------
-</span><span class="line">check - Runs all checks.
-</span><span class="line"><span class="nb">test</span> - Runs the unit tests.
-</span><span class="line">
-</span><span class="line">Rules
-</span><span class="line">-----
-</span><span class="line">Pattern: clean&lt;TaskName&gt;: Cleans the output files of a task.
-</span><span class="line">Pattern: build&lt;ConfigurationName&gt;: Assembles the artifacts of a configuration.
-</span><span class="line">Pattern: upload&lt;ConfigurationName&gt;: Assembles and uploads the artifacts belonging to a configuration.
-</span><span class="line">
-</span><span class="line">To see all tasks and more detail, run gradle tasks --all
-</span><span class="line">
-</span><span class="line">To see more detail about a task, run gradle <span class="nb">help</span> --task &lt;task&gt;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">BUILD SUCCESSFUL in 5s
-</span><span class="line"><span class="m">1</span> actionable task: <span class="m">1</span> executed
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Build tasks、Documentation tasks、Verification tasksが追加されています。</p>
 ]]></content>
   </entry>
   

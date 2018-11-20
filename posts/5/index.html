@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="SpringBootのアプリケーションを作成する方法はいくつかありますが、今回はIntelliJで作成する方法を紹介します。 IntellJを起動してメニューバーから File &gt; New &gt; Project...を選択します。 左メニューよりSpring &hellip;">
+  <meta name="description" content="build.gradleでよく見かけるapply plugin: ‘java'という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,228 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/01/21/gradle-java-plugin/">Gradleのjavaプラグインとは</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-01-21T00:52:36+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2018</span></span> <span class='time'>12:52 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>build.gradleでよく見かける<code>apply plugin: ‘java'</code>という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、javaプラグインを追加するとjavaに関連するタスクが使えるようになります。</p>
+
+<p>何もプラグインを追加していないgradleタスクは以下の通りです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>gradle tasks
+</span><span class="line">
+</span><span class="line">&gt; Task :tasks
+</span><span class="line">
+</span><span class="line">------------------------------------------------------------
+</span><span class="line">All tasks runnable from root project
+</span><span class="line">------------------------------------------------------------
+</span><span class="line">
+</span><span class="line">Build Setup tasks
+</span><span class="line">-----------------
+</span><span class="line">init - Initializes a new Gradle build.
+</span><span class="line">wrapper - Generates Gradle wrapper files.
+</span><span class="line">
+</span><span class="line">Help tasks
+</span><span class="line">----------
+</span><span class="line">buildEnvironment - Displays all buildscript dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">components - Displays the components produced by root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
+</span><span class="line">dependencies - Displays all dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">dependencyInsight - Displays the insight into a specific dependency in root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">dependentComponents - Displays the dependent components of components in root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
+</span><span class="line"><span class="nb">help</span> - Displays a <span class="nb">help </span>message.
+</span><span class="line">model - Displays the configuration model of root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
+</span><span class="line">projects - Displays the sub-projects of root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">properties - Displays the properties of root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">tasks - Displays the tasks runnable from root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">
+</span><span class="line">To see all tasks and more detail, run gradle tasks --all
+</span><span class="line">
+</span><span class="line">To see more detail about a task, run gradle <span class="nb">help</span> --task &lt;task&gt;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">BUILD SUCCESSFUL in 0s
+</span><span class="line"><span class="m">1</span> actionable task: <span class="m">1</span> executed
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Javaプラグインを定義したあとのタスクは以下の通りです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>gradle tasks
+</span><span class="line">Starting a Gradle Daemon <span class="o">(</span>subsequent builds will be faster<span class="o">)</span>
+</span><span class="line">
+</span><span class="line">&gt; Task :tasks
+</span><span class="line">
+</span><span class="line">------------------------------------------------------------
+</span><span class="line">All tasks runnable from root project
+</span><span class="line">------------------------------------------------------------
+</span><span class="line">Build tasks
+</span><span class="line">-----------
+</span><span class="line">assemble - Assembles the outputs of this project.
+</span><span class="line">build - Assembles and tests this project.
+</span><span class="line">buildDependents - Assembles and tests this project and all projects that depend on it.
+</span><span class="line">buildNeeded - Assembles and tests this project and all projects it depends on.
+</span><span class="line">classes - Assembles main classes.
+</span><span class="line">clean - Deletes the build directory.
+</span><span class="line">jar - Assembles a jar archive containing the main classes.
+</span><span class="line">testClasses - Assembles <span class="nb">test </span>classes.
+</span><span class="line">
+</span><span class="line">Build Setup tasks
+</span><span class="line">-----------------
+</span><span class="line">init - Initializes a new Gradle build.
+</span><span class="line">wrapper - Generates Gradle wrapper files.
+</span><span class="line">
+</span><span class="line">Documentation tasks
+</span><span class="line">-------------------
+</span><span class="line">javadoc - Generates Javadoc API documentation <span class="k">for</span> the main <span class="nb">source </span>code.
+</span><span class="line">
+</span><span class="line">Help tasks
+</span><span class="line">----------
+</span><span class="line">buildEnvironment - Displays all buildscript dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">components - Displays the components produced by root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
+</span><span class="line">dependencies - Displays all dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">dependencyInsight - Displays the insight into a specific dependency in root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">dependentComponents - Displays the dependent components of components in root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span> <span class="nb">help</span> - Displays a <span class="nb">help </span>message.
+</span><span class="line">model - Displays the configuration model of root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
+</span><span class="line">projects - Displays the sub-projects of root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">properties - Displays the properties of root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">tasks - Displays the tasks runnable from root project <span class="s1">&#39;gs-gradle&#39;</span>.
+</span><span class="line">
+</span><span class="line">Verification tasks
+</span><span class="line">------------------
+</span><span class="line">check - Runs all checks.
+</span><span class="line"><span class="nb">test</span> - Runs the unit tests.
+</span><span class="line">
+</span><span class="line">Rules
+</span><span class="line">-----
+</span><span class="line">Pattern: clean&lt;TaskName&gt;: Cleans the output files of a task.
+</span><span class="line">Pattern: build&lt;ConfigurationName&gt;: Assembles the artifacts of a configuration.
+</span><span class="line">Pattern: upload&lt;ConfigurationName&gt;: Assembles and uploads the artifacts belonging to a configuration.
+</span><span class="line">
+</span><span class="line">To see all tasks and more detail, run gradle tasks --all
+</span><span class="line">
+</span><span class="line">To see more detail about a task, run gradle <span class="nb">help</span> --task &lt;task&gt;
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">BUILD SUCCESSFUL in 5s
+</span><span class="line"><span class="m">1</span> actionable task: <span class="m">1</span> executed
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Build tasks、Documentation tasks、Verification tasksが追加されています。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -419,56 +641,6 @@ GitHubからRubyistの数を調べてみました。</p>
 <h3 id="最後に">最後に</h3>
 
 <p>Rubyに関する様々な指標をまとめてみましたが、いかがでしたでしょうか。どのような指標が面白かったでしょうか？感想をフィードバックしていただけると嬉しいです。2018年もたくさんのRubyのコードや記事が書かれ、たくさんの素晴らしいプロダクトが誕生することでしょう。最後まで記事を読んでくださってどうもありがとうございました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/29/math-basic-for-machine-leaning/">これから機械学習の理論を学ぶ人に最適な入門書とは？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-29T11:21:09+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:21 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>こんにちは、SHOYANです。</p>
-
-<p>様々なところで使われるようになってきている機械学習ですが、その仕組みを理解するには数学の知識が必要なため、そこが壁になっている人も多いことかと思います。という私もその1人です。今回、そのような初学者向けに良い入門本が出版されたので紹介します。</p>
-
-<h2 id="やさしく学ぶ-機械学習を理解するための数学の基本">やさしく学ぶ 機械学習を理解するための数学の基本</h2>
-
-<p><a href="http://amzn.to/2yweltz" target="_blank"><img src="http://tkengo.github.io/assets/img/ml-math/cover-math.png" alt="やさしく学ぶ 機械学習を理解するための数学の基本" style="border-width:0;width:50%;float:right;" /></a></p>
-
-<p>2017年9月にマイナビ出版より発売されています。物語を読むような感覚で機械学習の理論と数学を学べるようになっており、これから機械学習の理論を学んでいく初学者に最適な1冊です。機械学習に使われる理論と数式について、アヤノ、ミオの2人の登場人物が会話形式で学んでいきます。</p>
-
-<h3 id="著者の紹介">著者の紹介</h3>
-
-<p>著者の<a href="https://twitter.com/tkengo" target="_blank">立石賢吾</a>さんはLINE Fukuoka株式会社でデータ分析や機械学習を使った業務を行っているエンジニアです。<a href="https://maths4pg-fuk.connpass.com/" target="_blank">プログラマのための数学勉強会@福岡</a>も主催しています。</p>
-
-<h3 id="この一冊で機械学習の理論と数学実装まで">この一冊で機械学習の理論と数学、実装まで</h3>
-
-<p>機械学習でよく使われる、回帰、分類、クラスタリングとその理論についての説明が主な内容となっています。アヤノ、ミオの2人によって会話形式で話が展開されていくため、物語を読んでいく感覚で機械学習の理論を学んでいくことができます。数学については付録があり、そちらでより詳しく学べるようにもなっています。また、Pythonを使ったサンプルコードが用意されており、実際に動かすことができます。この1冊で機械学習の理論、数学、実装を一通り学べるようになっています。</p>
-
-<h2 id="これから機械学習の理論を学ぼうと考えている初学者に最適">これから機械学習の理論を学ぼうと考えている初学者に最適</h2>
-
-<p>私自身、初学者向けの機械学習の本を何冊か見てきましたが、この本が1番わかりやすいように思います。なぜかといいますと、アヤノ、ミオの2人による会話形式で話が展開されていくため、物語を読むように理論を学ぶことができます。また、疑問に思う部分についてはアヤノが質問するようになっており、そのおかげで都度疑問が解消されていきます。これから機械学習の理論を学び始める人、難しくて挫折してしまった人におすすめの入門書です。</p>
 </div>
   
   

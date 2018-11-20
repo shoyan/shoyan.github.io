@@ -9,9 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Dockerでlocaleを設定したいときがある。
-例えばマルチバイトを扱うときだ。
-localeを設定していないイメージで処理を行うと ArgumentError: invalid byte sequence in US-ASCII のようなエラーが発生することがある。 &hellip;">
+  <meta name="description" content="ポケモンGOが日本で遊べるようになったのが2016/6/21。
+およそ2ヶ月が経ちスタート当時のブームは落ち着いてきた。 自分はコツコツと続けていて、最近ようやくレベル20になった。
+レベル20になるとポケストップでハイパーボールが出てくるようになる。 今更だが、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -148,6 +148,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/31/pokemon-go/">ポケモンGOが自分を変えたこと</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-31T13:36:11+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>1:36 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ポケモンGOが日本で遊べるようになったのが2016/6/21。<br />
+およそ2ヶ月が経ちスタート当時のブームは落ち着いてきた。</p>
+
+<p>自分はコツコツと続けていて、最近ようやくレベル20になった。<br />
+レベル20になるとポケストップでハイパーボールが出てくるようになる。</p>
+
+<p>今更だが、ポケモンGOの開発者のメッセージをみた。<br />
+目指しているのはみんなが外に出てもっと歩き、新しい場所へ行き、友達と楽しむゲームという言葉が印象的だった。<br />
+そんなゲームで遊ぶことで、人生が豊かになると信じていると話していた。</p>
+
+<p>自分はポケモンGOをやりだしてから、ほんの少しだが人生が豊かになったと思う。</p>
+
+<p>家の近くのポケモンを息子と一緒に探しにいったことがある。<br />
+カビゴンを見つけたときは2人で歓声をあげたものだ。</p>
+
+<p>ポケモンGOにはポケストップがいたるところにある。<br />
+今まで気づかず、素通りしていたものに気付かされた。<br />
+身近なところにこんなものがあったのかと。</p>
+
+<p>最近は道を歩くときに、なにか面白いものはないかと気にするようになった。<br />
+少しだけ自分も変わっているのだと思う。</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hdpYBEJMfy0" frameborder="0" allowfullscreen=""></iframe>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -413,67 +465,6 @@ Dockerでlocaleを設定する場合は、以下のようにDockerfileに定義�
 <p>店舗を探してみると、即予約ができるお店もあった。即予約とは文字取り、申込み時点で予約が確定する。即予約で申込み、これで席を確保することができた。これで安心してお店へ行ける。</p>
 
 <p>ポイントが貰えるし、次回からもお店の予約にはホットペッパーグルメを使おうと思う。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/08/php-lint-with-ci/">PHPの構文チェックを自動で行う方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-08T13:30:30+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:30 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>私のチームではCIで自動的にLINTをする仕組みを構築しています。<br />
-この仕組みにより、レガシーコードでテストコードがない環境でもシンタックスエラーの混入を防ぐことができます。</p>
-
-<p>中身はシンプルで以下のスクリプトを作成して、CIプラットホームで実行するようにします。</p>
-
-<p>php-lint.sh</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/sh
-</span><span class="line">
-</span><span class="line">RESULT=`find . -type f -name "*.php" -exec php -l {} \; 2&gt;&amp;1 | grep "PHP Parse error"`
-</span><span class="line">
-</span><span class="line">if [ "$RESULT" != "" ];then
-</span><span class="line">    echo "$RESULT"
-</span><span class="line">    exit 1
-</span><span class="line">fi</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>例えば、Droneでチェックする場合は以下のように設定します。</p>
-
-<p>.drone.yml</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">script:
-</span><span class="line">  - ./php-lint.sh</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

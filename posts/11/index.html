@@ -9,8 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="以前、Dockerコンテナを連携させる方法を書いたが、コンテナ間の連携が必要な際はdocker-composeを使うと便利だ。
-今回は前回と同じようにPHPとMySQLのコンテナを連携させるが、その連携にdocker-composeを使った方法を紹介する。 まずは、適当なディレクトリをつくる。 &hellip;">
+  <meta name="description" content="Macを引っ越ししたらDockerデーモンが起動しなくなった。
+Dockerを起動しようとすると Cannot connect to the Docker daemon. Is the docker daemon running on this host? というメッセージがでて起動しない。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +147,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/05/fix-unable-to-connect-to-docker-daemon/">Macを引っ越ししたらDockerデーモンが起動しなくなった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-05T14:27:46+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:27 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Macを引っ越ししたらDockerデーモンが起動しなくなった。<br />
+Dockerを起動しようとすると <code>Cannot connect to the Docker daemon. Is the docker daemon running on this host?</code> というメッセージがでて起動しない。<br />
+docker-machineコマンドで確認してみると以下のエラーが出ていた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker-machine ls
+</span><span class="line">NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+</span><span class="line">default   -        virtualbox   Running   tcp://192.168.99.100:2376           Unknown   Unable to query docker version: Cannot connect to the docker engine endpoint</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>1度docker-machineコマンドで既存のDockerを削除して作成するとうまくいった。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ docker-machine rm -f default
+</span><span class="line">$ docker-machine create -d virtualbox default</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>今度はDockerのバージョンがv1.12.1と表示されている。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">⇒  docker-machine ls
+</span><span class="line">NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+</span><span class="line">default   -        virtualbox   Running   tcp://192.168.99.100:2376           v1.12.1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちなみに既存のDockerを削除すると今までのimageは消えてしまう。</p>
+
+<p>Docker for Macがでてそっちに移行した方がよさげな機運を感じるので、そろそろDocker ToolboxからDocker for Macに移行する時期なのかな。</p>
+
+<ul>
+  <li>
+    <p><a href="https://docs.docker.com/docker-for-mac/docker-toolbox/">https://docs.docker.com/docker-for-mac/docker-toolbox/</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -671,98 +736,6 @@ version名が表示されれば成功だ。</p>
 <p>ただし、これは慣れもあるのではと思う。<br />
 走ると歩くことを繰り返すのはたしかにしんどいがそれが習慣化してしまえば、最初に感じた負荷よりもぐっと負担は減るはずだ。<br />
 もうしばらくポモドーロ・テクニックを使っていくつもりだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/09/12/study-english-four-month/">英語の勉強をはじめて4ヶ月の記録</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-09-12T13:56:43+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:56 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>英語の勉強時間をStudyPlusに記録しはじめて4ヶ月がたった。<br />
-StudePlusに関しては以下の記事を参照してほしい。<br />
-<a href="/blog/2016/05/04/introduce-studyplus/">勉強が楽しく続くようになるStudyplus</a></p>
-
-<p>勉強時間は合計91時間。<br />
-最近は英語の勉強のルーティンが生活の中に確立して自然にできるようになった。<br />
-いまやっていることは以下のような感じ。</p>
-
-<h3 id="家から駅まで">家から駅まで</h3>
-
-<p>NHKのラジオ英会話(アプリ版)を聞きながら15分歩く。<br />
-アプリ版は好きな時間に聞けるので重宝している。</p>
-
-<h3 id="会社">会社</h3>
-
-<p>休み時間にマジタンという英単語アプリで英単語を覚える。</p>
-
-<h3 id="駅から家まで">駅から家まで</h3>
-
-<p>超右脳つぶやき英語トレーニングを聞きながら15分歩く。<br />
-(現在は廃盤になっており、現行は<a href="https://www.amazon.co.jp/gp/product/4862801315/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=247&amp;creative=1211&amp;creativeASIN=4862801315&amp;linkCode=as2&amp;tag=syoyama-22">超速つぶやき英語トレーニング</a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=syoyama-22&amp;l=as2&amp;o=9&amp;a=4862801315" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />という名前で出版されている)</p>
-
-<iframe src="https://rcm-fe.amazon-adsystem.com/e/cm?t=syoyama-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=4862801315&amp;ref=qf_sp_asin_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<h3 id="寝る前">寝る前</h3>
-
-<p>データベース3000基本英単語・熟語を30分。<br />
-発音とリスニングをする。</p>
-
-<iframe src="https://rcm-fe.amazon-adsystem.com/e/cm?t=syoyama-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=4342012952&amp;ref=tf_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<p>以上でだいたい1時間くらいだ。</p>
-
-<p>語彙数を増やすこととリスニング力の向上を目指している。<br />
-理由は以下の通り。</p>
-
-<ul>
-  <li>英語の勉強に関する著書を読むと語彙数が必要と書いてあることが多い</li>
-  <li>英会話をやってみて、そもそもリスニングができないと会話が成り立たないことを痛感した</li>
-</ul>
-
-<p>英単語学習についての考え方は以下の記事が大変参考になった。</p>
-
-<ul>
-  <li><a href="http://eitango-anki.com/%E7%AC%AC2%E8%A9%B1%EF%BC%9A%E6%9C%AC%E5%BD%93%E3%81%AB3000%E8%AA%9E%E5%BD%99%E3%81%A7%E8%B6%B3%E3%82%8A%E3%82%8B%E3%81%AE%E3%81%8B%EF%BC%9F/">第2話：本当に3000語彙で足りるのか？ - 1日33分で1000の語彙が増える英単語の暗記カード</a></li>
-</ul>
-
-<h2 id="4ヶ月前と比べて">4ヶ月前と比べて</h2>
-
-<p>4ヶ月前と比べ、以下のような変化があった。</p>
-
-<p>覚えた英単語は3500。<br />
-4ヶ月前はネイティブが話す速度の英語はほとんど聞き取れなかったが、いまは単語として聞き取れる割合が増えた。<br />
-超右脳つぶやき英語トレーニングに付属しているCDはネイティブが普通に話すスピードなのでさっぱり聞き取れなくて愕然としたが、いまは6割くらい聞き取れてていると思う。何度も聞いて内容を覚えてしまっているからでもある。<br />
-しかし、聞き取れる単語は増えてきたが、意味がわからないことが多い。</p>
-
-<p>リーディング、ライティングはほとんどやっていないが、語彙数が向上したことでリーディングもあがっていると思う。<br />
-しかし、語彙数3500程度だとわからない単語が多く理解できない部分が多い。<br />
-当然、日本語のように英語を読むことは不可能である。<br />
-ライティングはほとんど向上していない。</p>
-
-<p>今後は語彙数をもっと増やして10000語を目指すつもりだ。</p>
-
 </div>
   
   
