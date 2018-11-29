@@ -9,8 +9,14 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="PHPUnitでテスト用のレコードを作成するのだが、テストで作成したレコードが残ってしまい再度テストを行うと失敗するという現象に遭遇した。 以下のようにAppTestCase を作成してカスタマイズしている。
-setup() メソッドで datasets &hellip;">
+  <meta name="description" content="日付は日本だと /(スラッシュ)区切りが一般的なのでそのように表示したい。
+しかし、RailsでDateオブジェクトやDateTimeオブジェクトを表示すると以下のような感じになってしまう。 1
+2
+3
+4
+5
+pry(main)&gt; Date.today.to_s
+=&gt; &quot; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +153,85 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/11/10/change-date-format-with-i18n/">Railsで日付をいい感じ(スラッシュ区切り)に表示する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-11-10T18:28:31+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:28 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>日付は日本だと <code>/</code>(スラッシュ)区切りが一般的なのでそのように表示したい。<br />
+しかし、RailsでDateオブジェクトやDateTimeオブジェクトを表示すると以下のような感じになってしまう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;2016-11-10&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;2016-11-10T17:47:01+09:00&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>strftime</code>メソッドで書式を指定すれば良いのだが、面倒だしイケてないように感じる。</p>
+
+<p>Rails国際化APIの<code>I18n</code>にまさにというメソッドがあったので紹介する。<br />
+その名も<code>localize</code>メソッドだ。<br />
+<code>localize</code>メソッドはDateオブジェクトやDateTimeオブジェクトを現地のフォーマットに変換する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">I18n</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span><span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;2016/11/10&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">I18n</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span><span class="no">DateTime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;2016/11/10 18:05:04&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ちなみにlocalizeの省略形で <code>l</code> というエイリアスが用意されている。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">I18n</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;2016/11/10&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">I18n</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="no">DateTime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;2016/11/10 18:07:24&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li><a href="http://railsguides.jp/i18n.html#%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%AFi18n-api">Rails国際化(I18n) API Rails ガイド</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -708,57 +793,6 @@ Gemを更新することはそんなに多くないので（私の場合）よ�
     <p><a href="https://github.com/shoyan/git_find_committer/blob/master/Rakefile">https://github.com/shoyan/git_find_committer/blob/master/Rakefile</a></p>  </li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/17/kindle-unlimited-impression/">Kindle Unlimitedの冊数は図書館並みだった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-17T17:06:47+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:06 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今更ながらKindle Unlimitedを使ってみた。<br />
-すでに承知の方が大半だろうが、Kindle UnlimitedはKindle本の読み放題サービスだ。<br />
-月額980円でKindle Unlimitedに登録されている本を読むことができる。<br />
-ちなみに現在登録されている本はおよそ13万冊。<br />
-この数は私が利用する糸島市図書館のおよそ2倍だ。</p>
-
-<p>ちなみに13万冊というのは日本で出版されている本の数で洋書は含まれていない。<br />
-洋書は10倍にあたる132万冊を読むことができる。<br />
-132万冊といえば全国で6番目に蔵書数が多い滋賀県立図書館に匹敵する。</p>
-
-<p>洋書を手に入れる場所は日本だと限られているが、Kindleを使えば大型の図書館の蔵書数に匹敵する洋書を読むことができる。<br />
-また、Kindleアプリには英語の翻訳機能が搭載されているので、不明な単語があれば即座に意味を確認することもできる。</p>
-
-<p>使ってみて3週間ほど経つが、月額980円をペイするには十分すぎるクオリティだと思う。<br />
-Kindleは各プラットフォームにアプリが用意されており、Kindleがなくても読むことができる。<br />
-自分はKindle Fireを持っているがKindle Fireを使うことはあまりなく、iPhoneやMacで読むことの方が多い。</p>
-
-<p>Kindle Unlimitedで読めるKindle本は以下で確認できる。</p>
-
-<ul>
-  <li><a href="https://www.amazon.co.jp/b?ie=UTF8&amp;node=4486610051">Kindle Unlimited:読み放題ストア: Kindleストア</a></li>
-</ul>
 </div>
   
   

@@ -9,8 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="chefを実行したらこんなメッセージがでた。 1
-WARN: Chef client 24431 is running, will wait for it to finish and then run. 前回実行したChefが途中で詰まってしまい、ウンともスンとも言わなくなったので Ctrl + &hellip;">
+  <meta name="description" content="自動化ツールのGuardの紹介をします。 Guardはファイルを監視して、ファイルになんらかの変更がされたら、指定した処理を実行するツールです。 この機能を使ってファイルが変更されたらテストを自動で実行させたり、シンタックスチェックをすることができます。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +146,186 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/">Guardでrspecのテストを自動化する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-24T15:05:01+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:05 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自動化ツールのGuardの紹介をします。  <br />
+Guardはファイルを監視して、ファイルになんらかの変更がされたら、指定した処理を実行するツールです。  <br />
+この機能を使ってファイルが変更されたらテストを自動で実行させたり、シンタックスチェックをすることができます。  <br />
+今回はrspecで自動的にテストを実行する方法を紹介します。</p>
+
+<p>まずはGuardのinstallをします。  <br />
+Gemfileに定義してインストールします。</p>
+
+<p>Gemfile</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;guard&#39;</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>bundle installして、Guardfileを作成します。  <br />
+GuardfileはGuardの設定を定義するファイルです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">bundle</span> <span class="n">install</span>
+</span><span class="line"><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">guard</span> <span class="n">init</span> <span class="n">rspec</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>guard init rspecを実行するとrspecの設定が書かれたGuardfileが作成されます。  <br />
+Railsを想定した設定が書かれていますので、Railsの場合はそのままでOKです。</p>
+
+<h2 id="ファイルが実行されたらrspecを実行する">ファイルが実行されたらrspecを実行する</h2>
+
+<p>ファイルが実行されたらrspecを実行するようにしましょう。  <br />
+別でウィンドウを開いてguardを実行します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">guard</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ファイルを変更するとそのファイルのテストが実行され、テスト結果が表示されます。</p>
+
+<h2 id="guard-rspecのdsl">Guard-rspecのDSL</h2>
+
+<p>Guardの設定はGuardのDSLを用いて設定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># rspecのグループを定義し、監視しているファイルに変更があった場合は&quot;bundle exec rspec&quot;&quot;を実行する。</span>
+</span><span class="line"><span class="n">guard</span> <span class="ss">:rspec</span><span class="p">,</span> <span class="ss">cmd</span><span class="p">:</span> <span class="s2">&quot;bundle exec rspec&quot;</span> <span class="k">do</span>
+</span><span class="line">  <span class="c1"># Guard::RspecのDSLのインスタンスを作成</span>
+</span><span class="line">  <span class="n">dsl</span> <span class="o">=</span> <span class="no">Guard</span><span class="o">::</span><span class="no">RSpec</span><span class="o">::</span><span class="no">Dsl</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class="line">  <span class="n">rspec</span> <span class="o">=</span> <span class="n">dsl</span><span class="o">.</span><span class="n">rspec</span>
+</span><span class="line">  <span class="n">watch</span><span class="p">(</span><span class="n">rspec</span><span class="o">.</span><span class="n">spec_helper</span><span class="p">)</span> <span class="p">{</span> <span class="n">rspec</span><span class="o">.</span><span class="n">spec_dir</span> <span class="p">}</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>watchで監視するファイルを設定します。  <br />
+watchの引数は以下です。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">watch(監視するファイル) { コマンドに渡される引数 }
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ここででてきた、<code>rspec.spec_helper</code> と <code>rspec.spec_dir</code> はどんな値を返すのでしょうか。<br />
+pryで覗いてみましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">pry</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="nb">require</span> <span class="s1">&#39;guard/rspec/dsl&#39;</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="n">dsl</span> <span class="o">=</span> <span class="no">Guard</span><span class="o">::</span><span class="no">RSpec</span><span class="o">::</span><span class="no">Dsl</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="n">rspec</span> <span class="o">=</span> <span class="n">dsl</span><span class="o">.</span><span class="n">rspec</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="n">rspec</span><span class="o">.</span><span class="n">spec_helper</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;spec/spec_helper.rb&quot;</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="n">rspec</span><span class="o">.</span><span class="n">spec_dir</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;spec&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ソースを少し見てみましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">rspec</span>
+</span><span class="line">  <span class="vi">@rspec</span> <span class="o">||=</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">to_s</span><span class="p">:</span> <span class="s2">&quot;spec&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tap</span> <span class="k">do</span> <span class="o">|</span><span class="n">rspec</span><span class="o">|</span>
+</span><span class="line">    <span class="n">rspec</span><span class="o">.</span><span class="n">spec_dir</span> <span class="o">=</span> <span class="s2">&quot;spec&quot;</span>
+</span><span class="line">    <span class="n">rspec</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="p">{</span> <span class="no">Dsl</span><span class="o">.</span><span class="n">detect_spec_file_for</span><span class="p">(</span><span class="n">rspec</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="p">}</span>
+</span><span class="line">    <span class="n">rspec</span><span class="o">.</span><span class="n">spec_helper</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">rspec</span><span class="o">.</span><span class="n">spec_dir</span><span class="si">}</span><span class="s2">/spec_helper.rb&quot;</span>
+</span><span class="line">    <span class="n">rspec</span><span class="o">.</span><span class="n">spec_files</span> <span class="o">=</span> <span class="sr">%r{^</span><span class="si">#{</span><span class="n">rspec</span><span class="o">.</span><span class="n">spec_dir</span><span class="si">}</span><span class="sr">/.+_spec\.rb$}</span>
+</span><span class="line">    <span class="n">rspec</span><span class="o">.</span><span class="n">spec_support</span> <span class="o">=</span> <span class="sr">%r{^</span><span class="si">#{</span><span class="n">rspec</span><span class="o">.</span><span class="n">spec_dir</span><span class="si">}</span><span class="sr">/support/(.+)\.rb$}</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://github.com/guard/guard-rspec/blob/master/lib/guard/rspec/dsl.rb#L28">https://github.com/guard/guard-rspec/blob/master/lib/guard/rspec/dsl.rb#L28</a></p>
+<p>実装には<code>OpenStruct</code>が使われています。  <br />
+<code>OpenStruct</code>とは要素を動的に追加・削除できる手軽な構造体を提供するクラスです  <br />
+http://docs.ruby-lang.org/ja/2.1.0/class/OpenStruct.html</p>
+
+<p>要素を追加するためにtapメソッドを使っています。  <br />
+<code>OpenStruct</code>とtapメソッドをうまく使っていますね。</p>
+
+<p>実は、というか当たり前なのですがOpenStructなので値の上書きも簡単にできてしまいます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="o">&gt;</span> <span class="n">rspec</span><span class="o">.</span><span class="n">spec_helper</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;spec/spec_helper.rb&quot;</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="n">rspec</span><span class="o">.</span><span class="n">spec_helper</span> <span class="o">=</span> <span class="s1">&#39;hoge&#39;</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge&quot;</span>
+</span><span class="line"><span class="o">&gt;</span> <span class="n">rspec</span><span class="o">.</span><span class="n">spec_helper</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="guardのカスタマイズ">Guardのカスタマイズ</h2>
+
+<p>Guardの様々なプラグインが開発されています。  <br />
+プラグインは以下のページで参照できます。  <br />
+https://github.com/guard/guard/wiki/Guard-Plugins</p>
+
+<p>ちなみに、今回使った<code>guard-rspec</code>もGuardのプラグインです。  <br />
+他にも様々なプラグインが用意されています。</p>
+
+<h2 id="関連記事">関連記事</h2>
+
+<ul>
+  <li><a href="/blog/2016/12/07/guard-rubocop/">Guardでrubocopを自動化する</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -682,76 +861,6 @@ express-generatorで作成されたファイル構成では、<code>routes/</cod
 <ul>
   <li><a href="http://expressjs.com/en/starter/installing.html">Installing Express</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/16/cording-without-separator-on-ruby/">Rubyでスラッシュを意識せずにコーディングする方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-16T13:25:01+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:25 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ファイルのパスを生成する際にセパレーターを意識しなくてはならず、どうにもいけていないコードがあります(ありますというか自分が量産していました)。  <br />
-以下のようなコードです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">path1</span><span class="si">}</span><span class="s2">/{$path2}&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>セパレーターを意識せずコーディングできないものかと調べたところ、<code>File.join</code>を使えばよしなにやってくれることがわかりました。<br />
-<code>File.join</code>を使えばセパレーターを指定する必要はありません。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;moge&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge/moge&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>File.join</code>は正しいであろうパスのフォーマットに補正してくれるため、<code>//hoge</code>のようなパスが生成されることもありません。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;hoge&quot;</span><span class="p">,</span> <span class="s2">&quot;moge/&quot;</span><span class="p">,</span> <span class="s2">&quot;/fuga&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge/moge/fuga&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>パラメーターが配列でもよしなにやってくれます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sx">%w(hoge moge/ fuga)</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;hoge/moge/fuga&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>地味ですが、これでセパレーターの悩みから解放されて幸せになれます。</p>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li>
-    <p><a href="http://ruby-doc.org/core-2.2.0/File.html#method-c-join">http://ruby-doc.org/core-2.2.0/File.html#method-c-join</a></p>  </li>
-</ul>
-
 </div>
   
   

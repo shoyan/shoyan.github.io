@@ -9,8 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="この記事は子育てプログラマ・ITエンジニア・Webデザイナー Advent Calendar 2015 7日目の記事です。 我が家は僕と妻、4歳の長男と1歳の長女の4人家族です。 どちらの子もすくすくと育っています。
-上の子は幼稚園が楽しいようで毎日元気に登園しており、 &hellip;">
+  <meta name="description" content="2015年12月にPHP7.0.0がリリースされました。
+先日、PHP7.0.2がリリースされ、活発に開発が行われているようです。 手元でPHP7を試すために、PHP7.0.2をインストールしてみました。
+OSはMac OSX(Yosemite)です。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -147,6 +148,165 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/12/install-php7-on-mac-os/">Mac OSXにPHP7をインストール</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-12T22:26:16+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:26 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2015年12月にPHP7.0.0がリリースされました。<br />
+先日、PHP7.0.2がリリースされ、活発に開発が行われているようです。</p>
+
+<p>手元でPHP7を試すために、PHP7.0.2をインストールしてみました。<br />
+OSはMac OSX(Yosemite)です。</p>
+
+<p>依存パッケージのinstallにはhomebrewを使うので、updateしておきます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">brew update
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>PHPのインストールには、phpenvを使います。<br />
+phpenvを使うことで、複数のバージョンをインストールすることができます。</p>
+
+<h3 id="phpenvのインストール">phpenvのインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ git clone git@github.com:CHH/phpenv.git
+</span><span class="line">$ cd phpenv
+</span><span class="line">$ phpenv-install.sh
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下を <code>$HOME/.bash_profile</code> or <code>$HOME/.bashrc</code>に追記します。<br />
+(zshの場合は、<code>$HOME/.zsh_profile</code> or <code>$HOME/.zshrc</code>です。)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">eval "$(phpenv init -)"
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="php-buildのインストール">php-buildのインストール</h3>
+<p>phpのbuildはphp-buildで行うため、php-buildのインストールを行います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ git clone git://github.com/php-build/php-build.git $HOME/.phpenv/plugins/php-build
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="依存パッケージのインストール">依存パッケージのインストール</h3>
+<p>PHP7のインストールに必要なパッケージをインストールします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ brew install bison
+</span><span class="line">$ brew install re2c
+</span><span class="line">$ brew install libjpeg
+</span><span class="line">$ brew install libpng
+</span><span class="line">$ brew install libmcrypt
+</span><span class="line">$ brew install autoconf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="php702のインストール">PHP7.0.2のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ phpenv install 7.0.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>PHP7がインストールできたら、globalコマンドでPHPのバージョンを設定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ phpenv global 7.0.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>PHPのbuild時にエラーがでた場合はphp-buildのソースコードを修正して確認してみてください。<br />
+https://github.com/php-build/php-build/blob/bfd562bd6c11a97f953d92b0aac699ad82a045e2/share/php-build/extension/extension.sh#L128</p>
+
+<p>.phpenv/plugins/php-build/share/php-build/extension/extension.sh</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
+</span><span class="line">    $PREFIX/bin/phpize &gt; /dev/null
+</span><span class="line">    "$(pwd)/configure" --with-php-config=$PREFIX/bin/php-config \
+</span><span class="line">        $configure_args &gt; /dev/null
+</span><span class="line">
+</span><span class="line">    make &gt; /dev/null
+</span><span class="line">    make install &gt; /dev/null
+</span><span class="line">} &gt;&amp;4 2&gt;&amp;1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のように修正します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{
+</span><span class="line">    $PREFIX/bin/phpize
+</span><span class="line">    "$(pwd)/configure" --with-php-config=$PREFIX/bin/php-config \
+</span><span class="line">        $configure_args
+</span><span class="line">
+</span><span class="line">    make
+</span><span class="line">    make install
+</span><span class="line">} &gt;&amp;4 2&gt;&amp;1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="php7について">PHP7について</h3>
+<p>PHP7はPHP5との互換性が重視されているようなので、移行コストは低そうです。  <br />
+基本的にはPHP5.6までで非推奨の機能が廃止されています。  <br />
+詳しくは以下を参照ください。</p>
+
+<ul>
+  <li><a href="https://secure.php.net/manual/ja/migration70.php">PHP5.6.x からPHP7.0.xへの移行</a></li>
+</ul>
+
+<p>パフォーマンスに関してはけっこう改善されているようで、PHP5の2倍とのことでした。</p>
+
+<ul>
+  <li><a href="http://www.slideshare.net/hnw/phpcon-kansai20150530">PHP7で変わること ——言語仕様とエンジンの改善ポイント</a></li>
+  <li><a href="https://secure.php.net/archive/2015.php#id2015-12-03-1">PHP7.0.0 Released</a></li>
+</ul>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4774144371" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4802610440" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -567,164 +727,6 @@ autoloadを利用するにはファイル名とクラス名がautoloadのルー�
 </span><span class="line"><span class="k">class</span> <span class="nc">HogeMoge</span><span class="o">::</span><span class="no">Fuga</span>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/28/highway-faster-than-ag/">超高速grep「The Silver Searcher(ag)」からhighwayに乗り換えた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-28T13:51:49+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:51 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>プログラマーにとって，grepコマンドはなくてはならない存在です。  <br />
-基本的かつ古典的なユーティリティであるgrepですが，使いにくい面もあります。</p>
-
-<p>2013年のはじめころから，grepに取って代わるコマンドとして「The Silver Searcher」（以下「ag」）が注目されはじめました。  <br />
-そして最近、<a href="https://github.com/tkengo/highway">highway</a>というagライクで高速なgrepツールがリリースされました。</p>
-
-<h3 id="the-silver-searcheragとは">The Silver Searcher（ag）とは？</h3>
-<p>highwayの紹介の前にagとagが開発された背景について説明したいと思います。</p>
-
-<p>プログラムを書いていると，ソースコード全域にわたって文字列を検索したい，ということはよくあります。  <br />
-そのようなときにgrepコマンドが活躍するわけですが，ソースコードのディレクトリには検索したくないファイルが往々としてあるわけです。</p>
-
-<p>たとえばバージョン管理システムが使っている「.git」ディレクトリは，検索対象に含めたくありません。  <br />
-これをgrepで実現しようとすると，オプションやパイプを組み合わせて，少々面倒なワンライナーを書く必要があります。</p>
-
-<p>こういった問題を解決するため，ackというプログラムが作られました。  <br />
-ackは以下のような特徴を持つ，開発者向けの賢いgrepツールです。</p>
-
-<ul>
-  <li>デフォルトでディレクトリツリーを再帰検索</li>
-  <li>.gitなどを暗黙的に除外</li>
-  <li>検索するファイルタイプをオプションで指定可能（–perl，など）</li>
-  <li>拡張子だけでなく，shebangを見てファイルタイプを判別可能</li>
-  <li>検索結果をファイル単位でわかりやすくまとめて表示</li>
-</ul>
-
-<p>ackはgrepと比べて使い勝手がよいのですが，Perlで実装されていることもあり，動作速度に難があります。  <br />
-その動作速度の問題を改善するためにagが開発されました。</p>
-
-<p>agは開発者が「A code searching tool similar to ack, with a focus on speed.」と紹介しているとおり，「高速なack」を目指して開発されたプログラムです。  <br />
-「ackに比べて3から5倍高速」を謳っており，そして実際非常に高速です。</p>
-
-<h3 id="the-silver-searcheragの問題点">The Silver Searcher（ag）の問題点</h3>
-<p>紹介した通り、使い勝手がよく、性能もよいagなのですが、以下の問題点があります。</p>
-
-<ul>
-  <li>EUC-JPやShift_JISなどの日本語に使われるマルチバイト文字列が検索できない</li>
-  <li>検索結果の出力順が検索する度に異なる</li>
-</ul>
-
-<p>全てのコードがUTF-8であれば問題ありませんが、日本語圏で使われるファイルでは、なかなかそうもいきません。  <br />
-検索結果の出力順が検索する度に異なるのも少し使いにくいと感じます。</p>
-
-<p>その点、highwayはEUC-JPやShift_JISをサポートしており、検索結果の表示順の問題もありません。</p>
-
-<h3 id="highwayのメリット">highwayのメリット</h3>
-<p>agの問題点であげた点をhighwayはクリアしています。  <br />
-また、速度もagよりも高速です。</p>
-
-<p>ベンチマークについては以下の記事をご覧ください。  <br />
-http://tkengo.github.io/blog/2015/10/19/release-highway/</p>
-
-<h3 id="highwayのインストール">highwayのインストール</h3>
-
-<h4 id="for-os-x">For OS X</h4>
-<p>homebrewでインストールできます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ brew tap tkengo/highway
-</span><span class="line">$ brew install highway
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="for-fedora-core">For Fedora Core</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo vi /etc/yum.repos.d/highway.repo
-</span><span class="line">[repos.highway]
-</span><span class="line">name=highway
-</span><span class="line">baseurl=http://tkengo.github.io/highway/fedora
-</span><span class="line">enabled=0
-</span><span class="line">gpgcheck=0
-</span><span class="line">
-</span><span class="line">$ sudo yum install highway --enablerepo="repos.highway"
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="使い方">使い方</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># カレントディレクトリをhogeをいう文字列で再帰的に検索</span>
-</span><span class="line"><span class="nv">$ </span>hw hoge
-</span><span class="line">
-</span><span class="line"><span class="c"># public_html以下のディレクトリからhogeという文字列を検索し、マッチした行から10行目までを表示</span>
-</span><span class="line"><span class="nv">$ </span>hw -A <span class="m">10</span> hoge public_html
-</span><span class="line">
-</span><span class="line"><span class="c"># オプションは以下のコマンドで参照できます</span>
-</span><span class="line"><span class="nv">$ </span>hw -h
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="unitevimと連携する">unite.vimと連携する</h3>
-<p>unite.vimのgrepにhighwayを使うようにします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="s2">&quot; grep検索</span>
-</span><span class="line"><span class="s2">nnoremap &lt;silent&gt; ,g  :&lt;C-u&gt;Unite grep:. -buffer-name=search-buffer&lt;CR&gt;</span>
-</span><span class="line">
-</span><span class="line"><span class="s2">&quot;</span> unite grepにhw<span class="o">(</span>highway<span class="o">)</span>を使う
-</span><span class="line"><span class="k">if</span> executable<span class="o">(</span><span class="s1">&#39;hw&#39;</span><span class="o">)</span>
-</span><span class="line">  <span class="nb">let </span>g:unite_source_grep_command <span class="o">=</span> <span class="s1">&#39;hw&#39;</span>
-</span><span class="line">  <span class="nb">let </span>g:unite_source_grep_default_opts <span class="o">=</span> <span class="s1">&#39;--no-group --no-color&#39;</span>
-</span><span class="line">  <span class="nb">let </span>g:unite_source_grep_recursive_opt <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-</span><span class="line">endif
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="おわりに">おわりに</h3>
-<p>grepツールは完全に<a href="https://github.com/tkengo/highway">highway</a>に乗り換えましたが、速度面、機能面に関しては問題ありません。  <br />
-まだgrepで頑張っている人はもちろん，agをすでに使っている人であっても，highwayの利用を検討する価値は充分にあると思います。</p>
 </div>
   
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="スプラトゥーン2のデュアルスイーパーカスタムのフジツボスポーツクラブの立ち回り（ガチエリア編）を解説します。 フジツボスポーツクラブはデュアルスイーパーのような射程の長い武器は戦いづらいステージです。というのも、高低差が多く平らなスペースが少ないからです。 &hellip;">
+  <meta name="description" content="ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。 WebRTCの概要を把握する WebRTCのコードを動かしてみる WebRTCの開発を支援するサービスを利用する 1. WebRTCの概要を把握する &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,91 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/08/07/started-video-chat/">最短でビデオチャットを開発したい人へ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-08-07T14:23:15+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:23 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。</p>
+
+<ol>
+  <li><a href="#1-webrtcの概要を把握する">WebRTCの概要を把握する</a></li>
+  <li><a href="#2-webrtcのコードを動かしてみる">WebRTCのコードを動かしてみる</a></li>
+  <li><a href="#3-webrtcの開発を支援するサービスを利用する">WebRTCの開発を支援するサービスを利用する</a></li>
+</ol>
+
+<h2 id="1-webrtcの概要を把握する">1. WebRTCの概要を把握する</h2>
+
+<p>まずはWebRTCについての概要を把握しておくと、実装するときの理解が深まります。まずは、次の記事を読んでください。</p>
+
+<ul>
+  <li><a href="https://gist.github.com/voluntas/67e5a26915751226fdcf" target="_blank">WebRTC コトハジメ</a></li>
+</ul>
+
+<p>同じタイトルですが、Qiitaのこの記事もわかりやすいです。</p>
+
+<ul>
+  <li><a href="https://qiita.com/yusuke84/items/286f569d110daede721e" target="_blank">WebRTC コトハジメ</a></li>
+</ul>
+
+<h2 id="2-webrtcのコードを動かしてみる">2. WebRTCのコードを動かしてみる</h2>
+
+<p>上記の記事を読んだら、早速コードを動かしてみましょう。コードを実際に動かしてみることで、着実にWebRTCの概念を理解していくことができます。</p>
+
+<p>次の記事で簡単にPCのカメラの映像をブラウザに表示できることが体感してください。</p>
+
+<ul>
+  <li><a href="https://html5experts.jp/mganeko/19728/" target="_blank">カメラを使ってみよう ーWebRTC入門2016</a></li>
+</ul>
+
+<p>次の記事でシグナリングの流れを掴みましょう。</p>
+
+<ul>
+  <li><a href="https://html5experts.jp/mganeko/19814/" target="_blank">手動でWebRTCの通信をつなげよう ーWebRTC入門2016</a></li>
+</ul>
+
+<h2 id="3-webrtcの開発を支援するサービスを利用する">3. WebRTCの開発を支援するサービスを利用する</h2>
+
+<p>本格的なビデオチャットを開発するのはなかなか大変です。その開発を楽にしてくれるサービスが世の中に存在します。私がおすすめするのはSkyWayというサービスです。このサービスを利用することでNAT越えなどの仕組みを自分で実装せずにすみます。日本語ドキュメントが整備されており、サービス自体も無料で試すことができます。</p>
+
+<ul>
+  <li><a href="https://webrtc.ecl.ntt.com/" target="_blank">SkyWay</a></li>
+</ul>
+
+<p>SkyWayを利用するにあたっては、次のスライドが参考になります。</p>
+
+<ul>
+  <li><a href="https://www.slideshare.net/iwashi86/skyway-how-to-use-skyway-webrtc" target="_blank">SkyWayを使いこなすために - How to use SkyWay (WebRTC)</a></li>
+</ul>
+
+<p>余談ですが、WebRTCのライブラリであるPeerJSはメンテされてないので使わない方がよいです。</p>
+<ul>
+  <li><a href="https://medium.com/@Tukimikage/peerjs%E3%82%92%E4%BB%8A%E5%BE%8C%E3%82%82%E4%BD%BF%E3%81%84%E7%B6%9A%E3%81%91%E3%82%8B%E3%81%AE%E3%81%AF%E5%8D%B1%E9%99%BA-8c3cf68d56a0" target="_blank">PeerJSを今後も使い続けるのは危険</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -295,158 +380,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="entry-content"><p>明日は台風なのでリモートワークをします。リモートワーク制度があるので都合のいい時間に自分の働きたい場所で働くことができます。リモートワーク制度のいいところは、「台風がそれたから出社になった」なんてことがないことです。最初からリモートワークをすると決まっていれば朝はゆっくりと過ごすことができます。</p>
 
 <p>朝から会社の判断を待ってどうするかが決まるなんてわずらわしくないですか。出社を判断する方も大変でしょう。会社が判断するのではなくて個々人で判断すればいいのです。会社で働いたほうが都合がいい人は会社で働けばいいですし、会社以外で働いたほうが都合がいい人はリモートワークをすればいいだけです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/06/29/use-of-setter-or-builder/">SetterとBuilderの使いわけ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-06-29T17:39:49+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:39 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
-</span><span class="line">        <span class="o">.</span><span class="na">lastName</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">)</span>
-</span><span class="line">        <span class="o">.</span><span class="na">firstName</span><span class="o">(</span><span class="s">&quot;太郎&quot;</span><span class="o">)</span>
-</span><span class="line">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Builderを実装したUserクラスのサンプルコードです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
-</span><span class="line">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
-</span><span class="line">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
-</span><span class="line">
-</span><span class="line">    <span class="n">User</span><span class="o">(</span><span class="n">String</span> <span class="n">lastName</span><span class="o">,</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">)</span> <span class="o">{</span>
-</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
-</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
-</span><span class="line">    <span class="o">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">UserBuilder</span> <span class="nf">builder</span><span class="o">()</span> <span class="o">{</span>
-</span><span class="line">        <span class="k">return</span> <span class="k">new</span> <span class="nf">UserBuilder</span><span class="o">();</span>
-</span><span class="line">    <span class="o">}</span>
-</span><span class="line">
-</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UserBuilder</span> <span class="o">{</span>
-</span><span class="line">        <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
-</span><span class="line">        <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
-</span><span class="line">
-</span><span class="line">        <span class="n">UserBuilder</span><span class="o">()</span> <span class="o">{</span>
-</span><span class="line">        <span class="o">}</span>
-</span><span class="line">
-</span><span class="line">        <span class="kd">public</span> <span class="n">UserBuilder</span> <span class="nf">lastName</span><span class="o">(</span><span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
-</span><span class="line">            <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
-</span><span class="line">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
-</span><span class="line">        <span class="o">}</span>
-</span><span class="line">
-</span><span class="line">        <span class="kd">public</span> <span class="n">UserBuilder</span> <span class="nf">firstName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">)</span> <span class="o">{</span>
-</span><span class="line">            <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
-</span><span class="line">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
-</span><span class="line">        <span class="o">}</span>
-</span><span class="line">
-</span><span class="line">        <span class="kd">public</span> <span class="n">User</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
-</span><span class="line">            <span class="k">return</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">lastName</span><span class="o">,</span> <span class="n">firstName</span><span class="o">);</span>
-</span><span class="line">        <span class="o">}</span>
-</span><span class="line">    <span class="o">}</span>
-</span><span class="line"><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Setterを使うと次のようになります(実装は省略)。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">();</span>
-</span><span class="line"><span class="n">user</span><span class="o">.</span><span class="na">setLastName</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">);</span>
-</span><span class="line"><span class="n">user</span><span class="o">.</span><span class="na">setFirstName</span><span class="o">(</span><span class="s">&quot;太郎&quot;</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Setterの問題点として、インスタンスの状態を変更してしまうことがあります。イミュータブルな実装にする場合、原則としてコンストラクタで値は設定するべきでSetterで変更するべきではありません。</p>
-
-<p>では、Setterではなくコンストラクタで設定するようにしましょう。引数が少ないうちは問題がないのですが、次の例のように引数の数が増えてしまうとコードが煩雑になってしまいます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="c1">// 姓、名、年齢、血液型、国が引数のコンストラクタの例</span>
-</span><span class="line"><span class="c1">// 年齢と血液型は不明だが、nullを指定する必要がある</span>
-</span><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">,</span> <span class="s">&quot;太郎&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="s">&quot;日本&quot;</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>そこで、Builderを使うメリットが出てきます。Builderを使えば柔軟にパラメーターの設定が行えるようになります。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
-</span><span class="line">        <span class="o">.</span><span class="na">lastName</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">)</span>
-</span><span class="line">        <span class="o">.</span><span class="na">firstName</span><span class="o">(</span><span class="s">&quot;太郎&quot;</span><span class="o">)</span>
-</span><span class="line">        <span class="o">.</span><span class="na">country</span><span class="o">(</span><span class="s">&quot;日本&quot;</span><span class="o">)</span>
-</span><span class="line">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>SetterもBuilderもやりたいことはオブジェクトにパラメーターをセットすることです。Setterを使うとオブジェクトの状態を変更してしまうことになります。イミュータブルな実装かつ柔軟にパラメーターを設定したい場合はBuilderを使いましょう。</p>
 </div>
   
   

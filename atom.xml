@@ -4,7 +4,7 @@
   <title><![CDATA[SHOYAN BLOG]]></title>
   <link href="http://48n.jp/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2018-11-21T11:26:45+09:00</updated>
+  <updated>2018-11-29T16:12:46+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,114 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[シェルスクリプトで別プロセスの終了ステータスを取得する]]></title>
+    <link href="http://48n.jp/blog/2018/11/29/check-other-process/"/>
+    <updated>2018-11-29T14:55:51+09:00</updated>
+    <id>http://48n.jp/blog/2018/11/29/check-other-process</id>
+    <content type="html"><![CDATA[<p>シェルスクリプトで別プロセスの終了ステータスを取得するTipを紹介します。</p>
+
+<h3 id="ユースケース">ユースケース</h3>
+
+<p>時間のかかる処理などを並列で行い、その実行結果(終了ステータス)を取得したい。</p>
+
+<h3 id="サンプルコード">サンプルコード</h3>
+
+<p>Bashのサンプルコードです。スクリプトに解説を記入しています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
+</span><span class="line">
+</span><span class="line">command1() {
+</span><span class="line">  echo "executing commnad1"
+</span><span class="line">  sleep 3
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">command2() {
+</span><span class="line">  echo "executing commnad2"
+</span><span class="line">  sleep 3
+</span><span class="line">  # エラーとして終了させる
+</span><span class="line">  exit 1
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">echo "start"
+</span><span class="line">
+</span><span class="line"># バックグラウンドで実行
+</span><span class="line">command1 &amp;
+</span><span class="line"># $!で直前に実行されたコマンドのプロセスIDを取得し、変数に保存している
+</span><span class="line">pid1=$!
+</span><span class="line">
+</span><span class="line">command2 &amp;
+</span><span class="line">pid2=$!
+</span><span class="line">
+</span><span class="line"># waitは指定されたプロセスIDの処理が終わるまで待つ
+</span><span class="line">wait $pid1
+</span><span class="line">
+</span><span class="line"># $?でwaitで指定しているプロセスの終了ステータスを取得することができる
+</span><span class="line">if [ $? != 0 ]; then
+</span><span class="line">  echo "command1 error"
+</span><span class="line">else
+</span><span class="line">  echo "commnad1 success"
+</span><span class="line">fi
+</span><span class="line">
+</span><span class="line">wait $pid2
+</span><span class="line">if [ $? != 0 ]; then
+</span><span class="line">  echo "command2 error"
+</span><span class="line">else
+</span><span class="line">  echo "command2 success"
+</span><span class="line">fi
+</span><span class="line">
+</span><span class="line">echo "end"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>gistにもコードをアップしています。</p>
+
+<ul>
+  <li><a href="https://gist.github.com/shoyan/6f45b6a005fd34a44264fa1dcb4d56e6" target="_blank">wait_process.sh</a></li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RubyでのWebアプリケーション開発はSinatraから入りRailsに行く]]></title>
@@ -811,21 +919,6 @@
 <p>以上のように不確実な状態に直面すると人は本能的に不安を感じます。この不安を解消するための方法は2つあります。1つ目は不確実な物事に近づかないことです。不確実な物事に近づかなければ不安を感じることはありません。</p>
 
 <p>2つ目は不確実な状態を確実な状態にすることです。確実な状態になれば不安は消えます。不確実な状態を確実な状態にするには、実際にやってみるしかありません。このプロセスなしに不確実な物事を確実な物事にすることはできないのです。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[エンジニアが意識しておくべきこと]]></title>
-    <link href="http://48n.jp/blog/2018/01/22/think-our-goal/"/>
-    <updated>2018-01-22T15:06:05+09:00</updated>
-    <id>http://48n.jp/blog/2018/01/22/think-our-goal</id>
-    <content type="html"><![CDATA[<p>私たちのような物作りに関わるエンジニアが意識しておかないといけないものは成果物（アウトプット）です。成果物とは最終的にユーザーから見えるものです。例えば、Webアプリケーションであれば最終的に画面に出力されるWebページです。</p>
-
-<p>私たちエンジニアは、今やっている作業が成果物に繋がるのかを理解する必要があります。</p>
-
-<p>IT系のエンジニアで多いのはコードの書き方や実装の細部にこだわってしまうことです。そこにこだわってしまうと時間を使い過ぎてしまいます。その結果、私たちが最終的に作っている成果物（ユーザーから見える画面）がおそろかになってしまいます。</p>
-
-<p>コードの書き方や実装の細部を高めることは私たちが目指すゴールではありません。私たちが目指すゴールとは成果物を作り、ユーザーに届けることです。</p>
 ]]></content>
   </entry>
   

@@ -5,11 +5,21 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="ja"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>このサイトについて - SHOYAN BLOG</title>
+  <title>シェルスクリプトで別プロセスの終了ステータスを取得する - SHOYAN BLOG</title>
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="このサイトについて Jan 25th, 2014 10:25 am | Edit SHOYAN BLOG とは？ 当サイトSHOYAN BLOGは、ソフトウェアエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。 Links &hellip;">
+  <meta name="description" content="シェルスクリプトで別プロセスの終了ステータスを取得するTipを紹介します。 ユースケース 時間のかかる処理などを並列で行い、その実行結果(終了ステータス)を取得したい。 サンプルコード Bashのサンプルコードです。スクリプトに解説を記入しています。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -47,7 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@sinn_shoyan" />
 
 
-  <meta name="twitter:title" content="このサイトについて" />
+  <meta name="twitter:title" content="シェルスクリプトで別プロセスの終了ステータスを取得する" />
 
 
 
@@ -145,65 +155,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">このサイトについて</h1>
     
-        <p class="meta">
-            
-
-
-
-
-<time class='entry-date' datetime='2014-01-25T10:25:00+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:25 am</span></time> | 
-            <a href="/about/index.markdown">Edit</a>
-        </p>
-    
-  </header>
-  
-  <h3 id="shoyan-blog-とは">SHOYAN BLOG とは？</h3>
-
-<p>当サイトSHOYAN BLOGは、ソフトウェアエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。</p>
-
-<h3 id="links">Links</h3>
-
-<ul>
-  <li><a href="https://github.com/shoyan" target="_blank">GitHub</a></li>
-  <li><a href="https://twitter.com/sinn_shoyan" target="_blank">Twitter</a></li>
-  <li><a href="https://www.facebook.com/shohei.yamasaki0406" target="_blank">Facebook</a></li>
-  <li><a href="https://instagram.com/shoheiyamasaki" target="_blank">Instagram</a></li>
-  <li><a href="https://speakerdeck.com/shoyan" target="_blank">SlideShare</a></li>
-  <li><a href="https://www.youtube.com/channel/UCpvoHGGd2lKScMNx-bcg7aA?view_as=subscriber" target="_blank">YouTube</a></li>
-</ul>
-
-<h3 id="amazoncojpアソシエイトに関するプライバシーポリシー">Amazon.co.jpアソシエイトに関するプライバシーポリシー</h3>
-
-<p>当サイトSHOYAN BLOGは、amazon.co.jp を宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイト宣伝プログラムである、Amazonアソシエイト・プログラムの参加者です。</p>
-
-<h3 id="contact">Contact</h3>
-
-<p>ご質問、お仕事のご相談などありましたらお気軽にご連絡ください。次のメールアドレス、もしくはTwitterまでお願いします。</p>
-
-<p><a href="mailto:yamasaki0406@gmail.com">yamasaki0406@gmail.com</a></p>
-
-  
-    <footer>
-      <p class="meta">
-        
-        
-
-
-
-
-<time class='entry-date' datetime='2014-01-25T10:25:00+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:25 am</span></time>
-        
-        
-      </p>
       
-        <div class="sharing">
+        <h1 class="entry-title">シェルスクリプトで別プロセスの終了ステータスを取得する</h1>
+        
+          <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/about/index.html" data-via="sinn_shoyan" data-counturl="http://48n.jp/about/index.html" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/11/29/check-other-process/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/11/29/check-other-process/" >Tweet</a>
   
   
   
@@ -212,20 +173,294 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 </div>
 
+        
       
-    </footer>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-11-29T14:55:51+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:55 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>シェルスクリプトで別プロセスの終了ステータスを取得するTipを紹介します。</p>
+
+<h3 id="ユースケース">ユースケース</h3>
+
+<p>時間のかかる処理などを並列で行い、その実行結果(終了ステータス)を取得したい。</p>
+
+<h3 id="サンプルコード">サンプルコード</h3>
+
+<p>Bashのサンプルコードです。スクリプトに解説を記入しています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/bin/bash
+</span><span class="line">
+</span><span class="line">command1() {
+</span><span class="line">  echo "executing commnad1"
+</span><span class="line">  sleep 3
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">command2() {
+</span><span class="line">  echo "executing commnad2"
+</span><span class="line">  sleep 3
+</span><span class="line">  # エラーとして終了させる
+</span><span class="line">  exit 1
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">echo "start"
+</span><span class="line">
+</span><span class="line"># バックグラウンドで実行
+</span><span class="line">command1 &amp;
+</span><span class="line"># $!で直前に実行されたコマンドのプロセスIDを取得し、変数に保存している
+</span><span class="line">pid1=$!
+</span><span class="line">
+</span><span class="line">command2 &amp;
+</span><span class="line">pid2=$!
+</span><span class="line">
+</span><span class="line"># waitは指定されたプロセスIDの処理が終わるまで待つ
+</span><span class="line">wait $pid1
+</span><span class="line">
+</span><span class="line"># $?でwaitで指定しているプロセスの終了ステータスを取得することができる
+</span><span class="line">if [ $? != 0 ]; then
+</span><span class="line">  echo "command1 error"
+</span><span class="line">else
+</span><span class="line">  echo "commnad1 success"
+</span><span class="line">fi
+</span><span class="line">
+</span><span class="line">wait $pid2
+</span><span class="line">if [ $? != 0 ]; then
+</span><span class="line">  echo "command2 error"
+</span><span class="line">else
+</span><span class="line">  echo "command2 success"
+</span><span class="line">fi
+</span><span class="line">
+</span><span class="line">echo "end"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>gistにもコードをアップしています。</p>
+
+<ul>
+  <li><a href="https://gist.github.com/shoyan/6f45b6a005fd34a44264fa1dcb4d56e6" target="_blank">wait_process.sh</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    Shohei Yamasaki
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-11-29T14:55:51+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:55 pm</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+      <div class="margin-height-10">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 下部広告 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5334899437265020"
+     data-ad-slot="8372852198"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+      </div>
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://48n.jp/blog/2018/11/29/check-other-process/" data-via="sinn_shoyan" data-counturl="http://48n.jp/blog/2018/11/29/check-other-process/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
+  
+  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/11/20/sinatra-way/" title="Previous Post: RubyでのWebアプリケーション開発はSinatraから入りRailsに行く">&laquo; RubyでのWebアプリケーション開発はSinatraから入りRailsに行く</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+<section>
+  <h1>よく読まれている記事</h1>
+  <style>
+.recommend-box {
+  margin: 10px 0;
+}
+.recommend-box img {
+  padding: 10px 0;
+  float: left;
+  max-width: 140px;
+  min-height: 75px;
+  padding: 10px;
+  border-right: 1px solid #999;
+}
+.clearfix {
+  overflow: auto;
+}
+.recommend-box li {
+  border-right: 1px solid #999;
+  border-left: 1px solid #999;
+  border-bottom: 1px solid #999;
+  list-style-type: none;
+}
+.recommend-box li:first-child {
+  border-top: 1px solid #999;
+}
+.recommend-box h3 {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 170px;
+    min-width: 100px;
+}
+</style>
+<ul class="recommend-box">
+  <li class="clearfix">
+    <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">
+      <img src="/images/math-1547018_640.jpg"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/01/mathematics-of-advent-calendar/">30歳から始める数学</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">
+      <img src="/images/logo.png"/>
+    </a>
+    <h3>
+      <a href="/blog/2015/12/06/child-raising-engineer-of-advent-calendar/">幸せな子育てとエンジニアライフ</a>
+    </h3>
+  </li>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2016/03/17/php-coding-rule/">
+      <img src="/images/logo.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2016/03/17/php-coding-rule/">PHPコーディング規約とサポートするツール</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2016/06/23/php-syntax-check/">
+      <img src="/images/2016-06-23_php-syntax-check.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2016/06/23/php-syntax-check/">レガシーコード向けに修正した部分だけPHP構文チェックをする仕組み</a>
+    </h3>
+  </li>
+  <li class="clearfix">
+    <a href="/blog/2015/10/28/highway-faster-than-ag/">
+      <img src="/images/logo.png"/>
+    <a/>
+    <h3>
+      <a href="/blog/2015/10/28/highway-faster-than-ag/">超高速grep「The Silver Searcher(ag)」からhighwayに乗り換えた</a>
+    </h3>
+  </li>
+</ul>
+
+</section>
+
+<section>
+  <div class="margin-height-10 center">
+    【人材募集情報】<BR>
+<A HREF="https://px.a8.net/svt/ejp?a8mat=2TIYB0+33C2WI+0K+15P77M" target="_blank" rel="nofollow">「A8.net」を開発運用するアフィリエイトソリューションプロバイダーの<BR>株式会社ファンコミュニケーションズが業務拡大につき技術者を募集中。</A>
+<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2TIYB0+33C2WI+0K+15P77M" alt="">
+
+
+  </div>
+</section>
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div> <script> /** * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS. * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */ /* var disqus_config = function () { this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable }; */ 
+(function() { // DON'T EDIT BELOW THIS LINE 
+ var d = document, s = d.createElement('script'); s.src = '//shoyanblog.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 
 </div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
 
     </div>
   </div>
