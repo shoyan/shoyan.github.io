@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="プログラマーにとって，grepコマンドはなくてはならない存在です。 基本的かつ古典的なユーティリティであるgrepですが，使いにくい面もあります。 2013年のはじめころから，grepに取って代わるコマンドとして「The Silver Searcher」（以下「ag」）が注目されはじめました。 &hellip;">
+  <meta name="description" content="Rails4でlibディレクトリに作ったライブラリを読み込むときはautoloadを利用すると便利です。 autoloadを利用するにはファイル名とクラス名がautoloadのルールに則っている必要があります。 autoload のパスを設定する まず config/application.rb &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -146,6 +146,113 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/30/auto-load-rails4-lib/">Rails4でlibディレクトリをautoloadするときのルール</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-30T13:53:03+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:53 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rails4でlibディレクトリに作ったライブラリを読み込むときはautoloadを利用すると便利です。  <br />
+autoloadを利用するにはファイル名とクラス名がautoloadのルールに則っている必要があります。</p>
+
+<h2 id="autoload-のパスを設定する">autoload のパスを設定する</h2>
+
+<p>まず config/application.rb に autoload 用の設定を行います。</p>
+
+<p>config/application.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1">#to auto load lib/directory</span>
+</span><span class="line"><span class="n">config</span><span class="o">.</span><span class="n">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="sx">/lib)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで、lib ディレクトリ以下のファイルが、以降に説明するディレクトリ・ファイル構成と命名の規約に従うと、自動的に読み込まれるようになります。</p>
+
+<h2 id="lib-ディレクトリ以下のファイル">lib ディレクトリ以下のファイル</h2>
+<p>ファイル名は小文字、単語の区切りは _ (アンダースコア)にする。  <br />
+クラス名はアンダースコアの区切りでキャメルケースにする。</p>
+
+<p>以下はファイル名とクラス名の例です。</p>
+
+<p><strong>lib/hoge_fuga.rb</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">HogeFuga</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>lib/hoge ディレクトリにファイルを置くこともできます。</p>
+
+<p><strong>lib/hoge/fuga.rb</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">module</span> <span class="nn">Hoge</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Fuga</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># 以下の様にも書けます。</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">Hoge</span><span class="o">::</span><span class="no">Fuga</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下の様な書き方もできます。</p>
+
+<p><strong>lib/hoge_moge/fuga.rb</strong></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">module</span> <span class="nn">HogeMoge</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Fuga</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># もしくは</span>
+</span><span class="line">
+</span><span class="line"><span class="k">class</span> <span class="nc">HogeMoge</span><span class="o">::</span><span class="no">Fuga</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -846,144 +953,6 @@ Post先のチャンネルを選んで、<code>Add Incoming Webhooks Integration<
 今回紹介できなかったオプションもあるので、詳細はSlackの<a href="https://api.slack.com/docs/attachments">attachments</a>のドキュメントを参考にしてください。</p>
 
 <p>では、よいSlack Lifeを！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/25/to-get-the-next-contract-using-a-correlated-subquery/">相関サブクエリを使って次回契約を取得する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-09-25T13:35:45+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:35 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>相関サブクエリを使って次回契約を取得します。</p>
-
-<h3 id="contract-table">Contract table</h3>
-<p>| id | account_id | start_date | end_date | <br />
-| — | — | — | — |<br />
-| 1 | 1 | 20140101 | 20141231 | <br />
-| 2 | 1 | 20150101 | 20151231 | <br />
-| 3 | 1 | 20160101 | 20161231 | <br />
-| 4 | 1 | 20170101 | 20171231 | <br />
-| 5 | 2 | 20150101 | 20151231 | <br />
-| 6 | 2 | 20160101 | 20161231 |</p>
-
-<p>上記のようなaccount_idと開始日、終了日の登録してあるテーブルがあるとします。  <br />
-現在の契約を取得するのは簡単ですね。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="o">#</span> <span class="err">現在契約を取得する</span>
-</span><span class="line"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">contracts</span> <span class="k">WHERE</span> <span class="n">start_date</span> <span class="o">&gt;=</span> <span class="err">現在日付</span> <span class="k">AND</span> <span class="n">end_date</span> <span class="o">&lt;=</span> <span class="err">現在日付</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>現在契約を取得するのは簡単ですが、その次の契約を取得するとなるとそう単純にはいきません。</p>
-
-<p>そこで、相関サブクエリを使います。  <br />
-相関サブクエリを使うことで次回契約を取得できます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="o">#</span> <span class="err">次回契約を取得する</span>
-</span><span class="line"><span class="k">SELECT</span> <span class="o">*</span>
-</span><span class="line">  <span class="k">FROM</span> <span class="n">contracts</span> <span class="k">As</span> <span class="n">cont</span>
-</span><span class="line"> <span class="k">WHERE</span> <span class="n">start_date</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
-</span><span class="line">                       <span class="k">FROM</span> <span class="n">contracts</span> <span class="k">as</span> <span class="n">c1</span>
-</span><span class="line">                     <span class="k">WHERE</span> <span class="n">c1</span><span class="p">.</span><span class="n">start_date</span> <span class="o">&gt;</span> <span class="p">(</span> <span class="k">SELECT</span> <span class="n">end_date</span>
-</span><span class="line">                                               <span class="k">FROM</span> <span class="n">contracts</span> <span class="k">as</span> <span class="n">c2</span>
-</span><span class="line">                                             <span class="k">WHERE</span> <span class="n">c2</span><span class="p">.</span><span class="n">start_date</span> <span class="o">&lt;=</span> <span class="s1">&#39;20150528&#39;</span>
-</span><span class="line">                                               <span class="k">AND</span> <span class="n">c2</span><span class="p">.</span><span class="n">end_date</span> <span class="o">&gt;=</span> <span class="s1">&#39;20150528&#39;</span>
-</span><span class="line">                                               <span class="k">AND</span> <span class="n">c1</span><span class="p">.</span><span class="n">account_id</span> <span class="o">=</span> <span class="n">c2</span><span class="p">.</span><span class="n">account_id</span><span class="p">)</span>
-</span><span class="line">                       <span class="k">AND</span> <span class="n">cont</span><span class="p">.</span><span class="n">account_id</span> <span class="o">=</span> <span class="n">c1</span><span class="p">.</span><span class="n">account_id</span>
-</span><span class="line">                     <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">c1</span><span class="p">.</span><span class="n">account_id</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="結果">結果</h3>
-<p>| id | account_id | start_date | end_date | <br />
-| — | — | — | — |<br />
-| 3 | 1 | 20160101 | 20161231 | <br />
-| 6 | 2 | 20160101 | 20161231 |</p>
-
-<h3 id="クエリの説明">クエリの説明</h3>
-<p>クエリの説明をします。</p>
-
-<p>クエリは内側からみていきます。  <br />
-まずは、一番内側にある、 <code>SELECT end_date ... AND c1.account_id = c2.account_id</code>のクエリです。  <br />
-このクエリでは現在の契約(ここでは2015/5/28とします)を取得します。</p>
-
-<p>2つめのクエリで、次回以降の契約を取得します。  <br />
-<code>SELECT MIN(start_date)</code> を使うことで、次回契約のなかで直近の契約を取得できます。  <br />
-アカウントごとに直近の次回契約を取得したいので、GROUP BY account_id をしています。</p>
-
-<p>c1.account_id = c2.account_id と cont.account_id = c1.account_id は行と行を比較するために必要です。</p>
-
-<p>3つめのクエリ(<code>SELECT * ... WHERE start_date =</code>)で直近の次回契約を条件として、データを取得します。</p>
-
-<p>手元で試したい方は以下のクエリでデータをつくれます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">contracts</span><span class="o">`</span> <span class="p">(</span>
-</span><span class="line">  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">account_id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">start_date</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">end_date</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class="line">  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
-</span><span class="line"><span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span><span class="p">;</span>
-</span><span class="line">
-</span><span class="line"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="o">`</span><span class="n">contracts</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">,</span> <span class="o">`</span><span class="n">account_id</span><span class="o">`</span><span class="p">,</span> <span class="o">`</span><span class="n">start_date</span><span class="o">`</span><span class="p">,</span> <span class="o">`</span><span class="n">end_date</span><span class="o">`</span><span class="p">)</span>
-</span><span class="line"><span class="k">VALUES</span>
-</span><span class="line">    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20140101</span><span class="p">,</span> <span class="mi">20141231</span><span class="p">),</span>
-</span><span class="line">    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20150101</span><span class="p">,</span> <span class="mi">20151231</span><span class="p">),</span>
-</span><span class="line">    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20160101</span><span class="p">,</span> <span class="mi">20161231</span><span class="p">),</span>
-</span><span class="line">    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20170101</span><span class="p">,</span> <span class="mi">20171231</span><span class="p">),</span>
-</span><span class="line">    <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20150101</span><span class="p">,</span> <span class="mi">20151231</span><span class="p">),</span>
-</span><span class="line">    <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20160101</span><span class="p">,</span> <span class="mi">20161231</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
 </div>
   
   
