@@ -55,4 +55,4 @@ categories: スプラトゥーン2
 
 このような感じで、特に難しいことをせずに動画配信ができてしまいます。今後もスプラトゥーンの動画を配信していくので、ぜひチャンネル登録お願いします！
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HGnIaZXOi0c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MefVKKI8l-4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
