@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Base64とは英数字、記号を用いてマルチバイト文字やバイナリデータ(画像など)を扱うためのエンコード方式です。 具体的にはA–Z, a–z, 0–9 までの62文字と、記号2つ (+,/)、さらにパディング（余った部分を詰める）のための記号として = が用いられます。 &hellip;">
+  <meta name="description" content="Capistrano/sshkitを紹介します。 https://github.com/capistrano/sshkit SSHKitはリモートサーバーに対してコマンドを実行するためのツールキットです。 CapistranoやCapistranoプラグインではSSHKitが使われています。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +135,257 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/14/learn-ssh-kit/">SSHKitを実際に使ってみて理解する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-14T13:34:48+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:34 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Capistrano/sshkitを紹介します。  <br />
+https://github.com/capistrano/sshkit</p>
+
+<p>SSHKitはリモートサーバーに対してコマンドを実行するためのツールキットです。  <br />
+CapistranoやCapistranoプラグインではSSHKitが使われています。</p>
+
+<h2 id="インストール">インストール</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem install sshkit
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="コマンドのサンプル">コマンドのサンプル</h2>
+
+<p>実際に使ってみて理解していきます。<br />
+使うには、sshkitをロードする必要があります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;sshkit&#39;</span>
+</span><span class="line"><span class="kp">include</span> <span class="no">SSHKit</span><span class="o">::</span><span class="no">DSL</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ホスト名を取得する">ホスト名を取得する</h3>
+
+<p>まずはログインしてホスト名を取得してみましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="o">[</span><span class="err">&#39;</span><span class="n">deploy</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span><span class="err">’</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line"> <span class="nb">puts</span> <span class="n">capture</span><span class="p">(</span><span class="ss">:hostname</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>on</code> メソッドに対象のサーバーとブロックを渡します。  <br />
+対象のサーバーは複数設定することも可能です。  <br />
+ブロックにはサーバー上で実行するコマンドを設定します。  <br />
+<code>capture</code>メソッドは渡された引数をコマンドとして実行し、結果をログに出力します。</p>
+
+<h3 id="特定のユーザーでコマンドを実行する">特定のユーザーでコマンドを実行する</h3>
+
+<p>特定のユーザーでコマンドを実行する場合は、<code>as</code>メソッドで指定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="o">[</span><span class="s1">&#39;example.com&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">  <span class="n">as</span> <span class="s1">&#39;deploy&#39;</span> <span class="k">do</span>
+</span><span class="line">  <span class="err">　</span><span class="nb">puts</span> <span class="n">capture</span><span class="p">(</span><span class="ss">:whoami</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="特定のディレクトリを指定する">特定のディレクトリを指定する</h3>
+
+<p>特定のディレクトリを指定する場合は、<code>within</code>メソッドを指定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="o">[</span><span class="s1">&#39;deploy@example.com&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">  <span class="n">within</span> <span class="s1">&#39;/var/log&#39;</span> <span class="k">do</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="n">capture</span><span class="p">(</span><span class="ss">:head</span><span class="p">,</span> <span class="s1">&#39;-n5&#39;</span><span class="p">,</span> <span class="s1">&#39;messages&#39;</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>/var/log</code> で <code>head -n5 messages</code> を実行します。</p>
+
+<h3 id="環境変数を指定する">環境変数を指定する</h3>
+
+<p><code>with</code>メソッドで環境変数を指定することができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="n">hosts</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">  <span class="n">with</span> <span class="ss">rack_env</span><span class="p">:</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="n">capture</span><span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>rack_envに<code>:test</code> を設定しています。</p>
+
+<h3 id="ファイルをチェックして存在すればメッセージを表示なければファイルを作成する">ファイルをチェックして存在すればメッセージを表示、なければファイルを作成する</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="o">[</span><span class="s1">&#39;deploy@example.com&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">  <span class="n">f</span> <span class="o">=</span> <span class="s1">&#39;/tmp/file&#39;</span>
+</span><span class="line">  <span class="k">if</span> <span class="nb">test</span><span class="p">(</span><span class="s2">&quot;[ -f </span><span class="si">#{</span><span class="n">f</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="n">info</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">f</span><span class="si">}</span><span class="s2"> already exist on </span><span class="si">#{</span><span class="n">host</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">    <span class="n">execute</span> <span class="ss">:touch</span><span class="p">,</span> <span class="n">f</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line"><span class="no">INFO</span> <span class="o">[</span><span class="mi">790</span><span class="n">b6aaa</span><span class="o">]</span> <span class="no">Running</span> <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">env</span> <span class="n">touch</span> <span class="sr">/tmp/</span><span class="n">file</span> <span class="n">as</span> <span class="n">deploy</span><span class="vi">@example</span><span class="o">.</span><span class="n">com</span>
+</span><span class="line"><span class="no">INFO</span> <span class="o">[</span><span class="mi">790</span><span class="n">b6aaa</span><span class="o">]</span> <span class="no">Finished</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="mo">052</span> <span class="n">seconds</span> <span class="n">with</span> <span class="nb">exit</span> <span class="n">status</span> <span class="mi">0</span> <span class="p">(</span><span class="n">successful</span><span class="p">)</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>test</code>メソッドでファイルをチェックし、<code>execute</code>メソッドで<code>touch</code>コマンドを実行しています。</p>
+
+<h3 id="ファイルをアップロードする">ファイルをアップロードする</h3>
+
+<p>ファイルをアップロードすることもできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="o">[</span><span class="s1">&#39;deploy@example.com&#39;</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">  <span class="n">upload!</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;/tmp/README.md&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>第1引数がローカルのファイルのパス、第2引数がサーバーに配置するファイルのパスです。</p>
+
+<p>また、<code>recursive</code>オプションをtrueに設定することでディレクトリをアップロードすることもできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">on</span> <span class="n">hosts</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">  <span class="n">upload!</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;/tmp/mypwd&#39;</span><span class="p">,</span> <span class="ss">recursive</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="ローカルで実行する">ローカルで実行する</h3>
+
+<p>ローカルで実行することもできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">run_locally</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">within</span> <span class="s1">&#39;/tmp&#39;</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">execute</span> <span class="ss">:whoami</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># もしくは</span>
+</span><span class="line">
+</span><span class="line"><span class="n">on</span><span class="p">(</span><span class="ss">:local</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">within</span> <span class="s1">&#39;/tmp&#39;</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">execute</span> <span class="ss">:whoami</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="rakeタスクで利用する">Rakeタスクで利用する</h3>
+
+<p>RakeタスクでSSHKitのDSLを使うこともできます。  <br />
+この仕組みを利用してCapistranoのプラグインは作成されています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;sshkit&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="no">SSHKit</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">command_map</span><span class="o">[</span><span class="ss">:rake</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;./bin/rake&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">desc</span> <span class="s2">&quot;Deploy the site, pulls from Git, migrate the db and precompile assets, then restart Passenger.&quot;</span>
+</span><span class="line"><span class="n">task</span> <span class="ss">:deploy</span> <span class="k">do</span>
+</span><span class="line">  <span class="kp">include</span> <span class="no">SSHKit</span><span class="o">::</span><span class="no">DSL</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">on</span> <span class="s2">&quot;example.com&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+</span><span class="line">    <span class="n">within</span> <span class="s2">&quot;/opt/sites/example.com&quot;</span> <span class="k">do</span>
+</span><span class="line">      <span class="n">execute</span> <span class="ss">:git</span><span class="p">,</span> <span class="ss">:pull</span>
+</span><span class="line">      <span class="n">execute</span> <span class="ss">:bundle</span><span class="p">,</span> <span class="ss">:install</span><span class="p">,</span> <span class="s1">&#39;--deployment&#39;</span>
+</span><span class="line">      <span class="n">execute</span> <span class="ss">:rake</span><span class="p">,</span> <span class="s1">&#39;db:migrate&#39;</span>
+</span><span class="line">      <span class="n">execute</span> <span class="ss">:rake</span><span class="p">,</span> <span class="s1">&#39;assets:precompile&#39;</span>
+</span><span class="line">      <span class="n">execute</span> <span class="ss">:touch</span><span class="p">,</span> <span class="s1">&#39;tmp/restart.txt&#39;</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>サンプルがこちらにたくさんあるので、参考になると思います。</p>
+
+<p><a href="https://github.com/capistrano/sshkit/blob/master/EXAMPLES.md">https://github.com/capistrano/sshkit/blob/master/EXAMPLES.md</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -625,105 +876,6 @@ TCPWrappersは接続を許可するかどうかのファイルを参照し、許
 <ul>
   <li><a href="http://lpi.or.jp/column/linux/linux_m06.shtml">【第6回】TCPWrappers(hosts.allow,hosts.deny)とSSHの公開鍵認証について</a></li>
   <li><a href="https://www.centos.org/docs/5/html/Deployment_Guide-en-US/ch-tcpwrappers.html">42.5. TCP Wrappers and xinetd</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/03/cross-site-scripting-aka-xss/">クロスサイトスクリプティングの脆弱性とその対策</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-03T17:45:45+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:45 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>クロスサイトスクリプティングはユーザーの入力を受け付ける動的なアプリケーションに含まれる脆弱性を利用した攻撃です。<br />
-英語ではCross Site Scriptingと呼ばれその頭文字をとるとCSSとなりますが、「Cascading Style Sheets」との区別が紛らわしいため一般的にXSSの表記が使われています。</p>
-
-<h2 id="クロスサイトスクリプティングとはどのような脆弱性であるのか">クロスサイトスクリプティングとはどのような脆弱性であるのか</h2>
-
-<p>XSSとは動的なWebサイトのプログラムの脆弱性を利用した攻撃です。<br />
-この脆弱性を利用することで、攻撃者は悪意のあるJavaScriptコードをサイトに埋め込み、そのコードを実行することができるようになります。</p>
-
-<p>例えば、XSSの脆弱性がある掲示板があったとします。<br />
-攻撃者はフィッシングサイトにページを遷移させるJavaScriptコードを投稿しました。<br />
-すると、他の利用者がこの掲示板を閲覧したときにそのJavaScriptコードが実行され、フィッシングサイトが表示されるようになります。</p>
-
-<h2 id="この脆弱性を持ったサイトが攻撃されるとどのような被害が起き得るのか">この脆弱性を持ったサイトが攻撃されるとどのような被害が起き得るのか</h2>
-
-<p>上記の例のようにXSSはWebサイトの利用者を攻撃の対象とします。</p>
-
-<p>例えば、以下のような被害が出る可能性があります。</p>
-
-<ul>
-  <li>ユーザーのcookie情報を盗み、その情報を利用してそのユーザーでログインする</li>
-  <li>不正なページへユーザーを誘導する</li>
-  <li>不正なファイルをダウンロードさせる</li>
-</ul>
-
-<p>Webサイトを直接攻撃することも可能です。  <br />
-JavaScriptのhtmlを書き換える機能を使って、攻撃対象のサイトの内容を書き換えることができてしまいます。</p>
-
-<h2 id="なぜそのようなセキュリティホールが作り込まれてしまうのか">なぜそのようなセキュリティホールが作り込まれてしまうのか</h2>
-
-<p>HTMLには特殊文字が存在します。  <br />
-具体的には「’”&lt;&gt;&amp;」といった文字です。  <br />
-これらの特殊文字をHTML上に表示するには適切な方法で変換しなければなりません。  <br />
-しかし、XSSの脆弱性のあるプログラムはこのような特殊文字を意識せずに作られてしまっています。</p>
-
-<h2 id="どのように対策をすればよいのか">どのように対策をすればよいのか</h2>
-
-<p>入力時のチェックと出力時のチェックを行います。</p>
-
-<h3 id="入力時のチェック">入力時のチェック</h3>
-
-<p>具体的には、入力時に入力できる文字を制限します。<br />
-例えば、郵便番号を入力するフォームの場合は、数字と-しか入力できないようにします。<br />
-そうすれば、悪意のあるコード自体が入力できなくなります。<br />
-入り口でとめる作戦です。</p>
-
-<p>注意点としては、入力文字のチェックは必ずサーバサイドで行わなければなりません。<br />
-PHP等のサーバサイドで実行されるプログラムでチェックする必要があるということです。<br />
-クライアントサイド(JavaScript)のチェックでは攻撃者がそのチェック機構自体を無効にすることが可能です。</p>
-
-<h3 id="出力時のチェック">出力時のチェック</h3>
-
-<p>実際には仕様上、入力文字を制限することができないことがあります。<br />
-例えばフリーフォームの場合、無闇に入力文字を制限するとユーザーは自由に文章を入力することができなくなってしまいます。</p>
-
-<p>そこで、出力時に文字を無害化（サニタイジング）します。</p>
-
-<p>サニタイジングについては、プログラム言語やフレームワークに専用の機能が用意されています。<br />
-その機能を使うことを強く推奨します。</p>
-
-<p>例えばPHPであれば、<code>htmlspecialchars</code>というhtmlの特殊文字を無害化する関数が用意されています。<br />
-http://php.net/manual/ja/function.htmlspecialchars.php</p>
-
-<p>また、フレームワークはデフォルトでサニタイズされた文字が出力される仕組みになっているはずなので、そのようなフレームワークを使ったほうがよいでしょう。</p>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="http://www.atmarkit.co.jp/ait/articles/0211/09/news001.html">クロスサイトスクリプティングの脆弱性とは？</a></li>
-  <li><a href="http://qiita.com/mpyw/items/565b3670dd0c7f9162fa">XSS攻撃への対策</a></li>
 </ul>
 </div>
   

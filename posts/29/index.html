@@ -9,9 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="相関サブクエリを使って次回契約を取得します。 Contract table
-| id | account_id | start_date | end_date | | — | — | — | — |
-| 1 | 1 | 20140101 | 20141231 | | 2 | 1 | &hellip;">
+  <meta name="description" content="Slackは使っていますか？ 僕は会社やプライベートはもっぱらSlackを使っています。 SlackにはAPIが備わっていて、APIを使えばSlack通知が簡単にできます。 今回はRubyでSlackに通知する方法を紹介します。 RubyでSlack通知をするには、以下の作業が必要です。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -137,6 +135,197 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/28/introduce-slack-incoming-webhooks/">RubyでSlack通知をする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-28T12:15:42+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:15 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://slack.com/">Slack</a>は使っていますか？  <br />
+僕は会社やプライベートはもっぱらSlackを使っています。</p>
+
+<p>SlackにはAPIが備わっていて、APIを使えばSlack通知が簡単にできます。</p>
+
+<p>今回はRubyでSlackに通知する方法を紹介します。</p>
+
+<p>RubyでSlack通知をするには、以下の作業が必要です。</p>
+
+<ol>
+  <li>webhook urlの発行</li>
+  <li>webhook urlに対してpostする</li>
+</ol>
+
+<h2 id="1-webhook-urlの発行">1. webhook urlの発行</h2>
+<p>まずは、webhook urlを発行します。  <br />
+<code>https://yourteam.slack.com/services/new/incoming-webhook</code> のページで発行できます。  <br />
+Post先のチャンネルを選んで、<code>Add Incoming Webhooks Integration</code>のボタンを押すと発行されます。</p>
+
+<p><img src="/images/slack-setting-example.png" alt="slack-setting-example" /></p>
+
+<p>channelや通知するbotの名前を決めれるので、適当に決めます。</p>
+
+<p><img src="/images/slack-setting-example2.png" alt="slack-setting-example2" /></p>
+
+<p>これでSlack側の準備は完了です。</p>
+
+<h2 id="2-webhook-urlに対してpostする">2. webhook urlに対してpostする</h2>
+<p>webhook urlの発行ができたら、Slackに通知をしてみましょう。</p>
+
+<p>今回、Slack通知には<a href="https://github.com/shoyan/slack-incoming-webhooks" target="_blank">slack-incoming-webhooks</a>というgemを使います。</p>
+
+<h3 id="インストール">インストール</h3>
+<p>インストールは以下のコマンドでできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem install slack-incoming-webhooks
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="slackへ通知">Slackへ通知</h3>
+<p>使い方はシンプルです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;slack/incoming/webhooks&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">slack</span> <span class="o">=</span> <span class="no">Slack</span><span class="o">::</span><span class="no">Incoming</span><span class="o">::</span><span class="no">Webhooks</span><span class="o">.</span><span class="n">new</span> <span class="s2">&quot;WEBHOOK_URL&quot;</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">post</span> <span class="s2">&quot;Hello World&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>もし、通知先のチャンネルや通知するユーザーネームを変更したいときは指定できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">slack</span> <span class="o">=</span> <span class="no">Slack</span><span class="o">::</span><span class="no">Incoming</span><span class="o">::</span><span class="no">Webhooks</span><span class="o">.</span><span class="n">new</span> <span class="s2">&quot;WEBHOOK_URL&quot;</span><span class="p">,</span> <span class="ss">channel</span><span class="p">:</span> <span class="s1">&#39;#other-channel&#39;</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="s1">&#39;monkey-bot&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1"># Direct message</span>
+</span><span class="line"><span class="n">slack</span> <span class="o">=</span> <span class="no">Slack</span><span class="o">::</span><span class="no">Incoming</span><span class="o">::</span><span class="no">Webhooks</span><span class="o">.</span><span class="n">new</span> <span class="s2">&quot;WEBHOOK_URL&quot;</span><span class="p">,</span> <span class="ss">channel</span><span class="p">:</span> <span class="s1">&#39;@shoyan&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>アクセサメソッドも用意されています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="s1">&#39;#other-channel&#39;</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">icon_emoji</span> <span class="o">=</span> <span class="s1">&#39;:ghost:&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="attachmentsを使う">Attachmentsを使う</h2>
+<p>さて、単純な通知ができたら次はもっとリッチなフォーマットで通知をしてみましょう。  <br />
+それには<a href="https://api.slack.com/docs/attachments">attachments</a>を使います。</p>
+
+<h3 id="example1">Example1</h3>
+
+<p><img src="/images/slack-example.png =500x" alt="slack-example" /></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">attachments</span> <span class="o">=</span> <span class="o">[</span><span class="p">{</span>
+</span><span class="line">  <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Ticket #1943: Can&#39;t reset my password&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">title_link</span><span class="p">:</span> <span class="s2">&quot;https://groove.hq/path/to/ticket/1943&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;Help! I tried to reset my password but nothing happened!&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">color</span><span class="p">:</span> <span class="s2">&quot;#7CD197&quot;</span>
+</span><span class="line"><span class="p">}</span><span class="o">]</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">post</span> <span class="s2">&quot;New ticket from Andrea Lee&quot;</span><span class="p">,</span> <span class="ss">attachments</span><span class="p">:</span> <span class="n">attachments</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="example2">Example2</h3>
+
+<p><img src="/images/slack-example2.png =500x" alt="slack-example2" /></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">attachments</span> <span class="o">=</span> <span class="o">[</span><span class="p">{</span>
+</span><span class="line">  <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;&lt;https://honeybadger.io/path/to/event/|ReferenceError&gt; - UI is not defined&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">fields</span><span class="p">:</span> <span class="o">[</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">      <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Project&quot;</span><span class="p">,</span>
+</span><span class="line">      <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;Awesome Project&quot;</span><span class="p">,</span>
+</span><span class="line">      <span class="ss">short</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class="line">    <span class="p">},</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">      <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Environment&quot;</span><span class="p">,</span>
+</span><span class="line">      <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;production&quot;</span><span class="p">,</span>
+</span><span class="line">      <span class="ss">short</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">  <span class="o">]</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">color</span><span class="p">:</span> <span class="s2">&quot;#F35A00&quot;</span>
+</span><span class="line"><span class="p">}</span><span class="o">]</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">post</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="ss">attachments</span><span class="p">:</span> <span class="n">attachments</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="example3">Example3</h3>
+
+<p><img src="/images/slack-example3.png =500x" alt="slack-example3" /></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">attachments</span> <span class="o">=</span> <span class="o">[</span><span class="p">{</span>
+</span><span class="line">  <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Network traffic (kb/s)&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">title_link</span><span class="p">:</span> <span class="s2">&quot;https://datadog.com/path/to/event&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;How does this look? @slack-ops - Sent by Julie Dodd&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">image_url</span><span class="p">:</span> <span class="s2">&quot;https://api.slack.com/img/api/attachment_example_datadog.png&quot;</span><span class="p">,</span>
+</span><span class="line">  <span class="ss">color</span><span class="p">:</span> <span class="s2">&quot;#764FA5&quot;</span>
+</span><span class="line"><span class="p">}</span><span class="o">]</span>
+</span><span class="line"><span class="n">slack</span><span class="o">.</span><span class="n">post</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="ss">attachments</span><span class="p">:</span> <span class="n">attachments</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>いかがでしたでしょうか。  <br />
+今回紹介できなかったオプションもあるので、詳細はSlackの<a href="https://api.slack.com/docs/attachments">attachments</a>のドキュメントを参考にしてください。</p>
+
+<p>では、よいSlack Lifeを！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

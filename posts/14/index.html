@@ -9,9 +9,18 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="iPhone6の画面が真っ暗になり操作できなくなった。
-画面は真っ暗だが、Siriが反応するので電源は入っている模様。 電源ケーブルを挿してみたが症状は変わらず。
-電源ボタンを押しても反応がない。 修理となるとショップまで足を運ぶのが面倒くさいし、色々とクリアしないといけない問題が浮かんでくる。 &hellip;">
+  <meta name="description" content="Railsを4.2.7.1にアップデートをしてrspecを実行すると、以下のエラーが発生するようになった。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+$ bundle exec rspec spec
+[DEPRECATION] `last_comment` is deprecated. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -137,6 +146,83 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/23/last-comment-is-deprecated/">Rails 4.2.7.1 に更新した後に [DEPRECATION] Last_comment Is Deprecated. が発生した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-23T13:37:27+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>1:37 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Railsを4.2.7.1にアップデートをしてrspecを実行すると、以下のエラーが発生するようになった。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ bundle exec rspec spec
+</span><span class="line">[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+</span><span class="line">[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+</span><span class="line">[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+</span><span class="line">[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+</span><span class="line">[DEPRECATION] `last_comment` is deprecated.  Please use `last_description` instead.
+</span><span class="line">......................................................................................................
+</span><span class="line">
+</span><span class="line">Finished in 2.33 seconds (files took 8.78 seconds to load)
+</span><span class="line">102 examples, 0 failures</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>grepしてみたところ、rspecで使用していた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ hw last_comment vendor/bundle
+</span><span class="line">vendor/bundle/ruby/2.2.0/gems/rspec-core-3.2.2/lib/rspec/core/rake_task.rb
+</span><span class="line">84:        desc "Run RSpec code examples" unless ::Rake.application.last_comment</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>rspecをアップデートしたら出なくなった。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ bundle update rspec-rails
+</span><span class="line">
+</span><span class="line">$ bundle exec rspec spec
+</span><span class="line">......................................................................................................
+</span><span class="line">
+</span><span class="line">Finished in 2.33 seconds (files took 8.85 seconds to load)
+</span><span class="line">102 examples, 0 failures</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -400,79 +486,6 @@ Buildingはビルド中のステータスです。</p>
 
 <ul>
   <li><a href="https://docs.docker.com/docker-hub/builds/">Automated Builds on Docker Hub</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/02/ruboty-and-slack/">Botsインテグレーションを使って手軽にRubotyをSlackで動かす</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-02T13:40:25+09:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>1:40 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前回は<a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a>でRubotyの導入方法を紹介しました。<br />
-今回はRubotyをSlackで動かす方法を紹介します。</p>
-
-<p>RubotyにはSlackアダプターが用意してありますが、新しくユーザーの作成が必要です。<br />
-ユーザーの作成が必要のない、Botsインテグレーションと<a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a>を使ってRubotyをSlackで動かす方法を紹介します。</p>
-
-<h2 id="ruboty-slack_rtmのインストール">ruboty-slack_rtmのインストール</h2>
-
-<p>Gemfileに以下を定義します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">gem "ruboty-slack_rtm"</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>bundle install</code> コマンドでインストールします。</p>
-
-<h2 id="slackのbotsインテグレーションを設定する">SlackのBotsインテグレーションを設定する</h2>
-
-<p>Slackの管理画面でBotsインテグレーションを登録します。</p>
-
-<p><img src="/images/bots-integration.png" alt="bots-integration" /></p>
-
-<p>登録するとTokenが発行されるので、そのTokenをSLACK_TOKENという名前で環境変数に設定します。<br />
-Rubotyは dotenv に対応しているので、<code>.env</code> ファイルを作成し、そこにTOKENを登録しておくと便利です。</p>
-
-<p>.env</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">SLACK_TOKEN=&lt;slack token&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Ruboty を起動します。<code>.env</code> ファイルを読み込むように <code>—dotenv</code> オプションをつけて起動します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">bundle exec ruby --dotenv</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>起動すると SlackのRubotyがログインマークに変わります。</p>
-
-<p>あとは、チャンネルにinviteすればSlackでRubotyが使えます！<br />
-ちなみにrubotyではなく、Botsインテグレーションで登録したユーザー名に反応します。</p>
-
-<h3 id="関連記事">関連記事</h3>
-
-<ul>
-  <li><a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a></li>
 </ul>
 </div>
   

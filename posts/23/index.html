@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Node.jsのフレームワーク、Expressを試してみました。 ExpressはNode.jsでwebアプリケーションを作成するためのフレームワークです。 インストール まずは、Node.jsをインストールします。 以下のページからパッケージをダウンロードしてインストールします。 https &hellip;">
+  <meta name="description" content="データの分析によく使われるエクセルですが、Google Spreadsheetsでも様々な関数が用意されています。 関数を使えば日付の差分を調べたり、特定の条件に一致するデータをカウントすることができます。 Google Spreadsheetsを使ってデータの集計、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +135,126 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/18/tips-of-google-spreadsheets/">Google Spreadsheetsを使ってデータの分析をする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-18T13:46:32+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:46 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>データの分析によく使われるエクセルですが、Google Spreadsheetsでも様々な関数が用意されています。  <br />
+関数を使えば日付の差分を調べたり、特定の条件に一致するデータをカウントすることができます。  <br />
+Google Spreadsheetsを使ってデータの集計、分析をするためのTipsの紹介をします。</p>
+
+<h2 id="日付の差分を調べる">日付の差分を調べる</h2>
+
+<p>例えばユーザーの契約日数を調べたいとしましょう。  <br />
+<code>DATEVALUE</code>を使って以下のように計算できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">=DATEVALUE("2016/05/17") - DATEVALUE("2016/05/01")
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>セルを指定することもできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">=DATEVALUE(A2) - DATEVALUE(A1)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>月で表示したい場合は30で割ります。<br />
+FLOORは小数点を切り捨てるために使っています。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">=FLOOR((DATEVALUE("2016/05/17") - DATEVALUE("2015/05/01"))/30, 0.1)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="特定の条件をカウントする">特定の条件をカウントする</h2>
+
+<p>例えば、契約期間が1年未満のユーザーをカウントする場合は<code>COUNTIFS</code>を使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">=COUNTIFS(A1:A1000, "&lt;365")
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>COUNTIFS</code>は複数条件を指定できます。  <br />
+契約期間が1年以上〜2年未満のユーザーをカウントするということができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">=COUNTIFS(A1:A1000, "&gt;=365", I3:I1009, "&lt;730")
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="点数を分析する">点数を分析する</h2>
+
+<p>平均点を求めることは <code>AVERAGE</code> を使えばできます。  <br />
+平均だけでなくばらつきを求めると違った角度でデータを捉えることができます。  <br />
+ばらつきは標準偏差を求める関数 <code>STDEVP</code>で求めることができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">= STDEVP(A1:E1)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>例えばそれぞれの項目にたいして点数をつけるアンケートがあるとします。  <br />
+以下の2つの項目は平均点は同じですが、標準偏差を求めるとばらつきがあることがわかります。  <br />
+標準偏差を使えばこのようなデータを見つけることができます。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>点数</th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th>平均点</th>
+      <th>標準偏差</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6</td>
+      <td>7</td>
+      <td>9</td>
+      <td>7</td>
+      <td>6</td>
+      <td>7</td>
+      <td>1.095445115</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>5</td>
+      <td>10</td>
+      <td>7</td>
+      <td>5</td>
+      <td>7</td>
+      <td>1.897366596</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>サンプルを用意しました。参考にどうぞ。  <br />
+https://docs.google.com/spreadsheets/d/1bOc3s8ikFcbBPGuzxDbRzd8KVT00lgQUDz275TJAIoE/edit#gid=0</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -662,146 +782,6 @@ MyCustomeErrorのエラーハンドリングをしたいときは以下のよう
   <li>
     <p><a href="http://www.sinatrarb.com/intro.html#Error%20Handling">http://www.sinatrarb.com/intro.html#Error%20Handling</a></p>  </li>
 </ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/10/chef-converge-with-knife-zero/">Knife Zeroを使ってレシピを適用する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-10T13:29:15+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:29 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Chefでよく使われるknifeコマンドですが、そのプラグインである<a href="https://github.com/higanworks/knife-zero">knife zero</a>を使ってレシピを適用する方法を紹介します。  <br />
-knife zeroはknifeプラグインで、リモートnode上でchef-clientを実行するツールです。</p>
-
-<p>リモートnodeとはchefを適用するサーバー(管理対象となるサーバー)のことです。</p>
-
-<h2 id="インストール">インストール</h2>
-
-<p>今回はGemfileに定義してインストールします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"># Gemfile
-</span><span class="line">gem 'knife-zero'
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下でインストールされます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ bundle
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="chefをリモートnodeにインストール">chefをリモートnodeにインストール</h2>
-
-<p>まずはchefをリモートnodeにインストールします。  <br />
-以下のコマンドでインストールします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ bundle exec knife zero bootstrap shoyan@server01.example.com --sudo
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>実行すると <code>node/</code> 配下にファイルが作成さます。</p>
-
-<p><code>chef_environment</code>と<code>run_list</code>を追加します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">{
-</span><span class="line">  "name": "server01.example.com",
-</span><span class="line">  "chef_environment": "production",
-</span><span class="line">  "run_list": [
-</span><span class="line">    “role[awesome_cookbook]"
-</span><span class="line">  ],
-</span><span class="line">  "normal": {
-</span><span class="line">    "knife_zero": {
-</span><span class="line">      "host": "server01.example.com"
-</span><span class="line">    },
-</span><span class="line">    "tags": [
-</span><span class="line">
-</span><span class="line">    ]
-</span><span class="line">  },
-</span><span class="line">  "automatic": {
-</span><span class="line">    "fqdn": "server01.example.com",
-</span><span class="line">    "os": "linux",
-</span><span class="line">    "os_version": "2.6.32-504.3.3.el6.x86_64",
-</span><span class="line">    "platform": "centos",
-</span><span class="line">    "platform_version": "6.4",
-</span><span class="line">    "hostname": "server01.example.com",
-</span><span class="line">    "ipaddress": “192.168.1.1",
-</span><span class="line">    "roles": [
-</span><span class="line">
-</span><span class="line">    ]
-</span><span class="line">  }
-</span><span class="line">}
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>リモートnodeにログインして、chefのコマンドが実行されていることを確認してみます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ ssh shoyan@server01.example.com
-</span><span class="line">
-</span><span class="line">[shoyan@server01 ~]$ chef-[Tabを押す]
-</span><span class="line">chef-apply   chef-client  chef-shell   chef-solo
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="レシピをリモートnodeに適用する">レシピをリモートnodeに適用する</h2>
-
-<p>Chefを実行する準備ができました。<br />
-以下のコマンドでレシピをリモートnodeに適用します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ bundle exec knife zero converge 'fqdn:server01.example.com' -x shoyan
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 </div>
   

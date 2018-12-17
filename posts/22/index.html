@@ -9,7 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Sinatraのloggerヘルパーを使ったところ、なぜか標準エラーの出力先にログが吐かれており、標準出力の出力先にはログが吐かれない。 標準出力先にログを吐くものだと思っていたのだが、自分が想定していた挙動と違うので調べてみた。 まずは、 &hellip;">
+  <meta name="description" content="Dockerのコンテナでyum installが失敗する。 以下のようなエラーがでていた。 1
+Insufficient space in download directory /var/cache/yum/x86_64/6/updates/packages 容量が不足しているらしい。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +136,78 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/30/yum-install-failed-by-insufficient-space-on-docker/">Dockerのコンテナでyum Installが失敗する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-30T12:58:52+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:58 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Dockerのコンテナでyum installが失敗する。  <br />
+以下のようなエラーがでていた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Insufficient space in download directory /var/cache/yum/x86_64/6/updates/packages
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>容量が不足しているらしい。</p>
+
+<p>ディスク容量を確認したところ、100%になっていた。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">bash-4.2# df
+</span><span class="line">Filesystem     1K-blocks     Used Available Use% Mounted on
+</span><span class="line">none            19049892 18226752         0 100% /
+</span><span class="line">tmpfs             509992        0    509992   0% /dev
+</span><span class="line">tmpfs             509992        0    509992   0% /sys/fs/cgroup
+</span><span class="line">/dev/sda1       19049892 18226752         0 100% /etc/hosts
+</span><span class="line">shm                65536        0     65536   0% /dev/shm
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>不要なコンテナが溜まっていて、そのせいでディスク容量を圧迫していたようだ。</p>
+
+<h3 id="コンテナを消す方法">コンテナを消す方法</h3>
+
+<ul>
+  <li>docker ps -a でコンテナの一覧が表示される</li>
+  <li>docker rm  container_id で消す</li>
+</ul>
+
+<p>コンテナを消すと、ディスク容量に空きができてyum installできるようになった。</p>
+
+<p>こちらは類似案件。</p>
+
+<ul>
+  <li><a href="http://shoyan.github.io/blog/2016/04/13/no-space-left-on-device-on-docker/">Dockerでno Space Left on Deviceが出てbuildできなくなった</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -731,126 +804,6 @@ CPU、メモリ、ロードアベレージ、ディスク容量等の監視を�
 <ul>
   <li><a href="https://mackerel.io/ja/docs/">ヘルプ - Mackerel ヘルプ</a></li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/18/tips-of-google-spreadsheets/">Google Spreadsheetsを使ってデータの分析をする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-18T13:46:32+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:46 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>データの分析によく使われるエクセルですが、Google Spreadsheetsでも様々な関数が用意されています。  <br />
-関数を使えば日付の差分を調べたり、特定の条件に一致するデータをカウントすることができます。  <br />
-Google Spreadsheetsを使ってデータの集計、分析をするためのTipsの紹介をします。</p>
-
-<h2 id="日付の差分を調べる">日付の差分を調べる</h2>
-
-<p>例えばユーザーの契約日数を調べたいとしましょう。  <br />
-<code>DATEVALUE</code>を使って以下のように計算できます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">=DATEVALUE("2016/05/17") - DATEVALUE("2016/05/01")
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>セルを指定することもできます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">=DATEVALUE(A2) - DATEVALUE(A1)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>月で表示したい場合は30で割ります。<br />
-FLOORは小数点を切り捨てるために使っています。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">=FLOOR((DATEVALUE("2016/05/17") - DATEVALUE("2015/05/01"))/30, 0.1)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="特定の条件をカウントする">特定の条件をカウントする</h2>
-
-<p>例えば、契約期間が1年未満のユーザーをカウントする場合は<code>COUNTIFS</code>を使います。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">=COUNTIFS(A1:A1000, "&lt;365")
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>COUNTIFS</code>は複数条件を指定できます。  <br />
-契約期間が1年以上〜2年未満のユーザーをカウントするということができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">=COUNTIFS(A1:A1000, "&gt;=365", I3:I1009, "&lt;730")
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="点数を分析する">点数を分析する</h2>
-
-<p>平均点を求めることは <code>AVERAGE</code> を使えばできます。  <br />
-平均だけでなくばらつきを求めると違った角度でデータを捉えることができます。  <br />
-ばらつきは標準偏差を求める関数 <code>STDEVP</code>で求めることができます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">= STDEVP(A1:E1)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>例えばそれぞれの項目にたいして点数をつけるアンケートがあるとします。  <br />
-以下の2つの項目は平均点は同じですが、標準偏差を求めるとばらつきがあることがわかります。  <br />
-標準偏差を使えばこのようなデータを見つけることができます。</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>点数</th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th>平均点</th>
-      <th>標準偏差</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>6</td>
-      <td>7</td>
-      <td>9</td>
-      <td>7</td>
-      <td>6</td>
-      <td>7</td>
-      <td>1.095445115</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>5</td>
-      <td>10</td>
-      <td>7</td>
-      <td>5</td>
-      <td>7</td>
-      <td>1.897366596</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>サンプルを用意しました。参考にどうぞ。  <br />
-https://docs.google.com/spreadsheets/d/1bOc3s8ikFcbBPGuzxDbRzd8KVT00lgQUDz275TJAIoE/edit#gid=0</p>
 </div>
   
   
