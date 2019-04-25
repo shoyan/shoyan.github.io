@@ -9,9 +9,11 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。
-最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。
-具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。 &hellip;">
+  <meta name="description" content="StudyPlusに英語の勉強を記録し始めて５ヶ月。
+幸運なことに継続して学習を続けることができている。 勉強時間は128時間(累計)。
+覚えた単語数は4600。
+前回が3500だったので１ヶ月で1100、語彙数が増えた。
+だんだん単語が覚えやすくなってきた感じがしている。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -137,6 +139,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/31/study-english-fifth-month/">StudyPlusを使った英語の勉強をはじめて５ヶ月目の記録</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-31T17:17:19+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>5:17 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>StudyPlusに英語の勉強を記録し始めて５ヶ月。<br />
+幸運なことに継続して学習を続けることができている。</p>
+
+<p>勉強時間は128時間(累計)。<br />
+覚えた単語数は4600。<br />
+前回が3500だったので１ヶ月で1100、語彙数が増えた。<br />
+だんだん単語が覚えやすくなってきた感じがしている。</p>
+
+<p>前回から変わった点としては洋書を読み始めたことがあげられる。<br />
+Kindle Unlimitedを契約したので、洋書の入手に事欠かなくなったからだ。</p>
+
+<p>最近読んだのは以下の本。<br />
+英語の効果的な勉強法を英語で勉強できるので1粒で2度おいしい。</p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B00WGZ38EC&amp;linkId=4a85af93a9eabd53705c3c8a4d7c1305"></iframe>
+
+<p>Kindle Unlimitedは洋書が132万冊あるので、これから存分に活用させてもらうつもりだ。<br />
+ちなみにLearn Englishによると、知っている映画の本を読むのがリーディングに最適だそうだ。</p>
+
+<p>また、洋画を観ることも始めた。<br />
+こちらはまだ習慣化するところまで至っていないが、基本的には同じ映画のセリフを覚えるまで何回も繰り返し観るということをやろうと考えている。<br />
+題材はThe Devil Wears Plada(プラダを着た悪魔)だ。<br />
+これにした理由はニューヨークを舞台とした映画が良いと思っていて（これについては完全なる好みの問題）たまたま手元にあったのがプラダを着た悪魔だった。</p>
+
+<h2 id="過去の英語の勉強記録">過去の英語の勉強記録</h2>
+
+<ul>
+  <li><a href="http://localhost:4000/blog/2016/09/12/study-english-four-month/">英語の勉強をはじめて4ヶ月の記録</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -422,225 +482,6 @@ docker-machineコマンドで確認してみると以下のエラーが出てい
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/09/27/links-container-with-docker-compose/">docker-composeを使ってPHPコンテナとMySQLコンテナを連携させる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-09-27T14:04:11+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:04 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>以前、<a href="/blog/2016/09/16/links-container-for-docker/">Dockerコンテナを連携させる方法</a>を書いたが、コンテナ間の連携が必要な際はdocker-composeを使うと便利だ。<br />
-今回は前回と同じようにPHPとMySQLのコンテナを連携させるが、その連携にdocker-composeを使った方法を紹介する。</p>
-
-<p>まずは、適当なディレクトリをつくる。<br />
-今回は <code>docker-compose-sample</code>とする。</p>
-
-<p><code>docker-compose-sample/</code> 配下にDockerfileを作成する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">FROM shoyan/www-ci
-</span><span class="line">ADD . /app
-</span><span class="line">WORKDIR /app
-</span><span class="line">ENV MYSQL_HOST mysql
-</span><span class="line">ENV MYSQL_PASSWORD ''</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>次に <code>docker-compose.yml</code>を作成する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">version: '2'
-</span><span class="line">services:
-</span><span class="line">  web:
-</span><span class="line">    build: .
-</span><span class="line">    links:
-</span><span class="line">      - mysql:mysql
-</span><span class="line">  mysql:
-</span><span class="line">    image: mysql:5.5
-</span><span class="line">    environment:
-</span><span class="line">      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-</span><span class="line">    expose:
-</span><span class="line">      - "3306"
-</span><span class="line">    volumes:
-</span><span class="line">      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>servicesにwebとmysqlという名前でコンテナを定義している。</p>
-
-<h3 id="webコンテナ">webコンテナ</h3>
-<p>webコンテナはDockerfileをbuildして、mysqlコンテナと連携させる定義をしている。<br />
-これによりwebコンテナからはmysqlという名前でmysqlコンテナにアクセスできるようになる。</p>
-
-<h3 id="mysqlコンテナについて">mysqlコンテナについて</h3>
-<p>MySQLは公式のイメージを使っている。<br />
-他のコンテナからアクセスできるようにexposeで3306ポートを指定している。</p>
-
-<p>公式のMySQLイメージから作成したコンテナは<code>/docker-entrypoint-initdb.d/</code> 配下にあるシェルスクリプトやsqlファイルを起動時に実行するようになっている。<br />
-今回はデータベースとテーブルを作成するためにこの機構を利用する。<br />
-volumesを利用してファイルを配置している。</p>
-
-<p>以下の<code>docker-compose-sample/docker-entrypoint-initdb.d/setup.sql</code> を作成しておく。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="sql"><span class="line"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">app_test</span><span class="p">;</span>
-</span><span class="line">
-</span><span class="line"><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">app_test</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="k">user</span><span class="o">`</span><span class="p">;</span>
-</span><span class="line"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">app_test</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="k">user</span><span class="o">`</span> <span class="p">(</span>
-</span><span class="line">  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">status</span><span class="o">`</span> <span class="n">tinyint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">email</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">postal_code</span><span class="o">`</span> <span class="nb">char</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-</span><span class="line">  <span class="o">`</span><span class="n">character_text</span><span class="o">`</span> <span class="nb">text</span><span class="p">,</span>
-</span><span class="line">  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
-</span><span class="line"><span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="確認用スクリプト">確認用スクリプト</h3>
-
-<p>DBにアクセスできているかを確認するためのスクリプト <code>connect.php</code> を用意しておく。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class="line"><span class="nv">$dsn</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">&#39;mysql:host=%s:3306;dbname=%s&#39;</span><span class="p">,</span>  <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">&#39;MYSQL_HOST&#39;</span><span class="p">],</span> <span class="s1">&#39;app_test&#39;</span><span class="p">);</span>
-</span><span class="line"><span class="nv">$user</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span><span class="p">;</span>
-</span><span class="line"><span class="nv">$password</span> <span class="o">=</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">&#39;MYSQL_PASSWORD&#39;</span><span class="p">];</span>
-</span><span class="line"><span class="nv">$dbh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="nv">$dsn</span><span class="p">,</span> <span class="nv">$user</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
-</span><span class="line"><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT version();&quot;</span><span class="p">;</span>
-</span><span class="line"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$row</span><span class="p">);</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line"><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;show tables;&quot;</span><span class="p">;</span>
-</span><span class="line"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$row</span><span class="p">);</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="docker-composeでコンテナを起動する">docker-composeでコンテナを起動する</h3>
-
-<p>準備ができたのでdocker-composeコマンドでコンテナを起動する。<br />
-以下のようにネットワークとコンテナが作成される。<br />
-<code>-d</code> オプションはバックグラウンドでコンテナを起動するために指定している。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">$ docker-compose up -d
-</span><span class="line">Creating network &quot;dockercomposesample_default&quot; with the default driver
-</span><span class="line">Creating dockercomposesample_mysql_1
-</span><span class="line">Creating dockercomposesample_web_1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>コンテナにログインしてみる。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">$ docker run --rm -it -v `pwd`:/app --net=dockercomposesample_default dockercomposesample_web bash
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>確認用スクリプトで疎通を確認する。<br />
-バージョンとtableが表示されたら成功だ。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">root@6237502e4401:/app# php connect.php
-</span><span class="line">Array
-</span><span class="line">(
-</span><span class="line">    [version()] =&gt; 5.5.51
-</span><span class="line">)
-</span><span class="line">Array
-</span><span class="line">(
-</span><span class="line">    [Tables_in_app_test] =&gt; user
-</span><span class="line">)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>コンテナを削除するには <code>docker-compose down</code> コマンドを使う。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">⇒  docker-compose down
-</span><span class="line">Stopping dockercomposesample_mysql_1 ... done
-</span><span class="line">Removing dockercomposesample_web_1 ... done
-</span><span class="line">Removing dockercomposesample_mysql_1 ... done
-</span><span class="line">Removing network dockercomposesample_default
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>サンプルコードをgithubで公開しているので参考にしてほしい。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/shoyan/docker-compose-with-link-sample">https://github.com/shoyan/docker-compose-with-link-sample</a></p>  </li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -685,7 +526,7 @@ volumesを利用してファイルを配置している。</p>
 </ul>
 
 <p>
-Copyright &copy; 2018 - SHOYAN BLOG
+Copyright &copy; 2019 - SHOYAN BLOG
 </p>
 
 </footer>

@@ -9,8 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="PHPで人気のフレームワーク、Laravelを手元のPCにインストールして起動するチュートリアルです。
-冗長な説明を除きLaravelを動かすために重要な部分のみ解説することでスピーディにLaravelを動作できるようにしています。 Laravelのインストール &hellip;">
+  <meta name="description" content="RACK_ENVについて調べた内容とUnicorn、SinatraでのRACK_ENVの扱い方や注意点をまとめました。 RACK_ENVとはRACKの環境変数です。 何を設定するかによって使用するmiddlewareが変わります。 RACK_ENVには、development、deployment &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -136,6 +135,129 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra/">RACK_ENVとUnicorn、SinatraでのRACK_ENVの扱いと注意点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-02T14:14:29+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:14 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>RACK_ENVについて調べた内容とUnicorn、SinatraでのRACK_ENVの扱い方や注意点をまとめました。  <br />
+RACK_ENVとはRACKの環境変数です。  <br />
+何を設定するかによって使用するmiddlewareが変わります。  <br />
+RACK_ENVには、<code>development</code>、<code>deployment</code>、<code>none</code>の3種類があります。</p>
+
+<p>以下がそれぞれのRACK_ENVで使われるmiddlewareです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#       - development: CommonLogger, ShowExceptions, and Lint
+</span><span class="line">#       - deployment: CommonLogger
+</span><span class="line">#       - none: なし
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><a href="https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157">https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L157</a></p>
+<p><code>development</code>と<code>deployment</code>に該当しない場合はmiddlewareは何も使われないようです。</p>
+
+<p><a href="https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L228">https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/server.rb#L228</a></p>
+<p>ここを間違えて<code>production</code>と設定する例を時々見るのですが、<code>production</code>は存在しないので、<code>none</code>と同じ挙動となります。<br />
+capistrano3-unicornのソースコードを見てみると、<code>production</code>を指定した場合<code>deployment</code>を設定するようになっていました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:unicorn_rack_env</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:rails_env</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="p">?</span> <span class="s2">&quot;development&quot;</span> <span class="p">:</span> <span class="s2">&quot;deployment&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7">https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L7</a></p>
+<p>unicornはちょっと挙動を変えていて、<code>development</code>と<code>deployment</code>のときは ShowExceptionsとLintは読み込まないようです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line">  <span class="k">case</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RACK_ENV&quot;</span><span class="o">]</span>
+</span><span class="line">  <span class="k">when</span> <span class="s2">&quot;development&quot;</span>
+</span><span class="line">  <span class="k">when</span> <span class="s2">&quot;deployment&quot;</span>
+</span><span class="line">    <span class="n">middleware</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:ShowExceptions</span><span class="p">)</span>
+</span><span class="line">    <span class="n">middleware</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:Lint</span><span class="p">)</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">inner_app</span>
+</span><span class="line">  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><a href="https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79">https://github.com/defunkt/unicorn/blob/master/lib/unicorn.rb#L79</a></p>
+<h3 id="sinatraの環境変数">Sinatraの環境変数</h3>
+
+<p>SinatraはRACK_ENVとenvironmentという環境変数が2つありややこしいです。  <br />
+基本的には、environmentを定義して使います。  <br />
+異なる環境で実行したい場合、RACK_ENVを指定することができます(これが混乱のもと)。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">異なる環境を走らせるには、RACK_ENV環境変数を設定します。
+</span><span class="line">RACK_ENV=production ruby my_app.rb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><a href="https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments">https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments</a></p>
+<p><code>set :environment, :production</code> と定義して、<code>RACK_ENV=development ruby my_app.rb</code> を実行してみました。  <br />
+このときの <code>settings.production?</code>の戻り値は何になるでしょうか。  <br />
+trueとなり、productionと判定されます。  <br />
+set :environmentで指定されたもので判定されるようです。</p>
+
+<p>まとめると以下のような挙動になります。</p>
+
+<ul>
+  <li>set :environment が指定されているときは指定された値が使われる</li>
+  <li>set :environment が指定されていないときは RACK_ENVが使われる</li>
+  <li>set :environment も RACK_ENVも指定されていないときは developmentになる</li>
+</ul>
+
+<p>ここで1つ気になることがでてきました。  <br />
+capistrano3-unicornを使った場合は、RACK_ENVはdeploymentが指定されます。  <br />
+Sinatraで <code>set :environment</code> を設定しなかった場合はRACK_ENVの値が優先されます。  <br />
+ということは、本番環境でも<code>settings.production?</code>がfalseとなってしまいます。  <br />
+これは意図しない挙動ですね。  <br />
+また、テンプレートのキャッシュについても効かなくなってしまいます。</p>
+
+<h3 id="まとめ">まとめ</h3>
+<p>Sinatraではset :environment を明示的に指定しましょう。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:environment</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RACK_ENV&quot;</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot;deployment&quot;</span><span class="p">?</span> <span class="ss">:production</span> <span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RACK_ENV&quot;</span><span class="o">].</span><span class="n">to_sym</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="参考文献">参考文献</h2>
+<ul>
+  <li>
+    <p><a href="https://blog.kksg.net/posts/unicorn-environment">https://blog.kksg.net/posts/unicorn-environment</a></p>  </li>
+  <li>
+    <p><a href="http://unicorn.bogomips.org/unicorn_1.html#TOC">http://unicorn.bogomips.org/unicorn_1.html#TOC</a></p>  </li>
+  <li>
+    <p><a href="https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments">https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/README.ja.md#%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9Aenvironments</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1126,130 +1248,6 @@ URLエンコードされたパラメーターが設定されます。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/22/what-is-nat/">NAT・NAPT・ポートフォワーディングの違いとは</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-22T13:59:35+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>1:59 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ネットワークの話しによくNATという言葉が出てくるので整理した。  <br />
-また、NAPT・ポートフォワーディングについても理解しておいたほうが理解が深まると思ったのでまとめておいた。</p>
-
-<h2 id="natとは">NATとは</h2>
-
-<p>NAT(Network Address Translation)はIPアドレスを変換する技術である。  <br />
-具体的にはプライベートIPアドレスをグローバルIPアドレスに変換する、もしくは、グローバルIPアドレスをプライベートIPアドレスに変換する。</p>
-
-<h3 id="なぜnatが必要か">なぜNATが必要か</h3>
-
-<p>グローバルIPアドレスを節約するためである。  <br />
-インターネットに接続するにはグローバルIPアドレスが必要である。  <br />
-プライベートIPアドレスではインターネットに接続することができないという決まりになっている。</p>
-
-<p>インターネットに接続するには、PC全てにグローバルIPを割り振るのが最も単純な方法である。  <br />
-しかし、全てにグローバルIPアドレスを割り振っていてはすぐにIPアドレスは枯渇してしまう。</p>
-
-<p>では、どうするか。  <br />
-LANからインターネットに通信するときにプライベートIPアドレスをグローバルIPアドレスに変換してやればいいのではないか。  <br />
-それを実現するのがNATである。</p>
-
-<p>具体的にはLANからインターネットに通信するときは、ヘッダの送信元IPをグローバルIPに書き換える。  <br />
-インターネットからLANに通信するときは、ヘッダの宛先IPをプライベートIPに書き換える。</p>
-
-<p>NATがやることはこれだけである(多分)。</p>
-
-<p>しかし、NATには大きな問題がある。  <br />
-複数のクライアントPCがある場合、NATはどのプライベートIPに変換すればいいかわからないのだ。</p>
-
-<p>その問題を解決するのが、NAPT(Network Address Port Translation)である。</p>
-
-<h2 id="naptとは">NAPTとは</h2>
-
-<p>複数のクライアントPCがある場合、NATはどのプライベートIPに変換すればいいかわからない。<br />
-その問題を解決するのがNAPTである。</p>
-
-<p>NAPTはIPアドレスに加えてポートも管理する。  <br />
-このポートを使ってクライアントPCを特定する。  <br />
-例えば、PC(A)の場合は通信のポート番号を100、PC(B)の場合は通信のポート番号を200とする。  <br />
-すると、通信先のサーバーから異なったポート番号宛にデータが戻って来る。  <br />
-ポート番号100に戻ってきたデータはPC(A)に戻してやればいいわけである。</p>
-
-<p>NAPTはIPマスカレードとも呼ばれる。</p>
-
-<h2 id="natの弊害">NATの弊害</h2>
-
-<p>NATを使うとインターネットからLANへの通信ができないという問題がある。  <br />
-インターネットからの通信の場合、どのクライアントPCのプライベートIPアドレスに変換すればいいかがわからないため、クライアントPCに通信が届かないのだ。  <br />
-これは、セキュリティ的にみると安全だ。  <br />
-NATの内側にいるクライアントPCには外部からの通信が届かないからである。</p>
-
-<p>外部からの通信を届けたい場合はどうすればいいか。  <br />
-ポートフォワーディングを使えばいい。</p>
-
-<h2 id="ポートフォワーディングとは">ポートフォワーディングとは</h2>
-
-<p>インターネットから特定のポート番号宛に通信が届いたときにあらかじめ設定しておいたLAN側の機器にパケットを転送する機能である。  <br />
-例えば、宛先ポートが80宛のパケットは、LAN側の192.168.1.1の機器へ転送するといった設定ができる。  <br />
-このようにあらかじめ転送するポートとクライアントPCのIPアドレスを登録しておくことで外部からの通信が行えるようになる。</p>
-
-<p>ポートフォワーディングは静的IPマスカレードとも呼ばれる。</p>
-
-<h2 id="おすすめの書籍">おすすめの書籍</h2>
-
-<p>ネットワークについては様々な書籍があるが私は以下の書籍をおすすめする。</p>
-
-<h3 id="ネットワークはなぜつながるのか">ネットワークはなぜつながるのか</h3>
-
-<p>ネットワークの概要についてわかりやすく解説してある。初学者にお勧め。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4822283119&amp;linkId=f0180a64f0c324f0f26456536a0feed3"></iframe>
-
-<h3 id="マスタリングtcpip-入門編">マスタリングTCP/IP 入門編</h3>
-
-<p>ネットワークの理論についてわかりやすく解説してある。知人のネットワークの専門家もこの書籍をおすすめしていた。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4274068765&amp;linkId=394f3cca6b2bd67ea0333de41b8980c5"></iframe>
-
-<h2 id="参考文献">参考文献</h2>
-
-<ul>
-  <li>1.2.4 NAT・NAPTとIPアドレス
-    <ul>
-      <li>
-        <p><a href="http://www.arearesearch.co.jp/learn/ip/07.html">http://www.arearesearch.co.jp/learn/ip/07.html</a></p>      </li>
-    </ul>
-  </li>
-  <li>アドレス変換の弊害
-    <ul>
-      <li>
-        <p><a href="http://www.itbook.info/study/nat5.html">http://www.itbook.info/study/nat5.html</a></p>      </li>
-    </ul>
-  </li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/26">&larr; Older</a>
@@ -1294,7 +1292,7 @@ NATの内側にいるクライアントPCには外部からの通信が届かな
 </ul>
 
 <p>
-Copyright &copy; 2018 - SHOYAN BLOG
+Copyright &copy; 2019 - SHOYAN BLOG
 </p>
 
 </footer>

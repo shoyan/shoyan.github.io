@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Nginxを使えば簡単にプロキシサーバを構築することができます。手元で動かせるサンプルコードをGithubで公開しています。git cloneしてご利用ください。PCにDockerがインストールされていれば簡単に動作環境を構築することができます。 https://github.com/shoyan &hellip;">
+  <meta name="description" content="Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなるPMDを紹介します。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +135,133 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/03/20/usage-pmd/">PMDでJavaのコードのバグをチェックする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-03-20T18:41:09+09:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:41 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなる<a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD</a>を紹介します。PMDを使えばバグの原因となりそうなコードを検知することができるため、不具合を未然に防ぐことが可能です。</p>
+
+<h2 id="pmdとは">PMDとは</h2>
+
+<p>PMDは次の4つの問題があるコードを検知することができるツールです。</p>
+
+<ul>
+  <li>Possible bugs - バグの要因となるコード</li>
+  <li>Dead code - 使われていないコード</li>
+  <li>Suboptimal code - 効率の悪いコード</li>
+  <li>Overcomplicated expressions - 複雑な構文</li>
+</ul>
+
+<p>PMD自体はJavaで実装されていますが、Java以外の言語にも対応しています。今回はJavaのコードを対象に使い方を紹介します。</p>
+
+<h2 id="pmdのインストール方法">PMDのインストール方法</h2>
+
+<h3 id="homebrewでインストールする">Homebrewでインストールする</h3>
+
+<p>Macであれば、次のコマンドでインストールできます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">brew install pmd</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="バイナリをダウンロードする">バイナリをダウンロードする</h3>
+
+<p>バイナリをダウンロードしてインストールすることができます。次のページからダウンロードしてください。</p>
+
+<ul>
+  <li><a href="https://github.com/pmd/pmd/releases" target="_blank">the github releases page</a></li>
+</ul>
+
+<h2 id="pmdでコードをチェックする">PMDでコードをチェックする</h2>
+
+<h3 id="サンプルコードの準備">サンプルコードの準備</h3>
+
+<p>PMDでコードをチェックしてみます。今回はサンプルコードを作って検証します。サンプルコードはGithubにアップロードしているのでクローンしてご利用ください。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone git@github.com:shoyan/pmd-samples.git
+</span><span class="line">cd pad-samples</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="pmdの実行">PMDの実行</h3>
+
+<p>Pmdを実行します。<code>-d</code>がソースコードのパス、<code>-R</code>がルールが設定してあるファイルのパス、<code>-l</code>に言語を指定します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">pmd pmd -d src/main/java -R rules.xml -l java
+</span><span class="line">3月 20, 2018 6:03:49 午後 net.sourceforge.pmd.cache.NoopAnalysisCache &lt;init&gt;
+</span><span class="line">警告: This analysis could be faster, please consider using Incremental Analysis: https://pmd.github.io/pmd-6.1.0/pmd_userdocs_getting_started.html#incremental-analysis
+</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:2:        Avoid unused private fields such as 'FOO'.
+</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:4:        Avoid unused local variables such as 'i'.
+</span><span class="line">/pmd-samples/src/main/java/UnusedCode.java:6:        Avoid unused private methods such as 'foo()'.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>3つの問題が検知されています。UnusedCode.javaの2行目を見てみると、使われていないメンバ変数があります。他のエラーも同様に使われていないローカル変数とプライベートメソッドを検知しています。</p>
+
+<h3 id="ルールについて">ルールについて</h3>
+
+<p>ルールの一覧については次のリンクよりご覧ください。</p>
+<ul>
+  <li><a href="https://pmd.github.io/pmd-6.1.0/pmd_rules_java.html" target="_blank">Java Rules</a></li>
+</ul>
+
+<p>0の状態からルールを構築するのは大変です。そのため、PMDのリポジトリには様々なルールのサンプルが定義されています。基本的なルールが網羅されているbasic.xmlを利用するとよいでしょう。他にも様々なルールがあるので参考にしてください。</p>
+<ul>
+  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java" target="_blank">rulesets java</a></li>
+</ul>
+
+<h3 id="カテゴリ">カテゴリ</h3>
+
+<p>PMDのルールはカテゴリに分類されています。例えば、ベストプラクティスであれば、ベストプラクティスに沿ったルールが定義されています。カテゴリの詳細については次のリンクでご覧ください。</p>
+
+<ul>
+  <li><a href="https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/category/java" target="_blank">category</a></li>
+</ul>
+
+<h2 id="トラブルシューティング">トラブルシューティング</h2>
+
+<p>PMD6.1.0はPMD7への過渡期バージョンのようで、Deprecatedの警告が山のように出ます。<br />
+設定ファイルでしか警告を消す術がないので設定ファイルを修正します。</p>
+
+<p>次のようにdeprecatedをfalseにするか、プロパティ自体を削除してください。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" deprecated=“false" /&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD Introduction</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -646,62 +773,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/01/19/create-spring-boot-project/">IntelliJでSpringBootのアプリケーションを作成する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-01-19T11:48:27+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:48 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>SpringBootのアプリケーションを作成する方法はいくつかありますが、今回はIntelliJで作成する方法を紹介します。</p>
-
-<p>IntellJを起動してメニューバーから <code>File</code> &gt; <code>New</code> &gt; <code>Project...</code>を選択します。</p>
-
-<p>左メニューよりSpring Initializrを選択してNextを押します。</p>
-
-<p><img src="/images/create-spring-boot-project1.png" alt="weather-nitify-slack" /></p>
-
-<p>Project MetaDataはアプリケーションごとに書き換えますが、今回はデモなのでデフォルトのままです。<br />
-Gradleを使うのでTypeをGradle Project を選択してNextを押します。</p>
-
-<p><img src="/images/create-spring-boot-project2.png" alt="weather-nitify-slack" /></p>
-
-<p>Dependenciesでは使いたいライブラリを選択できます。<br />
-今回は特に選択せず、Nextを押します。</p>
-
-<p><img src="/images/create-spring-boot-project3.png" alt="weather-nitify-slack" /></p>
-
-<p>Project nameはdemoで作成します。<br />
-Project locationでファイルを作成する場所を指定します。</p>
-
-<p><img src="/images/create-spring-boot-project4.png" alt="weather-nitify-slack" /></p>
-
-<p>Finishを押すとSpring Bootのアプリケーションが作成されます。<br />
-作成したファイルをGitHubにアップロードしています。</p>
-
-<p><a href="https://github.com/shoyan/spring-boot-demo">https://github.com/shoyan/spring-boot-demo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -746,7 +817,7 @@ Project locationでファイルを作成する場所を指定します。</p>
 </ul>
 
 <p>
-Copyright &copy; 2018 - SHOYAN BLOG
+Copyright &copy; 2019 - SHOYAN BLOG
 </p>
 
 </footer>

@@ -9,9 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="最近、ブログをリニューアルしようとJekyllをちょこちょこ触っている。
-ブログを作る上でJekyllで知っておいたほうが良いことをまとめていきたいと思う。 Jekyllとは Jekyllは静的なサイトを作ることに特化したツールだ。
-Ruby製でGithub pagesでも利用されている。 &hellip;">
+  <meta name="description" content="RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。
+push→シンタックスエラー→直してもう1回pushというのがまどろこしいのでguard-rubocopを使ってファイルを保存する度にチェックするようにしてみた。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -137,6 +136,94 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/12/07/guard-rubocop/">Guardでrubocopを自動化する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-12-07T13:55:09+09:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:55 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。<br />
+push→シンタックスエラー→直してもう1回pushというのがまどろこしいので<a href="https://github.com/yujinakayama/guard-rubocop">guard-rubocop</a>を使ってファイルを保存する度にチェックするようにしてみた。<br />
+ストレスが軽減され、良い感じだったので紹介する。</p>
+
+<h2 id="guard-rubocopの導入">guard-rubocopの導入</h2>
+
+<p>gurad-rubocopを導入するにはまず、rubocopを導入している必要がある。<br />
+この記事ではrubocopは導入済みという前提で進める。</p>
+
+<p>gurad-rubocopの導入はいたって簡単。<br />
+3分で導入できるので是非やってほしい。</p>
+
+<p>Gemfileに以下を定義する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;guard&#39;</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;guard-rubocop&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>bundle install</code> を行うと、guardコマンドが利用できるようになる。<br />
+<code>bundle exec guard init rubocop</code> で <code>Guardfile</code> が生成される。</p>
+
+<p>これでインストール完了。</p>
+
+<p>あとはターミナルで <code>bundle exec guard</code> コマンドを実行する。<br />
+その状態でファイルを変更するとそのファイルを対象にrubocopコマンドが実行される。</p>
+
+<h2 id="オプション">オプション</h2>
+
+<p>デフォルトだとgurad起動時にrubocopコマンドが実行されるようになっている。<br />
+起動時に実行したくない時はGuardfileに以下の設定を行えばよい。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">guard</span> <span class="ss">:rubocop</span> <span class="k">do</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下のように変更する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">guard</span> <span class="ss">:rubocop</span><span class="p">,</span> <span class="ss">all_on_start</span><span class="p">:</span> <span class="kp">false</span> <span class="k">do</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>他にもオプションがあるので詳しくはREADMEを参照してほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/yujinakayama/guard-rubocop#options">https://github.com/yujinakayama/guard-rubocop#options</a></p>  </li>
+</ul>
+
+<h3 id="関連記事">関連記事</h3>
+
+<ul>
+  <li><a href="/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/">Guardでrspecのテストを自動化する</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -694,64 +781,6 @@ Jekyllの何が便利かというと、サイトの設定をymlファイルで�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/31/study-english-fifth-month/">StudyPlusを使った英語の勉強をはじめて５ヶ月目の記録</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-31T17:17:19+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>5:17 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>StudyPlusに英語の勉強を記録し始めて５ヶ月。<br />
-幸運なことに継続して学習を続けることができている。</p>
-
-<p>勉強時間は128時間(累計)。<br />
-覚えた単語数は4600。<br />
-前回が3500だったので１ヶ月で1100、語彙数が増えた。<br />
-だんだん単語が覚えやすくなってきた感じがしている。</p>
-
-<p>前回から変わった点としては洋書を読み始めたことがあげられる。<br />
-Kindle Unlimitedを契約したので、洋書の入手に事欠かなくなったからだ。</p>
-
-<p>最近読んだのは以下の本。<br />
-英語の効果的な勉強法を英語で勉強できるので1粒で2度おいしい。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B00WGZ38EC&amp;linkId=4a85af93a9eabd53705c3c8a4d7c1305"></iframe>
-
-<p>Kindle Unlimitedは洋書が132万冊あるので、これから存分に活用させてもらうつもりだ。<br />
-ちなみにLearn Englishによると、知っている映画の本を読むのがリーディングに最適だそうだ。</p>
-
-<p>また、洋画を観ることも始めた。<br />
-こちらはまだ習慣化するところまで至っていないが、基本的には同じ映画のセリフを覚えるまで何回も繰り返し観るということをやろうと考えている。<br />
-題材はThe Devil Wears Plada(プラダを着た悪魔)だ。<br />
-これにした理由はニューヨークを舞台とした映画が良いと思っていて（これについては完全なる好みの問題）たまたま手元にあったのがプラダを着た悪魔だった。</p>
-
-<h2 id="過去の英語の勉強記録">過去の英語の勉強記録</h2>
-
-<ul>
-  <li><a href="http://localhost:4000/blog/2016/09/12/study-english-four-month/">英語の勉強をはじめて4ヶ月の記録</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/11">&larr; Older</a>
@@ -796,7 +825,7 @@ Kindle Unlimitedを契約したので、洋書の入手に事欠かなくなっ�
 </ul>
 
 <p>
-Copyright &copy; 2018 - SHOYAN BLOG
+Copyright &copy; 2019 - SHOYAN BLOG
 </p>
 
 </footer>
