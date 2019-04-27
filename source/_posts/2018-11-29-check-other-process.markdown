@@ -64,3 +64,7 @@ echo "end"
 gistにもコードをアップしています。
 
 * <a href="https://gist.github.com/shoyan/6f45b6a005fd34a44264fa1dcb4d56e6" target="_blank">wait_process.sh</a>
+
+shellの学習は次の書籍を1冊やっておけば大丈夫です。
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=syoyama-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4797321946&linkId=98e93361f2c0071d8749d5526b9a8b64"></iframe>
