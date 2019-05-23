@@ -26,6 +26,6 @@ footer: true
 
 ### Contact
 
-ご質問、お仕事のご相談などありましたらお気軽にご連絡ください。次のメールアドレス、もしくはTwitterまでお願いします。
+ご質問、お仕事のご相談などありましたらフォームよりお気軽にご連絡ください。
 
-<mailto:yamasaki0406@gmail.com>
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdgTCU0rYXVWGuLRuxG62yr9uyJylBbrrFjU3X7-g6TxdPQkg/viewform?embedded=true" width="640" height="760" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます...</iframe>
