@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ソフトウェアアーキテクチャ | SHOYAN BLOG]]></title>
   <link href="http://48n.jp/blog/categories/sohutoueaakitekutiya/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2019-04-28T08:55:19+09:00</updated>
+  <updated>2019-05-23T13:05:28+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -18,7 +18,11 @@
     <link href="http://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions/"/>
     <updated>2019-04-25T16:21:18+09:00</updated>
     <id>http://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions</id>
-    <content type="html"><![CDATA[<p>前提として、ここで話すことはアプリケーション設計に関する話しです。データベースの関数自体の使用を否定しているわけではありません。データベース固有の関数を何も考えずに使うのはやめましょうという話しです。まずは、データベース固有の関数を使うリスクについて説明します。</p>
+    <content type="html"><![CDATA[<p>こんにちは、しょーやんです。</p>
+
+<p>私はエンジニアとして12年目で、現在はエンジニアチームのリーダーとしてWebアプリケーションのシステムを開発しています。キャリアとしては、SIerで1年、ベンチャー企業で3年、300人程度の企業で5年、現在は6000人規模の会社でエンジニアとして働いています。</p>
+
+<p>前提として、ここで話すことはアプリケーション設計に関する話しです。データベースの関数自体の使用を否定しているわけではありません。データベース固有の関数を使う前に少し考えてみましょうという話しです。まずは、データベース固有の関数を使うリスクについて説明します。</p>
 
 <h2 id="データベース固有の関数を使うリスク">データベース固有の関数を使うリスク</h2>
 
