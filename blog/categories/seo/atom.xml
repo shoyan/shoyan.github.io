@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Seo | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/seo/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/seo/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[毎日技術ブログを書いたらアクセスは増えるの？]]></title>
-    <link href="http://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day/"/>
+    <link href="https://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day/"/>
     <updated>2017-06-23T13:43:07+09:00</updated>
-    <id>http://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day</id>
+    <id>https://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day</id>
     <content type="html"><![CDATA[<p><img src="/images/2017-03-08-main.png" alt="2017-03-08-main" /></p>
 
 <p>こんにちは、SHOYANです。</p>

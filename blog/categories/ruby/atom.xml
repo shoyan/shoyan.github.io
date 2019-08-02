@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ruby | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[RubyでのWebアプリケーション開発はSinatraから入りRailsに行く]]></title>
-    <link href="http://48n.jp/blog/2018/11/20/sinatra-way/"/>
+    <link href="https://48n.jp/blog/2018/11/20/sinatra-way/"/>
     <updated>2018-11-20T16:04:35+09:00</updated>
-    <id>http://48n.jp/blog/2018/11/20/sinatra-way</id>
+    <id>https://48n.jp/blog/2018/11/20/sinatra-way</id>
     <content type="html"><![CDATA[<p>私はソフトウェアエンジニアなのですが、プログラミング講師としても生徒さんにRubyを教えています。RubyでWebアプリケーションを作る場合、まず候補になるフレームワークはRuby on Railsですが、Railsは初学者には難しいと思います。プログラミング初学者にRailsを教えるということは、車の教習所でいきなりスポーツカーを運転させるようなものです。入門者には入門者に適した車があるのと同様にプログラミングにもそのようなものがあります。</p>
 
 <p>では、最初は何がいいかというと、Sinatraがよいと思います。そういうわけで、Sinatraを使ったWebアプリケーションのサンプルを探してみたのですが、よいものが見つかりませんでした。ないなら作ってしまえというわけで作りました。</p>
@@ -48,9 +48,9 @@
   
   <entry>
     <title type="html"><![CDATA[2017年のRubyについて数値をまとめてみました]]></title>
-    <link href="http://48n.jp/blog/2017/12/10/ruby2017/"/>
+    <link href="https://48n.jp/blog/2017/12/10/ruby2017/"/>
     <updated>2017-12-10T08:05:39+09:00</updated>
-    <id>http://48n.jp/blog/2017/12/10/ruby2017</id>
+    <id>https://48n.jp/blog/2017/12/10/ruby2017</id>
     <content type="html"><![CDATA[<p>この記事は<a href="https://qiita.com/advent-calendar/2017/ruby">Ruby Advent Calendar 2017</a> 10日目の記事です。</p>
 
 <p>こんにちは、SHOYANです。2017年ももうすぐ終わりますね。みなさんにとって2017年はどのような年だったでしょうか。<br />
@@ -103,9 +103,9 @@ GitHubからRubyistの数を調べてみました。</p>
   
   <entry>
     <title type="html"><![CDATA[Rubyのモジュールはあと勝ち]]></title>
-    <link href="http://48n.jp/blog/2017/05/10/ruby-module-after-win/"/>
+    <link href="https://48n.jp/blog/2017/05/10/ruby-module-after-win/"/>
     <updated>2017-05-10T16:52:23+09:00</updated>
-    <id>http://48n.jp/blog/2017/05/10/ruby-module-after-win</id>
+    <id>https://48n.jp/blog/2017/05/10/ruby-module-after-win</id>
     <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
 
 <p>今回はRubyのモジュールについての話しです。<br />
@@ -180,9 +180,9 @@ p man.name
   
   <entry>
     <title type="html"><![CDATA[Guardでrubocopを自動化する]]></title>
-    <link href="http://48n.jp/blog/2016/12/07/guard-rubocop/"/>
+    <link href="https://48n.jp/blog/2016/12/07/guard-rubocop/"/>
     <updated>2016-12-07T13:55:09+09:00</updated>
-    <id>http://48n.jp/blog/2016/12/07/guard-rubocop</id>
+    <id>https://48n.jp/blog/2016/12/07/guard-rubocop</id>
     <content type="html"><![CDATA[<p>RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。<br />
 push→シンタックスエラー→直してもう1回pushというのがまどろこしいので<a href="https://github.com/yujinakayama/guard-rubocop">guard-rubocop</a>を使ってファイルを保存する度にチェックするようにしてみた。<br />
 ストレスが軽減され、良い感じだったので紹介する。</p>
@@ -243,9 +243,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Slackで定期的にRubotyに仕事をさせる]]></title>
-    <link href="http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty/"/>
+    <link href="https://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty/"/>
     <updated>2016-10-31T16:58:56+09:00</updated>
-    <id>http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty</id>
+    <id>https://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty</id>
     <content type="html"><![CDATA[<p>ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。<br />
 最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。<br />
 具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。</p>

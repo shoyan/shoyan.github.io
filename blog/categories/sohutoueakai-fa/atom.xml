@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ソフトウェア開発 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/sohutoueakai-fa/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/sohutoueakai-fa/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[テストカバレッジ100%を目指さない理由]]></title>
-    <link href="http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/"/>
+    <link href="https://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/"/>
     <updated>2019-08-02T17:47:20+09:00</updated>
-    <id>http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage</id>
+    <id>https://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage</id>
     <content type="html"><![CDATA[<h2 id="結論">結論</h2>
 
 <p>テストカバレッジ100%は目指さない</p>

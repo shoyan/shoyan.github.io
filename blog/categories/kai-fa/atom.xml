@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: 開発 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/kai-fa/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/kai-fa/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[最短でビデオチャットを開発したい人へ]]></title>
-    <link href="http://48n.jp/blog/2018/08/07/started-video-chat/"/>
+    <link href="https://48n.jp/blog/2018/08/07/started-video-chat/"/>
     <updated>2018-08-07T14:23:15+09:00</updated>
-    <id>http://48n.jp/blog/2018/08/07/started-video-chat</id>
+    <id>https://48n.jp/blog/2018/08/07/started-video-chat</id>
     <content type="html"><![CDATA[<p>ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。</p>
 
 <ol>

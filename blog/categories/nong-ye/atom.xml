@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: 農業 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/nong-ye/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/nong-ye/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[4億円調達したゼロアグリと農業の未来]]></title>
-    <link href="http://48n.jp/blog/2017/01/10/think-agriculture-and-iot/"/>
+    <link href="https://48n.jp/blog/2017/01/10/think-agriculture-and-iot/"/>
     <updated>2017-01-10T17:53:25+09:00</updated>
-    <id>http://48n.jp/blog/2017/01/10/think-agriculture-and-iot</id>
+    <id>https://48n.jp/blog/2017/01/10/think-agriculture-and-iot</id>
     <content type="html"><![CDATA[<p>Iotの技術を使った<a href="http://www.zero-agri.jp/">ゼロアグリ</a>を開発している<a href="http://www.routrek.co.jp/">ルートレック・ネットワークス</a>が4億円の資金調達をした。<br />
 ゼロアグリは農作物の水や肥料の管理を独自のアルゴリズムとIoTの技術を使って機械化する取り組みを行っている。</p>
 

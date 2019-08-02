@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Lifehack | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/lifehack/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/lifehack/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[航空券を安くとる方法]]></title>
-    <link href="http://48n.jp/blog/2017/09/17/book-now-cheap-airplane-ticket/"/>
+    <link href="https://48n.jp/blog/2017/09/17/book-now-cheap-airplane-ticket/"/>
     <updated>2017-09-17T13:24:10+09:00</updated>
-    <id>http://48n.jp/blog/2017/09/17/book-now-cheap-airplane-ticket</id>
+    <id>https://48n.jp/blog/2017/09/17/book-now-cheap-airplane-ticket</id>
     <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
 
 <p>東京出張の予定があるので航空券をとりました。<br />
@@ -53,9 +53,9 @@
   
   <entry>
     <title type="html"><![CDATA[Kindle Unlimitedの冊数は図書館並みだった]]></title>
-    <link href="http://48n.jp/blog/2016/10/17/kindle-unlimited-impression/"/>
+    <link href="https://48n.jp/blog/2016/10/17/kindle-unlimited-impression/"/>
     <updated>2016-10-17T17:06:47+09:00</updated>
-    <id>http://48n.jp/blog/2016/10/17/kindle-unlimited-impression</id>
+    <id>https://48n.jp/blog/2016/10/17/kindle-unlimited-impression</id>
     <content type="html"><![CDATA[<p>今更ながらKindle Unlimitedを使ってみた。<br />
 すでに承知の方が大半だろうが、Kindle UnlimitedはKindle本の読み放題サービスだ。<br />
 月額980円でKindle Unlimitedに登録されている本を読むことができる。<br />
@@ -83,9 +83,9 @@ Kindleは各プラットフォームにアプリが用意されており、Kindl
   
   <entry>
     <title type="html"><![CDATA[ポモドーロ・テクニックを使ってみた感想]]></title>
-    <link href="http://48n.jp/blog/2016/09/15/pomodoro-technique/"/>
+    <link href="https://48n.jp/blog/2016/09/15/pomodoro-technique/"/>
     <updated>2016-09-15T13:46:15+09:00</updated>
-    <id>http://48n.jp/blog/2016/09/15/pomodoro-technique</id>
+    <id>https://48n.jp/blog/2016/09/15/pomodoro-technique</id>
     <content type="html"><![CDATA[<p>最近、仕事中はポモドーロ・テクニックを使っている。<br />
 ポモドーロ・テクニックは25分集中して5分休憩するサイクルを繰り返すことでメリハリをつけて集中力を高める手法だ。</p>
 

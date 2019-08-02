@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[テストカバレッジ100%を目指さない理由]]></title>
-    <link href="http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/"/>
+    <link href="https://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/"/>
     <updated>2019-08-02T17:47:20+09:00</updated>
-    <id>http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage</id>
+    <id>https://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage</id>
     <content type="html"><![CDATA[<h2 id="結論">結論</h2>
 
 <p>テストカバレッジ100%は目指さない</p>
@@ -55,9 +55,9 @@
   
   <entry>
     <title type="html"><![CDATA[データベース固有の関数の使用を避けるべき理由]]></title>
-    <link href="http://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions/"/>
+    <link href="https://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions/"/>
     <updated>2019-04-25T16:21:18+09:00</updated>
-    <id>http://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions</id>
+    <id>https://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions</id>
     <content type="html"><![CDATA[<p>こんにちは、しょーやんです。</p>
 
 <p>私はエンジニアとして12年目で、現在はエンジニアチームのリーダーとしてWebアプリケーションのシステムを開発しています。キャリアとしては、SIerで1年、ベンチャー企業で3年、300人程度の企業で5年、現在は6000人規模の会社でエンジニアとして働いています。</p>
@@ -98,9 +98,9 @@
   
   <entry>
     <title type="html"><![CDATA[相談ではなく明確な基準を決めよう]]></title>
-    <link href="http://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation/"/>
+    <link href="https://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation/"/>
     <updated>2018-12-17T12:56:02+09:00</updated>
-    <id>http://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation</id>
+    <id>https://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation</id>
     <content type="html"><![CDATA[<p>こんにちは、しょーやんです。</p>
 
 <p>私はエンジニアとして12年目で、現在はエンジニアチームのリーダーとしてWebアプリケーションのシステムを開発しています。キャリアとしては、SIerで1年、ベンチャー企業で3年、300人程度の企業で5年、現在は6000人規模の会社でエンジニアとして働いています。</p>
@@ -176,9 +176,9 @@
   
   <entry>
     <title type="html"><![CDATA[手軽にスプラトゥーンをYouTubeで配信する]]></title>
-    <link href="http://48n.jp/blog/2018/12/07/upload-youtube/"/>
+    <link href="https://48n.jp/blog/2018/12/07/upload-youtube/"/>
     <updated>2018-12-07T16:47:03+09:00</updated>
-    <id>http://48n.jp/blog/2018/12/07/upload-youtube</id>
+    <id>https://48n.jp/blog/2018/12/07/upload-youtube</id>
     <content type="html"><![CDATA[<p>私はYouTubeやOPENREC.tvでよくスプラトゥーンの配信を視聴しているのですが、みているだけでなく自分もやってみたいと思ったのでYouTubeで配信をはじめてみました。この記事では、YouTubeでゲーム動画を配信する方法を紹介します。</p>
 
 <h2 id="配信の手順">配信の手順</h2>
@@ -252,9 +252,9 @@
   
   <entry>
     <title type="html"><![CDATA[シェルスクリプトで別プロセスの終了ステータスを取得する]]></title>
-    <link href="http://48n.jp/blog/2018/11/29/check-other-process/"/>
+    <link href="https://48n.jp/blog/2018/11/29/check-other-process/"/>
     <updated>2018-11-29T14:55:51+09:00</updated>
-    <id>http://48n.jp/blog/2018/11/29/check-other-process</id>
+    <id>https://48n.jp/blog/2018/11/29/check-other-process</id>
     <content type="html"><![CDATA[<p>シェルスクリプトで別プロセスの終了ステータスを取得するTipを紹介します。</p>
 
 <h3 id="ユースケース">ユースケース</h3>
@@ -364,9 +364,9 @@
   
   <entry>
     <title type="html"><![CDATA[RubyでのWebアプリケーション開発はSinatraから入りRailsに行く]]></title>
-    <link href="http://48n.jp/blog/2018/11/20/sinatra-way/"/>
+    <link href="https://48n.jp/blog/2018/11/20/sinatra-way/"/>
     <updated>2018-11-20T16:04:35+09:00</updated>
-    <id>http://48n.jp/blog/2018/11/20/sinatra-way</id>
+    <id>https://48n.jp/blog/2018/11/20/sinatra-way</id>
     <content type="html"><![CDATA[<p>私はソフトウェアエンジニアなのですが、プログラミング講師としても生徒さんにRubyを教えています。RubyでWebアプリケーションを作る場合、まず候補になるフレームワークはRuby on Railsですが、Railsは初学者には難しいと思います。プログラミング初学者にRailsを教えるということは、車の教習所でいきなりスポーツカーを運転させるようなものです。入門者には入門者に適した車があるのと同様にプログラミングにもそのようなものがあります。</p>
 
 <p>では、最初は何がいいかというと、Sinatraがよいと思います。そういうわけで、Sinatraを使ったWebアプリケーションのサンプルを探してみたのですが、よいものが見つかりませんでした。ないなら作ってしまえというわけで作りました。</p>
@@ -397,10 +397,10 @@
   
   <entry>
     <title type="html"><![CDATA[好きなことをひたすら追いかければよい]]></title>
-    <link href="http://48n.jp/blog/2018/10/15/not-goal-2/"/>
+    <link href="https://48n.jp/blog/2018/10/15/not-goal-2/"/>
     <updated>2018-10-15T16:39:50+09:00</updated>
-    <id>http://48n.jp/blog/2018/10/15/not-goal-2</id>
-    <content type="html"><![CDATA[<p>この記事は前回の続きです。前回の記事は「<a href="http://48n.jp/blog/2018/10/12/not-goal/">計画はいらない</a>」です。</p>
+    <id>https://48n.jp/blog/2018/10/15/not-goal-2</id>
+    <content type="html"><![CDATA[<p>この記事は前回の続きです。前回の記事は「<a href="https://48n.jp/blog/2018/10/12/not-goal/">計画はいらない</a>」です。</p>
 
 <p>「好きなことをひたすら追いかければよい」理由は、そのほうがうまくいく可能性が高いからです。</p>
 
@@ -422,9 +422,9 @@
   
   <entry>
     <title type="html"><![CDATA[計画はいらない]]></title>
-    <link href="http://48n.jp/blog/2018/10/12/not-goal/"/>
+    <link href="https://48n.jp/blog/2018/10/12/not-goal/"/>
     <updated>2018-10-12T16:35:56+09:00</updated>
-    <id>http://48n.jp/blog/2018/10/12/not-goal</id>
+    <id>https://48n.jp/blog/2018/10/12/not-goal</id>
     <content type="html"><![CDATA[<p>2018年もあと3ヶ月で終わろうとしています。少し早いですが、2018年を振り返ってみると、良いことも良くないことも含めて様々なことがありました。結果的に近年で最も濃い1年になりました。</p>
 
 <p>私自身は今年を特別な1年にしようなどとは微塵も考えていませんでした。また、何かを達成しようと詳細な計画をたてたりもしていません。しかし、結果的には今まで経験したことのないことをいくつか経験することができました。</p>
@@ -439,15 +439,15 @@
 
 <p>理由についてはまた書いていきたいと思います。</p>
 
-<p><a href="http://48n.jp/blog/2018/10/15/not-goal-2/">» 好きなことをひたすら追いかければよい</a></p>
+<p><a href="https://48n.jp/blog/2018/10/15/not-goal-2/">» 好きなことをひたすら追いかければよい</a></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Developers Summit 2018 FUKUOKAに登壇します]]></title>
-    <link href="http://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka/"/>
+    <link href="https://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka/"/>
     <updated>2018-09-05T19:40:36+09:00</updated>
-    <id>http://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka</id>
+    <id>https://48n.jp/blog/2018/09/05/before-developers-summit-2018-fukuoka</id>
     <content type="html"><![CDATA[<p>2018年9月7日にアクロス福岡で開催される <a href="https://event.shoeisha.jp/devsumi/20180906" target="_blank">Developers Summit 2018 FUKUOKA</a>(デブサミ福岡)に登壇します。<br />
 明日はどのような話しから入ろうかがまだ決まっていなくて、どうしようかと考えています。</p>
 
@@ -462,9 +462,9 @@
   
   <entry>
     <title type="html"><![CDATA[最短でビデオチャットを開発したい人へ]]></title>
-    <link href="http://48n.jp/blog/2018/08/07/started-video-chat/"/>
+    <link href="https://48n.jp/blog/2018/08/07/started-video-chat/"/>
     <updated>2018-08-07T14:23:15+09:00</updated>
-    <id>http://48n.jp/blog/2018/08/07/started-video-chat</id>
+    <id>https://48n.jp/blog/2018/08/07/started-video-chat</id>
     <content type="html"><![CDATA[<p>ビデオチャットを最短で作りたいと考えている人への備忘録です。次の手順に沿って開発すると4時間程度でビデオチャットを開発できます。</p>
 
 <ol>
@@ -526,9 +526,9 @@
   
   <entry>
     <title type="html"><![CDATA[デュアルスイーパーカスタムのフジツボスポーツクラブの立ち回り（ガチエリア編）]]></title>
-    <link href="http://48n.jp/blog/2018/07/10/how-to-winning-method-dual-sweeper-custome-in-the-fujitsubo/"/>
+    <link href="https://48n.jp/blog/2018/07/10/how-to-winning-method-dual-sweeper-custome-in-the-fujitsubo/"/>
     <updated>2018-07-10T09:39:55+09:00</updated>
-    <id>http://48n.jp/blog/2018/07/10/how-to-winning-method-dual-sweeper-custome-in-the-fujitsubo</id>
+    <id>https://48n.jp/blog/2018/07/10/how-to-winning-method-dual-sweeper-custome-in-the-fujitsubo</id>
     <content type="html"><![CDATA[<p>スプラトゥーン2のデュアルスイーパーカスタムのフジツボスポーツクラブの立ち回り（ガチエリア編）を解説します。</p>
 
 <p>フジツボスポーツクラブはデュアルスイーパーのような射程の長い武器は戦いづらいステージです。というのも、高低差が多く平らなスペースが少ないからです。塗り状況が悪い中で無理して中央のエリアに出て行ってもすぐに倒されてしまいます。</p>
@@ -550,9 +550,9 @@
   
   <entry>
     <title type="html"><![CDATA[1つのMTGが午前中をダメにする]]></title>
-    <link href="http://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting/"/>
+    <link href="https://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting/"/>
     <updated>2018-07-05T16:34:33+09:00</updated>
-    <id>http://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting</id>
+    <id>https://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting</id>
     <content type="html"><![CDATA[<blockquote>
   <p>基本的に、予定があることがわかっている時は、何も仕事を終わらせられません。時計を見て｢1時間後に会議があるから、この大事な仕事はまだやらないほうがいいな｣と思ったり、1時間を20分くらいに感じるせいか、一番小さな仕事ですら無意識のうちに先延ばしにします。</p>
 </blockquote>
@@ -567,9 +567,9 @@
   
   <entry>
     <title type="html"><![CDATA[サッカー日本代表がベスト16にしかなれない理由]]></title>
-    <link href="http://48n.jp/blog/2018/07/03/soccer-2018/"/>
+    <link href="https://48n.jp/blog/2018/07/03/soccer-2018/"/>
     <updated>2018-07-03T11:49:13+09:00</updated>
-    <id>http://48n.jp/blog/2018/07/03/soccer-2018</id>
+    <id>https://48n.jp/blog/2018/07/03/soccer-2018</id>
     <content type="html"><![CDATA[<p>サッカー日本代表がW杯の決勝トーナメントでベルギーに敗れ、ベスト16になりました。日本のメディアは大いに日本の選手を称えています。この世論の雰囲気こそがサッカー日本代表がベスト16にしかなれない理由だと思います。</p>
 
 <p>もちろん、予選を突破してベスト16に入ったのはすごいことです。しかし、W杯で優勝するようなチームにとってベスト16に入るのは当たり前のことなのです。優勝候補のブラジルが決勝トーナメントの1回戦で負けたらブラジルの世論はなんと言うでしょうか。おそらく、酷いバッシングをするはずです。</p>
@@ -586,9 +586,9 @@
   
   <entry>
     <title type="html"><![CDATA[明日は台風なのでリモートワークします]]></title>
-    <link href="http://48n.jp/blog/2018/07/02/typhoon-tomorrow/"/>
+    <link href="https://48n.jp/blog/2018/07/02/typhoon-tomorrow/"/>
     <updated>2018-07-02T17:23:02+09:00</updated>
-    <id>http://48n.jp/blog/2018/07/02/typhoon-tomorrow</id>
+    <id>https://48n.jp/blog/2018/07/02/typhoon-tomorrow</id>
     <content type="html"><![CDATA[<p>明日は台風なのでリモートワークをします。リモートワーク制度があるので都合のいい時間に自分の働きたい場所で働くことができます。リモートワーク制度のいいところは、「台風がそれたから出社になった」なんてことがないことです。最初からリモートワークをすると決まっていれば朝はゆっくりと過ごすことができます。</p>
 
 <p>朝から会社の判断を待ってどうするかが決まるなんてわずらわしくないですか。出社を判断する方も大変でしょう。会社が判断するのではなくて個々人で判断すればいいのです。会社で働いたほうが都合がいい人は会社で働けばいいですし、会社以外で働いたほうが都合がいい人はリモートワークをすればいいだけです。</p>
@@ -597,9 +597,9 @@
   
   <entry>
     <title type="html"><![CDATA[SetterとBuilderの使いわけ]]></title>
-    <link href="http://48n.jp/blog/2018/06/29/use-of-setter-or-builder/"/>
+    <link href="https://48n.jp/blog/2018/06/29/use-of-setter-or-builder/"/>
     <updated>2018-06-29T17:39:49+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/29/use-of-setter-or-builder</id>
+    <id>https://48n.jp/blog/2018/06/29/use-of-setter-or-builder</id>
     <content type="html"><![CDATA[<p>先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -728,9 +728,9 @@
   
   <entry>
     <title type="html"><![CDATA[そろそろlombokから卒業しようと考えています]]></title>
-    <link href="http://48n.jp/blog/2018/06/29/graduate-from-lombok/"/>
+    <link href="https://48n.jp/blog/2018/06/29/graduate-from-lombok/"/>
     <updated>2018-06-29T15:26:49+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/29/graduate-from-lombok</id>
+    <id>https://48n.jp/blog/2018/06/29/graduate-from-lombok</id>
     <content type="html"><![CDATA[<p>便利な<a href="https://projectlombok.org/" target="_blank">lombok</a>ですが、そろそろオワコンな感じがしています。理由はJavaのアップデートに追従することが困難になってきているからです。詳しくは<a href="https://qiita.com/tmurakam99/items/b5ffe7f18bc06577f619" target="_blank">Lombok の Java9以降対応</a>の記事に書いてあります。実際、Java9対応も遅かったですね。lombokを使い続けると、Javaのアップデートに追従していけなくなる未来が想像できます。</p>
 
 <p>Spring Bootも2系からはlombokは使っていませんね。</p>
@@ -741,9 +741,9 @@
   
   <entry>
     <title type="html"><![CDATA[リモートワークは効率が悪いはウソ]]></title>
-    <link href="http://48n.jp/blog/2018/06/28/about-remote-work/"/>
+    <link href="https://48n.jp/blog/2018/06/28/about-remote-work/"/>
     <updated>2018-06-28T14:42:53+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/28/about-remote-work</id>
+    <id>https://48n.jp/blog/2018/06/28/about-remote-work</id>
     <content type="html"><![CDATA[<p>ここ最近は週に1回ほどリモートワークで働いています。プログラミングであればリモートワークで問題ないです。</p>
 
 <p>リモートワークの利点として会議に出なくていいことがあります。会社にいると何かと会議に招集されて時間や集中力が奪われてしまいますが、リモートワークであればその心配はありません。本当に出る必要がある会議であればリモートで参加すればいいですし、多くの場合は対面で話さずともドキュメントベースのコミュニケーションで事足ります。</p>
@@ -760,9 +760,9 @@
   
   <entry>
     <title type="html"><![CDATA[これからの技術書の書き方]]></title>
-    <link href="http://48n.jp/blog/2018/06/27/how-to-write-future-tec-document/"/>
+    <link href="https://48n.jp/blog/2018/06/27/how-to-write-future-tec-document/"/>
     <updated>2018-06-27T13:52:30+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/27/how-to-write-future-tec-document</id>
+    <id>https://48n.jp/blog/2018/06/27/how-to-write-future-tec-document</id>
     <content type="html"><![CDATA[<p>技術書は少しずつ書いて有料で公開する。これが、これからの技術書の書き方だと思います。具体的な例としては「<a href="https://note.mu/makingx/m/m2dc6f318899c" target="_blank">はじめるSpring Boot 2</a>」があります。</p>
 
 <p><a href="https://twitter.com/making" target="_blank">@Making</a>さんの記事「<a href="https://note.mu/makingx/n/n5d1d61f0b214" target="_blank">紙媒体の技術書を書きたくないです…</a>」に書かれているように技術書を書くには膨大な時間が必要です。それを全て書き終えて出版するには相当の時間がかかります。ITの技術はどんどん進歩しているので、出版される頃には古くなってしまう場合もあります。紙媒体だと内容が間違っていても修正できません。また、出版の期日に間に合わせるために、著者に非常に負担がかかります。今の出版のやり方はデメリットが多すぎるんですよね。</p>
@@ -773,9 +773,9 @@
   
   <entry>
     <title type="html"><![CDATA[ラピッドブラスターエリートデコのガチヤグラ必勝法]]></title>
-    <link href="http://48n.jp/blog/2018/06/21/victory-gachiyagura/"/>
+    <link href="https://48n.jp/blog/2018/06/21/victory-gachiyagura/"/>
     <updated>2018-06-21T17:14:05+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/21/victory-gachiyagura</id>
+    <id>https://48n.jp/blog/2018/06/21/victory-gachiyagura</id>
     <content type="html"><![CDATA[<p>スプラトゥーン2のガチヤグラで勝つ方法を紹介します。私はこのやり方でS＋までいきました。ガチヤグラでなかなか勝てないイカの諸君の参考になればと思います。</p>
 
 <h2 id="ラピッドブラスターエリートデコを使う">ラピッドブラスターエリートデコを使う</h2>
@@ -805,9 +805,9 @@
   
   <entry>
     <title type="html"><![CDATA[スプラトゥーン2が楽しすぎる]]></title>
-    <link href="http://48n.jp/blog/2018/06/12/awesome-splatoon2/"/>
+    <link href="https://48n.jp/blog/2018/06/12/awesome-splatoon2/"/>
     <updated>2018-06-12T18:28:53+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/12/awesome-splatoon2</id>
+    <id>https://48n.jp/blog/2018/06/12/awesome-splatoon2</id>
     <content type="html"><![CDATA[<p>スプラトゥーン2が楽しすぎます。社会人になってからゲームはあまりしなくなってゲームは卒業かと思っていましたが、やばいゲームと出会ってしまいました。時間を見つけてはスプラトゥーン2をやっています。ハマりすぎて妻には愛想をつかされていますが、まあそれでもいいのです。</p>
 
 <p>スプラトゥーン2はオンラインサバゲーのようなゲームです。味方と敵の2チームにわかれて自分のチームのインクを多く塗ったほうが勝ちです。幼稚園児でもできるシンプルなゲームです。そんなシンプルなゲームですが、プロゲーマーも多くいて、プロチームもあります。6月11日より世界大会が開催されて、第3回スプラトゥーン甲子園で優勝したGGBoyZが日本代表として出場します。</p>

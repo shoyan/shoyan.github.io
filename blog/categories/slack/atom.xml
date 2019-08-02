@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Slack | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/slack/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/slack/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[天気予報をSlackに通知する on Heroku]]></title>
-    <link href="http://48n.jp/blog/2015/10/06/weather-notify-slack-on-heroku/"/>
+    <link href="https://48n.jp/blog/2015/10/06/weather-notify-slack-on-heroku/"/>
     <updated>2015-10-06T16:12:17+09:00</updated>
-    <id>http://48n.jp/blog/2015/10/06/weather-notify-slack-on-heroku</id>
+    <id>https://48n.jp/blog/2015/10/06/weather-notify-slack-on-heroku</id>
     <content type="html"><![CDATA[<p><a href="https://twitter.com/keita_kawamoto">@keita_kawamoto</a>が天気予報を見ずに出社して、途中で雨に降られて困っていたので天気予報通知をつくってみました。  <br />
 Herokuでスケジューラーに登録してSlackに通知するようにしています。</p>
 
@@ -229,9 +229,9 @@ https://addons.heroku.com/scheduler</p>
   
   <entry>
     <title type="html"><![CDATA[RubyでSlack通知をする]]></title>
-    <link href="http://48n.jp/blog/2015/09/28/introduce-slack-incoming-webhooks/"/>
+    <link href="https://48n.jp/blog/2015/09/28/introduce-slack-incoming-webhooks/"/>
     <updated>2015-09-28T12:15:42+09:00</updated>
-    <id>http://48n.jp/blog/2015/09/28/introduce-slack-incoming-webhooks</id>
+    <id>https://48n.jp/blog/2015/09/28/introduce-slack-incoming-webhooks</id>
     <content type="html"><![CDATA[<p><a href="https://slack.com/">Slack</a>は使っていますか？  <br />
 僕は会社やプライベートはもっぱらSlackを使っています。</p>
 

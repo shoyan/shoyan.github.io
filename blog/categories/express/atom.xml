@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Express | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/express/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/express/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Expressのインストールと構成を把握する]]></title>
-    <link href="http://48n.jp/blog/2016/05/17/first-step-express/"/>
+    <link href="https://48n.jp/blog/2016/05/17/first-step-express/"/>
     <updated>2016-05-17T13:33:55+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/17/first-step-express</id>
+    <id>https://48n.jp/blog/2016/05/17/first-step-express</id>
     <content type="html"><![CDATA[<p>Node.jsのフレームワーク、<a href="http://expressjs.com">Express</a>を試してみました。  <br />
 ExpressはNode.jsでwebアプリケーションを作成するためのフレームワークです。</p>
 

@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://48n.jp/sitemap.xml
+Sitemap: https://48n.jp/sitemap.xml

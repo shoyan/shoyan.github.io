@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Jekyll | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/jekyll/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/jekyll/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[JekyllテーマのminimaをAMP対応した]]></title>
-    <link href="http://48n.jp/blog/2017/04/14/aminima-is-minima-with-amp/"/>
+    <link href="https://48n.jp/blog/2017/04/14/aminima-is-minima-with-amp/"/>
     <updated>2017-04-14T15:11:53+09:00</updated>
-    <id>http://48n.jp/blog/2017/04/14/aminima-is-minima-with-amp</id>
+    <id>https://48n.jp/blog/2017/04/14/aminima-is-minima-with-amp</id>
     <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
 
 <p>JekyllテーマのminimaをAMP対応しました。</p>
@@ -157,9 +157,9 @@ gem "aminima"
   
   <entry>
     <title type="html"><![CDATA[Jekyllチュートリアル]]></title>
-    <link href="http://48n.jp/blog/2016/12/06/jekyll-tutorial-01/"/>
+    <link href="https://48n.jp/blog/2016/12/06/jekyll-tutorial-01/"/>
     <updated>2016-12-06T23:49:36+09:00</updated>
-    <id>http://48n.jp/blog/2016/12/06/jekyll-tutorial-01</id>
+    <id>https://48n.jp/blog/2016/12/06/jekyll-tutorial-01</id>
     <content type="html"><![CDATA[<p>最近、ブログをリニューアルしようとJekyllをちょこちょこ触っている。<br />
 ブログを作る上でJekyllで知っておいたほうが良いことをまとめていきたいと思う。</p>
 

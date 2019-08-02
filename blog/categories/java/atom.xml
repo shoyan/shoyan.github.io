@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Java | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/java/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[SetterとBuilderの使いわけ]]></title>
-    <link href="http://48n.jp/blog/2018/06/29/use-of-setter-or-builder/"/>
+    <link href="https://48n.jp/blog/2018/06/29/use-of-setter-or-builder/"/>
     <updated>2018-06-29T17:39:49+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/29/use-of-setter-or-builder</id>
+    <id>https://48n.jp/blog/2018/06/29/use-of-setter-or-builder</id>
     <content type="html"><![CDATA[<p>先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。</p>
 
 <pre><code class="language-java">User user = User.builder()
@@ -96,9 +96,9 @@ User user = new User("山田", "太郎", null, null, "日本");
   
   <entry>
     <title type="html"><![CDATA[そろそろlombokから卒業しようと考えています]]></title>
-    <link href="http://48n.jp/blog/2018/06/29/graduate-from-lombok/"/>
+    <link href="https://48n.jp/blog/2018/06/29/graduate-from-lombok/"/>
     <updated>2018-06-29T15:26:49+09:00</updated>
-    <id>http://48n.jp/blog/2018/06/29/graduate-from-lombok</id>
+    <id>https://48n.jp/blog/2018/06/29/graduate-from-lombok</id>
     <content type="html"><![CDATA[<p>便利な<a href="https://projectlombok.org/" target="_blank">lombok</a>ですが、そろそろオワコンな感じがしています。理由はJavaのアップデートに追従することが困難になってきているからです。詳しくは<a href="https://qiita.com/tmurakam99/items/b5ffe7f18bc06577f619" target="_blank">Lombok の Java9以降対応</a>の記事に書いてあります。実際、Java9対応も遅かったですね。lombokを使い続けると、Javaのアップデートに追従していけなくなる未来が想像できます。</p>
 
 <p>Spring Bootも2系からはlombokは使っていませんね。</p>
@@ -109,9 +109,9 @@ User user = new User("山田", "太郎", null, null, "日本");
   
   <entry>
     <title type="html"><![CDATA[PMDでJavaのコードのバグをチェックする]]></title>
-    <link href="http://48n.jp/blog/2018/03/20/usage-pmd/"/>
+    <link href="https://48n.jp/blog/2018/03/20/usage-pmd/"/>
     <updated>2018-03-20T18:41:09+09:00</updated>
-    <id>http://48n.jp/blog/2018/03/20/usage-pmd</id>
+    <id>https://48n.jp/blog/2018/03/20/usage-pmd</id>
     <content type="html"><![CDATA[<p>Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなる<a href="https://pmd.github.io/pmd-6.1.0/index.html" target="_blank">PMD</a>を紹介します。PMDを使えばバグの原因となりそうなコードを検知することができるため、不具合を未然に防ぐことが可能です。</p>
 
 <h2 id="pmdとは">PMDとは</h2>
@@ -209,9 +209,9 @@ cd pad-samples
   
   <entry>
     <title type="html"><![CDATA[Gradleのjavaプラグインとは]]></title>
-    <link href="http://48n.jp/blog/2018/01/21/gradle-java-plugin/"/>
+    <link href="https://48n.jp/blog/2018/01/21/gradle-java-plugin/"/>
     <updated>2018-01-21T00:52:36+09:00</updated>
-    <id>http://48n.jp/blog/2018/01/21/gradle-java-plugin</id>
+    <id>https://48n.jp/blog/2018/01/21/gradle-java-plugin</id>
     <content type="html"><![CDATA[<p>build.gradleでよく見かける<code>apply plugin: ‘java'</code>という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、javaプラグインを追加するとjavaに関連するタスクが使えるようになります。</p>
 
 <p>何もプラグインを追加していないgradleタスクは以下の通りです。</p>
@@ -319,9 +319,9 @@ BUILD SUCCESSFUL in 5s
   
   <entry>
     <title type="html"><![CDATA[IntelliJでSpringBootのアプリケーションを作成する]]></title>
-    <link href="http://48n.jp/blog/2018/01/19/create-spring-boot-project/"/>
+    <link href="https://48n.jp/blog/2018/01/19/create-spring-boot-project/"/>
     <updated>2018-01-19T11:48:27+09:00</updated>
-    <id>http://48n.jp/blog/2018/01/19/create-spring-boot-project</id>
+    <id>https://48n.jp/blog/2018/01/19/create-spring-boot-project</id>
     <content type="html"><![CDATA[<p>SpringBootのアプリケーションを作成する方法はいくつかありますが、今回はIntelliJで作成する方法を紹介します。</p>
 
 <p>IntellJを起動してメニューバーから <code>File</code> &gt; <code>New</code> &gt; <code>Project...</code>を選択します。</p>

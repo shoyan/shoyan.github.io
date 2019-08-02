@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ソフトウェアアーキテクチャ | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/sohutoueaakitekutiya/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/sohutoueaakitekutiya/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[データベース固有の関数の使用を避けるべき理由]]></title>
-    <link href="http://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions/"/>
+    <link href="https://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions/"/>
     <updated>2019-04-25T16:21:18+09:00</updated>
-    <id>http://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions</id>
+    <id>https://48n.jp/blog/2019/04/25/avoid-using-database-specific-functions</id>
     <content type="html"><![CDATA[<p>こんにちは、しょーやんです。</p>
 
 <p>私はエンジニアとして12年目で、現在はエンジニアチームのリーダーとしてWebアプリケーションのシステムを開発しています。キャリアとしては、SIerで1年、ベンチャー企業で3年、300人程度の企業で5年、現在は6000人規模の会社でエンジニアとして働いています。</p>

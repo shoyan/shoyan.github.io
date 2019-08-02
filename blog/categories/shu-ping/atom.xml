@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: 書評 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/shu-ping/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/shu-ping/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[これから機械学習の理論を学ぶ人に最適な入門書とは？]]></title>
-    <link href="http://48n.jp/blog/2017/09/29/math-basic-for-machine-leaning/"/>
+    <link href="https://48n.jp/blog/2017/09/29/math-basic-for-machine-leaning/"/>
     <updated>2017-09-29T11:21:09+09:00</updated>
-    <id>http://48n.jp/blog/2017/09/29/math-basic-for-machine-leaning</id>
+    <id>https://48n.jp/blog/2017/09/29/math-basic-for-machine-leaning</id>
     <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
 
 <p>様々なところで使われるようになってきている機械学習ですが、その仕組みを理解するには数学の知識が必要なため、そこが壁になっている人も多いことかと思います。という私もその1人です。今回、そのような初学者向けに良い入門本が出版されたので紹介します。</p>

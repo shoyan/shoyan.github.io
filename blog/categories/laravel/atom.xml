@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Laravel | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/laravel/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/laravel/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[LaravelをMacにインストールして起動する手順]]></title>
-    <link href="http://48n.jp/blog/2016/04/28/first-step-in-laravel/"/>
+    <link href="https://48n.jp/blog/2016/04/28/first-step-in-laravel/"/>
     <updated>2016-04-28T13:36:36+09:00</updated>
-    <id>http://48n.jp/blog/2016/04/28/first-step-in-laravel</id>
+    <id>https://48n.jp/blog/2016/04/28/first-step-in-laravel</id>
     <content type="html"><![CDATA[<p>PHPで人気のフレームワーク、<a href="https://laravel.com/">Laravel</a>を手元のPCにインストールして起動するチュートリアルです。<br />
 冗長な説明を除きLaravelを動かすために重要な部分のみ解説することでスピーディにLaravelを動作できるようにしています。</p>
 

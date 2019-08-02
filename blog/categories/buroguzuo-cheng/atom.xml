@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ブログ作成 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/buroguzuo-cheng/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/buroguzuo-cheng/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[SHOYAN BLOGを0円でSSL対応しました]]></title>
-    <link href="http://48n.jp/blog/2017/07/13/lolipop-ssl/"/>
+    <link href="https://48n.jp/blog/2017/07/13/lolipop-ssl/"/>
     <updated>2017-07-13T13:47:27+09:00</updated>
-    <id>http://48n.jp/blog/2017/07/13/lolipop-ssl</id>
+    <id>https://48n.jp/blog/2017/07/13/lolipop-ssl</id>
     <content type="html"><![CDATA[<p>こんにちは、SHOYANです。</p>
 
 <p>SHOYAN BLOGを0円でSSL対応しました。<br />
@@ -71,9 +71,9 @@ httpのサイトはそのまま使えるので何もデメリットはありま�
   
   <entry>
     <title type="html"><![CDATA[毎日技術ブログを書いたらアクセスは増えるの？]]></title>
-    <link href="http://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day/"/>
+    <link href="https://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day/"/>
     <updated>2017-06-23T13:43:07+09:00</updated>
-    <id>http://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day</id>
+    <id>https://48n.jp/blog/2017/06/23/why-i-ceased-updating-shoyan-blog-every-day</id>
     <content type="html"><![CDATA[<p><img src="/images/2017-03-08-main.png" alt="2017-03-08-main" /></p>
 
 <p>こんにちは、SHOYANです。</p>
@@ -184,9 +184,9 @@ httpのサイトはそのまま使えるので何もデメリットはありま�
   
   <entry>
     <title type="html"><![CDATA[Twitterカードをサイトに設定する手順]]></title>
-    <link href="http://48n.jp/blog/2017/02/25/introduce-twitter-card/"/>
+    <link href="https://48n.jp/blog/2017/02/25/introduce-twitter-card/"/>
     <updated>2017-02-25T22:50:20+09:00</updated>
-    <id>http://48n.jp/blog/2017/02/25/introduce-twitter-card</id>
+    <id>https://48n.jp/blog/2017/02/25/introduce-twitter-card</id>
     <content type="html"><![CDATA[<p><img src="/images/Twitter_Logo_White_On_Blue.svg" alt="Twitter_Logo" /></p>
 
 <h2 id="twitterカードとは">Twitterカードとは</h2>
@@ -327,9 +327,9 @@ Twitterカードについての詳しい情報は<a href="https://dev.twitter.co
   
   <entry>
     <title type="html"><![CDATA[Jekyllチュートリアル]]></title>
-    <link href="http://48n.jp/blog/2016/12/06/jekyll-tutorial-01/"/>
+    <link href="https://48n.jp/blog/2016/12/06/jekyll-tutorial-01/"/>
     <updated>2016-12-06T23:49:36+09:00</updated>
-    <id>http://48n.jp/blog/2016/12/06/jekyll-tutorial-01</id>
+    <id>https://48n.jp/blog/2016/12/06/jekyll-tutorial-01</id>
     <content type="html"><![CDATA[<p>最近、ブログをリニューアルしようとJekyllをちょこちょこ触っている。<br />
 ブログを作る上でJekyllで知っておいたほうが良いことをまとめていきたいと思う。</p>
 

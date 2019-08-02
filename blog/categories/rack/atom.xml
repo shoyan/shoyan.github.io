@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Rack | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/rack/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/rack/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Sinatraのロギング機構について調べてみた]]></title>
-    <link href="http://48n.jp/blog/2016/05/27/sinatra-logger/"/>
+    <link href="https://48n.jp/blog/2016/05/27/sinatra-logger/"/>
     <updated>2016-05-27T13:48:34+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/27/sinatra-logger</id>
+    <id>https://48n.jp/blog/2016/05/27/sinatra-logger</id>
     <content type="html"><![CDATA[<p>Sinatraのloggerヘルパーを使ったところ、なぜか標準エラーの出力先にログが吐かれており、標準出力の出力先にはログが吐かれない。  <br />
 標準出力先にログを吐くものだと思っていたのだが、自分が想定していた挙動と違うので調べてみた。</p>
 
@@ -151,9 +151,9 @@ logger.info "Hello"
   
   <entry>
     <title type="html"><![CDATA[RACK_ENVとUnicorn、SinatraでのRACK_ENVの扱いと注意点]]></title>
-    <link href="http://48n.jp/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra/"/>
+    <link href="https://48n.jp/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra/"/>
     <updated>2016-05-02T14:14:29+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra</id>
+    <id>https://48n.jp/blog/2016/05/02/what-is-rack-env-and-unicorn-and-sinatra</id>
     <content type="html"><![CDATA[<p>RACK_ENVについて調べた内容とUnicorn、SinatraでのRACK_ENVの扱い方や注意点をまとめました。  <br />
 RACK_ENVとはRACKの環境変数です。  <br />
 何を設定するかによって使用するmiddlewareが変わります。  <br />

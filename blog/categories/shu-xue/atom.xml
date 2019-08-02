@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: 数学 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/shu-xue/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/shu-xue/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[LATEXチートシート - 数式記号の読み方・表し方]]></title>
-    <link href="http://48n.jp/blog/2016/07/12/sample-of-formula/"/>
+    <link href="https://48n.jp/blog/2016/07/12/sample-of-formula/"/>
     <updated>2016-07-12T14:45:29+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/12/sample-of-formula</id>
+    <id>https://48n.jp/blog/2016/07/12/sample-of-formula</id>
     <content type="html"><![CDATA[<p>LATEXを使った数式記号の読み方・表し方をまとめました。<br />
 <a href="http://izumi-math.jp/sanae/report/suusiki/suusiki.htm">数式記号の読み方・表し方</a>の数式を実際にLATEXで表示しています。</p>
 
@@ -756,9 +756,9 @@ a < b %]]&gt;</script></td>
   
   <entry>
     <title type="html"><![CDATA[30歳から始める数学]]></title>
-    <link href="http://48n.jp/blog/2015/12/01/mathematics-of-advent-calendar/"/>
+    <link href="https://48n.jp/blog/2015/12/01/mathematics-of-advent-calendar/"/>
     <updated>2015-12-01T00:20:57+09:00</updated>
-    <id>http://48n.jp/blog/2015/12/01/mathematics-of-advent-calendar</id>
+    <id>https://48n.jp/blog/2015/12/01/mathematics-of-advent-calendar</id>
     <content type="html"><![CDATA[<p><img src="/images/math-1547018_640.jpg" alt="math-image" /></p>
 
 <p>この記事は<a href="http://www.adventar.org/calendars/852">Math Advent Calendar 2015</a> 2日目の記事です。  <br />
@@ -866,9 +866,9 @@ a < b %]]&gt;</script></td>
   
   <entry>
     <title type="html"><![CDATA[プログラマのための数学勉強会@福岡#2に登壇してきました]]></title>
-    <link href="http://48n.jp/blog/2015/11/11/mathematics-for-programmer-second/"/>
+    <link href="https://48n.jp/blog/2015/11/11/mathematics-for-programmer-second/"/>
     <updated>2015-11-11T00:33:48+09:00</updated>
-    <id>http://48n.jp/blog/2015/11/11/mathematics-for-programmer-second</id>
+    <id>https://48n.jp/blog/2015/11/11/mathematics-for-programmer-second</id>
     <content type="html"><![CDATA[<p>2015年11月6日(金)に<a href="http://maths4pg-fuk.connpass.com/event/20293/">プログラマのための数学勉強会@福岡#2</a>が開催されました。</p>
 
 <p>前回に続き、今回も発表をさせていただきました。</p>
@@ -908,9 +908,9 @@ fukuoka.Rを主催されているとのことです。  <br />
   
   <entry>
     <title type="html"><![CDATA[プログラマのための数学勉強会@福岡に登壇してきました]]></title>
-    <link href="http://48n.jp/blog/2015/09/08/mathematics-for-programmer/"/>
+    <link href="https://48n.jp/blog/2015/09/08/mathematics-for-programmer/"/>
     <updated>2015-09-08T13:59:30+09:00</updated>
-    <id>http://48n.jp/blog/2015/09/08/mathematics-for-programmer</id>
+    <id>https://48n.jp/blog/2015/09/08/mathematics-for-programmer</id>
     <content type="html"><![CDATA[<p><a href="http://maths4pg-fuk.connpass.com/event/18609/">プログラマのための数学勉強会@福岡</a>が2015/9/4にLINE Fukuokaで開催されました。  <br />
 今回はスピーカーとして参加させていただきました。</p>
 

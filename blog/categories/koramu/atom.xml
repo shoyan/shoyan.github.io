@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: コラム | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/koramu/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/koramu/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[相談ではなく明確な基準を決めよう]]></title>
-    <link href="http://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation/"/>
+    <link href="https://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation/"/>
     <updated>2018-12-17T12:56:02+09:00</updated>
-    <id>http://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation</id>
+    <id>https://48n.jp/blog/2018/12/17/decide-criteria-instead-of-consultation</id>
     <content type="html"><![CDATA[<p>こんにちは、しょーやんです。</p>
 
 <p>私はエンジニアとして12年目で、現在はエンジニアチームのリーダーとしてWebアプリケーションのシステムを開発しています。キャリアとしては、SIerで1年、ベンチャー企業で3年、300人程度の企業で5年、現在は6000人規模の会社でエンジニアとして働いています。</p>
@@ -93,9 +93,9 @@
   
   <entry>
     <title type="html"><![CDATA[好きなことをひたすら追いかければよい]]></title>
-    <link href="http://48n.jp/blog/2018/10/15/not-goal-2/"/>
+    <link href="https://48n.jp/blog/2018/10/15/not-goal-2/"/>
     <updated>2018-10-15T16:39:50+09:00</updated>
-    <id>http://48n.jp/blog/2018/10/15/not-goal-2</id>
+    <id>https://48n.jp/blog/2018/10/15/not-goal-2</id>
     <content type="html"><![CDATA[<p>この記事は前回の続きです。前回の記事は「<a href="/blog/2018/10/12/not-goal/">計画はいらない</a>」です。</p>
 
 <p>「好きなことをひたすら追いかければよい」理由は、そのほうがうまくいく可能性が高いからです。</p>
@@ -118,9 +118,9 @@
   
   <entry>
     <title type="html"><![CDATA[計画はいらない]]></title>
-    <link href="http://48n.jp/blog/2018/10/12/not-goal/"/>
+    <link href="https://48n.jp/blog/2018/10/12/not-goal/"/>
     <updated>2018-10-12T16:35:56+09:00</updated>
-    <id>http://48n.jp/blog/2018/10/12/not-goal</id>
+    <id>https://48n.jp/blog/2018/10/12/not-goal</id>
     <content type="html"><![CDATA[<p>2018年もあと3ヶ月で終わろうとしています。少し早いですが、2018年を振り返ってみると、良いことも良くないことも含めて様々なことがありました。結果的に近年で最も濃い1年になりました。</p>
 
 <p>私自身は今年を特別な1年にしようなどとは微塵も考えていませんでした。また、何かを達成しようと詳細な計画をたてたりもしていません。しかし、結果的には今まで経験したことのないことをいくつか経験することができました。</p>
@@ -141,9 +141,9 @@
   
   <entry>
     <title type="html"><![CDATA[1つのMTGが午前中をダメにする]]></title>
-    <link href="http://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting/"/>
+    <link href="https://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting/"/>
     <updated>2018-07-05T16:34:33+09:00</updated>
-    <id>http://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting</id>
+    <id>https://48n.jp/blog/2018/07/05/why-the-morning-is-wasted-on-one-meeting</id>
     <content type="html"><![CDATA[<blockquote>
   <p>基本的に、予定があることがわかっている時は、何も仕事を終わらせられません。時計を見て｢1時間後に会議があるから、この大事な仕事はまだやらないほうがいいな｣と思ったり、1時間を20分くらいに感じるせいか、一番小さな仕事ですら無意識のうちに先延ばしにします。</p>
 </blockquote>
@@ -158,9 +158,9 @@
   
   <entry>
     <title type="html"><![CDATA[サッカー日本代表がベスト16にしかなれない理由]]></title>
-    <link href="http://48n.jp/blog/2018/07/03/soccer-2018/"/>
+    <link href="https://48n.jp/blog/2018/07/03/soccer-2018/"/>
     <updated>2018-07-03T11:49:13+09:00</updated>
-    <id>http://48n.jp/blog/2018/07/03/soccer-2018</id>
+    <id>https://48n.jp/blog/2018/07/03/soccer-2018</id>
     <content type="html"><![CDATA[<p>サッカー日本代表がW杯の決勝トーナメントでベルギーに敗れ、ベスト16になりました。日本のメディアは大いに日本の選手を称えています。この世論の雰囲気こそがサッカー日本代表がベスト16にしかなれない理由だと思います。</p>
 
 <p>もちろん、予選を突破してベスト16に入ったのはすごいことです。しかし、W杯で優勝するようなチームにとってベスト16に入るのは当たり前のことなのです。優勝候補のブラジルが決勝トーナメントの1回戦で負けたらブラジルの世論はなんと言うでしょうか。おそらく、酷いバッシングをするはずです。</p>

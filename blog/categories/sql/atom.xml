@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Sql | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/sql/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/sql/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[mysql_real_escape_string()のみで防げないSQLインジェクション]]></title>
-    <link href="http://48n.jp/blog/2016/09/06/sql-injection/"/>
+    <link href="https://48n.jp/blog/2016/09/06/sql-injection/"/>
     <updated>2016-09-06T14:26:15+09:00</updated>
-    <id>http://48n.jp/blog/2016/09/06/sql-injection</id>
+    <id>https://48n.jp/blog/2016/09/06/sql-injection</id>
     <content type="html"><![CDATA[<p>PHPアプリのSQLインジェクション対策として、<code>mysql_real_escape_string()</code> 等があるがこれだけでは万全ではないことがあるのでメモ。</p>
 
 <p>例えば以下のSQLでは<code>mysql_real_escape_string()</code>を使っているが、脆弱性が存在する。</p>
@@ -37,9 +37,9 @@ $sql = "SELECT * FROM table_name WHERE id = '$id'";
   
   <entry>
     <title type="html"><![CDATA[相関サブクエリを使って次回契約を取得する]]></title>
-    <link href="http://48n.jp/blog/2015/09/25/to-get-the-next-contract-using-a-correlated-subquery/"/>
+    <link href="https://48n.jp/blog/2015/09/25/to-get-the-next-contract-using-a-correlated-subquery/"/>
     <updated>2015-09-25T13:35:45+09:00</updated>
-    <id>http://48n.jp/blog/2015/09/25/to-get-the-next-contract-using-a-correlated-subquery</id>
+    <id>https://48n.jp/blog/2015/09/25/to-get-the-next-contract-using-a-correlated-subquery</id>
     <content type="html"><![CDATA[<p>相関サブクエリを使って次回契約を取得します。</p>
 
 <h3 id="contract-table">Contract table</h3>

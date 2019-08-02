@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Php | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/php/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/php/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[2017年のPHPについて数値をまとめてみました]]></title>
-    <link href="http://48n.jp/blog/2017/12/12/php2017/"/>
+    <link href="https://48n.jp/blog/2017/12/12/php2017/"/>
     <updated>2017-12-12T17:22:48+09:00</updated>
-    <id>http://48n.jp/blog/2017/12/12/php2017</id>
+    <id>https://48n.jp/blog/2017/12/12/php2017</id>
     <content type="html"><![CDATA[<p>この記事は<a href="https://qiita.com/advent-calendar/2017/php">PHP Advent Calendar 2017</a> 14日目の記事です。</p>
 
 <p>こんにちは、SHOYANです。2017年ももうすぐ終わりということで、2017年のPHPをふりかえってみるのはいかがでしょうか。この記事ではPHPに関係する情報を集め、数値としてまとめました。</p>
@@ -80,9 +80,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHPUnitの後処理でテーブルをTRUNCATEする]]></title>
-    <link href="http://48n.jp/blog/2016/11/08/after-truncate-in-the-phpunit/"/>
+    <link href="https://48n.jp/blog/2016/11/08/after-truncate-in-the-phpunit/"/>
     <updated>2016-11-08T17:48:30+09:00</updated>
-    <id>http://48n.jp/blog/2016/11/08/after-truncate-in-the-phpunit</id>
+    <id>https://48n.jp/blog/2016/11/08/after-truncate-in-the-phpunit</id>
     <content type="html"><![CDATA[<p>PHPUnitでテスト用のレコードを作成するのだが、テストで作成したレコードが残ってしまい再度テストを行うと失敗するという現象に遭遇した。</p>
 
 <p>以下のように<code>AppTestCase</code> を作成してカスタマイズしている。<br />
@@ -260,9 +260,9 @@ class SampleTest extends AppTestCase
   
   <entry>
     <title type="html"><![CDATA[Php-idnkitをインストールする]]></title>
-    <link href="http://48n.jp/blog/2016/09/09/install-php-idnkit/"/>
+    <link href="https://48n.jp/blog/2016/09/09/install-php-idnkit/"/>
     <updated>2016-09-09T10:53:43+09:00</updated>
-    <id>http://48n.jp/blog/2016/09/09/install-php-idnkit</id>
+    <id>https://48n.jp/blog/2016/09/09/install-php-idnkit</id>
     <content type="html"><![CDATA[<p>php-idnkitをインストールしたのでメモ。<br />
 OSはubuntu、PHPのバージョンは5.6.24で行った。</p>
 
@@ -349,9 +349,9 @@ $ cd idnkit &amp;&amp; \
   
   <entry>
     <title type="html"><![CDATA[mysql_real_escape_string()のみで防げないSQLインジェクション]]></title>
-    <link href="http://48n.jp/blog/2016/09/06/sql-injection/"/>
+    <link href="https://48n.jp/blog/2016/09/06/sql-injection/"/>
     <updated>2016-09-06T14:26:15+09:00</updated>
-    <id>http://48n.jp/blog/2016/09/06/sql-injection</id>
+    <id>https://48n.jp/blog/2016/09/06/sql-injection</id>
     <content type="html"><![CDATA[<p>PHPアプリのSQLインジェクション対策として、<code>mysql_real_escape_string()</code> 等があるがこれだけでは万全ではないことがあるのでメモ。</p>
 
 <p>例えば以下のSQLでは<code>mysql_real_escape_string()</code>を使っているが、脆弱性が存在する。</p>
@@ -371,9 +371,9 @@ $sql = "SELECT * FROM table_name WHERE id = '$id'";
   
   <entry>
     <title type="html"><![CDATA[PHPの構文チェックを自動で行う方法]]></title>
-    <link href="http://48n.jp/blog/2016/08/08/php-lint-with-ci/"/>
+    <link href="https://48n.jp/blog/2016/08/08/php-lint-with-ci/"/>
     <updated>2016-08-08T13:30:30+09:00</updated>
-    <id>http://48n.jp/blog/2016/08/08/php-lint-with-ci</id>
+    <id>https://48n.jp/blog/2016/08/08/php-lint-with-ci</id>
     <content type="html"><![CDATA[<p>私のチームではCIで自動的にLINTをする仕組みを構築しています。<br />
 この仕組みにより、レガシーコードでテストコードがない環境でもシンタックスエラーの混入を防ぐことができます。</p>
 

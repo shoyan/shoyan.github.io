@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: アルゴリズム | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/arugorizumu/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/arugorizumu/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ハフマン符号化のアルゴリズムとエントロピーを学ぶ]]></title>
-    <link href="http://48n.jp/blog/2016/06/30/learn-huffman-coding-and-entropy/"/>
+    <link href="https://48n.jp/blog/2016/06/30/learn-huffman-coding-and-entropy/"/>
     <updated>2016-06-30T10:23:38+09:00</updated>
-    <id>http://48n.jp/blog/2016/06/30/learn-huffman-coding-and-entropy</id>
+    <id>https://48n.jp/blog/2016/06/30/learn-huffman-coding-and-entropy</id>
     <content type="html"><![CDATA[<p>ハフマン符号とは1952年にデビッド・ハフマンという人が考え出したアルゴリズムです。  <br />
 文字列をはじめとするデータの可逆圧縮に使われます。  <br />
 よく使われる文字には短いビットを、あまり使われない文字には長いビットを割り当てることで全体としてサイズが削減されることを狙ったアルゴリズムです。</p>
@@ -232,9 +232,9 @@ C: 3 / 12: 0.5
   
   <entry>
     <title type="html"><![CDATA[base64エンコードのアルゴリズムをRubyで実装する]]></title>
-    <link href="http://48n.jp/blog/2016/06/13/learn-base64-encode/"/>
+    <link href="https://48n.jp/blog/2016/06/13/learn-base64-encode/"/>
     <updated>2016-06-13T14:08:03+09:00</updated>
-    <id>http://48n.jp/blog/2016/06/13/learn-base64-encode</id>
+    <id>https://48n.jp/blog/2016/06/13/learn-base64-encode</id>
     <content type="html"><![CDATA[<p>Base64とは英数字、記号を用いてマルチバイト文字やバイナリデータ(画像など)を扱うためのエンコード方式です。  <br />
 具体的には<code>A–Z, a–z, 0–9</code> までの62文字と、記号2つ (<code>+</code>,<code>/</code>)、さらにパディング（余った部分を詰める）のための記号として <code>=</code> が用いられます。  <br />
 7ビットの文字コードしか扱うことができない電子メールにおいてよく利用されています。</p>
@@ -348,9 +348,9 @@ Base64.encode64("ABCDEFG")
   
   <entry>
     <title type="html"><![CDATA[先週月曜日の日付を取得するアルゴリズム]]></title>
-    <link href="http://48n.jp/blog/2016/06/09/calculate-the-date-of-the-last-week-monday/"/>
+    <link href="https://48n.jp/blog/2016/06/09/calculate-the-date-of-the-last-week-monday/"/>
     <updated>2016-06-09T14:04:17+09:00</updated>
-    <id>http://48n.jp/blog/2016/06/09/calculate-the-date-of-the-last-week-monday</id>
+    <id>https://48n.jp/blog/2016/06/09/calculate-the-date-of-the-last-week-monday</id>
     <content type="html"><![CDATA[<h2 id="先週の月曜日を求めるアルゴリズム">先週の月曜日を求めるアルゴリズム</h2>
 
 <ul>

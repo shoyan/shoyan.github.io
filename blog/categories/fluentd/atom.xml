@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Fluentd | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/fluentd/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/fluentd/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Fluentd、ElasticsearchとKibanaでログ検索とグラフ表示を可能にする]]></title>
-    <link href="http://48n.jp/blog/2016/07/05/introduce-to-fluentd-elasticsearch-kibana/"/>
+    <link href="https://48n.jp/blog/2016/07/05/introduce-to-fluentd-elasticsearch-kibana/"/>
     <updated>2016-07-05T17:21:32+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/05/introduce-to-fluentd-elasticsearch-kibana</id>
+    <id>https://48n.jp/blog/2016/07/05/introduce-to-fluentd-elasticsearch-kibana</id>
     <content type="html"><![CDATA[<p><a href="/blog/2016/07/04/fluentd-tutorial/">前回の記事</a>で<a href="http://www.fluentd.org/">Fluentd</a>を使ってログをログ収集サーバに転送する方法を紹介しました。<br />
 今回は転送されたログを<a href="https://www.elastic.co/jp/products/elasticsearch">Elasticsearch</a>に登録し、<a href="https://www.elastic.co/jp/products/kibana">Kibana</a>でログ検索とグラフ表示する方法を紹介します。</p>
 
@@ -125,9 +125,9 @@ Indexは<code>logstash-2016.07.05</code> のような名前で作成されます
   
   <entry>
     <title type="html"><![CDATA[Fluentdを使ってローカル環境にログ収集サーバを構築する]]></title>
-    <link href="http://48n.jp/blog/2016/07/04/fluentd-tutorial/"/>
+    <link href="https://48n.jp/blog/2016/07/04/fluentd-tutorial/"/>
     <updated>2016-07-04T13:50:35+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/04/fluentd-tutorial</id>
+    <id>https://48n.jp/blog/2016/07/04/fluentd-tutorial</id>
     <content type="html"><![CDATA[<p>アプリケーションサーバとログ収集サーバにFluentdをインストールし、アプリケーションサーバからログ収集サーバにログをフォワードする方法を紹介します。<br />
 ここでは、アプリケーションサーバをMacOS X、ログ収集サーバをVagrantとします。</p>
 

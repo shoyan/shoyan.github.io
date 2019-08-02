@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Linux | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/linux/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[シェルスクリプトで別プロセスの終了ステータスを取得する]]></title>
-    <link href="http://48n.jp/blog/2018/11/29/check-other-process/"/>
+    <link href="https://48n.jp/blog/2018/11/29/check-other-process/"/>
     <updated>2018-11-29T14:55:51+09:00</updated>
-    <id>http://48n.jp/blog/2018/11/29/check-other-process</id>
+    <id>https://48n.jp/blog/2018/11/29/check-other-process</id>
     <content type="html"><![CDATA[<p>シェルスクリプトで別プロセスの終了ステータスを取得するTipを紹介します。</p>
 
 <h3 id="ユースケース">ユースケース</h3>
@@ -86,9 +86,9 @@ echo "end"
   
   <entry>
     <title type="html"><![CDATA[Iptablesことはじめ]]></title>
-    <link href="http://48n.jp/blog/2016/07/15/learn-iptables/"/>
+    <link href="https://48n.jp/blog/2016/07/15/learn-iptables/"/>
     <updated>2016-07-15T14:05:31+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/15/learn-iptables</id>
+    <id>https://48n.jp/blog/2016/07/15/learn-iptables</id>
     <content type="html"><![CDATA[<p>iptablesの概念と設定方法を調べました。</p>
 
 <h2 id="iptablesとは">iptablesとは</h2>
@@ -289,9 +289,9 @@ REJECT     all  --  anywhere             anywhere             reject-with icmp-p
   
   <entry>
     <title type="html"><![CDATA[Tmpwatchでさくっと不要なファイルを消す]]></title>
-    <link href="http://48n.jp/blog/2016/07/08/tips-for-tmpwatch/"/>
+    <link href="https://48n.jp/blog/2016/07/08/tips-for-tmpwatch/"/>
     <updated>2016-07-08T13:49:27+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/08/tips-for-tmpwatch</id>
+    <id>https://48n.jp/blog/2016/07/08/tips-for-tmpwatch</id>
     <content type="html"><![CDATA[<p>古いファイルを消したいときにtmpwatchを使うと簡単に消すことができます。</p>
 
 <p>例えば、<code>/var/www/app/tmp</code> 配下の48時間以上前のファイルやディレクトリを消したい場合は以下で消せます。</p>
@@ -312,9 +312,9 @@ REJECT     all  --  anywhere             anywhere             reject-with icmp-p
   
   <entry>
     <title type="html"><![CDATA[Sedやawkを使ってテキストから必要な列のみ取得する]]></title>
-    <link href="http://48n.jp/blog/2016/06/29/extract-string-with-sed-and-awk/"/>
+    <link href="https://48n.jp/blog/2016/06/29/extract-string-with-sed-and-awk/"/>
     <updated>2016-06-29T17:01:36+09:00</updated>
-    <id>http://48n.jp/blog/2016/06/29/extract-string-with-sed-and-awk</id>
+    <id>https://48n.jp/blog/2016/06/29/extract-string-with-sed-and-awk</id>
     <content type="html"><![CDATA[<p>以下のような文字列(ファイルに保存されているとする)からsedやawkを使ってlabelだけとるshell芸を紹介します。</p>
 
 <pre><code>+-------------------------+-------+
@@ -364,9 +364,9 @@ A B C D E F G H I J K
   
   <entry>
     <title type="html"><![CDATA[ShellのTipsてきなやつ]]></title>
-    <link href="http://48n.jp/blog/2016/06/22/shell-tips/"/>
+    <link href="https://48n.jp/blog/2016/06/22/shell-tips/"/>
     <updated>2016-06-22T18:16:41+09:00</updated>
-    <id>http://48n.jp/blog/2016/06/22/shell-tips</id>
+    <id>https://48n.jp/blog/2016/06/22/shell-tips</id>
     <content type="html"><![CDATA[<p>ShellスクリプトのTipsです。</p>
 
 <h2 id="シェル変数の初期化をする">シェル変数の初期化をする</h2>

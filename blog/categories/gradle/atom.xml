@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Gradle | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/gradle/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/gradle/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Gradleのjavaプラグインとは]]></title>
-    <link href="http://48n.jp/blog/2018/01/21/gradle-java-plugin/"/>
+    <link href="https://48n.jp/blog/2018/01/21/gradle-java-plugin/"/>
     <updated>2018-01-21T00:52:36+09:00</updated>
-    <id>http://48n.jp/blog/2018/01/21/gradle-java-plugin</id>
+    <id>https://48n.jp/blog/2018/01/21/gradle-java-plugin</id>
     <content type="html"><![CDATA[<p>build.gradleでよく見かける<code>apply plugin: ‘java'</code>という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、javaプラグインを追加するとjavaに関連するタスクが使えるようになります。</p>
 
 <p>何もプラグインを追加していないgradleタスクは以下の通りです。</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Clang | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/clang/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/clang/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[C言語でHello World]]></title>
-    <link href="http://48n.jp/blog/2015/10/09/clang-01/"/>
+    <link href="https://48n.jp/blog/2015/10/09/clang-01/"/>
     <updated>2015-10-09T13:36:48+09:00</updated>
-    <id>http://48n.jp/blog/2015/10/09/clang-01</id>
+    <id>https://48n.jp/blog/2015/10/09/clang-01</id>
     <content type="html"><![CDATA[<p>たくさんのソフトウェアがC言語で作られており、自分もそういうソフトウェアの仕組みを知ったり自分で作れるようになりたいなと思って、C言語の勉強を始めました。</p>
 
 <p>とりあえず、最初はC言語でHello worldをしてみます。  <br />

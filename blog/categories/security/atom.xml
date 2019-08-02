@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Security | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/security/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/security/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[クロスサイトスクリプティングの脆弱性とその対策]]></title>
-    <link href="http://48n.jp/blog/2016/06/03/cross-site-scripting-aka-xss/"/>
+    <link href="https://48n.jp/blog/2016/06/03/cross-site-scripting-aka-xss/"/>
     <updated>2016-06-03T17:45:45+09:00</updated>
-    <id>http://48n.jp/blog/2016/06/03/cross-site-scripting-aka-xss</id>
+    <id>https://48n.jp/blog/2016/06/03/cross-site-scripting-aka-xss</id>
     <content type="html"><![CDATA[<p>クロスサイトスクリプティングはユーザーの入力を受け付ける動的なアプリケーションに含まれる脆弱性を利用した攻撃です。<br />
 英語ではCross Site Scriptingと呼ばれその頭文字をとるとCSSとなりますが、「Cascading Style Sheets」との区別が紛らわしいため一般的にXSSの表記が使われています。</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Chatops | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/chatops/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/chatops/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Slackで定期的にRubotyに仕事をさせる]]></title>
-    <link href="http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty/"/>
+    <link href="https://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty/"/>
     <updated>2016-10-31T16:58:56+09:00</updated>
-    <id>http://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty</id>
+    <id>https://48n.jp/blog/2016/10/31/run-regular-basis-the-ruboty</id>
     <content type="html"><![CDATA[<p>ChatOpsの一環としてSlackにRubotyを常駐させているのだが、Rubotyに定期的にタスクを実行させたいことがあった。<br />
 最初はruby-cronを使ってみたのだが、Slackだとうまく動かなかった。<br />
 具体的にはジョブの登録はできるのだがジョブの実行(通知)がされない。</p>
@@ -57,9 +57,9 @@ end.post("/api/chat.postMessage?token=#{slack_token}", body)
   
   <entry>
     <title type="html"><![CDATA[Botsインテグレーションを使って手軽にRubotyをSlackで動かす]]></title>
-    <link href="http://48n.jp/blog/2016/08/02/ruboty-and-slack/"/>
+    <link href="https://48n.jp/blog/2016/08/02/ruboty-and-slack/"/>
     <updated>2016-08-02T13:40:25+09:00</updated>
-    <id>http://48n.jp/blog/2016/08/02/ruboty-and-slack</id>
+    <id>https://48n.jp/blog/2016/08/02/ruboty-and-slack</id>
     <content type="html"><![CDATA[<p>前回は<a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a>でRubotyの導入方法を紹介しました。<br />
 今回はRubotyをSlackで動かす方法を紹介します。</p>
 
@@ -109,9 +109,9 @@ Rubotyは dotenv に対応しているので、<code>.env</code> ファイルを
   
   <entry>
     <title type="html"><![CDATA[5分でできるRubotyのインストールとプラグインチュートリアル]]></title>
-    <link href="http://48n.jp/blog/2016/07/29/first-step-ruboty/"/>
+    <link href="https://48n.jp/blog/2016/07/29/first-step-ruboty/"/>
     <updated>2016-07-29T13:55:33+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/29/first-step-ruboty</id>
+    <id>https://48n.jp/blog/2016/07/29/first-step-ruboty</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/r7kamura/ruboty/">Ruboty</a>はhubotクローンでRubyで書けるbotです。<br />
 このチュートリアルではRubotyのインストールとプラグインの作成方法を紹介します。<br />
 冗長な説明をあえて除きRubotyを動かすために重要な部分のみ解説することでスピーディにRubotyを動作できるようにしています。</p>

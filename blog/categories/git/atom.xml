@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Git | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/git/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/git/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GitHubのリポジトリを監視するGitMonitor]]></title>
-    <link href="http://48n.jp/blog/2016/07/27/introduce-to-git-monitor/"/>
+    <link href="https://48n.jp/blog/2016/07/27/introduce-to-git-monitor/"/>
     <updated>2016-07-27T13:37:18+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/27/introduce-to-git-monitor</id>
+    <id>https://48n.jp/blog/2016/07/27/introduce-to-git-monitor</id>
     <content type="html"><![CDATA[<p>GitHubのリポジトリを監視する<a href="https://gitmonitor.com/">GitMonitor</a>というサービスを紹介します。<br />
 このサービスはGithubのリポジトリを監視して、そのリポジトリに行った操作をダッシュボードで確認することができます。<br />
 また、Flowdock、Slack、Emailに通知することも可能のようです。</p>
@@ -39,9 +39,9 @@
   
   <entry>
     <title type="html"><![CDATA[Gitのコミッターを集計するGitFindCommitterをつくった]]></title>
-    <link href="http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer/"/>
+    <link href="https://48n.jp/blog/2016/07/25/introduce-to-git-find-committer/"/>
     <updated>2016-07-25T18:09:52+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer</id>
+    <id>https://48n.jp/blog/2016/07/25/introduce-to-git-find-committer</id>
     <content type="html"><![CDATA[<p>Gitのコミッターを集計する<a href="https://github.com/shoyan/git_find_committer">GitFindCommitter</a>をつくったので紹介します。</p>
 
 <h2 id="gitfindcommitterとは">GitFindCommitterとは</h2>

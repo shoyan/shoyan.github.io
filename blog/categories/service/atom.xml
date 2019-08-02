@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Service | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/service/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/service/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ポケモンGOが自分を変えたこと]]></title>
-    <link href="http://48n.jp/blog/2016/08/31/pokemon-go/"/>
+    <link href="https://48n.jp/blog/2016/08/31/pokemon-go/"/>
     <updated>2016-08-31T13:36:11+09:00</updated>
-    <id>http://48n.jp/blog/2016/08/31/pokemon-go</id>
+    <id>https://48n.jp/blog/2016/08/31/pokemon-go</id>
     <content type="html"><![CDATA[<p>ポケモンGOが日本で遊べるようになったのが2016/6/21。<br />
 およそ2ヶ月が経ちスタート当時のブームは落ち着いてきた。</p>
 
@@ -46,9 +46,9 @@
   
   <entry>
     <title type="html"><![CDATA[ホットペッパーグルメでお店を予約した]]></title>
-    <link href="http://48n.jp/blog/2016/08/19/review-hotpepper-jp/"/>
+    <link href="https://48n.jp/blog/2016/08/19/review-hotpepper-jp/"/>
     <updated>2016-08-19T13:57:29+09:00</updated>
-    <id>http://48n.jp/blog/2016/08/19/review-hotpepper-jp</id>
+    <id>https://48n.jp/blog/2016/08/19/review-hotpepper-jp</id>
     <content type="html"><![CDATA[<p>高校時代の友人と10年ぶりに会うことになった。店の手配は自分が引き受けたのだが、ぐだぐだしているうちに当日まであと1日となってしまった。</p>
 
 <p>いくつかのサイトを見てみて、ホットペッパーグルメがよさそうだったのでお店を探してみる。店舗数が多く、よさそうなお店を短時間で見つけることができた。場所、お店のジャンル、そして予約日を指定して検索できるので便利だ。とくに予約日の指定は予約時点になってお店が空いていないということがなくなるのでよいと思った。</p>

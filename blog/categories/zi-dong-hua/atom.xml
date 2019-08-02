@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: 自動化 | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/zi-dong-hua/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/zi-dong-hua/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Guardでrubocopを自動化する]]></title>
-    <link href="http://48n.jp/blog/2016/12/07/guard-rubocop/"/>
+    <link href="https://48n.jp/blog/2016/12/07/guard-rubocop/"/>
     <updated>2016-12-07T13:55:09+09:00</updated>
-    <id>http://48n.jp/blog/2016/12/07/guard-rubocop</id>
+    <id>https://48n.jp/blog/2016/12/07/guard-rubocop</id>
     <content type="html"><![CDATA[<p>RubyのシンタックスチェックにRubocopを使っていて、リポジトリにpushした時にチェックするようにしている。<br />
 push→シンタックスエラー→直してもう1回pushというのがまどろこしいので<a href="https://github.com/yujinakayama/guard-rubocop">guard-rubocop</a>を使ってファイルを保存する度にチェックするようにしてみた。<br />
 ストレスが軽減され、良い感じだったので紹介する。</p>
@@ -78,9 +78,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Guardでrspecのテストを自動化する]]></title>
-    <link href="http://48n.jp/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/"/>
+    <link href="https://48n.jp/blog/2016/05/24/introduce-guard-gem-and-guard-rspec/"/>
     <updated>2016-05-24T15:05:01+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/24/introduce-guard-gem-and-guard-rspec</id>
+    <id>https://48n.jp/blog/2016/05/24/introduce-guard-gem-and-guard-rspec</id>
     <content type="html"><![CDATA[<p>自動化ツールのGuardの紹介をします。  <br />
 Guardはファイルを監視して、ファイルになんらかの変更がされたら、指定した処理を実行するツールです。  <br />
 この機能を使ってファイルが変更されたらテストを自動で実行させたり、シンタックスチェックをすることができます。  <br />

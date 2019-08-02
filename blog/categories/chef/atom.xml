@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Chef | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/chef/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[NginxのCookbookでハマった]]></title>
-    <link href="http://48n.jp/blog/2016/05/31/tips-for-nginx-cookbook/"/>
+    <link href="https://48n.jp/blog/2016/05/31/tips-for-nginx-cookbook/"/>
     <updated>2016-05-31T18:03:46+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/31/tips-for-nginx-cookbook</id>
+    <id>https://48n.jp/blog/2016/05/31/tips-for-nginx-cookbook</id>
     <content type="html"><![CDATA[<p>Nginxのcookbookでversionを指定しているのに、指定したバージョンでインストールされない問題でハマった。</p>
 
 <p><a href="https://supermarket.chef.io/cookbooks/nginx">https://supermarket.chef.io/cookbooks/nginx</a></p>
@@ -107,9 +107,9 @@ Role=&gt;ミドルウェアのバージョン違い</p>
   
   <entry>
     <title type="html"><![CDATA[Chefのworkerが詰まって処理が進まなくなった]]></title>
-    <link href="http://48n.jp/blog/2016/05/20/does-not-proceed-worker-is-blocked-processing-of-chef/"/>
+    <link href="https://48n.jp/blog/2016/05/20/does-not-proceed-worker-is-blocked-processing-of-chef/"/>
     <updated>2016-05-20T17:40:56+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/20/does-not-proceed-worker-is-blocked-processing-of-chef</id>
+    <id>https://48n.jp/blog/2016/05/20/does-not-proceed-worker-is-blocked-processing-of-chef</id>
     <content type="html"><![CDATA[<p>chefを実行したらこんなメッセージがでた。</p>
 
 <pre><code>WARN: Chef client 24431 is running, will wait for it to finish and then run.
@@ -148,9 +148,9 @@ root     26759  0.0  3.0 261996 57760 pts/3    Sl+  10:50   0:00 chef-client wor
   
   <entry>
     <title type="html"><![CDATA[マカレルでサーバーを監視する]]></title>
-    <link href="http://48n.jp/blog/2016/05/19/the-server-monitored-by-mackerel/"/>
+    <link href="https://48n.jp/blog/2016/05/19/the-server-monitored-by-mackerel/"/>
     <updated>2016-05-19T14:16:15+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/19/the-server-monitored-by-mackerel</id>
+    <id>https://48n.jp/blog/2016/05/19/the-server-monitored-by-mackerel</id>
     <content type="html"><![CDATA[<p>サーバーの監視に<a href="https://mackerel.io/ja/features">マカレル</a>を導入してみました。  <br />
 使ってみた感想としては、難しい設定もなく簡単に導入することができて、とてもよくできているなぁと関心しました。</p>
 
@@ -267,9 +267,9 @@ CPU、メモリ、ロードアベレージ、ディスク容量等の監視を�
   
   <entry>
     <title type="html"><![CDATA[Knife Zeroを使ってレシピを適用する]]></title>
-    <link href="http://48n.jp/blog/2016/05/10/chef-converge-with-knife-zero/"/>
+    <link href="https://48n.jp/blog/2016/05/10/chef-converge-with-knife-zero/"/>
     <updated>2016-05-10T13:29:15+09:00</updated>
-    <id>http://48n.jp/blog/2016/05/10/chef-converge-with-knife-zero</id>
+    <id>https://48n.jp/blog/2016/05/10/chef-converge-with-knife-zero</id>
     <content type="html"><![CDATA[<p>Chefでよく使われるknifeコマンドですが、そのプラグインである<a href="https://github.com/higanworks/knife-zero">knife zero</a>を使ってレシピを適用する方法を紹介します。  <br />
 knife zeroはknifeプラグインで、リモートnode上でchef-clientを実行するツールです。</p>
 
@@ -356,9 +356,9 @@ chef-apply   chef-client  chef-shell   chef-solo
   
   <entry>
     <title type="html"><![CDATA[DockerコンテナにChefを流してみた]]></title>
-    <link href="http://48n.jp/blog/2016/04/21/nginx-and-ruby-on-docker/"/>
+    <link href="https://48n.jp/blog/2016/04/21/nginx-and-ruby-on-docker/"/>
     <updated>2016-04-21T18:19:01+09:00</updated>
-    <id>http://48n.jp/blog/2016/04/21/nginx-and-ruby-on-docker</id>
+    <id>https://48n.jp/blog/2016/04/21/nginx-and-ruby-on-docker</id>
     <content type="html"><![CDATA[<p>Chefのレシピを書くとき、Dockerコンテナにレシピを流せると気軽に確認ができてよいなと思い、DockerコンテナにChefを流せるようにしてみました。</p>
 
 <p>リポジトリを作ったので参考にどうぞ。  <br />

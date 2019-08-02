@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Gem | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/gem/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/gem/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[RubyGems.orgに反映させるRakeタスクの紹介]]></title>
-    <link href="http://48n.jp/blog/2016/10/25/introduce-gem-push/"/>
+    <link href="https://48n.jp/blog/2016/10/25/introduce-gem-push/"/>
     <updated>2016-10-25T14:17:29+09:00</updated>
-    <id>http://48n.jp/blog/2016/10/25/introduce-gem-push</id>
+    <id>https://48n.jp/blog/2016/10/25/introduce-gem-push</id>
     <content type="html"><![CDATA[<p>Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。<br />
 Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。<br />
 毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。</p>
@@ -61,9 +61,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Rails 4.2.7.1 に更新した後に [DEPRECATION] Last_comment Is Deprecated. が発生した]]></title>
-    <link href="http://48n.jp/blog/2016/08/23/last-comment-is-deprecated/"/>
+    <link href="https://48n.jp/blog/2016/08/23/last-comment-is-deprecated/"/>
     <updated>2016-08-23T13:37:27+09:00</updated>
-    <id>http://48n.jp/blog/2016/08/23/last-comment-is-deprecated</id>
+    <id>https://48n.jp/blog/2016/08/23/last-comment-is-deprecated</id>
     <content type="html"><![CDATA[<p>Railsを4.2.7.1にアップデートをしてrspecを実行すると、以下のエラーが発生するようになった。</p>
 
 <pre><code>$ bundle exec rspec spec
@@ -100,9 +100,9 @@ Finished in 2.33 seconds (files took 8.85 seconds to load)
   
   <entry>
     <title type="html"><![CDATA[Botsインテグレーションを使って手軽にRubotyをSlackで動かす]]></title>
-    <link href="http://48n.jp/blog/2016/08/02/ruboty-and-slack/"/>
+    <link href="https://48n.jp/blog/2016/08/02/ruboty-and-slack/"/>
     <updated>2016-08-02T13:40:25+09:00</updated>
-    <id>http://48n.jp/blog/2016/08/02/ruboty-and-slack</id>
+    <id>https://48n.jp/blog/2016/08/02/ruboty-and-slack</id>
     <content type="html"><![CDATA[<p>前回は<a href="/blog/2016/07/29/first-step-ruboty/">Rubotyのインストールとプラグインチュートリアル</a>でRubotyの導入方法を紹介しました。<br />
 今回はRubotyをSlackで動かす方法を紹介します。</p>
 
@@ -152,9 +152,9 @@ Rubotyは dotenv に対応しているので、<code>.env</code> ファイルを
   
   <entry>
     <title type="html"><![CDATA[5分でできるRubotyのインストールとプラグインチュートリアル]]></title>
-    <link href="http://48n.jp/blog/2016/07/29/first-step-ruboty/"/>
+    <link href="https://48n.jp/blog/2016/07/29/first-step-ruboty/"/>
     <updated>2016-07-29T13:55:33+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/29/first-step-ruboty</id>
+    <id>https://48n.jp/blog/2016/07/29/first-step-ruboty</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/r7kamura/ruboty/">Ruboty</a>はhubotクローンでRubyで書けるbotです。<br />
 このチュートリアルではRubotyのインストールとプラグインの作成方法を紹介します。<br />
 冗長な説明をあえて除きRubotyを動かすために重要な部分のみ解説することでスピーディにRubotyを動作できるようにしています。</p>
@@ -277,9 +277,9 @@ Type `exit` or `quit` to end the session.
   
   <entry>
     <title type="html"><![CDATA[Gitのコミッターを集計するGitFindCommitterをつくった]]></title>
-    <link href="http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer/"/>
+    <link href="https://48n.jp/blog/2016/07/25/introduce-to-git-find-committer/"/>
     <updated>2016-07-25T18:09:52+09:00</updated>
-    <id>http://48n.jp/blog/2016/07/25/introduce-to-git-find-committer</id>
+    <id>https://48n.jp/blog/2016/07/25/introduce-to-git-find-committer</id>
     <content type="html"><![CDATA[<p>Gitのコミッターを集計する<a href="https://github.com/shoyan/git_find_committer">GitFindCommitter</a>をつくったので紹介します。</p>
 
 <h2 id="gitfindcommitterとは">GitFindCommitterとは</h2>

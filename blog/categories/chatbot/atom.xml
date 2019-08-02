@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Chatbot | SHOYAN BLOG]]></title>
-  <link href="http://48n.jp/blog/categories/chatbot/atom.xml" rel="self"/>
-  <link href="http://48n.jp/"/>
-  <updated>2019-08-02T18:04:24+09:00</updated>
-  <id>http://48n.jp/</id>
+  <link href="https://48n.jp/blog/categories/chatbot/atom.xml" rel="self"/>
+  <link href="https://48n.jp/"/>
+  <updated>2019-08-02T18:08:41+09:00</updated>
+  <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ハッカソンでチャットBotを作って感じた課題]]></title>
-    <link href="http://48n.jp/blog/2017/09/01/osan-report-vol11/"/>
+    <link href="https://48n.jp/blog/2017/09/01/osan-report-vol11/"/>
     <updated>2017-09-01T17:30:56+09:00</updated>
-    <id>http://48n.jp/blog/2017/09/01/osan-report-vol11</id>
+    <id>https://48n.jp/blog/2017/09/01/osan-report-vol11</id>
     <content type="html"><![CDATA[<p>GMOペパボで開催された<a href="http://osan.pepabo.com/">ハッカソン</a>に参加するため東京へ行ってきました。<br />
 チームを作って、2日でプロダクトを作るというイベントです。</p>
 
