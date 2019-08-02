@@ -4,7 +4,7 @@
   <title><![CDATA[SHOYAN BLOG]]></title>
   <link href="http://48n.jp/atom.xml" rel="self"/>
   <link href="http://48n.jp/"/>
-  <updated>2019-07-21T23:25:45+09:00</updated>
+  <updated>2019-08-02T17:50:45+09:00</updated>
   <id>http://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[テストカバレッジ100%を目指さない理由]]></title>
+    <link href="http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/"/>
+    <updated>2019-08-02T17:47:20+09:00</updated>
+    <id>http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage</id>
+    <content type="html"><![CDATA[<h2 id="結論">結論</h2>
+
+<p>テストカバレッジ100%は目指さない</p>
+
+<h2 id="理由">理由</h2>
+
+<p>以前、このようなツイートをしました。</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">マージ条件に作成したコードのテストカバレッジが100%であることというプロジェクトを見たことがあります</p>&mdash; しょーやん (@sinn_shoyan) <a href="https://twitter.com/sinn_shoyan/status/1155279098102472705?ref_src=twsrc%5Etfw">July 28, 2019</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>テストカバレッジ100%に違和感を感じない人はもう少し勉強した方がいいですね。</p>
+
+<p>テストカバレッジ100%を目指すとこのようになってしまいます。</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">テストカバレッジ100%を目指すとどうなるかを説明しましょう。
+テストの目的がカバレッジを通すことになってしまい、意味のないテストが乱立します</p>&mdash; しょーやん (@sinn_shoyan) <a href="https://twitter.com/sinn_shoyan/status/1155279684218675201?ref_src=twsrc%5Etfw">July 28, 2019</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>さらにテストの問題も発生します。</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">さらに、コードとテストコードが密結合になり、コードを少し変えるとテストが落ちるという状態になります。
+リファクタリングする場合、テストコードも書き直しになります</p>&mdash; しょーやん (@sinn_shoyan) <a href="https://twitter.com/sinn_shoyan/status/1155280247924768772?ref_src=twsrc%5Etfw">July 28, 2019</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>テストカバレッジの問題については次の記事に詳しく書いてあります。</p>
+
+<ul>
+  <li><a herf="https://qiita.com/bremen/items/d02eb38e790b93f44728" target="_blank">テストカバレッジ100%を追求しても品質は高くならない理由と推奨されるカバレッジの目標値について</a></li>
+</ul>
+
+<p>全てのコードにコメントを書くのは馬鹿げていると感じる人は多いでしょう。全てのコードにテストを書くということも同じように考えるとどうでしょう。何事も過ぎたるは及ばざるが如しです。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[データベース固有の関数の使用を避けるべき理由]]></title>
@@ -780,30 +820,6 @@
 
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B072J2J26T&amp;linkId=b397d3e0d93479554f7ad256a1279272"></iframe>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[まだ設計書書いてるんですか？]]></title>
-    <link href="http://48n.jp/blog/2018/05/14/unnecessary-document/"/>
-    <updated>2018-05-14T17:28:36+09:00</updated>
-    <id>http://48n.jp/blog/2018/05/14/unnecessary-document</id>
-    <content type="html"><![CDATA[<p>私は自社開発のシステムを開発しているエンジニアなのですが、そのような現場でも設計書（詳細設計書や機能設計書のこと）が必要だという意見を耳にします。私は自社開発のシステムの場合、設計書は必要ないと思います。設計書を書く時間があったら1行でもコードを書いてほしいです。</p>
-
-<p>そもそも、なぜ設計書が必要になったかというと、分析と実装を行う人が違ったからです。いわゆる、元請けが設計書を作って、実装は下請けに丸投げするやつですね。分析と実装を同じ人が行う場合は設計書は不要です。</p>
-
-<p>生産性の観点からも考察してみます。</p>
-
-<p>一般的に設計書にお金を払う人はいません。例えば、ホームページを業者に依頼したとして、設計書しか出てこなかったら金返せとなりますよね？<br />
-人は動作するアプリケーションにのみお金を払います。基本的に資本主義の世界ではお金を払う人がいるものが価値のあるものです。この一般的な常識から次のような式が定義できます。</p>
-
-<p>動作するアプリケーション &gt; 設計書</p>
-
-<p>以上から、動作するアプリケーションを実装することに時間を使った方が生産性が高いと言えます。</p>
-
-<p>設計書は分析する人と実装する人が違う場合のみに必要です。また、仮に必要だとしても設計書自体に価値はないため、最低限の時間で作るべきものです。</p>
-
-<p>時間は有限です。であれば、価値のあることに時間を使いましょう。</p>
 ]]></content>
   </entry>
   

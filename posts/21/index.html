@@ -9,7 +9,30 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="sshのハンドシェイクでこけてしまい、その原因がわからずハマりました。 原因としては、TCPWrappersで拒否されていました。 TCPWrappersとはなんだろうということで調べてみました。 TCPWrappersとは TCPWrapperとは、ネットワークのアクセス制御をする機能です。 &hellip;">
+  <meta name="description" content="ActionMailerで添付ファイルを送るようにしたのですが、そのテストをするときの情報があまりなかったのでまとめました。 以下のようにテストしました。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+RSpec. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -134,6 +157,98 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/08/testing-attachment-for-action-mailer/">ActionMailerの添付ファイルをRspecでテストする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-08T18:41:16+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:41 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ActionMailerで添付ファイルを送るようにしたのですが、そのテストをするときの情報があまりなかったのでまとめました。</p>
+
+<p>以下のようにテストしました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">AppMailer</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:mailer</span> <span class="k">do</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">    <span class="no">Archive</span><span class="o">::</span><span class="no">Zip</span><span class="o">.</span><span class="n">archive</span><span class="p">(</span>
+</span><span class="line">      <span class="s2">&quot;tmp/app.zip&quot;</span><span class="p">,</span>
+</span><span class="line">      <span class="s2">&quot;README.md&quot;</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">after</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">    <span class="no">FileUtils</span><span class="o">.</span><span class="n">rm</span> <span class="s2">&quot;tmp/app.zip&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">let</span><span class="p">(</span><span class="ss">:mail</span><span class="p">)</span> <span class="k">do</span>
+</span><span class="line">    <span class="no">AppMailer</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span><span class="n">zip_path</span><span class="p">)</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">it</span> <span class="s1">&#39;assings the attachment file&#39;</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">attachment</span> <span class="o">=</span> <span class="n">mail</span><span class="o">.</span><span class="n">attachments</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">attachment</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_a_kind_of</span><span class="p">(</span><span class="no">Mail</span><span class="o">::</span><span class="no">Part</span><span class="p">)</span>
+</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">content_type</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_start_with</span><span class="p">(</span><span class="s1">&#39;application/zip&#39;</span><span class="p">)</span>
+</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;app.zip&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>まず、before(:all)でテストに使うzipファイルを作成します。  <br />
+zipファイルは<a href="https://github.com/javanthropus/archive-zip">archive-zip</a>を使って作成しています。  <br />
+アーカイブするファイルは何でもよいですが、この記事ではREADME.mdとしています。  <br />
+テストで作成したzipファイルはafter(:all)で消しています。  <br />
+mail.attachments[0]に添付ファイルが入っているので、その種類やファイル名を確認しています。</p>
+
+<h2 id="参考リンク">参考リンク</h2>
+
+<ul>
+  <li><a href="http://stackoverflow.com/questions/14286179/rails-how-to-test-that-actionmailer-sent-a-specific-attachment">rails-how-to-test-that-actionmailer-sent-a-specific-attachment</a></li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -611,119 +726,6 @@ cap installコマンドで雛形を作成します。</p>
 デプロイするファイルが大きい場合に便利です。</p>
 
 <p><a href="https://github.com/linyows/capistrano-withrsync">https://github.com/linyows/capistrano-withrsync</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/31/tips-for-nginx-cookbook/">NginxのCookbookでハマった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-31T18:03:46+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>6:03 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Nginxのcookbookでversionを指定しているのに、指定したバージョンでインストールされない問題でハマった。</p>
-
-<p><a href="https://supermarket.chef.io/cookbooks/nginx">https://supermarket.chef.io/cookbooks/nginx</a></p>
-<h2 id="結果としてわかったこと">結果としてわかったこと</h2>
-
-<p>パッケージでインストールする場合はバージョンが指定できない。  <br />
-バージョンを指定したい場合はソースでインストールする必要がある。</p>
-
-<p>Nginx cookbookはパッケージでのインストールかソースでのインストールのいずれかを選ぶことができる。  <br />
-デフォルトはパッケージである。  <br />
-ソースでインストールしたい場合は、<code>node['nginx']['install_method’]='source'</code> とする必要がある。  <br />
-<code>install_method</code>を指定したときにはじめてversionの指定が可能となる。</p>
-
-<h2 id="立ちはだかる様々な問題">立ちはだかる様々な問題</h2>
-<h3 id="versionが反映されない">versionが反映されない</h3>
-
-<p><code>attributes/default.rb</code>にversionを定義してみたが、指定されたバージョンがインストールされない問題にハマった。  <br />
-デフォルトである、1.4.4がインストールされている。</p>
-
-<h4 id="解決方法">解決方法</h4>
-
-<p>rolesのoverride_attributesとして指定すると指定されたバージョンがインストールされた。  <br />
-基本的にvendor cookbookの値の定義はroleのoverride_attributeで指定したほうがいいのかもしれない。  <br />
-とはいえ、パラメーターによっては上書きされる場合もあってそのあたりの挙動がよくわかっていない。</p>
-
-<h3 id="checksumを指定しないといけない">Checksumを指定しないといけない</h3>
-
-<p>sourceからインストールする場合、checksumを設定する必要がある。  <br />
-checksumは以下のようにして作成できる。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">shasum -a 256 nginx-x.x.x.tar.gz
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>もしくは</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">curl http://nginx.org/download/nginx-x.x.x.tar.gz | shasum -a 256
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>checksumは <code>node['nginx']['source']['checksum’]</code> に指定する。</p>
-
-<h2 id="chefのattributeの優先順位について">ChefのAttributeの優先順位について</h2>
-
-<p>マニュアルによると、以下のようになっている(しかし、versionをoverrideで定義しても上書きできなかった)。</p>
-
-<ul>
-  <li>A default attribute located in a cookbook attribute file</li>
-  <li>A default attribute located in a recipe</li>
-  <li>A default attribute located in an environment</li>
-  <li>A default attribute located in role</li>
-  <li>A force_default attribute located in a cookbook attribute file</li>
-  <li>A force_default attribute located in a recipe</li>
-  <li>A normal attribute located in a cookbook attribute file</li>
-  <li>A normal attribute located in a recipe</li>
-  <li>An override attribute located in a cookbook attribute file</li>
-  <li>An override attribute located in a recipe</li>
-  <li>An override attribute located in a role</li>
-  <li>An override attribute located in an environment</li>
-  <li>A force_override attribute located in a cookbook attribute file</li>
-  <li>A force_override attribute located in a recipe</li>
-  <li>An automatic attribute identified by Ohai at the start of the chef-client run</li>
-</ul>
-
-<p><a href="https://docs.chef.io/attributes.html#attribute-precedence">https://docs.chef.io/attributes.html#attribute-precedence</a></p>
-<h2 id="attributeの使い分けについて">Attributeの使い分けについて</h2>
-
-<p>以下のようにルール決めをしているという記事もあった。</p>
-
-<blockquote>
-  <p>Attributeファイル=&gt;文言変更  <br />
-recipeファイル=&gt;テスト的に変えたいものがある時のみ。本番では消す。  <br />
-Environmentファイル=&gt;development(開発）,alpha(実験用)、staging(テスト)、production（本番）でのIPやOSバージョンの違い。同じ構成が複数台ある時もここで区別。  <br />
-Role=&gt;ミドルウェアのバージョン違い</p>
-</blockquote>
-
-<p><a href="http://dev.classmethod.jp/server-side/chef/attribute-overrides-pattern/">http://dev.classmethod.jp/server-side/chef/attribute-overrides-pattern/</a></p>
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li>
-    <p><a href="http://stackoverflow.com/questions/27366774/chefexceptionschecksummismatch-when-installing-nginx-1-7-8-from-source">http://stackoverflow.com/questions/27366774/chefexceptionschecksummismatch-when-installing-nginx-1-7-8-from-source</a></p>  </li>
-</ul>
-
 </div>
   
   

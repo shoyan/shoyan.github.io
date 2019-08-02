@@ -9,8 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="wheneverを導入するためCapfileに require "whenever/capistrano"と定義して bundle exec cap -T とすると以下のエラーがでた。 1
-LoadError: cannot load such file -- /Users/shoyan/app/ &hellip;">
+  <meta name="description" content="Rubyでファイルエンコーディングを確認するにはNKFモジュールを使って確認します。 http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html
+NKFモジュールとは、nkf(Network Kanji code conversion Filter, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +135,67 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/16/check-file-encoding/">Rubyでファイルエンコーディングを確認する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-16T13:46:56+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:46 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rubyでファイルエンコーディングを確認するにはNKFモジュールを使って確認します。</p>
+
+<p><a href="http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html">http://docs.ruby-lang.org/ja/2.3.0/class/NKF.html</a></p>
+<p>NKFモジュールとは、nkf(Network Kanji code conversion Filter, http://sourceforge.jp/projects/nkf/) をRubyから使うためのモジュールです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;nkf&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">content</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;path/to/file.txt&quot;</span><span class="p">)</span>
+</span><span class="line"><span class="no">NKF</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;Shift_JIS&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>このような感じでrspecでテストするときにも使えます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;nkf&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">it</span> <span class="s1">&#39;file encoding is Shift_JIS&#39;</span> <span class="k">do</span>
+</span><span class="line"> <span class="n">content</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;filename.csv&quot;</span><span class="p">)</span>
+</span><span class="line"> <span class="n">expect</span><span class="p">(</span><span class="no">NKF</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;Shift_JIS&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -783,98 +844,6 @@ CapistranoやCapistranoプラグインではSSHKitが使われています。</p
 </span><span class="line"><span class="nb">puts</span> <span class="n">last_friday</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d (%a)&quot;</span><span class="p">)</span>
 </span><span class="line"><span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mo">03</span> <span class="p">(</span><span class="no">Fri</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/08/testing-attachment-for-action-mailer/">ActionMailerの添付ファイルをRspecでテストする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-08T18:41:16+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:41 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ActionMailerで添付ファイルを送るようにしたのですが、そのテストをするときの情報があまりなかったのでまとめました。</p>
-
-<p>以下のようにテストしました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">AppMailer</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:mailer</span> <span class="k">do</span>
-</span><span class="line">
-</span><span class="line">  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
-</span><span class="line">    <span class="no">Archive</span><span class="o">::</span><span class="no">Zip</span><span class="o">.</span><span class="n">archive</span><span class="p">(</span>
-</span><span class="line">      <span class="s2">&quot;tmp/app.zip&quot;</span><span class="p">,</span>
-</span><span class="line">      <span class="s2">&quot;README.md&quot;</span><span class="p">)</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">  <span class="n">after</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
-</span><span class="line">    <span class="no">FileUtils</span><span class="o">.</span><span class="n">rm</span> <span class="s2">&quot;tmp/app.zip&quot;</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">  <span class="n">let</span><span class="p">(</span><span class="ss">:mail</span><span class="p">)</span> <span class="k">do</span>
-</span><span class="line">    <span class="no">AppMailer</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span><span class="n">zip_path</span><span class="p">)</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">  <span class="n">it</span> <span class="s1">&#39;assings the attachment file&#39;</span> <span class="k">do</span>
-</span><span class="line">    <span class="n">attachment</span> <span class="o">=</span> <span class="n">mail</span><span class="o">.</span><span class="n">attachments</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">attachment</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_a_kind_of</span><span class="p">(</span><span class="no">Mail</span><span class="o">::</span><span class="no">Part</span><span class="p">)</span>
-</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">content_type</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_start_with</span><span class="p">(</span><span class="s1">&#39;application/zip&#39;</span><span class="p">)</span>
-</span><span class="line">    <span class="n">expect</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s2">&quot;app.zip&quot;</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>まず、before(:all)でテストに使うzipファイルを作成します。  <br />
-zipファイルは<a href="https://github.com/javanthropus/archive-zip">archive-zip</a>を使って作成しています。  <br />
-アーカイブするファイルは何でもよいですが、この記事ではREADME.mdとしています。  <br />
-テストで作成したzipファイルはafter(:all)で消しています。  <br />
-mail.attachments[0]に添付ファイルが入っているので、その種類やファイル名を確認しています。</p>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="http://stackoverflow.com/questions/14286179/rails-how-to-test-that-actionmailer-sent-a-specific-attachment">rails-how-to-test-that-actionmailer-sent-a-specific-attachment</a></li>
-</ul>
 </div>
   
   

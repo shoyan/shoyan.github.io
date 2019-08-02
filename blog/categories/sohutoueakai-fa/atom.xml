@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ソフトウェア開発 | SHOYAN BLOG]]></title>
+  <link href="http://48n.jp/blog/categories/sohutoueakai-fa/atom.xml" rel="self"/>
+  <link href="http://48n.jp/"/>
+  <updated>2019-08-02T17:50:45+09:00</updated>
+  <id>http://48n.jp/</id>
+  <author>
+    <name><![CDATA[Shohei Yamasaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[テストカバレッジ100%を目指さない理由]]></title>
+    <link href="http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/"/>
+    <updated>2019-08-02T17:47:20+09:00</updated>
+    <id>http://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage</id>
+    <content type="html"><![CDATA[<h2 id="結論">結論</h2>
+
+<p>テストカバレッジ100%は目指さない</p>
+
+<h2 id="理由">理由</h2>
+
+<p>以前、このようなツイートをしました。</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">マージ条件に作成したコードのテストカバレッジが100%であることというプロジェクトを見たことがあります</p>&mdash; しょーやん (@sinn_shoyan) <a href="https://twitter.com/sinn_shoyan/status/1155279098102472705?ref_src=twsrc%5Etfw">July 28, 2019</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>テストカバレッジ100%に違和感を感じない人はもう少し勉強した方がいいですね。</p>
+
+<p>テストカバレッジ100%を目指すとこのようになってしまいます。</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">テストカバレッジ100%を目指すとどうなるかを説明しましょう。
+テストの目的がカバレッジを通すことになってしまい、意味のないテストが乱立します</p>&mdash; しょーやん (@sinn_shoyan) <a href="https://twitter.com/sinn_shoyan/status/1155279684218675201?ref_src=twsrc%5Etfw">July 28, 2019</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>さらにテストの問題も発生します。</p>
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">さらに、コードとテストコードが密結合になり、コードを少し変えるとテストが落ちるという状態になります。
+リファクタリングする場合、テストコードも書き直しになります</p>&mdash; しょーやん (@sinn_shoyan) <a href="https://twitter.com/sinn_shoyan/status/1155280247924768772?ref_src=twsrc%5Etfw">July 28, 2019</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>テストカバレッジの問題については次の記事に詳しく書いてあります。</p>
+
+<ul>
+  <li><a herf="https://qiita.com/bremen/items/d02eb38e790b93f44728" target="_blank">テストカバレッジ100%を追求しても品質は高くならない理由と推奨されるカバレッジの目標値について</a></li>
+</ul>
+
+<p>全てのコードにコメントを書くのは馬鹿げていると感じる人は多いでしょう。全てのコードにテストを書くということも同じように考えるとどうでしょう。何事も過ぎたるは及ばざるが如しです。</p>
+]]></content>
+  </entry>
+  
+</feed>

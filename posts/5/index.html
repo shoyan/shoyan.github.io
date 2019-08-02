@@ -9,7 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Javaにおいてバグの要因となりそうなコードをチェックするツールとして、FindBugsがあります。しかし、FindBugsは2015年以降の開発が止まっているため、言語のアップデートに追従できていません。そこで、FindBugsの代替えとなるPMDを紹介します。 &hellip;">
+  <meta name="description" content="私は自社開発のシステムを開発しているエンジニアなのですが、そのような現場でも設計書（詳細設計書や機能設計書のこと）が必要だという意見を耳にします。私は自社開発のシステムの場合、設計書は必要ないと思います。設計書を書く時間があったら1行でもコードを書いてほしいです。 そもそも、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -134,6 +134,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/05/14/unnecessary-document/">まだ設計書書いてるんですか？</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-05-14T17:28:36+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:28 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>私は自社開発のシステムを開発しているエンジニアなのですが、そのような現場でも設計書（詳細設計書や機能設計書のこと）が必要だという意見を耳にします。私は自社開発のシステムの場合、設計書は必要ないと思います。設計書を書く時間があったら1行でもコードを書いてほしいです。</p>
+
+<p>そもそも、なぜ設計書が必要になったかというと、分析と実装を行う人が違ったからです。いわゆる、元請けが設計書を作って、実装は下請けに丸投げするやつですね。分析と実装を同じ人が行う場合は設計書は不要です。</p>
+
+<p>生産性の観点からも考察してみます。</p>
+
+<p>一般的に設計書にお金を払う人はいません。例えば、ホームページを業者に依頼したとして、設計書しか出てこなかったら金返せとなりますよね？<br />
+人は動作するアプリケーションにのみお金を払います。基本的に資本主義の世界ではお金を払う人がいるものが価値のあるものです。この一般的な常識から次のような式が定義できます。</p>
+
+<p>動作するアプリケーション &gt; 設計書</p>
+
+<p>以上から、動作するアプリケーションを実装することに時間を使った方が生産性が高いと言えます。</p>
+
+<p>設計書は分析する人と実装する人が違う場合のみに必要です。また、仮に必要だとしても設計書自体に価値はないため、最低限の時間で作るべきものです。</p>
+
+<p>時間は有限です。であれば、価値のあることに時間を使いましょう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -543,228 +588,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p>IT系のエンジニアで多いのはコードの書き方や実装の細部にこだわってしまうことです。そこにこだわってしまうと時間を使い過ぎてしまいます。その結果、私たちが最終的に作っている成果物（ユーザーから見える画面）がおそろかになってしまいます。</p>
 
 <p>コードの書き方や実装の細部を高めることは私たちが目指すゴールではありません。私たちが目指すゴールとは成果物を作り、ユーザーに届けることです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/01/21/gradle-java-plugin/">Gradleのjavaプラグインとは</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-01-21T00:52:36+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2018</span></span> <span class='time'>12:52 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>build.gradleでよく見かける<code>apply plugin: ‘java'</code>という記述について説明します。この記述をするとgradleにjavaプラグインが追加されます。プラグインはgradleの機能を拡張するためのもので、javaプラグインを追加するとjavaに関連するタスクが使えるようになります。</p>
-
-<p>何もプラグインを追加していないgradleタスクは以下の通りです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>gradle tasks
-</span><span class="line">
-</span><span class="line">&gt; Task :tasks
-</span><span class="line">
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">All tasks runnable from root project
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">
-</span><span class="line">Build Setup tasks
-</span><span class="line">-----------------
-</span><span class="line">init - Initializes a new Gradle build.
-</span><span class="line">wrapper - Generates Gradle wrapper files.
-</span><span class="line">
-</span><span class="line">Help tasks
-</span><span class="line">----------
-</span><span class="line">buildEnvironment - Displays all buildscript dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">components - Displays the components produced by root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">dependencies - Displays all dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependencyInsight - Displays the insight into a specific dependency in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependentComponents - Displays the dependent components of components in root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line"><span class="nb">help</span> - Displays a <span class="nb">help </span>message.
-</span><span class="line">model - Displays the configuration model of root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">projects - Displays the sub-projects of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">properties - Displays the properties of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">tasks - Displays the tasks runnable from root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">
-</span><span class="line">To see all tasks and more detail, run gradle tasks --all
-</span><span class="line">
-</span><span class="line">To see more detail about a task, run gradle <span class="nb">help</span> --task &lt;task&gt;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">BUILD SUCCESSFUL in 0s
-</span><span class="line"><span class="m">1</span> actionable task: <span class="m">1</span> executed
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Javaプラグインを定義したあとのタスクは以下の通りです。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-<span class="line-number">49</span>
-<span class="line-number">50</span>
-<span class="line-number">51</span>
-<span class="line-number">52</span>
-<span class="line-number">53</span>
-<span class="line-number">54</span>
-<span class="line-number">55</span>
-<span class="line-number">56</span>
-<span class="line-number">57</span>
-<span class="line-number">58</span>
-</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>gradle tasks
-</span><span class="line">Starting a Gradle Daemon <span class="o">(</span>subsequent builds will be faster<span class="o">)</span>
-</span><span class="line">
-</span><span class="line">&gt; Task :tasks
-</span><span class="line">
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">All tasks runnable from root project
-</span><span class="line">------------------------------------------------------------
-</span><span class="line">Build tasks
-</span><span class="line">-----------
-</span><span class="line">assemble - Assembles the outputs of this project.
-</span><span class="line">build - Assembles and tests this project.
-</span><span class="line">buildDependents - Assembles and tests this project and all projects that depend on it.
-</span><span class="line">buildNeeded - Assembles and tests this project and all projects it depends on.
-</span><span class="line">classes - Assembles main classes.
-</span><span class="line">clean - Deletes the build directory.
-</span><span class="line">jar - Assembles a jar archive containing the main classes.
-</span><span class="line">testClasses - Assembles <span class="nb">test </span>classes.
-</span><span class="line">
-</span><span class="line">Build Setup tasks
-</span><span class="line">-----------------
-</span><span class="line">init - Initializes a new Gradle build.
-</span><span class="line">wrapper - Generates Gradle wrapper files.
-</span><span class="line">
-</span><span class="line">Documentation tasks
-</span><span class="line">-------------------
-</span><span class="line">javadoc - Generates Javadoc API documentation <span class="k">for</span> the main <span class="nb">source </span>code.
-</span><span class="line">
-</span><span class="line">Help tasks
-</span><span class="line">----------
-</span><span class="line">buildEnvironment - Displays all buildscript dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">components - Displays the components produced by root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">dependencies - Displays all dependencies declared in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependencyInsight - Displays the insight into a specific dependency in root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">dependentComponents - Displays the dependent components of components in root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span> <span class="nb">help</span> - Displays a <span class="nb">help </span>message.
-</span><span class="line">model - Displays the configuration model of root project <span class="s1">&#39;gs-gradle&#39;</span>. <span class="o">[</span>incubating<span class="o">]</span>
-</span><span class="line">projects - Displays the sub-projects of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">properties - Displays the properties of root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">tasks - Displays the tasks runnable from root project <span class="s1">&#39;gs-gradle&#39;</span>.
-</span><span class="line">
-</span><span class="line">Verification tasks
-</span><span class="line">------------------
-</span><span class="line">check - Runs all checks.
-</span><span class="line"><span class="nb">test</span> - Runs the unit tests.
-</span><span class="line">
-</span><span class="line">Rules
-</span><span class="line">-----
-</span><span class="line">Pattern: clean&lt;TaskName&gt;: Cleans the output files of a task.
-</span><span class="line">Pattern: build&lt;ConfigurationName&gt;: Assembles the artifacts of a configuration.
-</span><span class="line">Pattern: upload&lt;ConfigurationName&gt;: Assembles and uploads the artifacts belonging to a configuration.
-</span><span class="line">
-</span><span class="line">To see all tasks and more detail, run gradle tasks --all
-</span><span class="line">
-</span><span class="line">To see more detail about a task, run gradle <span class="nb">help</span> --task &lt;task&gt;
-</span><span class="line">
-</span><span class="line">
-</span><span class="line">BUILD SUCCESSFUL in 5s
-</span><span class="line"><span class="m">1</span> actionable task: <span class="m">1</span> executed
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Build tasks、Documentation tasks、Verification tasksが追加されています。</p>
 </div>
   
   

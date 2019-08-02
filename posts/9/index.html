@@ -9,10 +9,7 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="こんにちは、SHOYANです。 Railsには様々な予約語がありますが、歴史の長いシステムを扱っているとDBのカラムがその予約語に該当する場合があります。
-例えば classというカラム名があった場合、そのカラムの影響で以下のエラーが発生します。 1
-2
-pry(main)&gt; User. &hellip;">
+  <meta name="description" content="こんにちは、SHOYANです。 JekyllテーマのminimaをAMP対応しました。 https://github.com/shoyan/aminima 名前は AMP + Minima = AMinima です。 デモサイトも用意していてこちらで確認できます。 https://shoyan. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -137,6 +134,188 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/04/14/aminima-is-minima-with-amp/">JekyllテーマのminimaをAMP対応した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-04-14T15:11:53+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:11 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>こんにちは、SHOYANです。</p>
+
+<p>JekyllテーマのminimaをAMP対応しました。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/aminima">https://github.com/shoyan/aminima</a></p>  </li>
+</ul>
+
+<p>名前は AMP + Minima = AMinima です。</p>
+
+<p>デモサイトも用意していてこちらで確認できます。</p>
+
+<ul>
+  <li>
+    <p><a href="https://shoyan.github.io/aminima/">https://shoyan.github.io/aminima/</a></p>  </li>
+</ul>
+
+<h2 id="minimaとは">Minimaとは</h2>
+
+<p>MinimaはJekyllのテーマです。<br />
+jekyll new で作成した場合にデフォルトでインストールされるテーマです。<br />
+URLはこちらです。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/jekyll/minima">https://github.com/jekyll/minima</a></p>  </li>
+</ul>
+
+<h2 id="どのようにamp対応したのか">どのようにAMP対応したのか</h2>
+
+<p>どのようにAMP対応をしたのかを説明します。<br />
+わりとあっさりできました。</p>
+
+<p>まず、ampを宣言します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;html</span> <span class="na">amp</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>そして、charsetを定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>次にampランタイムをロードします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;script </span><span class="na">async</span> <span class="na">src=</span><span class="s">&quot;https://cdn.ampproject.org/v0.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>また、AMPはcanonicalの宣言が必要なので定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;canonical&quot;</span> <span class="na">href=</span><span class="s">&quot;https://shoyan.github.io/aminima/2016/05/20/welcome-to-jekyll.html&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>CSSはインラインで定義しないといけないのでインラインで定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;style </span><span class="na">amp-custom</span>
+</span><span class="line">  <span class="na">h1</span> <span class="err">{</span>
+</span><span class="line">    <span class="na">color:</span> <span class="na">red</span><span class="err">;</span>
+</span><span class="line">  <span class="err">}</span>
+</span><span class="line"><span class="err">&lt;/</span><span class="na">style</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>次にAMP boilerplateを定義します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;style </span><span class="na">amp-boilerplatebody</span><span class="err">{</span><span class="na">-webkit-animation:-amp-start</span> <span class="na">8s</span> <span class="na">steps</span><span class="err">(</span><span class="na">1</span><span class="err">,</span><span class="na">end</span><span class="err">)</span> <span class="na">0s</span> <span class="na">1</span> <span class="na">normal</span> <span class="na">both</span><span class="err">;</span><span class="na">-moz-animation:-amp-start</span> <span class="na">8s</span> <span class="na">steps</span><span class="err">(</span><span class="na">1</span><span class="err">,</span><span class="na">end</span><span class="err">)</span> <span class="na">0s</span> <span class="na">1</span> <span class="na">normal</span> <span class="na">both</span><span class="err">;</span><span class="na">-ms-animation:-amp-start</span> <span class="na">8s</span> <span class="na">steps</span><span class="err">(</span><span class="na">1</span><span class="err">,</span><span class="na">end</span><span class="err">)</span> <span class="na">0s</span> <span class="na">1</span> <span class="na">normal</span> <span class="na">both</span><span class="err">;</span><span class="na">animation:-amp-start</span> <span class="na">8s</span> <span class="na">steps</span><span class="err">(</span><span class="na">1</span><span class="err">,</span><span class="na">end</span><span class="err">)</span> <span class="na">0s</span> <span class="na">1</span> <span class="na">normal</span> <span class="na">both</span><span class="err">}@</span><span class="na">-webkit-keyframes</span> <span class="na">-amp-start</span><span class="err">{</span><span class="na">from</span><span class="err">{</span><span class="na">visibility:hidden</span><span class="err">}</span><span class="na">to</span><span class="err">{</span><span class="na">visibility:visible</span><span class="err">}}@</span><span class="na">-moz-keyframes</span> <span class="na">-amp-start</span><span class="err">{</span><span class="na">from</span><span class="err">{</span><span class="na">visibility:hidden</span><span class="err">}</span><span class="na">to</span><span class="err">{</span><span class="na">visibility:visible</span><span class="err">}}@</span><span class="na">-ms-keyframes</span> <span class="na">-amp-start</span><span class="err">{</span><span class="na">from</span><span class="err">{</span><span class="na">visibility:hidden</span><span class="err">}</span><span class="na">to</span><span class="err">{</span><span class="na">visibility:visible</span><span class="err">}}@</span><span class="na">-o-keyframes</span> <span class="na">-amp-start</span><span class="err">{</span><span class="na">from</span><span class="err">{</span><span class="na">visibility:hidden</span><span class="err">}</span><span class="na">to</span><span class="err">{</span><span class="na">visibility:visible</span><span class="err">}}@</span><span class="na">keyframes</span> <span class="na">-amp-start</span><span class="err">{</span><span class="na">from</span><span class="err">{</span><span class="na">visibility:hidden</span><span class="err">}</span><span class="na">to</span><span class="err">{</span><span class="na">visibility:visible</span><span class="err">}}&lt;/</span><span class="na">style</span><span class="err">&lt;</span><span class="na">noscript</span><span class="err">&lt;</span><span class="na">style</span> <span class="na">amp-boilerplatebody</span><span class="err">{</span><span class="na">-webkit-animation:none</span><span class="err">;</span><span class="na">-moz-animation:none</span><span class="err">;</span><span class="na">-ms-animation:none</span><span class="err">;</span><span class="na">animation:none</span><span class="err">}&lt;/</span><span class="na">style</span><span class="err">&lt;/</span><span class="na">noscript</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これでAMPの基本設定はOKです。</p>
+
+<p>実際のコードはリポジトリを参照してみてください。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/aminima/blob/master/_includes/head.html">https://github.com/shoyan/aminima/blob/master/_includes/head.html</a></p>  </li>
+</ul>
+
+<h3 id="amp-analyticsを使う">amp-analyticsを使う</h3>
+
+<p>通常のAnalyticsのタグはAMPでは動かないのでamp-analyticsを使います。<br />
+amp-analyticsはAMP用に用意されたコンポーネントです。</p>
+
+<ul>
+  <li>
+    <p><a href="https://ampbyexample.com/components/amp-analytics/">https://ampbyexample.com/components/amp-analytics/</a></p>  </li>
+</ul>
+
+<p>テーマのソースコードはこの辺りです。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/aminima/blob/master/_includes/google-analytics.html">https://github.com/shoyan/aminima/blob/master/_includes/google-analytics.html</a></p>  </li>
+</ul>
+
+<h2 id="aminimaのインストール方法">Aminimaのインストール方法</h2>
+
+<p>Jekyllをインストールしていない場合はjekyllをインストールしてください。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">$ gem install jekyll
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ブログを作成します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">$ jekyll new blog
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Gemfileを編集します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">以下のように書き換える
+</span><span class="line">
+</span><span class="line">gem &quot;minima&quot;, &quot;~&gt; 2.0&quot;
+</span><span class="line">↓
+</span><span class="line">gem &quot;aminima&quot;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>_config.yml</code> のthemeを編集します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">theme: aminima
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>bundleコマンドを実行します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">$ bundle
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>サーバーを立ち上げます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="html"><span class="line">$ jekyll server
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>ブラウザで http://localhost:4000 にアクセスすればサイトが表示されます。</p>
+
+<p>動かない部分や不明な点はコメント欄や<a href="https://twitter.com/sinn_shoyan">Twitter</a>などでお気軽にご連絡ください！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -518,89 +697,6 @@ IoTの技術の進化でその技術を多くの人が使えるようになっ�
 また配達が手間のようなので、配達の手間を省けるような仕組みを考えるといいかもしれない。<br />
 例えばドローンを使って郵送するとか。<br />
 実際やろうとしたらものすごく大変そうだけど(野菜って重いんですよね)。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/12/26/world-gdp-in-2015/">世界で最も成長しているのは中国じゃなかったと数値が教えてくれた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-12-26T14:05:53+09:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:05 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://data.worldbank.org/">THE WORLD BANK</a>という世界の様々なデータを公開しているサイトがあります(最近知りました)。<br />
-何気なく普段のニュースに触れていると世界で最も成長しているのは中国だという印象があります。<br />
-しかし、データを見るとそうでないことが明らかになります。</p>
-
-<p>では、国の経済成長の指標であるGDPを見ていきます。</p>
-
-<h2 id="2015年のgdpの伸び率トップ10">2015年のGDPの伸び率トップ10</h2>
-
-<ol>
-  <li>アイルランド 26.3%</li>
-  <li>West Bank and Gaza(ヨルダン川西岸地区) 12.4%</li>
-  <li>エチオピア 9.6%</li>
-  <li>パラオ 9.4%</li>
-  <li>コートジボワール 9.2%</li>
-  <li>ウズベキスタン 8.0%</li>
-  <li>インド 7.6%</li>
-  <li>ラオス 7.4%</li>
-  <li>ミャンマー 7.3%</li>
-  <li>ドミニカ共和国、コロンビア、 タンザニア 7.0%</li>
-</ol>
-
-<p>「あれ、中国がいない？」と多くの日本人は思うのではないでしょうか。<br />
-中国のGDPは6.9%で11位です。<br />
-ちなみにGDP成長率6.9%の国はコンゴやルワンダがあります。</p>
-
-<p>あれだけ景気の良いと言われている中国以上に成長している国があるのですね(最近は危ぶまれる声も聞きますが)。</p>
-
-<p>ちなみに1位のアイルランドは26.3%と尋常ではない伸び率です。<br />
-この要因は一体何なんでしょうか。</p>
-
-<p>調べてみたところ、アイルランドは法人税が安く、そのために本社を移転してくる会社が多いとのことです。</p>
-
-<blockquote>
-  <p>アイルランドには１２・５％と低い法人税率を目当てに多国籍企業が合併・買収（Ｍ＆Ａ）などを通じて本社を移転してくるケースが多い。同国の資産は統計上かさ上げされ、先進国では異例の“高成長”につながった。</p>
-</blockquote>
-
-<p><a href="http://www.sankei.com/economy/news/160713/ecn1607130011-n1.html">http://www.sankei.com/economy/news/160713/ecn1607130011-n1.html</a></p>
-<p>アイルランドに本社移転した会社の資産がアイルランドのGDPに反映され、このように異常に高い数値として出ているようで、実際の経済成長とは乖離しているというのが識者の認識のようです。</p>
-
-<p>我らが日本のGDP成長率はいくらかというと0.5%です。<br />
-マイナス成長している国も少なからずあるのでマイナスじゃないだけマシかもしれません。<br />
-日本の高度経済成長期のGDP成長率は8%〜12%で推移しています。</p>
-
-<p>ワールドカップとオリンピックで沸いたブラジルはマイナス3.8%成長で、大きくこけている感じがありますね。</p>
-
-<p>ちなみに地域では南アジアの成長率がすごくて7.1%でした。</p>
-
-<p>南アジアの国々</p>
-
-<p><img src="/images/south-asia-gdp.png" alt="south-asia-gdp" /></p>
-
-<p>高度経済成長期の日本のように成長している国があるという事実に、世界は広いなと感じます。</p>
-
-<p>また、こういう数値を認識せずに中国が最も経済成長しているなどの誤った認識を持ってしまう事は避けたほうが良いと思いました。</p>
 </div>
   
   
