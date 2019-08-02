@@ -2,9 +2,9 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://48n.jp
+url: https://48n.jp
 title: SHOYAN BLOG
-subtitle: I am a pragmatic programmer.
+subtitle: 
 author: Shohei Yamasaki
 simple_search: https://www.google.com/search
 description: 当サイトSHOYAN BLOGは、Webアプリケーションエンジニアの山崎勝平(Yamasaki Shohei)が運営するブログです。IT技術に関連する情報を発信しています。
