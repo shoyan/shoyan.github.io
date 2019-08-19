@@ -9,7 +9,11 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="便利なlombokですが、そろそろオワコンな感じがしています。理由はJavaのアップデートに追従することが困難になってきているからです。詳しくはLombok の Java9以降対応の記事に書いてあります。実際、Java9対応も遅かったですね。lombokを使い続けると、 &hellip;">
+  <meta name="description" content="先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。 1
+2
+3
+4
+User user = User.builder &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -132,6 +136,158 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/06/29/use-of-setter-or-builder/">SetterとBuilderの使いわけ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-06-29T17:39:49+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:39 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>先日、「SetterとBuilderはどのように使いわければいいのか？」という質問を受けました。なかなかよい質問ですね。Builderを使うとクラスのインスタンスを柔軟に作ることができます。Builderを使ったサンプルコードです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span><span class="line">        <span class="o">.</span><span class="na">lastName</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">)</span>
+</span><span class="line">        <span class="o">.</span><span class="na">firstName</span><span class="o">(</span><span class="s">&quot;太郎&quot;</span><span class="o">)</span>
+</span><span class="line">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Builderを実装したUserクラスのサンプルコードです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+</span><span class="line">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+</span><span class="line">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">User</span><span class="o">(</span><span class="n">String</span> <span class="n">lastName</span><span class="o">,</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
+</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">UserBuilder</span> <span class="nf">builder</span><span class="o">()</span> <span class="o">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="k">new</span> <span class="nf">UserBuilder</span><span class="o">();</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UserBuilder</span> <span class="o">{</span>
+</span><span class="line">        <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+</span><span class="line">        <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">UserBuilder</span><span class="o">()</span> <span class="o">{</span>
+</span><span class="line">        <span class="o">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="kd">public</span> <span class="n">UserBuilder</span> <span class="nf">lastName</span><span class="o">(</span><span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">            <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
+</span><span class="line">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span><span class="line">        <span class="o">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="kd">public</span> <span class="n">UserBuilder</span> <span class="nf">firstName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">            <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
+</span><span class="line">            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span><span class="line">        <span class="o">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="kd">public</span> <span class="n">User</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span><span class="line">            <span class="k">return</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">lastName</span><span class="o">,</span> <span class="n">firstName</span><span class="o">);</span>
+</span><span class="line">        <span class="o">}</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Setterを使うと次のようになります(実装は省略)。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">();</span>
+</span><span class="line"><span class="n">user</span><span class="o">.</span><span class="na">setLastName</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">);</span>
+</span><span class="line"><span class="n">user</span><span class="o">.</span><span class="na">setFirstName</span><span class="o">(</span><span class="s">&quot;太郎&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Setterの問題点として、インスタンスの状態を変更してしまうことがあります。イミュータブルな実装にする場合、原則としてコンストラクタで値は設定するべきでSetterで変更するべきではありません。</p>
+
+<p>では、Setterではなくコンストラクタで設定するようにしましょう。引数が少ないうちは問題がないのですが、次の例のように引数の数が増えてしまうとコードが煩雑になってしまいます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="c1">// 姓、名、年齢、血液型、国が引数のコンストラクタの例</span>
+</span><span class="line"><span class="c1">// 年齢と血液型は不明だが、nullを指定する必要がある</span>
+</span><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">,</span> <span class="s">&quot;太郎&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="s">&quot;日本&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>そこで、Builderを使うメリットが出てきます。Builderを使えば柔軟にパラメーターの設定が行えるようになります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span><span class="line">        <span class="o">.</span><span class="na">lastName</span><span class="o">(</span><span class="s">&quot;山田&quot;</span><span class="o">)</span>
+</span><span class="line">        <span class="o">.</span><span class="na">firstName</span><span class="o">(</span><span class="s">&quot;太郎&quot;</span><span class="o">)</span>
+</span><span class="line">        <span class="o">.</span><span class="na">country</span><span class="o">(</span><span class="s">&quot;日本&quot;</span><span class="o">)</span>
+</span><span class="line">        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>SetterもBuilderもやりたいことはオブジェクトにパラメーターをセットすることです。Setterを使うとオブジェクトの状態を変更してしまうことになります。イミュータブルな実装かつ柔軟にパラメーターを設定したい場合はBuilderを使いましょう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -287,47 +443,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 id="まとめ">まとめ</h2>
 <p>ポイントは敵と距離をとって戦うこと、人数有利の時、人数不利の時の立ち回りを意識することです。あとは実践あるのみです。自然とこの立ち回りができるくらい実践を繰り返せば必ずウデマエはあがります。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/06/12/awesome-splatoon2/">スプラトゥーン2が楽しすぎる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-06-12T18:28:53+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:28 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>スプラトゥーン2が楽しすぎます。社会人になってからゲームはあまりしなくなってゲームは卒業かと思っていましたが、やばいゲームと出会ってしまいました。時間を見つけてはスプラトゥーン2をやっています。ハマりすぎて妻には愛想をつかされていますが、まあそれでもいいのです。</p>
-
-<p>スプラトゥーン2はオンラインサバゲーのようなゲームです。味方と敵の2チームにわかれて自分のチームのインクを多く塗ったほうが勝ちです。幼稚園児でもできるシンプルなゲームです。そんなシンプルなゲームですが、プロゲーマーも多くいて、プロチームもあります。6月11日より世界大会が開催されて、第3回スプラトゥーン甲子園で優勝したGGBoyZが日本代表として出場します。</p>
-
-<p>幼稚園児からプロゲーマーまで楽しめるゲームってなかなかないのではないでしょうか。クリエイターの人には脱帽ですね。素晴らしいゲームです。</p>
-
-<p>ちなみに私のウデマエはS〜Aあたりをウロウロしています。あと100時間くらいやればS+はいけるんじゃないでしょうか。武器はプラコラやラピブラエリート、デュアルスイーパーカスタムなど中長距離武器をよく使ってます。</p>
-
-<p>しばらくはやり続けるでしょうから、今後もスプラトゥーン2について書いていきたいと思います。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B072J2J26T&amp;linkId=b397d3e0d93479554f7ad256a1279272"></iframe>
-
 </div>
   
   

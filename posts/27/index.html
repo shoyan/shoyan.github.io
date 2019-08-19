@@ -9,27 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="cookbook_fileでCookbookNotFoundというエラーがでた。 しかし、どこをどうみても合っているようにしか見えず、2時間ほどハマった。 エラーは以下。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21 * &hellip;">
+  <meta name="description" content="capistrano3-unicornとは、capistranoでデプロイしたときにunicornのstart/restartをしてくれるgemです。
+https://github.com/tablexi/capistrano3-unicorn Install &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -152,6 +133,95 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/19/tips-for-capistrano3-unicorn/">Capistrano3-unicornを使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-04-19T17:21:17+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:21 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>capistrano3-unicornとは、capistranoでデプロイしたときにunicornのstart/restartをしてくれるgemです。<br />
+https://github.com/tablexi/capistrano3-unicorn</p>
+
+<h3 id="install">Install</h3>
+<p><code>Gemfile</code>に以下を追記して<code>bundle install</code>します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">gem</span> <span class="s1">&#39;capistrano3-unicorn&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>Capfile</code>に以下を追記します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;capistrano3/unicorn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>config/deploy.rb</code>に以下を追記します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">after</span> <span class="s1">&#39;deploy:publishing&#39;</span><span class="p">,</span> <span class="s1">&#39;deploy:restart&#39;</span>
+</span><span class="line"><span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">task</span> <span class="ss">:restart</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">invoke</span> <span class="s1">&#39;unicorn:restart&#39;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>これで設定完了です。<br />
+cap deployすればunicorn restartが実行されるようになります。</p>
+
+<h3 id="注意点ポイント">注意点ポイント</h3>
+
+<p>設定していて少しわかり辛かった点があります。</p>
+
+<p>unicorn.rbがデフォルトでは<code>CURRENT_PATH/config/unicorn/RAILS_ENV.rb</code>に設定されています。  <br />
+sinatraなどのrails以外のアプリケーションの場合は、RAILS_ENVがセットされていないため、<code>CURRENT_PATH/config/unicorn/.rb</code>のようになってしまいます。<br />
+ですので、明示的に設定が必要です。  <br />
+しかし、設定方法についてドキュメントに明記されてないので少し戸惑いました。</p>
+
+<p>設定はソースを参考にしました。</p>
+
+<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L4">https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L4</a></p>
+<h4 id="unicorn_config_pathの設定">unicorn_config_pathの設定</h4>
+
+<p>以下のようにlambdaを使って設定します。  <br />
+config/unicorn.rbをunicorn_config_pathとして設定しています。  <br />
+config/deploy.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">set</span> <span class="ss">:unicorn_config_path</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_path</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="s2">&quot;unicorn.rb&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -645,165 +715,6 @@ https://github.com/squizlabs/PHP_CodeSniffer/wiki’</p>
   <li><a href="/blog/2016/06/23/php-syntax-check/">修正した部分だけPHP構文チェックをする</a></li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/12/install-php7-on-mac-os/">Mac OSXにPHP7をインストール</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-12T22:26:16+09:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:26 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>2015年12月にPHP7.0.0がリリースされました。<br />
-先日、PHP7.0.2がリリースされ、活発に開発が行われているようです。</p>
-
-<p>手元でPHP7を試すために、PHP7.0.2をインストールしてみました。<br />
-OSはMac OSX(Yosemite)です。</p>
-
-<p>依存パッケージのinstallにはhomebrewを使うので、updateしておきます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">brew update
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>PHPのインストールには、phpenvを使います。<br />
-phpenvを使うことで、複数のバージョンをインストールすることができます。</p>
-
-<h3 id="phpenvのインストール">phpenvのインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ git clone git@github.com:CHH/phpenv.git
-</span><span class="line">$ cd phpenv
-</span><span class="line">$ phpenv-install.sh
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下を <code>$HOME/.bash_profile</code> or <code>$HOME/.bashrc</code>に追記します。<br />
-(zshの場合は、<code>$HOME/.zsh_profile</code> or <code>$HOME/.zshrc</code>です。)</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">eval "$(phpenv init -)"
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="php-buildのインストール">php-buildのインストール</h3>
-<p>phpのbuildはphp-buildで行うため、php-buildのインストールを行います。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ git clone git://github.com/php-build/php-build.git $HOME/.phpenv/plugins/php-build
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="依存パッケージのインストール">依存パッケージのインストール</h3>
-<p>PHP7のインストールに必要なパッケージをインストールします。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ brew install bison
-</span><span class="line">$ brew install re2c
-</span><span class="line">$ brew install libjpeg
-</span><span class="line">$ brew install libpng
-</span><span class="line">$ brew install libmcrypt
-</span><span class="line">$ brew install autoconf
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="php702のインストール">PHP7.0.2のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ phpenv install 7.0.2
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>PHP7がインストールできたら、globalコマンドでPHPのバージョンを設定します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ phpenv global 7.0.2
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>PHPのbuild時にエラーがでた場合はphp-buildのソースコードを修正して確認してみてください。<br />
-https://github.com/php-build/php-build/blob/bfd562bd6c11a97f953d92b0aac699ad82a045e2/share/php-build/extension/extension.sh#L128</p>
-
-<p>.phpenv/plugins/php-build/share/php-build/extension/extension.sh</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">{
-</span><span class="line">    $PREFIX/bin/phpize &gt; /dev/null
-</span><span class="line">    "$(pwd)/configure" --with-php-config=$PREFIX/bin/php-config \
-</span><span class="line">        $configure_args &gt; /dev/null
-</span><span class="line">
-</span><span class="line">    make &gt; /dev/null
-</span><span class="line">    make install &gt; /dev/null
-</span><span class="line">} &gt;&amp;4 2&gt;&amp;1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下のように修正します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">{
-</span><span class="line">    $PREFIX/bin/phpize
-</span><span class="line">    "$(pwd)/configure" --with-php-config=$PREFIX/bin/php-config \
-</span><span class="line">        $configure_args
-</span><span class="line">
-</span><span class="line">    make
-</span><span class="line">    make install
-</span><span class="line">} &gt;&amp;4 2&gt;&amp;1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="php7について">PHP7について</h3>
-<p>PHP7はPHP5との互換性が重視されているようなので、移行コストは低そうです。  <br />
-基本的にはPHP5.6までで非推奨の機能が廃止されています。  <br />
-詳しくは以下を参照ください。</p>
-
-<ul>
-  <li><a href="https://secure.php.net/manual/ja/migration70.php">PHP5.6.x からPHP7.0.xへの移行</a></li>
-</ul>
-
-<p>パフォーマンスに関してはけっこう改善されているようで、PHP5の2倍とのことでした。</p>
-
-<ul>
-  <li><a href="http://www.slideshare.net/hnw/phpcon-kansai20150530">PHP7で変わること ——言語仕様とエンジンの改善ポイント</a></li>
-  <li><a href="https://secure.php.net/archive/2015.php#id2015-12-03-1">PHP7.0.0 Released</a></li>
-</ul>
-
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4774144371" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4802610440" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
 </div>
   
   

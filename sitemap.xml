@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://48n.jp/blog/2019/08/19/simple-implementation/</loc>
+<lastmod>2019-08-19T12:48:14+09:00</lastmod>
+</url>
+<url>
 <loc>https://48n.jp/blog/2019/08/02/why-do-not-i-aim-for-100-test-coverage/</loc>
 <lastmod>2019-08-02T17:47:20+09:00</lastmod>
 </url>

@@ -4,7 +4,7 @@
   <title><![CDATA[SHOYAN BLOG]]></title>
   <link href="https://48n.jp/atom.xml" rel="self"/>
   <link href="https://48n.jp/"/>
-  <updated>2019-08-02T18:08:41+09:00</updated>
+  <updated>2019-08-19T12:59:10+09:00</updated>
   <id>https://48n.jp/</id>
   <author>
     <name><![CDATA[Shohei Yamasaki]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[シンプルに実装する大切さ]]></title>
+    <link href="https://48n.jp/blog/2019/08/19/simple-implementation/"/>
+    <updated>2019-08-19T12:48:14+09:00</updated>
+    <id>https://48n.jp/blog/2019/08/19/simple-implementation</id>
+    <content type="html"><![CDATA[<p>私はシンプルに実装することをとても大切にしています。最も大切にしていると言っても過言ではありません。</p>
+
+<p>プログラミングの経験が浅い人は、難解なコードを書いたり、短い行数でコードを書けることがかっこいいと考えているかもしれませんが、完全に間違っています。シンプルに実装することは実は難しいのです。プログラムというものは、すぐに複雑になってしまうからです。複雑でかっこいいコードを書こうという考えがそもそもの間違いです。</p>
+
+<p>この記事を読んでみなさんは、今後は簡単でシンプルな必要最小限のコードを書くという意識でコードを書いてください。</p>
+
+<p>私はNode.jsのコミッターがトラディショナルなfor文を使ったコードを書いていることを見たことがあります。そのコードは、これ以上ないくらいシンプルなコードでした。</p>
+
+<p>現在のプログラムの多くは、今後も多くの変更が入ります。そうであれば、完璧に動くことよりもメンテナンスがしやすいことが大切です。後々、悪い影響を及ぼすコードは複雑で難解なコードです。シンプルで意図が明快なコードが問題を起こすことはありません。</p>
+
+<p>一般的な技術を有したエンジニアであれば誰でも理解できるコードを書いてください。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[テストカバレッジ100%を目指さない理由]]></title>
@@ -800,26 +819,6 @@
 
 <h2 id="まとめ">まとめ</h2>
 <p>ポイントは敵と距離をとって戦うこと、人数有利の時、人数不利の時の立ち回りを意識することです。あとは実践あるのみです。自然とこの立ち回りができるくらい実践を繰り返せば必ずウデマエはあがります。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[スプラトゥーン2が楽しすぎる]]></title>
-    <link href="https://48n.jp/blog/2018/06/12/awesome-splatoon2/"/>
-    <updated>2018-06-12T18:28:53+09:00</updated>
-    <id>https://48n.jp/blog/2018/06/12/awesome-splatoon2</id>
-    <content type="html"><![CDATA[<p>スプラトゥーン2が楽しすぎます。社会人になってからゲームはあまりしなくなってゲームは卒業かと思っていましたが、やばいゲームと出会ってしまいました。時間を見つけてはスプラトゥーン2をやっています。ハマりすぎて妻には愛想をつかされていますが、まあそれでもいいのです。</p>
-
-<p>スプラトゥーン2はオンラインサバゲーのようなゲームです。味方と敵の2チームにわかれて自分のチームのインクを多く塗ったほうが勝ちです。幼稚園児でもできるシンプルなゲームです。そんなシンプルなゲームですが、プロゲーマーも多くいて、プロチームもあります。6月11日より世界大会が開催されて、第3回スプラトゥーン甲子園で優勝したGGBoyZが日本代表として出場します。</p>
-
-<p>幼稚園児からプロゲーマーまで楽しめるゲームってなかなかないのではないでしょうか。クリエイターの人には脱帽ですね。素晴らしいゲームです。</p>
-
-<p>ちなみに私のウデマエはS〜Aあたりをウロウロしています。あと100時間くらいやればS+はいけるんじゃないでしょうか。武器はプラコラやラピブラエリート、デュアルスイーパーカスタムなど中長距離武器をよく使ってます。</p>
-
-<p>しばらくはやり続けるでしょうから、今後もスプラトゥーン2について書いていきたいと思います。</p>
-
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B072J2J26T&amp;linkId=b397d3e0d93479554f7ad256a1279272"></iframe>
-
 ]]></content>
   </entry>
   
