@@ -9,7 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Rubyはロード機構として、以下を備えています。 require load autoload require_relative require requireは以下の特徴を備えています。 ロードパスからファイルを探してくる 拡張ライブラリもロードできる 拡張子 .rb / .so を省略できる &hellip;">
+  <meta name="description" content="オブジェクトの設定情報を保持するパターンを紹介します。
+このパターンを使えば設定情報を管理するクラスに集約することができ、コードの見通しがよくなります。また、初期設定の定義ができるようになります。 名前空間で区切ってConfigurationモデルに設定を持たせるようにします。
+そして、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -132,6 +134,184 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/20/ruby-configuration-pattern/">[Ruby]オブジェクトの設定情報を保持するパターンの紹介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-20T18:42:04+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:42 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>オブジェクトの設定情報を保持するパターンを紹介します。<br />
+このパターンを使えば設定情報を管理するクラスに集約することができ、コードの見通しがよくなります。また、初期設定の定義ができるようになります。</p>
+
+<p>名前空間で区切ってConfigurationモデルに設定を持たせるようにします。<br />
+そして、トップにconfigurationとconfigureメソッドを定義します。<br />
+クラスメソッドで定義するのがポイントです。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Configuration</span>
+</span><span class="line">    <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class="line">      <span class="vi">@name</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">    <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">configuration</span>
+</span><span class="line">    <span class="vi">@configuration</span> <span class="o">||=</span> <span class="no">Hoge</span><span class="o">::</span><span class="no">Configuration</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">configure</span>
+</span><span class="line">    <span class="k">yield</span> <span class="n">configuration</span> <span class="k">if</span> <span class="nb">block_given?</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>configure</code>メソッドは以下のように初期設定したいパラメーターを設定するために使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Hope</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class="line">  <span class="n">config</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;shoyan&#39;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">config</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">configuration</span>
+</span><span class="line"><span class="n">config</span><span class="o">.</span><span class="n">name</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;shoyan&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>configure</code>メソッドで設定した情報が保持されています。<br />
+初期設定はできるようになりました。</p>
+
+<p>次はこの設定情報を内部で参照するようにします。</p>
+
+<p>Hopeクラスのinitializeメソッドで設定情報をインスタンス変数に保存します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class="line">    <span class="vi">@config</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">configuration</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">greeting</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="vi">@config</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>実行してみます。<br />
+Hope::Configurationの値が出力されていますね。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">hoge</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line"><span class="n">hope</span><span class="o">.</span><span class="n">greeting</span>
+</span><span class="line"><span class="o">=&gt;</span> <span class="no">Hello</span> <span class="n">shoyan</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Hoge.rb</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Hoge</span>
+</span><span class="line">  <span class="k">class</span> <span class="nc">Configuration</span>
+</span><span class="line">    <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class="line">      <span class="vi">@name</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">    <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class="line">    <span class="vi">@config</span> <span class="o">=</span> <span class="no">Hoge</span><span class="o">.</span><span class="n">configuration</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nf">greeting</span>
+</span><span class="line">    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="vi">@config</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">configuration</span>
+</span><span class="line">    <span class="vi">@configuration</span> <span class="o">||=</span> <span class="no">Hoge</span><span class="o">::</span><span class="no">Configuration</span><span class="o">.</span><span class="n">new</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">configure</span>
+</span><span class="line">    <span class="k">yield</span> <span class="n">configuration</span> <span class="k">if</span> <span class="nb">block_given?</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1443,50 +1623,6 @@ a < b %]]></script></td>
 
 <ul>
   <li><a href="http://izumi-math.jp/sanae/report/suusiki/suusiki.htm">数式記号の読み方・表し方</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/08/tips-for-tmpwatch/">Tmpwatchでさくっと不要なファイルを消す</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-07-08T13:49:27+09:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:49 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>古いファイルを消したいときにtmpwatchを使うと簡単に消すことができます。</p>
-
-<p>例えば、<code>/var/www/app/tmp</code> 配下の48時間以上前のファイルやディレクトリを消したい場合は以下で消せます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">tmpwatch -m 48  /var/www/app/tmp</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>tmpwatchは再帰的にファイルを削除するので、サブディレクトリがあればその配下のファイルも削除されます。<br />
-シンボリックの場合はリンクが削除されるだけでリンク先のファイルは削除されないとのことです。</p>
-
-<h3 id="参考リンク">参考リンク</h3>
-
-<ul>
-  <li><a href="http://spring-mt.tumblr.com/post/18484633412/tmpwatch%E3%81%8C%E4%BE%BF%E5%88%A9">tmpwatchが便利！</a></li>
 </ul>
 </div>
   

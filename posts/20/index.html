@@ -9,7 +9,11 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="FTPはすでにご存知のかたも多いと思います。 自分はFTPについて、「ファイル転送に使われるプロトコルであり、セキュリティが脆弱である」というくらいしか理解していなかったので詳細を把握するために調べました。 FTPとは FTPとはインターネットの初期の頃から存在するプロトコルで、 &hellip;">
+  <meta name="description" content="日本語の場合、CSVのファイルエンコードをShift JISにする要件がけっこうあると思います。 RubyのCSVライブラリは、encodingというオプションが用意されており、encoding: ’sjis’ のようにファイルエンコーディングを指定できます。 1
+2
+3
+4
+require &# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -132,6 +136,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/20/sets-csv-encoding/">[Ruby]CSVファイルのエンコードをsjisに指定する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T13:23:28+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:23 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>日本語の場合、CSVのファイルエンコードをShift JISにする要件がけっこうあると思います。  <br />
+RubyのCSVライブラリは、<code>encoding</code>というオプションが用意されており、<code>encoding: ’sjis’</code> のようにファイルエンコーディングを指定できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class="line"><span class="no">CSV</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;hoge.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">,</span> <span class="ss">encoding</span><span class="p">:</span> <span class="s1">&#39;sjis&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+</span><span class="line">  <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="o">[</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;担当者&quot;</span><span class="p">,</span> <span class="s2">&quot;メールアドレス&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>nkfコマンドを使ってファイルエンコーディングを確認します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">⇒</span>  <span class="n">nkf</span> <span class="o">-</span><span class="n">g</span> <span class="n">hoge</span><span class="o">.</span><span class="n">csv</span>
+</span><span class="line"><span class="no">Shift_JIS</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Shift_JISで作成されていることが確認できました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -800,166 +855,6 @@ CapistranoやCapistranoプラグインではSSHKitが使われています。</p
 <p>サンプルがこちらにたくさんあるので、参考になると思います。</p>
 
 <p><a href="https://github.com/capistrano/sshkit/blob/master/EXAMPLES.md">https://github.com/capistrano/sshkit/blob/master/EXAMPLES.md</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/13/learn-base64-encode/">base64エンコードのアルゴリズムをRubyで実装する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-13T14:08:03+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:08 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Base64とは英数字、記号を用いてマルチバイト文字やバイナリデータ(画像など)を扱うためのエンコード方式です。  <br />
-具体的には<code>A–Z, a–z, 0–9</code> までの62文字と、記号2つ (<code>+</code>,<code>/</code>)、さらにパディング（余った部分を詰める）のための記号として <code>=</code> が用いられます。  <br />
-7ビットの文字コードしか扱うことができない電子メールにおいてよく利用されています。</p>
-
-<h2 id="変換アルゴリズム">変換アルゴリズム</h2>
-
-<p>変換アルゴリズムは以下となります。</p>
-
-<ol>
-  <li>元データを6ビットずつに分割する(6ビットに満たない部分は0を追加して6ビットにする)。</li>
-  <li>各6ビットの値を変換表を使って4文字ずつに変換する(4文字に満たない部分は<code>=</code>記号を使って4文字にする)。</li>
-</ol>
-
-<h2 id="変換例">変換例</h2>
-
-<h3 id="1-元データ">1. 元データ</h3>
-
-<p>文字列: “ABCDEFG”  <br />
-2進数に変換する: “0100 0001 0100 0010 0100 0011 0100 0100 0100 0101 0100 0110 0100 0111”</p>
-
-<p>rubyでのサンプルコード</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="s2">&quot;ABCDEFG&quot;</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;B*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,4}/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="2-6ビットずつに分割">2. 6ビットずつに分割</h3>
-
-<p>“010000 010100 001001 000011 010001 000100 010101 000110 010001 11”</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="s2">&quot;ABCDEFG&quot;</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;B*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,6}/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="3-2ビット余るので4ビット分0を追加して6ビットにする">3. 2ビット余るので、4ビット分0を追加して6ビットにする</h3>
-
-<p>“010000 010100 001001 000011 010001 000100 010101 000110 010001 110000”</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">list</span> <span class="o">=</span> <span class="s2">&quot;ABCDEFG&quot;</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;B*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,6}/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-06s&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)}</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="4-変換表により4文字ずつ変換">4. 変換表により、4文字ずつ変換</h3>
-
-<p>“QUJD”, “REVG”, “Rw”</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># 変換表を作成する</span>
-</span><span class="line"><span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">63</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%06s&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)}</span>
-</span><span class="line"><span class="n">values</span> <span class="o">=</span> <span class="o">[</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;Z&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;9&#39;</span><span class="p">),</span> <span class="o">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="o">]].</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">.</span><span class="n">to_a</span> <span class="p">}</span><span class="o">.</span><span class="n">flatten</span>
-</span><span class="line"><span class="n">base64_table</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[[</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="o">].</span><span class="n">transpose</span><span class="o">]</span>
-</span><span class="line">
-</span><span class="line"><span class="n">base64_list</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">base64_table</span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="p">}</span><span class="o">.</span><span class="n">join</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,4}/</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;QUJD&quot;</span><span class="p">,</span> <span class="s2">&quot;REVG&quot;</span><span class="p">,</span> <span class="s2">&quot;Rw&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="5-2文字余るので2文字分--記号を追加して4文字にする">5. 2文字余るので、2文字分 = 記号を追加して4文字にする</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">base64_list</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-4s&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">)}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="6-base64文字列">6. Base64文字列</h3>
-
-<p>“QUJDREVGRw==”</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">base64_str</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,4}/</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-4s&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">)}</span><span class="o">.</span><span class="n">join</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;QUJDREVGRw==&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="簡易的なbase64_decodeメソッド">簡易的なbase64_decodeメソッド</h2>
-
-<p>今までのロジックをメソッドにまとめて簡易的なbase64_decodeメソッドを作成しました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Base64</span>
-</span><span class="line">  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">base64_encode</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
-</span><span class="line">    <span class="c1"># 変換表を作成する</span>
-</span><span class="line">    <span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">63</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%06s&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)}</span>
-</span><span class="line">    <span class="n">values</span> <span class="o">=</span> <span class="o">[</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;Z&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;9&#39;</span><span class="p">),</span> <span class="o">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="o">]].</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">.</span><span class="n">to_a</span> <span class="p">}</span><span class="o">.</span><span class="n">flatten</span>
-</span><span class="line">    <span class="n">base64_table</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[[</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="o">].</span><span class="n">transpose</span><span class="o">]</span>
-</span><span class="line">
-</span><span class="line">    <span class="n">binary</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;B*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,6}/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-06s&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class="line">    <span class="n">base64_list</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">base64_table</span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="p">}</span><span class="o">.</span><span class="n">join</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{1,4}/</span><span class="p">)</span>
-</span><span class="line">    <span class="n">base64_list</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%-4s&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">)}</span><span class="o">.</span><span class="n">join</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="nb">p</span> <span class="no">Base64</span><span class="o">.</span><span class="n">base64_encode</span><span class="p">(</span><span class="s2">&quot;ABCDEFG&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;QUJDREVGRw==&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>RubyのBase64ライブラリでencodeした値と比べてみましょう。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;base64&#39;</span>
-</span><span class="line"><span class="no">Base64</span><span class="o">.</span><span class="n">encode64</span><span class="p">(</span><span class="s2">&quot;ABCDEFG&quot;</span><span class="p">)</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="s2">&quot;QUJDREVGRw==</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Rubyのencode64は最後に改行が入るようですが、encodeされた値は同じですね！</p>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="https://ja.wikipedia.org/wiki/Base64Base64">Base64 - Wikipedia</a></li>
-</ul>
 </div>
   
   

@@ -9,11 +9,13 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="sshログインできないので /var/log/secure のログを見てみました。
-以下のメッセージがでていました。 1
+  <meta name="description" content="サーバーのメモリ情報はシステムの空きメモリと使用メモリの量を表示するfreeコマンドを使って確認することができます。 1
 2
 3
-Apr 28 14:11:14 server01 sshd[31264]: User shoyan from example.jp not allowed &hellip;">
+4
+5
+[shoyan@server01 ~]$ free total used free shared buffers cached
+Mem: 1922324 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -136,6 +138,151 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/08/learn-the-memory-with-free-command/">freeコマンドで確認するOSのメモリ情報</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-08T22:22:45+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:22 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>サーバーのメモリ情報はシステムの空きメモリと使用メモリの量を表示する<code>free</code>コマンドを使って確認することができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[shoyan@server01 ~]$ free
+</span><span class="line">             total       used       free     shared    buffers     cached
+</span><span class="line">Mem:       1922324    1716832     205492          0     197248    1055352
+</span><span class="line">-/+ buffers/cache:     464232    1458092
+</span><span class="line">Swap:      4194300          0    4194300
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>-mオプションを使うとMB単位で表示させることができます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[shoyan@server01 ~]$ free -m
+</span><span class="line">             total       used       free     shared    buffers     cached
+</span><span class="line">Mem:          1877       1676        200          0        192       1030
+</span><span class="line">-/+ buffers/cache:        453       1423
+</span><span class="line">Swap:         4095          0       4095
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="まずどこを見るべきか">まずどこを見るべきか</h2>
+
+<p>見るべきところは、3行目の <code>-/+ buffers/cache:        453       1423</code> の部分です。  <br />
+453MBが使用中で、1423MBは自由に使えるメモリがあります。</p>
+
+<h2 id="項目の説明">項目の説明</h2>
+
+<p>表示項目を確認していきます。</p>
+
+<p><strong>total</strong>: OSが認識している物理的なメモリサイズです。  <br />
+1877MBなので、およそ1.8GBです。  <br />
+RAIDカードやNICなどを装着しているときは、それらのためにメモリが使われるので実際の搭載メモリサイズよりも少なくなります。  <br />
+ですので、物理メモリとしては2GBなのですが、RAIDカードやNICでメモリが使用されてOSが認識しているメモリは1.8GBとなります。</p>
+
+<p><strong>used</strong>: 使用しているメモリサイズです。  <br />
+バッファキャッシュとページキャッシュが含まれています。  <br />
+およそ1.6GBを使用しています。</p>
+
+<p><strong>free</strong>: 空きメモリサイズです。  <br />
+この値にはバッファキャッシュとページキャッシュが含まれていません。  <br />
+OSは使い続けるほどメモリにキャッシュを割り当てます。  <br />
+そのため、使い続けるほどfreeの値は0に近づきます。  <br />
+ですので、この値が少ないからといって空きメモリがないわけではありません。  <br />
+200MBのメモリがfreeとして表示されています。</p>
+
+<p><strong>shared</strong>: 共有メモリに割り当てられたメモリです。  <br />
+0なので共有メモリに割り当てられているメモリはありません。</p>
+
+<p><strong>buffers</strong>: バッファキャッシュに割り当てられたメモリです。  <br />
+バッファキャッシュとはブロックデバイス用のキャッシュです。  <br />
+192MBが割り当てられています。</p>
+
+<p><strong>cached</strong>: ページキャッシュに割り当てられたメモリです。  <br />
+ページキャッシュはファイルに対するキャッシュです。  <br />
+1030MBがページキャッシュとして割り当てられています。</p>
+
+<p>バッファキャッシュとページキャッシュという2つのキャッシュがでてきました。  <br />
+ここでは厳密にわけて考える必要はありません。  <br />
+バッファキャッシュとページキャッシュを合計したものがキャッシュとして使用されているメモリと考えます。</p>
+
+<p><strong>-/+ buffers/cache</strong>: バッファキャッシュとページキャッシュを考慮したメモリです。  <br />
+1つ目の値がused、2つめの値がfreeです。</p>
+
+<p><strong>used</strong>: 2行目のusedからページキャッシュとバッファキャッシュを引いた値です。  <br />
+OSとアプリケーションが純粋に使用しているメモリサイズを表します。</p>
+
+<p>実際に計算してみましょう。  <br />
+1676 - 192 - 1030 = 454  <br />
+ほぼあっていますね。</p>
+
+<p><strong>free</strong>: 2行目のfreeにページキャッシュとバッファキャッシュを足した値です。  <br />
+キャッシュに割り当てられているメモリを自由に割り当て可能なメモリと考えれば、この値が空きメモリサイズになります。</p>
+
+<p>実際に計算してみましょう。  <br />
+200 + 192 + 1030 = 1422  <br />
+こちらもほぼあっています。</p>
+
+<p><strong>Swap</strong>: スワップに割り当てたサイズです。  <br />
+1つめの値がtotal、2つめの値がused、3つめの値がfreeです。</p>
+
+<p><strong>total</strong>: スワップに割り当てたディスクサイズです。  <br />
+<strong>used</strong>: 割り当てた中で使用中のサイズです。  <br />
+<strong>free</strong>: 割り当てた中で使用していないサイズです。</p>
+
+<p>Swapのtotal値は4095MB、usedは0、freeは4095MBです。  <br />
+usedが0なのでスワップ領域は使われていないことになります。</p>
+
+<h2 id="キャッシュはフリーメモリと考える">キャッシュはフリーメモリと考える</h2>
+
+<p>注意点として、freeの値がないからといってすぐにメモリ不足と判断することはできません。  <br />
+なぜなら、OSは処理の高速化のためにキャッシュを使うようになっているからです。  <br />
+時間の経過とともにキャッシュに割り当てられるメモリは増えていきます。  <br />
+キャッシュはフリーメモリと考えて問題ないようです。</p>
+
+<p>メモリの仕組みやキャッシュについて詳しく知りたい場合は以下の本をおすすめします。</p>
+
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=DBD1D1&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=479811703X" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<h2 id="参考文献">参考文献</h2>
+<ul>
+  <li>4.メモリ使用率(第5章 パフォーマンス管理～上級:基本管理コースII)
+    <ul>
+      <li>
+        <p><a href="https://users.miraclelinux.com/technet/document/linux/training/2_5_4.html">https://users.miraclelinux.com/technet/document/linux/training/2_5_4.html</a></p>      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -935,135 +1082,6 @@ viewのディレクトリは<code>resources/views</code>です。</p>
     <p><a href="https://laravel.com/docs/5.2">https://laravel.com/docs/5.2</a></p>  </li>
   <li>
     <p><a href="https://laravel.com/docs/5.2/quickstart">https://laravel.com/docs/5.2/quickstart</a></p>  </li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/27/introduce-site-parser/">Webサイトのメタタグを取得するsite-parserをつくった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-04-27T13:37:10+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:37 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Webサイトのメタデータを抽出するツールを作成しました。  <br />
-https://github.com/shoyan/site-parser</p>
-
-<h2 id="使い方">使い方</h2>
-
-<ol>
-  <li>git clone git@github.com:shoyan/site-parser.git</li>
-  <li>cd site-parser</li>
-  <li>bundle install</li>
-  <li>site.csv をテキストエディタで編集</li>
-  <li>ruby site-parser.rb</li>
-</ol>
-
-<p>site.csv にパースしたいURLを記入して <code>ruby site-parse.rb</code> とすればメタデータが表示されます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">ruby</span> <span class="n">site</span><span class="o">-</span><span class="n">parser</span><span class="o">.</span><span class="n">rb</span>
-</span><span class="line"><span class="s2">&quot;http://www.yahoo.co.jp/&quot;</span>
-</span><span class="line"><span class="o">[</span>
-</span><span class="line">    <span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="p">{</span>
-</span><span class="line">                             <span class="s2">&quot;url&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;http://www.yahoo.co.jp/&quot;</span><span class="p">,</span>
-</span><span class="line">                           <span class="s2">&quot;title&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Yahoo! JAPAN&quot;</span><span class="p">,</span>
-</span><span class="line">                     <span class="s2">&quot;description&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;日本最大級のポータルサイト。検索、オークション、ニュース、メール、コミュニティ、ショッピング、など80以上のサービスを展開。あなたの生活をより豊かにする「ライフ・エンジ ン」を目指していきます。&quot;</span><span class="p">,</span>
-</span><span class="line">                          <span class="s2">&quot;robots&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;noodp&quot;</span><span class="p">,</span>
-</span><span class="line">        <span class="s2">&quot;google-site-verification&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;fsLMOiigp5fIpCDMEVodQnQC7jIY1K3UXW5QkQcBmVs&quot;</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line"><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>また、サーバーを起動してAPIとして利用することもできます。</p>
-
-<h3 id="サーバーを起動">サーバーを起動</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">ruby</span> <span class="n">server</span><span class="o">.</span><span class="n">rb</span>
-</span><span class="line"><span class="o">==</span> <span class="no">Sinatra</span> <span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">7</span><span class="p">)</span> <span class="n">has</span> <span class="n">taken</span> <span class="n">the</span> <span class="n">stage</span> <span class="n">on</span> <span class="mi">4567</span> <span class="k">for</span> <span class="n">development</span> <span class="n">with</span> <span class="n">backup</span> <span class="n">from</span> <span class="no">Thin</span>
-</span><span class="line"><span class="no">Thin</span> <span class="n">web</span> <span class="n">server</span> <span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span> <span class="n">codename</span> <span class="no">Gob</span> <span class="no">Bluth</span><span class="p">)</span>
-</span><span class="line"><span class="no">Maximum</span> <span class="n">connections</span> <span class="n">set</span> <span class="n">to</span> <span class="mi">1024</span>
-</span><span class="line"><span class="no">Listening</span> <span class="n">on</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">:</span><span class="mi">4567</span><span class="p">,</span> <span class="no">CTRL</span><span class="o">+</span><span class="n">C</span> <span class="n">to</span> <span class="n">stop</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="apiを実行">APIを実行</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">curl</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="ss">localhost</span><span class="p">:</span><span class="mi">4567</span> <span class="o">-</span><span class="n">X</span> <span class="no">POST</span> <span class="o">-</span><span class="n">d</span> <span class="s2">&quot;url=http://www.yahoo.co.jp/&quot;</span>
-</span><span class="line"><span class="o">=&gt;</span> <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="ss">:&quot;http://www.yahoo.co.jp/&quot;</span><span class="p">,</span><span class="s2">&quot;title&quot;</span><span class="ss">:&quot;Yahoo! JAPAN&quot;</span><span class="p">,</span><span class="s2">&quot;description&quot;</span><span class="ss">:&quot;日本最大級のポータルサイト。検索、オークション、ニュース、メール、コミュニティ、ショッピング、など80以上のサービスを展開。あなたの生活をより豊かにする「ライフ・エンジン」を目指していきます。&quot;</span><span class="p">,</span><span class="s2">&quot;robots&quot;</span><span class="ss">:&quot;noodp&quot;</span><span class="p">,</span><span class="s2">&quot;google-site-verification&quot;</span><span class="ss">:&quot;fsLMOiigp5fIpCDMEVodQnQC7jIY1K3UXW5QkQcBmVs&quot;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="その他">その他</h2>
-
-<p>内部的にはNokogiriを使ってhtmlをパースしています。</p>
-
-<p>文字化けして内容がみれない場合があったので、以下のワークアラウンドをいれました。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">html</span> <span class="o">=</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
-</span><span class="line"><span class="n">node</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">toutf8</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="参考資料">参考資料</h2>
-
-<p>以下が参考になりました。ありがとうございます。</p>
-
-<ul>
-  <li>Nokogiri を使った Rubyスクレイピング [初心者向けチュートリアル]
-    <ul>
-      <li>
-        <p><a href="http://morizyun.github.io/blog/ruby-nokogiri-scraping-tutorial/">http://morizyun.github.io/blog/ruby-nokogiri-scraping-tutorial/</a></p>      </li>
-    </ul>
-  </li>
-  <li>kogiriで文字化けを防ぐ
-    <ul>
-      <li>
-        <p><a href="http://qiita.com/foloinfo/items/435f0409a6e33929ef3c">http://qiita.com/foloinfo/items/435f0409a6e33929ef3c</a></p>      </li>
-    </ul>
-  </li>
-  <li>[Ruby]スクレイピングのためのNokogiri利用メモ
-    <ul>
-      <li>
-        <p><a href="http://d.hatena.ne.jp/otn/20090509/p1">http://d.hatena.ne.jp/otn/20090509/p1</a></p>      </li>
-    </ul>
-  </li>
 </ul>
 
 </div>

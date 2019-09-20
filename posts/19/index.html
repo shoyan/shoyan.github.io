@@ -9,8 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Jekyllで数式を使いたい場合は、markdownにkramdownを使うのがおすすめです。 というのも、redcarpet はワンライナーの書式しか使えません。 rdiscount は自分が試したところ、動作しませんでした。 次にMathjax.jsを読み込みます。 1
-&lt;script &hellip;">
+  <meta name="description" content="数式を扱うために前回の記事で、markdownをkramdownに変更したのですが、コードのシンタックスハイライトが効かなくなってしまいました。 kramdownのparserをGFMにしてやるとうまくいきました。 _config.yml 1
+2
+kramdown: input: GFM &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -133,6 +134,81 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/27/available-kramdown-code-highlight/">Rdiscountからkramdownへmarkdownのparserを変更した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-27T16:01:52+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:01 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>数式を扱うために<a href="/blog/2016/06/27/use-math-syntax-on-jekyll/">前回の記事</a>で、markdownをkramdownに変更したのですが、コードのシンタックスハイライトが効かなくなってしまいました。</p>
+
+<p>kramdownのparserをGFMにしてやるとうまくいきました。</p>
+
+<p>_config.yml</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">kramdown:
+</span><span class="line">  input: GFM</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>GFMを使わない場合は、プラグインがあるのでそちらでも対応できます。</p>
+
+<p><a href="https://github.com/mvdbos/kramdown-with-pygments">kramdown-with-pygments</a></p>
+
+<p>使い方ですが、pluginsディレクトリにkramdown_pygments.rbを置きます。  <br />
+そして、<code>_config.yml</code>のmarkdownを以下のように修正します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">markdown: KramdownPygments</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>また、parserにkramdownを使う場合はRdiscountとkramdownでcodeのmarkdownのフォーマットが違うのでgenerate時にエラーがでるかもしれません。</p>
+
+<p>自分は以下のワンライナーで書き換えました。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">find source/_posts -type f -name "*.markdown" | xargs sed -i '' -e 's/\`\`\`/\
+</span><span class="line">~~~/g'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>また、URLに自動でリンクを付与してくれる機能がRdiscountにはあったのですが、kramdownでは明示的に指定する必要があります。  <br />
+Rdiscountのように自動的にリンクを付与するプラグインを作成しました。</p>
+
+<ul>
+  <li><a href="https://github.com/shoyan/kramdown_easy_link">kramdown_easy_link</a></li>
+</ul>
+
+<p>使い方は<code>kramdown_easy_link.rb</code>を<code>plugins/</code>ディレクトリに置いて、<code>_config.yml</code>を以下のように修正します。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="ss">markdown</span><span class="p">:</span> <span class="n">kramdown</span>
+</span><span class="line"><span class="ss">kramdown</span><span class="p">:</span>
+</span><span class="line">  <span class="ss">input</span><span class="p">:</span> <span class="no">KramdownEasyLink</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -915,57 +991,6 @@ Mergeいただきました。</p>
 アニメーションにも対応していて、その場合はjQueryが必要だったりするようです。  <br />
 サンプルも色々あるので参考にしてみるとよいと思います。  <br />
 http://fperucic.github.io/treant-js/</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/20/sets-csv-encoding/">[Ruby]CSVファイルのエンコードをsjisに指定する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-06-20T13:23:28+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:23 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>日本語の場合、CSVのファイルエンコードをShift JISにする要件がけっこうあると思います。  <br />
-RubyのCSVライブラリは、<code>encoding</code>というオプションが用意されており、<code>encoding: ’sjis’</code> のようにファイルエンコーディングを指定できます。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
-</span><span class="line"><span class="no">CSV</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;hoge.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">,</span> <span class="ss">encoding</span><span class="p">:</span> <span class="s1">&#39;sjis&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
-</span><span class="line">  <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="o">[</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;担当者&quot;</span><span class="p">,</span> <span class="s2">&quot;メールアドレス&quot;</span><span class="o">]</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>nkfコマンドを使ってファイルエンコーディングを確認します。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">⇒</span>  <span class="n">nkf</span> <span class="o">-</span><span class="n">g</span> <span class="n">hoge</span><span class="o">.</span><span class="n">csv</span>
-</span><span class="line"><span class="no">Shift_JIS</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Shift_JISで作成されていることが確認できました。</p>
 </div>
   
   

@@ -9,10 +9,23 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="今更ながらKindle Unlimitedを使ってみた。
-すでに承知の方が大半だろうが、Kindle UnlimitedはKindle本の読み放題サービスだ。
-月額980円でKindle Unlimitedに登録されている本を読むことができる。
-ちなみに現在登録されている本はおよそ13万冊。 &hellip;">
+  <meta name="description" content="Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。
+Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。
+毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +148,93 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/25/introduce-gem-push/">RubyGems.orgに反映させるRakeタスクの紹介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-25T14:17:29+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:17 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。<br />
+Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。<br />
+毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;bundler/gem_tasks&quot;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s2">&quot;rspec/core/rake_task&quot;</span>
+</span><span class="line">
+</span><span class="line"><span class="no">RSpec</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">RakeTask</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:spec</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">task</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="ss">:spec</span>
+</span><span class="line">
+</span><span class="line"><span class="n">namespace</span> <span class="s2">&quot;gem&quot;</span> <span class="k">do</span>
+</span><span class="line">  <span class="n">desc</span> <span class="s1">&#39;Build a gem package&#39;</span>
+</span><span class="line">  <span class="n">task</span> <span class="ss">:build</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">sh</span> <span class="s2">&quot;gem build your_gem_name.gemspec&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line">
+</span><span class="line">  <span class="n">desc</span> <span class="s1">&#39;Push a gem package&#39;</span>
+</span><span class="line">  <span class="n">task</span> <span class="ss">:push</span> <span class="k">do</span>
+</span><span class="line">    <span class="no">Rake</span><span class="o">::</span><span class="no">Task</span><span class="o">[</span><span class="s2">&quot;gem:build&quot;</span><span class="o">].</span><span class="n">execute</span>
+</span><span class="line">    <span class="n">sh</span> <span class="s2">&quot;gem push your_gem_name-</span><span class="si">#{</span><span class="no">YourGemName</span><span class="o">::</span><span class="no">VERSION</span><span class="si">}</span><span class="s2">.gem&quot;</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>公開する時は以下のタスクを実行すればいい。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rake</span> <span class="ss">gem</span><span class="p">:</span><span class="n">push</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下は実際のソースだ。<br />
+参考にしてほしい。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/git_find_committer/blob/master/Rakefile">https://github.com/shoyan/git_find_committer/blob/master/Rakefile</a></p>  </li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -580,150 +680,6 @@ SIMカードの通信上の根本となるもので、1枚のSIMカードに固�
     <p>端末と電話番号が結合していると、必然的にキャリアの力が上になります（というのもメーカーは端末を作ったらキャリアに電話番号をつけてもらわないといけなくなるため）。SIMカードによって端末と電話番号が分離することで、メーカーはキャリアの意向に関係なく自由に端末を作ってマーケティングすることが可能となります。</p>
   </li>
 </ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/09/16/links-container-for-docker/">Dockerのコンテナ間を繋ぐLinksを使ってPHPとMySQLコンテナを連携させる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-09-16T17:37:10+09:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:37 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>DockerはLinksというコンテナ間のネットワークを繋ぐ仕組みを持つ。<br />
-例えば、アプリケーションコンテナとデータベースコンテナを連携して使いたいときに有用だ。<br />
-今回はMySQLとPHPのコンテナを連携させる方法を紹介する。</p>
-
-<h2 id="mysqlコンテナの作成">MySQLコンテナの作成</h2>
-
-<p>まずは、mysqlコンテナを作成する。<br />
-バックグラウンドで起動させるための <code>--detach</code>オプションと3306ポートを解放するための <code>expose</code>オプションを指定している。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ docker run --detach --expose=3306 --name=test-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下のようにコンテナが起動していることを確認できるはずだ。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">⇒  docker ps
-</span><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-</span><span class="line">b18a5159fe7c        mysql               "docker-entrypoint.sh"   1 minutes ago      Up 1 minutes       3306/tcp            test-mysql</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="phpコンテナの作成">PHPコンテナの作成</h2>
-
-<p>次にPHPコンテナを作成する。<br />
-以下のDockerfileと確認用のconnect.phpを用意しておく。</p>
-
-<p>Dockerfile</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">FROM php:7.1
-</span><span class="line">RUN apt-get update
-</span><span class="line">RUN docker-php-ext-install pdo_mysql mbstring
-</span><span class="line">ADD . /app</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>connect.php</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class="php"><span class="line"><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class="line">
-</span><span class="line"><span class="nv">$dsn</span> <span class="o">=</span> <span class="s1">&#39;mysql:host=&#39;</span> <span class="o">.</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">&#39;MYSQL_PORT_3306_TCP_ADDR&#39;</span><span class="p">];</span>
-</span><span class="line"><span class="nv">$user</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span><span class="p">;</span>
-</span><span class="line"><span class="nv">$password</span> <span class="o">=</span> <span class="nv">$_ENV</span><span class="p">[</span><span class="s1">&#39;MYSQL_ENV_MYSQL_ROOT_PASSWORD&#39;</span><span class="p">];</span>
-</span><span class="line">
-</span><span class="line"><span class="nv">$dbh</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="nv">$dsn</span><span class="p">,</span> <span class="nv">$user</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
-</span><span class="line">
-</span><span class="line"><span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT version();&quot;</span><span class="p">;</span>
-</span><span class="line">
-</span><span class="line"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$dbh</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$row</span><span class="p">);</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>ビルドする。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">$ docker build -t mysql-php .
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下のように <code>--link 連携したいコンテナ名:エイリアス名</code> でPHPコンテナを起動すると、起動したコンテナの環境変数に連携したいコンテナに関する情報が登録される。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">$ docker run -it --link test-mysql:mysql mysql-php bash
-</span><span class="line"># root@9ec43f759596:/#
-</span><span class="line"># env
-</span><span class="line">MYSQL_PORT_3306_TCP_PORT=3306
-</span><span class="line">MYSQL_PORT_3306_TCP=tcp://172.17.0.3:3306
-</span><span class="line">MYSQL_ENV_MYSQL_VERSION=5.7.15-1debian8
-</span><span class="line">MYSQL_NAME=/big_shirley/mysql
-</span><span class="line">MYSQL_PORT_3306_TCP_PROTO=tcp
-</span><span class="line">MYSQL_PORT_3306_TCP_ADDR=172.17.0.3
-</span><span class="line">MYSQL_ENV_MYSQL_MAJOR=5.7
-</span><span class="line">MYSQL_PORT=tcp://172.17.0.3:3306
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>最後にPHPのコンテナでconnect.phpを実行して接続できることを確認してみる。<br />
-version名が表示されれば成功だ。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line"># php /app/connect.php
-</span><span class="line">=&gt;
-</span><span class="line">Array
-</span><span class="line">(
-</span><span class="line">    [version()] =&gt; 5.7.15
-</span><span class="line">)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

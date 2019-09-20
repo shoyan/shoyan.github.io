@@ -9,14 +9,9 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="日付は日本だと /(スラッシュ)区切りが一般的なのでそのように表示したい。
-しかし、RailsでDateオブジェクトやDateTimeオブジェクトを表示すると以下のような感じになってしまう。 1
-2
-3
-4
-5
-pry(main)&gt; Date.today.to_s
-=&gt; &quot; &hellip;">
+  <meta name="description" content="機械学習をやるぞ！と息巻いてから半年が経とうとしている。
+進捗はてんでダメ。ほとんど勉強せずに時間だけが過ぎてしまった。
+さすがにこれではいけないと学習を始めた。 とりあえず学ぶにも何かしらの教材がないと効率が悪いと思い、基礎的な理論が勉強できそうな 「機械学習理論入門」を買った(半年前に)。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -139,6 +134,77 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/11/11/machine-learning-01/">機械学習ことはじめ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-11-11T14:13:32+09:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:13 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>機械学習をやるぞ！と息巻いてから半年が経とうとしている。<br />
+進捗はてんでダメ。ほとんど勉強せずに時間だけが過ぎてしまった。<br />
+さすがにこれではいけないと学習を始めた。</p>
+
+<p>とりあえず学ぶにも何かしらの教材がないと効率が悪いと思い、基礎的な理論が勉強できそうな 「機械学習理論入門」を買った(半年前に)。<br />
+機械学習の理論を優しく書いてあるはずなのだが、高校数学の理解もままならない自分の数学力では理解に苦しみ、本棚の肥やしとなっていた。<br />
+この段階では機械学習にも色々種類があるんだなということがわかった。</p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4774176982&amp;linkId=f54a583abd60635f4ad56b5e2705933b"></iframe>
+
+<p>次に機械学習理論の入門としてわかりやすそうなやる夫シリーズを読みだした。</p>
+
+<ul>
+  <li><a href="http://tkengo.github.io/blog/2016/01/03/yaruo-machine-learning1/">やる夫で学ぶ機械学習 - 序章 -</a></li>
+  <li><a href="http://tkengo.github.io/blog/2016/01/04/yaruo-machine-learning2/">やる夫で学ぶ機械学習 - 単回帰問題 -</a></li>
+</ul>
+
+<p>まずは最小二乗法についての話が出てきた。<br />
+これはそれとなく理解できたので、最小二乗法を使って誤差を求めるプログラムをRubyで実装してみたりもした。</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/shoyan/machine_learning/blob/master/01.rb">https://github.com/shoyan/machine_learning/blob/master/01.rb</a></p>  </li>
+</ul>
+
+<p>しかし、最急降下法でつまづいてしまった。<br />
+最急降下法に出てくる合成関数の微分がよく分からない</p>
+
+<p>そもそも合成関数ってなんだというところで、合成関数について勉強した。<br />
+合成関数は関数の引数が関数になっている関数だった。</p>
+
+<p>関数: y=g(x)<br />
+合成関数: y=g(f(x)) ←こういう感じで引数が関数となっている</p>
+
+<p>やる夫シリーズを理解するには微分の知識が必要だということがわかったので、微分について勉強するために数学ガールを読んでいる。微分について会話形式で学んでいけるので、なかなかわかりやすい。</p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=syoyama-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=4797382317&amp;linkId=d26bd243cf2a37dd3f63507bea574228"></iframe>
+
+<p>というところで、現状は微分を学んでいる。</p>
+
+<p>だいぶ遠回りしている感がある。<br />
+道のりは険しい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -692,93 +758,6 @@ Slackに通知するスクリプトを作って、それをcronで定期的に�
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>これでRubotyに定期的に仕事をさせることができるようになった。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/25/introduce-gem-push/">RubyGems.orgに反映させるRakeタスクの紹介</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-25T14:17:29+09:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:17 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Gemを更新した場合はRubyGems.orgに反映させる手続きが必要だ。<br />
-Gemを更新することはそんなに多くないので（私の場合）よく手順を忘れてしまう。<br />
-毎回手順を探すのはストレスなので以下のようなRakeタスクを作成した。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s2">&quot;bundler/gem_tasks&quot;</span>
-</span><span class="line"><span class="nb">require</span> <span class="s2">&quot;rspec/core/rake_task&quot;</span>
-</span><span class="line">
-</span><span class="line"><span class="no">RSpec</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">RakeTask</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:spec</span><span class="p">)</span>
-</span><span class="line">
-</span><span class="line"><span class="n">task</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="ss">:spec</span>
-</span><span class="line">
-</span><span class="line"><span class="n">namespace</span> <span class="s2">&quot;gem&quot;</span> <span class="k">do</span>
-</span><span class="line">  <span class="n">desc</span> <span class="s1">&#39;Build a gem package&#39;</span>
-</span><span class="line">  <span class="n">task</span> <span class="ss">:build</span> <span class="k">do</span>
-</span><span class="line">    <span class="n">sh</span> <span class="s2">&quot;gem build your_gem_name.gemspec&quot;</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">  <span class="n">desc</span> <span class="s1">&#39;Push a gem package&#39;</span>
-</span><span class="line">  <span class="n">task</span> <span class="ss">:push</span> <span class="k">do</span>
-</span><span class="line">    <span class="no">Rake</span><span class="o">::</span><span class="no">Task</span><span class="o">[</span><span class="s2">&quot;gem:build&quot;</span><span class="o">].</span><span class="n">execute</span>
-</span><span class="line">    <span class="n">sh</span> <span class="s2">&quot;gem push your_gem_name-</span><span class="si">#{</span><span class="no">YourGemName</span><span class="o">::</span><span class="no">VERSION</span><span class="si">}</span><span class="s2">.gem&quot;</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>公開する時は以下のタスクを実行すればいい。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="err">$</span> <span class="n">rake</span> <span class="ss">gem</span><span class="p">:</span><span class="n">push</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以下は実際のソースだ。<br />
-参考にしてほしい。</p>
-
-<ul>
-  <li>
-    <p><a href="https://github.com/shoyan/git_find_committer/blob/master/Rakefile">https://github.com/shoyan/git_find_committer/blob/master/Rakefile</a></p>  </li>
-</ul>
-
 </div>
   
   

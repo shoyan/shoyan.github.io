@@ -9,10 +9,8 @@
   <meta name="author" content="Shohei Yamasaki">
 
   
-  <meta name="description" content="Capistranoのインストールと設定、プラグインの紹介をします。 Capistranoのインストール bundle initコマンドでGemfileを作成します。 1
-2
-$ bundle init
-Writing new Gemfile to /Users/shoyan/app/ &hellip;">
+  <meta name="description" content="Shellで日本語ドメインをIDNフォーマットに変換する方法を紹介します。 対象のOSはMacです。 libidnというGNUのライブラリがあるので、それを使います。 libidnのインストール homebrewでインストールします。 1
+$ brew install libidn &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -135,6 +133,127 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/02/convert-to-idna-on-the-shell/">Shellで日本語ドメインをPunycode(IDNドメイン)に変換する方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-02T19:37:47+09:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>7:37 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Shellで日本語ドメインをIDNフォーマットに変換する方法を紹介します。  <br />
+対象のOSはMacです。</p>
+
+<p><a href="http://www.gnu.org/software/libidn/">libidn</a>というGNUのライブラリがあるので、それを使います。</p>
+
+<h2 id="libidnのインストール">libidnのインストール</h2>
+
+<p>homebrewでインストールします。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ brew install libidn
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>インストールしたら、idnコマンドが使えるようになります。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ idn
+</span><span class="line">libidn 1.32
+</span><span class="line">Copyright 2002-2015 Simon Josefsson.
+</span><span class="line">GNU Libidn is free software with ABSOLUTELY NO WARRANTY.  For more
+</span><span class="line">information about these matters, see &lt;http://www.gnu.org/licenses/&gt;.
+</span><span class="line">Type each input string on a line by itself, terminated by a newline character.
+</span><span class="line">
+</span><span class="line">idn: tld_check_4z: Missing input
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="libidnでpunycodeに変換する">libidnでPunycodeに変換する</h2>
+
+<p>以下のようにPunycodeに変換できます。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ idn しょーやん.xyz
+</span><span class="line">xn--68jwei3c27a.xyz
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>unicodeに変換する場合は<code>-u</code>オプションを使います。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ idn -u xn--68jwei3c27a.xyz
+</span><span class="line">しょーやん.xyz
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="digとidnを組み合わせて使う">digとidnを組み合わせて使う</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">⇒  dig `idn しょーやん.xyz` NS
+</span><span class="line">
+</span><span class="line">; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; xn--68jwei3c27a.xyz NS
+</span><span class="line">;; global options: +cmd
+</span><span class="line">;; Got answer:
+</span><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 59533
+</span><span class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 0
+</span><span class="line">
+</span><span class="line">;; QUESTION SECTION:
+</span><span class="line">;xn--68jwei3c27a.xyz.   IN  NS
+</span><span class="line">
+</span><span class="line">;; ANSWER SECTION:
+</span><span class="line">xn--68jwei3c27a.xyz.  3578  IN  NS  dns01.muumuu-domain.com.
+</span><span class="line">xn--68jwei3c27a.xyz.  3578  IN  NS  dns02.muumuu-domain.com.
+</span><span class="line">
+</span><span class="line">;; Query time: 34 msec
+</span><span class="line">;; SERVER: 192.168.74.20#53(192.168.74.20)
+</span><span class="line">;; WHEN: Fri Jun  3 09:25:40 2016
+</span><span class="line">;; MSG SIZE  rcvd: 94)&gt;&gt;&gt;&gt;&gt;&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -639,216 +758,6 @@ div要素にグラフが描画されます。</p>
 
 <ul>
   <li><a href="http://shoyan.github.io/blog/2016/04/13/no-space-left-on-device-on-docker/">Dockerでno Space Left on Deviceが出てbuildできなくなった</a></li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/27/sinatra-logger/">Sinatraのロギング機構について調べてみた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-27T13:48:34+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:48 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Sinatraのloggerヘルパーを使ったところ、なぜか標準エラーの出力先にログが吐かれており、標準出力の出力先にはログが吐かれない。  <br />
-標準出力先にログを吐くものだと思っていたのだが、自分が想定していた挙動と違うので調べてみた。</p>
-
-<p>まずは、Sinatraのloggerヘルパーのソースコードを確認してみる。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">logger</span>
-</span><span class="line">  <span class="n">request</span><span class="o">.</span><span class="n">logger</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><a href="https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L327">https://github.com/sinatra/sinatra/blob/939ce04c1b77d24dd78285ba0836768ad57aff6c/lib/sinatra/base.rb#L327</a></p>
-<p>request.loggerを返している。  <br />
-レシーバであるrequestは rack::requestなので、rack::request#loggerは何を返しているかを確認する。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">logger</span><span class="p">;</span> <span class="n">get_header</span><span class="p">(</span><span class="no">RACK_LOGGER</span><span class="p">)</span> <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><a href="https://github.com/rack/rack/blob/master/lib/rack/request.rb#L136">https://github.com/rack/rack/blob/master/lib/rack/request.rb#L136</a></p>
-<p>get_headerは@envから引数に与えられた値を返すだけのメソッド。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">get_header</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-</span><span class="line">  <span class="vi">@env</span><span class="o">[</span><span class="nb">name</span><span class="o">]</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>RACK_LOGGERは以下のように定義されている。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">RACK_LOGGER</span> <span class="o">=</span> <span class="s1">&#39;rack.logger&#39;</span><span class="o">.</span><span class="n">freeze</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><a href="https://github.com/rack/rack/blob/9073125f71afd615091f575d74ec468a0b1b79bf/lib/rack.rb#L64">https://github.com/rack/rack/blob/9073125f71afd615091f575d74ec468a0b1b79bf/lib/rack.rb#L64</a></p>
-<p>ここまでで、loggerヘルパーは<code>env['rack.logger’]</code>を取得していることがわかった。</p>
-
-<p>では、rack.loggerには何が設定されているのかという疑問が湧いてくる。  <br />
-rackには3つのロガーがある。</p>
-
-<ul>
-  <li>CommonLogger</li>
-  <li>Logger</li>
-  <li>NullLogger</li>
-</ul>
-
-<p>このうち、LoggerとNullLoggerがRACK_LOGGERにセットしていた。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1"># Rack::Logger</span>
-</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;logger&#39;</span>
-</span><span class="line">
-</span><span class="line"><span class="k">module</span> <span class="nn">Rack</span>
-</span><span class="line">  <span class="c1"># Sets up rack.logger to write to rack.errors stream</span>
-</span><span class="line">  <span class="k">class</span> <span class="nc">Logger</span>
-</span><span class="line">    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">level</span> <span class="o">=</span> <span class="o">::</span><span class="no">Logger</span><span class="o">::</span><span class="no">INFO</span><span class="p">)</span>
-</span><span class="line">      <span class="vi">@app</span><span class="p">,</span> <span class="vi">@level</span> <span class="o">=</span> <span class="n">app</span><span class="p">,</span> <span class="n">level</span>
-</span><span class="line">    <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class="line">      <span class="n">logger</span> <span class="o">=</span> <span class="o">::</span><span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="o">[</span><span class="no">RACK_ERRORS</span><span class="o">]</span><span class="p">)</span>
-</span><span class="line">      <span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="vi">@level</span>
-</span><span class="line">
-</span><span class="line">      <span class="n">env</span><span class="o">[</span><span class="no">RACK_LOGGER</span><span class="o">]</span> <span class="o">=</span> <span class="n">logger</span>
-</span><span class="line">      <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class="line">    <span class="k">end</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="c1"># Rack::NullLogger</span>
-</span><span class="line"><span class="k">module</span> <span class="nn">Rack</span>
-</span><span class="line">  <span class="k">class</span> <span class="nc">NullLogger</span>
-</span><span class="line">    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-</span><span class="line">      <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
-</span><span class="line">    <span class="k">end</span>
-</span><span class="line">
-</span><span class="line">    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class="line">      <span class="n">env</span><span class="o">[</span><span class="no">RACK_LOGGER</span><span class="o">]</span> <span class="o">=</span> <span class="nb">self</span>
-</span><span class="line">      <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class="line">    <span class="k">end</span>
-</span><span class="line">    <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>通常、Rack::Loggerが使われる。  <br />
-Rack::LoggerはRubyのloggerライブラリのラッパーで、log deviceにenv[RACK_ERRORS]をセットしている。  <br />
-env[RACK_ERRORS]が何かを調べたところ、基本的には$stderrがセットされるようだ。</p>
-
-<p>(例)webrickの場合は、$stderrがセットされている。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">env</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span class="line">  <span class="no">RACK_VERSION</span> <span class="o">=&gt;</span> <span class="no">Rack</span><span class="o">::</span><span class="no">VERSION</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_INPUT</span> <span class="o">=&gt;</span> <span class="n">rack_input</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_ERRORS</span> <span class="o">=&gt;</span> <span class="vg">$stderr</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_MULTITHREAD</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_MULTIPROCESS</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_RUNONCE</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_URL_SCHEME</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="o">].</span><span class="n">include?</span><span class="p">(</span><span class="n">env</span><span class="o">[</span><span class="no">HTTPS</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span> <span class="s2">&quot;https&quot;</span> <span class="p">:</span> <span class="s2">&quot;http&quot;</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_IS_HIJACK</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class="line">  <span class="no">RACK_HIJACK</span> <span class="o">=&gt;</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="k">raise</span> <span class="no">NotImplementedError</span><span class="p">,</span> <span class="s2">&quot;only partial hijack is supported.&quot;</span><span class="p">},</span>
-</span><span class="line">  <span class="no">RACK_HIJACK_IO</span> <span class="o">=&gt;</span> <span class="kp">nil</span>
-</span><span class="line"><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><a href="https://github.com/rack/rack/blob/95172a60fe5c2a3850163fc75e0981fe440c064e/lib/rack/handler/webrick.rb#L68">https://github.com/rack/rack/blob/95172a60fe5c2a3850163fc75e0981fe440c064e/lib/rack/handler/webrick.rb#L68</a></p>
-<p>ということで、結果的にSinatraのloggerは標準エラーに出力されることになる。</p>
-
-<h2 id="アプリケーションログを任意のファイルに出力するには">アプリケーションログを任意のファイルに出力するには</h2>
-
-<p>任意のファイルにログを出力したい場合は、自前でloggerを定義してやればよい。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">def</span> <span class="nf">logger</span>
-</span><span class="line">  <span class="k">return</span> <span class="vi">@logger</span> <span class="k">unless</span> <span class="vi">@logger</span><span class="o">.</span><span class="n">nil?</span>
-</span><span class="line">  <span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">settings</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/log/</span><span class="si">#{</span><span class="n">settings</span><span class="o">.</span><span class="n">environment</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="p">,</span> <span class="s1">&#39;a+&#39;</span><span class="p">)</span>
-</span><span class="line">  <span class="n">file</span><span class="o">.</span><span class="n">sync</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class="line">  <span class="vi">@logger</span> <span class="o">=</span> <span class="o">::</span><span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-</span><span class="line"><span class="k">end</span>
-</span><span class="line">
-</span><span class="line"><span class="n">logger</span><span class="o">.</span><span class="n">info</span> <span class="s2">&quot;Hello&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="参考リンク">参考リンク</h2>
-
-<ul>
-  <li><a href="http://koseki.hatenablog.com/entry/20120309/SinatraAppLog">Sinatra でアプリケーションログをファイルに書く方法。</a></li>
-  <li><a href="http://recipes.sinatrarb.com/p/middleware/rack_commonlogger">Sinatra Recipes - Middleware - Rack Commonlogger</a></li>
 </ul>
 </div>
   
