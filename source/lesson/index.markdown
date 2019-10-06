@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "無料体験レッスンの申し込み"
+title: "プログラミングレッスン"
 date: 2019-07-21 22:49
 comments: true
 sharing: true
